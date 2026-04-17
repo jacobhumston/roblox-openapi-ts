@@ -99,7 +99,7 @@ jobs:
                   cat << EOF > release_notes.md
                   ## Release ${{ steps.package-version.outputs.version }}
 
-                  Published to npm: https://www.npmjs.com/package/flags.ts/v/${{ steps.package-version.outputs.version }}
+                  Published to npm: https://www.npmjs.com/package/@jacobhumston/roblox-openapi-ts/v/${{ steps.package-version.outputs.version }}
 
                   ### Changes
 

@@ -11,9 +11,9 @@
     "module": "dist/index.js",
     "types": "dist/index.d.ts",
     "license": "MIT",
-    "homepage": "https://github.com/jacobhumston/flags.ts",
+    "homepage": "https://github.com/jacobhumston/roblox-openapi-ts",
     "repository": {
-        "url": "https://github.com/jacobhumston/flags.ts"
+        "url": "https://github.com/jacobhumston/roblox-openapi-ts"
     },
     "scripts": {
         "format": "bun x prettier --write --cache .",

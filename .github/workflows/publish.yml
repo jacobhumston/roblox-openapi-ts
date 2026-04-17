@@ -75,9 +75,3 @@ jobs:
                   tag_name: ${{ steps.package-version.outputs.tag }}
                   name: Release ${{ steps.package-version.outputs.tag }}
                   body: ${{ steps.release-notes.outputs.notes }}
-
-    deploy-docs:
-        needs: publish
-        uses: ./.github/workflows/deploy-docs.yml
-        permissions:
-            contents: write

@@ -2,6 +2,8 @@ name: Publish Package
 
 on:
     workflow_dispatch:
+    schedule:
+        - cron: '0 0 * * *'
 
 jobs:
     publish:
@@ -35,13 +37,53 @@ jobs:
             - name: Build package
               run: bun run compile
 
+            - name: Format package
+              run: bun run format
+
+            - name: Check for build changes
+              id: changes
+              run: |
+                  if git diff --quiet; then
+                    echo "changed=false" >> $GITHUB_OUTPUT
+                  else
+                    echo "changed=true" >> $GITHUB_OUTPUT
+                  fi
+
+            - name: Stop if no changes
+              if: steps.changes.outputs.changed == 'false'
+              run: |
+                  echo "No compiled changes detected."
+                  exit 0
+
+            - name: Bump version
+              if: steps.changes.outputs.changed == 'true'
+              id: version-bump
+              run: |
+                  npm version patch --no-git-tag-version
+
+            - name: Commit and push changes
+              if: steps.changes.outputs.changed == 'true'
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+                  git add .
+                  VERSION=$(node -p "require('./package.json').version")
+
+                  git commit -m "chore: publish v$VERSION"
+                  git tag v$VERSION
+
+                  git push origin HEAD
+                  git push origin v$VERSION
+
             - name: Publish to npm
+              if: steps.changes.outputs.changed == 'true'
               id: npm-publish
               run: |
                   NODE_AUTH_TOKEN="" npm publish --provenance --access public
 
             - name: Get package version
-              if: success()
+              if: steps.changes.outputs.changed == 'true'
               id: package-version
               run: |
                   VERSION=$(node -p "require('./package.json').version")
@@ -49,7 +91,7 @@ jobs:
                   echo "tag=v$VERSION" >> $GITHUB_OUTPUT
 
             - name: Generate Release Notes
-              if: success()
+              if: steps.changes.outputs.changed == 'true'
               id: release-notes
               run: |
                   PREV_TAG=$(git describe --abbrev=0 --tags 2>/dev/null || echo "")
@@ -69,7 +111,7 @@ jobs:
                   echo "EOF" >> $GITHUB_OUTPUT
 
             - name: Create GitHub Release
-              if: success()
+              if: steps.changes.outputs.changed == 'true'
               uses: softprops/action-gh-release@v1
               with:
                   tag_name: ${{ steps.package-version.outputs.tag }}

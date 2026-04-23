@@ -11547,6 +11547,7 @@ export interface paths {
                  * @description 3: The request did not contain a file to be uploaded.
                  *     4: The file in the request is too large.
                  *     5: The duration of the audio file is too long.
+                 *     7: Failed to parse the file.
                  *     8: The file type is not supported.
                  *     9: The file is corrupted
                  *     11: Missing permissions to spend group funds.
@@ -11583,10 +11584,7 @@ export interface paths {
                     };
                     content?: never;
                 };
-                /**
-                 * @description 7: Failed to parse the file.
-                 *     19: Asset creation was unavailable. Please try again.
-                 */
+                /** @description 19: Asset creation was unavailable. Please try again. */
                 500: {
                     headers: {
                         [name: string]: unknown;
@@ -11640,6 +11638,7 @@ export interface paths {
                  * @description 3: The request did not contain a file to be uploaded.
                  *     4: The file in the request is too large.
                  *     5: The duration of the audio file is too long.
+                 *     7: Failed to parse the file.
                  *     8: The file type is not supported.
                  *     9: The file is corrupted
                  *     18: Too many requests. Try again later.
@@ -11662,13 +11661,6 @@ export interface paths {
                 };
                 /** @description 0: Token Validation Failed */
                 403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 7: Failed to parse the file. */
-                500: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -19420,6 +19412,8 @@ export interface paths {
                 query: {
                     /** @description A list of universe Ids. Cannot exceed a maximum of 50 IDs. */
                     universeIds: number[];
+                    /** @description Optional comma-separated list of field names to include in the response. When omitted, all fields are returned. */
+                    fields?: string;
                 };
                 header?: never;
                 path?: never;
@@ -50904,6 +50898,101 @@ export interface components {
              */
             bypassSlowMode?: boolean;
         };
+        'GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_': {
+            /** Format: int64 */
+            id?: number;
+            /**
+             * Format: int32
+             * @description ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91]
+             * @enum {integer}
+             */
+            type?:
+                | 1
+                | 2
+                | 3
+                | 4
+                | 5
+                | 6
+                | 7
+                | 8
+                | 9
+                | 10
+                | 11
+                | 12
+                | 13
+                | 16
+                | 17
+                | 18
+                | 19
+                | 21
+                | 22
+                | 24
+                | 25
+                | 26
+                | 27
+                | 28
+                | 29
+                | 30
+                | 31
+                | 32
+                | 33
+                | 34
+                | 35
+                | 37
+                | 38
+                | 39
+                | 40
+                | 41
+                | 42
+                | 43
+                | 44
+                | 45
+                | 46
+                | 47
+                | 48
+                | 49
+                | 50
+                | 51
+                | 52
+                | 53
+                | 54
+                | 55
+                | 56
+                | 59
+                | 60
+                | 61
+                | 62
+                | 63
+                | 64
+                | 65
+                | 66
+                | 67
+                | 68
+                | 69
+                | 70
+                | 71
+                | 72
+                | 73
+                | 74
+                | 75
+                | 76
+                | 77
+                | 78
+                | 79
+                | 80
+                | 81
+                | 82
+                | 83
+                | 84
+                | 85
+                | 86
+                | 87
+                | 88
+                | 89
+                | 90
+                | 91;
+            name?: string;
+        };
         HttpContent: {
             readonly headers?: components['schemas']['StringStringIEnumerableKeyValuePair'][] | null;
         };
@@ -56317,6 +56406,7 @@ export interface components {
             product?: components['schemas']['Roblox.Catalog.Api.BundleProductModel'];
             itemRestrictions?: (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9)[];
             collectibleItemDetail?: components['schemas']['Roblox.Catalog.Api.CollectibleItemDetail'];
+            discountInformation?: components['schemas']['Roblox.Catalog.Api.DiscountInformation'];
         };
         /** @description A model to represent bundle favorites. */
         'Roblox.Catalog.Api.BundleFavoriteModel': {
@@ -56873,6 +56963,23 @@ export interface components {
              */
             resaleRestriction?: 0 | 1 | 2;
         };
+        'Roblox.Catalog.Api.Discount': {
+            /** Format: int64 */
+            robuxDiscountAmount?: number;
+            /** Format: float */
+            robuxDiscountPercentage?: number;
+            discountCampaign?: string;
+            localizedDiscountAttribution?: string;
+        };
+        'Roblox.Catalog.Api.DiscountInformation': {
+            /** Format: int64 */
+            originalPrice?: number;
+            /** Format: float */
+            totalDiscountPercentage?: number;
+            /** Format: int64 */
+            totalDiscountAmount?: number;
+            discounts?: components['schemas']['Roblox.Catalog.Api.Discount'][];
+        };
         'Roblox.Catalog.Api.ElasticsearchDebugInfo': {
             /** @description Gets or sets the nest query that resulted from the operation. */
             elasticsearchQuery?: string;
@@ -57044,6 +57151,7 @@ export interface components {
              * @description The price for the timed option.
              */
             price?: number;
+            discountInformation?: components['schemas']['Roblox.Catalog.Api.DiscountInformation'];
             /** @description To indicate if this option is selected by the client. */
             selected?: boolean;
         };
@@ -58310,6 +58418,11 @@ export interface components {
             refundLink?: string;
             localizedFiatPrice?: string;
             refundPolicy?: components['schemas']['Roblox.Games.Api.Models.Response.RefundPolicy'];
+            /**
+             * @description Canonical URL path for the game page, e.g. /games/{placeId}/{canonical-slug}.
+             *     It must be the same as the canonical URL (rel-canonical meta tag) on the game's EDP.
+             */
+            canonicalUrlPath?: string;
         };
         /** @description Game favorite response model. */
         'Roblox.Games.Api.Models.Response.GameFavoriteResponse': {
@@ -59333,7 +59446,7 @@ export interface components {
             /** @description The game description. */
             description?: string;
             creator?: components['schemas']['Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Core.CreatorType_'];
-            rootPlace?: components['schemas']['Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_'];
+            rootPlace?: components['schemas']['GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_'];
             /**
              * Format: date-time
              * @description When the game was created.
@@ -62196,7 +62309,7 @@ export interface components {
             id?: number;
             /**
              * Format: int32
-             * @description ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91]
+             * @description ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92]
              * @enum {integer}
              */
             type?:
@@ -62283,7 +62396,8 @@ export interface components {
                 | 88
                 | 89
                 | 90
-                | 91;
+                | 91
+                | 92;
             name?: string;
         };
         'Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Badges.BadgeAwarderType_': {
@@ -62679,8 +62793,8 @@ export interface components {
             /** @description The search terms used to filter the results. Only one of 'query' and 'image' can be present in a query. */
             query?: string | null;
             /**
-             * Format: binary
-             * @description The image file to search by. Only one of 'query' and 'image' can be present in a query.
+             * Format: byte
+             * @description The image file to search by. The image must be base64 encoded to be used in the search. Only one of 'query' and 'image' can be present in a query.
              */
             image?: string | null;
             /**

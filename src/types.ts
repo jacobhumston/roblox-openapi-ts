@@ -7042,6 +7042,90 @@ export interface paths {
         };
         trace?: never;
     };
+    '/legacy-game-internationalization/v1/supported-languages/games/{gameId}/languages/{languageCode}/image-translation-status': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Enable or disable image translation for a game and language. */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id of the game. */
+                    gameId: number;
+                    /** @description The language to enable or disable for image translation. */
+                    languageCode: string;
+                };
+                cookie?: never;
+            };
+            /** @description Flag to indicate if image translation should be enabled or disabled. */
+            requestBody: {
+                content: {
+                    'application/json': boolean;
+                    'text/json': boolean;
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.GameInternationalization.Api.EditImageTranslationStatusForGameAndLanguageResponse'];
+                        'text/json': components['schemas']['Roblox.GameInternationalization.Api.EditImageTranslationStatusForGameAndLanguageResponse'];
+                    };
+                };
+                /**
+                 * @description 14: Invalid game id
+                 *     22: Invalid language code
+                 *     53: Language is not supported for the game.
+                 *     93: Image translation cannot be enabled for language.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     18: You do not have permission to manage this game
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 17: Feature is disabled */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
     '/legacy-game-internationalization/v1/supported-languages/games/{gameId}/languages/{languageCode}/universe-display-info-automatic-translation-settings': {
         parameters: {
             query?: never;
@@ -9632,94 +9716,6 @@ export interface paths {
          * @description Publish a message to a pre-defined topic of an experience, with the size of the message up to 1,024 characters (1 KB). Requires the **Publish** permission for API keys and the **universe-messaging-service:publish** scope for OAuth 2.0 apps. See [Cross-server messaging](/cloud-services/cross-server-messaging.md#subscribe-users-to-receive-messages) for defining and subscribing users to a topic.
          */
         post: operations['CrossServerMessaging_Publish'];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/open-eval-api/v1/eval': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Performs the evaluation of the Lua script. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: {
-                    /** @description Api Key (UUID). */
-                    'Roblox-Api-Key'?: string;
-                };
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    'application/json-patch+json': components['schemas']['EvalRequest'];
-                    'application/json': components['schemas']['EvalRequest'];
-                    'text/json': components['schemas']['EvalRequest'];
-                    'application/*+json': components['schemas']['EvalRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['EvalResponse'];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/open-eval-api/v1/eval-records/{jobId}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets the evaluation record by job ID. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: {
-                    /** @description Api Key (UUID). */
-                    'Roblox-Api-Key'?: string;
-                };
-                path: {
-                    /** @description The job ID of the evaluation record. */
-                    jobId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['EvalRecord'];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -28550,13 +28546,6 @@ export interface paths {
                         'text/json': components['schemas']['Roblox.Api.Avatar.Models.AvatarApiSuccessResponse'];
                     };
                 };
-                /** @description 1: The specified userOutfitId is invalid! */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
                 /** @description 0: Authorization has been denied for this request. */
                 401: {
                     headers: {
@@ -28569,6 +28558,13 @@ export interface paths {
                  *     2: You don't have permission to delete this outfit.
                  */
                 403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: The specified userOutfitId is invalid! */
+                404: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -28621,10 +28617,7 @@ export interface paths {
                         'text/json': components['schemas']['Roblox.Api.Avatar.Models.OutfitDetailsModel'];
                     };
                 };
-                /**
-                 * @description 1: The specified userOutfitId is invalid.
-                 *     2: The outfit for the specified userOutfit is invalid.
-                 */
+                /** @description 2: The outfit for the specified userOutfit is invalid. */
                 400: {
                     headers: {
                         [name: string]: unknown;
@@ -28633,6 +28626,13 @@ export interface paths {
                 };
                 /** @description 3: The requester does not have access to the details for the given user outfit. */
                 403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: The specified userOutfitId is invalid. */
+                404: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -31801,6 +31801,90 @@ export interface paths {
                  *     53: Language is not supported for the game.
                  *     72: Automatic translation cannot be enabled for game.
                  *     75: Automatic translation cannot be enabled for language.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     18: You do not have permission to manage this game
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 17: Feature is disabled */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/v1/supported-languages/games/{gameId}/languages/{languageCode}/image-translation-status': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Enable or disable image translation for a game and language. */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id of the game. */
+                    gameId: number;
+                    /** @description The language to enable or disable for image translation. */
+                    languageCode: string;
+                };
+                cookie?: never;
+            };
+            /** @description Flag to indicate if image translation should be enabled or disabled. */
+            requestBody: {
+                content: {
+                    'application/json': boolean;
+                    'text/json': boolean;
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.GameInternationalization.Api.EditImageTranslationStatusForGameAndLanguageResponse'];
+                        'text/json': components['schemas']['Roblox.GameInternationalization.Api.EditImageTranslationStatusForGameAndLanguageResponse'];
+                    };
+                };
+                /**
+                 * @description 14: Invalid game id
+                 *     22: Invalid language code
+                 *     53: Language is not supported for the game.
+                 *     93: Image translation cannot be enabled for language.
                  */
                 400: {
                     headers: {
@@ -44072,6 +44156,8 @@ export interface paths {
                  *     8: Invalid assetIds
                  *     9: Meta does not apply to specified asset type
                  *     10: Required meta is not provided for the specific asset type
+                 *     12: Outfit type invalid or not permitted
+                 *     13: Invalid Scale
                  */
                 400: {
                     headers: {
@@ -44163,14 +44249,14 @@ export interface paths {
                     };
                 };
                 /**
-                 * @description 1: The specified userOutfit does not exist!
-                 *     1: Must provide both assetIds and bodyColors in to update outfit contents.
-                 *     3: Body colors must be valid BrickColor IDs
+                 * @description 3: Body colors must be valid BrickColor IDs
                  *     4: Invalid outfit name
                  *     5: Asset is not wearable by you
                  *     8: Invalid Player Avatar Type. Valid types are R6 and R15
                  *     11: Meta does not apply to specified asset type
                  *     12: Meta is required for this specific asset type
+                 *     13: Invalid Outfit Type
+                 *     14: Invalid scale
                  */
                 400: {
                     headers: {
@@ -44190,6 +44276,13 @@ export interface paths {
                  *     2: You don't have permission to update this outfit.
                  */
                 403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: The specified userOutfit does not exist! */
+                404: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -48473,6 +48566,8 @@ export interface paths {
                  *     8: Invalid assetIds
                  *     9: Meta does not apply to specified asset type
                  *     10: Required meta is not provided for the specific asset type
+                 *     12: Outfit type invalid or not permitted
+                 *     13: Invalid Scale
                  */
                 400: {
                     headers: {
@@ -48561,14 +48656,14 @@ export interface paths {
                     };
                 };
                 /**
-                 * @description 1: The specified userOutfit does not exist!
-                 *     1: Must provide both assetIds and bodyColors in to update outfit contents.
-                 *     3: Body colors must be valid BrickColor IDs
+                 * @description 3: Body colors must be valid BrickColor IDs
                  *     4: Invalid outfit name
                  *     5: Asset is not wearable by you
                  *     8: Invalid Player Avatar Type. Valid types are R6 and R15
                  *     11: Meta does not apply to specified asset type
                  *     12: Meta is required for this specific asset type
+                 *     13: Invalid Outfit Type
+                 *     14: Invalid scale
                  */
                 400: {
                     headers: {
@@ -48588,6 +48683,13 @@ export interface paths {
                  *     2: You don't have permission to update this outfit.
                  */
                 403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: The specified userOutfit does not exist! */
+                404: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -48639,10 +48741,7 @@ export interface paths {
                         'text/json': components['schemas']['Roblox.Api.Avatar.Models.OutfitDetailsModelV2'];
                     };
                 };
-                /**
-                 * @description 1: The specified userOutfitId is invalid.
-                 *     2: The outfit for the specified userOutfit is invalid.
-                 */
+                /** @description 2: The outfit for the specified userOutfit is invalid. */
                 400: {
                     headers: {
                         [name: string]: unknown;
@@ -48651,6 +48750,13 @@ export interface paths {
                 };
                 /** @description 3: The requester does not have access to the details for the given user outfit. */
                 403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: The specified userOutfitId is invalid. */
+                404: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -49610,20 +49716,6 @@ export interface components {
         CurrencyHolderType: 'Undefined' | 'User' | 'Group' | 'UserKey';
         /** @enum {string} */
         CursorPagingDirection: 'Forward' | 'Backward';
-        /** @description Contains information to override the default LLM endpoint and credentials. */
-        CustomLlmInfo: {
-            /** @description The name of the custom LLM provider (claude, gemini, openai). */
-            name: string;
-            /**
-             * @description The specific model version to use (e.g., "gemini-2.5-pro-preview-03-25").
-             *     If not provided, falls back to the provider name.
-             */
-            model_version?: string | null;
-            /** @description The custom LLM endpoint URL. */
-            url: string;
-            /** @description The API key to access the custom LLM. */
-            api_key?: string | null;
-        };
         /** @description The custom signal configuration using a developer created attribute. */
         CustomSignalConfiguration: {
             /** @description The name of the signal. */
@@ -49998,56 +50090,6 @@ export interface components {
             field?: string | null;
             /** @description A hint as to what caused the error, if applicable. */
             hint?: string | null;
-        };
-        EvalJsonRecord: {
-            /** Format: int32 */
-            passes?: number;
-            /** Format: int32 */
-            fails?: number;
-            /** Format: int32 */
-            checks?: number;
-            warning?: string | null;
-            error?: string | null;
-            interruptions?: components['schemas']['InterruptionRecord'][] | null;
-        };
-        EvalRecord: {
-            /** Format: int64 */
-            id?: number;
-            name: string | null;
-            user?: components['schemas']['StudioModelEvaluations.User'];
-            useReferenceMode?: string | null;
-            description?: string | null;
-            /** Format: uuid */
-            jobId: string;
-            inputScript: string | null;
-            jobStatus?: string | null;
-            results?: components['schemas']['EvalResultRecord'][] | null;
-            fullLogs?: string | null;
-            evalSucceeded?: string | null;
-            createUtc?: string | null;
-        };
-        /** @description The request model for the evaluation. */
-        EvalRequest: {
-            name: string;
-            description?: string | null;
-            use_reference_mode?: boolean;
-            input_script: string;
-            custom_llm_info?: components['schemas']['CustomLlmInfo'];
-        };
-        /** @description The response model for the evaluation. */
-        EvalResponse: {
-            job_id?: string | null;
-            /**
-             * Format: int32
-             * @description Gets or sets the status code of the response.
-             */
-            status_code?: number;
-            /** @description Gets or sets the error message associated with the response. */
-            error?: string | null;
-        };
-        EvalResultRecord: {
-            mode?: string | null;
-            result?: components['schemas']['EvalJsonRecord'];
         };
         /**
          * @description Enum describing the different available filter fields.
@@ -50898,101 +50940,6 @@ export interface components {
              */
             bypassSlowMode?: boolean;
         };
-        'GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_': {
-            /** Format: int64 */
-            id?: number;
-            /**
-             * Format: int32
-             * @description ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91]
-             * @enum {integer}
-             */
-            type?:
-                | 1
-                | 2
-                | 3
-                | 4
-                | 5
-                | 6
-                | 7
-                | 8
-                | 9
-                | 10
-                | 11
-                | 12
-                | 13
-                | 16
-                | 17
-                | 18
-                | 19
-                | 21
-                | 22
-                | 24
-                | 25
-                | 26
-                | 27
-                | 28
-                | 29
-                | 30
-                | 31
-                | 32
-                | 33
-                | 34
-                | 35
-                | 37
-                | 38
-                | 39
-                | 40
-                | 41
-                | 42
-                | 43
-                | 44
-                | 45
-                | 46
-                | 47
-                | 48
-                | 49
-                | 50
-                | 51
-                | 52
-                | 53
-                | 54
-                | 55
-                | 56
-                | 59
-                | 60
-                | 61
-                | 62
-                | 63
-                | 64
-                | 65
-                | 66
-                | 67
-                | 68
-                | 69
-                | 70
-                | 71
-                | 72
-                | 73
-                | 74
-                | 75
-                | 76
-                | 77
-                | 78
-                | 79
-                | 80
-                | 81
-                | 82
-                | 83
-                | 84
-                | 85
-                | 86
-                | 87
-                | 88
-                | 89
-                | 90
-                | 91;
-            name?: string;
-        };
         HttpContent: {
             readonly headers?: components['schemas']['StringStringIEnumerableKeyValuePair'][] | null;
         };
@@ -51154,11 +51101,6 @@ export interface components {
             discriminator?: string | null;
             /** Format: int32 */
             count?: number;
-        };
-        InterruptionRecord: {
-            /** Format: int32 */
-            readonly check?: number;
-            readonly type?: string | null;
         };
         /** @description Represents an item in a user's inventory. */
         InventoryItem: {
@@ -52477,6 +52419,11 @@ export interface components {
             expirationDate?: string;
             willRenew?: boolean;
             universeName?: string | null;
+            /** Format: int64 */
+            purchaseScheduleId?: number | null;
+            /** Format: int64 */
+            totalDiscountAmountInRobux?: number | null;
+            metadata?: components['schemas']['PrivateServerSubscriptionMetadata'] | null;
         };
         MyPrivateServersResponse: {
             nextPageCursor?: string | null;
@@ -52987,6 +52934,9 @@ export interface components {
             voiceSettings?: components['schemas']['PrivateServerVoiceSettingsResponse'] | null;
             link?: string | null;
         };
+        PrivateServerSubscriptionMetadata: {
+            privateServerSubscriptionTags?: components['schemas']['PrivateServerSubscriptionTag'][] | null;
+        };
         PrivateServerSubscriptionResponse: {
             active?: boolean;
             expired?: boolean;
@@ -52998,7 +52948,14 @@ export interface components {
             hasInsufficientFunds?: boolean;
             hasRecurringProfile?: boolean;
             hasPriceChanged?: boolean;
+            /** Format: int64 */
+            purchaseScheduleId?: number | null;
+            /** Format: int64 */
+            totalDiscountAmountInRobux?: number | null;
+            metadata?: components['schemas']['PrivateServerSubscriptionMetadata'] | null;
         };
+        /** @enum {string} */
+        PrivateServerSubscriptionTag: 'Invalid' | 'RobloxSubscription';
         PrivateServerUpdatePermissionsRequest: {
             clanAllowed?: boolean | null;
             /** Format: int64 */
@@ -56572,7 +56529,8 @@ export interface components {
                 | 88
                 | 89
                 | 90
-                | 91;
+                | 91
+                | 92;
             /**
              * Format: int32
              * @description The Roblox.Platform.Bundles.Core.BundleType serialized if item is a bundle.
@@ -56784,7 +56742,8 @@ export interface components {
                 | 88
                 | 89
                 | 90
-                | 91;
+                | 91
+                | 92;
             /**
              * Format: int32
              * @description The Roblox.Platform.Bundles.Core.BundleType serialized if item is a bundle.
@@ -57198,6 +57157,13 @@ export interface components {
             /** @description True if the channel supports android binaries. False otherwise. */
             supportsAndroidBinaries?: boolean;
         };
+        /** @description Beta program information included in the user channel response. */
+        'Roblox.ClientSettings.Api.Models.Response.BetaProgramInfo': {
+            /** @description The display name of the beta program. */
+            name?: string;
+            /** @description The ID of the beta program. */
+            id?: string;
+        };
         'Roblox.ClientSettings.Api.Models.Response.ClientVersionResponse': {
             version?: string;
             clientVersionUpload?: string;
@@ -57262,6 +57228,7 @@ export interface components {
             channelAssignmentType?: 0 | 1 | 2 | 3 | 4 | 5;
             /** @description JWT token. If the channel is not private, this is omitted. */
             token?: string;
+            program?: components['schemas']['Roblox.ClientSettings.Api.Models.Response.BetaProgramInfo'];
         };
         'Roblox.Contacts.Api.Models.Response.ContactsMetadataResponseModel': {
             /** Format: int32 */
@@ -57726,6 +57693,17 @@ export interface components {
             /** @description Indicates whether or not automatic translation is currently enabled for the game and language. */
             isAutomaticTranslationEnabled?: boolean;
         };
+        'Roblox.GameInternationalization.Api.EditImageTranslationStatusForGameAndLanguageResponse': {
+            /**
+             * Format: int64
+             * @description The game id.
+             */
+            gameId?: number;
+            /** @description The language code. */
+            languageCode?: string;
+            /** @description Indicates whether image translation is currently enabled for the game and language. */
+            isImageTranslationEnabled?: boolean;
+        };
         'Roblox.GameInternationalization.Api.FailedNameDescription': {
             languageCode?: string;
             /** Format: int32 */
@@ -57902,6 +57880,8 @@ export interface components {
             languageCode?: string;
             /** @description Indicates whether or not automatic translation is currently enabled for the game and language. */
             isAutomaticTranslationEnabled?: boolean;
+            /** @description Indicates whether image translation is currently enabled for the game and language. */
+            isImageTranslationEnabled?: boolean;
         };
         'Roblox.GameInternationalization.Api.LanguageWithLocales': {
             languageFamily?: components['schemas']['Roblox.GameInternationalization.Api.Language'];
@@ -58312,6 +58292,14 @@ export interface components {
             /** @description true for favor the game, false for unfavor the game. */
             isFavorited?: boolean;
         };
+        /** @description Response model for game-level content metadata. */
+        'Roblox.Games.Api.Models.Response.GameContentMetadataResponseModel': {
+            badgePosition?: string;
+            badgeAnalyticsId?: string;
+            badgeType?: string;
+            badgeIcon?: string;
+            badgeComponentType?: string;
+        };
         /** @description Response model for getting the game creator */
         'Roblox.Games.Api.Models.Response.GameCreator': {
             /**
@@ -58568,6 +58556,7 @@ export interface components {
             minimumAge?: number;
             /** @description Age Recommendation display name. */
             ageRecommendationDisplayName?: string;
+            contentMetadata?: components['schemas']['Roblox.Games.Api.Models.Response.GameContentMetadataResponseModel'];
             /**
              * @description Canonical URL path for the game page, e.g. /games/{placeId}/{canonical-slug}.
              *     It must be the same as the canonical URL (rel-canonical meta tag) on the game's EDP.
@@ -58627,7 +58616,7 @@ export interface components {
         'Roblox.Games.Api.Models.Response.PlayabilityStatusResponse': {
             /**
              * Format: int32
-             * @description The actual playability status of the universe including the reason if unplayable ['UnplayableOtherReason' = 0, 'Playable' = 1, 'GuestProhibited' = 2, 'GameUnapproved' = 3, 'IncorrectConfiguration' = 4, 'UniverseRootPlaceIsPrivate' = 5, 'InsufficientPermissionFriendsOnly' = 6, 'InsufficientPermissionGroupOnly' = 7, 'DeviceRestricted' = 8, 'UnderReview' = 9, 'PurchaseRequired' = 10, 'AccountRestricted' = 11, 'TemporarilyUnavailable' = 12, 'PlaceHasNoPublishedVersion' = 13, 'ComplianceBlocked' = 14, 'ContextualPlayabilityRegionalAvailability' = 15, 'ContextualPlayabilityRegionalCompliance' = 16, 'ContextualPlayabilityAgeRecommendationParentalControls' = 17, 'ContextualPlayabilityExperienceBlockedParentalControls' = 18, 'ContextualPlayabilityAgeGated' = 19, 'ContextualPlayabilityUnverifiedSeventeenPlusUser' = 20, 'FiatPurchaseRequired' = 21, 'FiatPurchaseDeviceRestricted' = 22, 'ContextualPlayabilityUnrated' = 23, 'ContextualPlayabilityAgeGatedByDescriptor' = 24, 'ContextualPlayabilityGeneral' = 25]
+             * @description The actual playability status of the universe including the reason if unplayable ['UnplayableOtherReason' = 0, 'Playable' = 1, 'GuestProhibited' = 2, 'GameUnapproved' = 3, 'IncorrectConfiguration' = 4, 'UniverseRootPlaceIsPrivate' = 5, 'InsufficientPermissionFriendsOnly' = 6, 'InsufficientPermissionGroupOnly' = 7, 'DeviceRestricted' = 8, 'UnderReview' = 9, 'PurchaseRequired' = 10, 'AccountRestricted' = 11, 'TemporarilyUnavailable' = 12, 'PlaceHasNoPublishedVersion' = 13, 'ComplianceBlocked' = 14, 'ContextualPlayabilityRegionalAvailability' = 15, 'ContextualPlayabilityRegionalCompliance' = 16, 'ContextualPlayabilityAgeRecommendationParentalControls' = 17, 'ContextualPlayabilityExperienceBlockedParentalControls' = 18, 'ContextualPlayabilityAgeGated' = 19, 'ContextualPlayabilityUnverifiedSeventeenPlusUser' = 20, 'FiatPurchaseRequired' = 21, 'FiatPurchaseDeviceRestricted' = 22, 'ContextualPlayabilityUnrated' = 23, 'ContextualPlayabilityAgeGatedByDescriptor' = 24, 'ContextualPlayabilityGeneral' = 25, 'ContextualPlayabilityAgeCheckRequired' = 26, 'ContextualPlayabilityRequireParentApproval' = 27, 'ContextualPlayabilityCoreGated' = 28]
              * @enum {integer}
              */
             playabilityStatus?:
@@ -58656,7 +58645,10 @@ export interface components {
                 | 22
                 | 23
                 | 24
-                | 25;
+                | 25
+                | 26
+                | 27
+                | 28;
             /** @description Whether or not the universe is playable for the user */
             isPlayable?: boolean;
             /**
@@ -58667,6 +58659,7 @@ export interface components {
             /** @description Localized display text explaining why unplayable */
             unplayableDisplayText?: string;
             playableUxTreatment?: components['schemas']['Roblox.Games.Api.Models.Response.PlayableUxTreatment'];
+            upsellUxTreatment?: components['schemas']['Roblox.Games.Api.Models.Response.UpsellUxTreatment'];
         };
         'Roblox.Games.Api.Models.Response.PlayableUxTreatment': {
             treatment?: string;
@@ -58696,6 +58689,32 @@ export interface components {
             locale?: string;
             /** @description Zendesk (or similar forum provider) article ID for the client to build a redirect URL. */
             articleId?: string;
+        };
+        /**
+         * @description Upsell UX treatment metadata appended to a playability response when an experience is
+         *     currently playable but will be restricted under upcoming Roblox-Core content rules.
+         *     Mirrors the existing Roblox.Games.Api.Models.Response.PlayableUxTreatment contract intentionally so client
+         *     rendering can be unified.
+         */
+        'Roblox.Games.Api.Models.Response.UpsellUxTreatment': {
+            /**
+             * @description Identifier of the client component to render (currently "ageCheckUpsell").
+             *     Absent when the upsell should not surface.
+             */
+            treatment?: string;
+            data?: components['schemas']['Roblox.Games.Api.Models.Response.UpsellUxTreatmentData'];
+        };
+        /**
+         * @description Localized strings for an Roblox.Games.Api.Models.Response.UpsellUxTreatment. Currently only carries
+         *     Roblox.Games.Api.Models.Response.UpsellUxTreatmentData.BodyText; structured to allow additional fields without breaking the
+         *     JSON contract.
+         */
+        'Roblox.Games.Api.Models.Response.UpsellUxTreatmentData': {
+            /**
+             * @description Localized body text for the upsell banner (e.g. "You'll soon need an age check to
+             *     join this game.").
+             */
+            bodyText?: string;
         };
         /** @description A response model specific to multi-get user. */
         'Roblox.Games.Api.Models.Response.VerifiedBadgeUserResponse': {
@@ -59302,6 +59321,13 @@ export interface components {
             slowmode?: 0 | 1 | 2 | 3;
             /** @description Whether the group member list is visible to public. */
             isMemberListVisibleToPublic?: boolean;
+            /**
+             * @description Whether automatic assignment of the lowest non-guest role is disabled for this group.
+             *     For non-legacy groups (created after the multi-role cutoff), this is always true.
+             *     For legacy groups, reflects the persisted GroupFeatureSettings value.
+             *     Null when the value could not be determined.
+             */
+            isAutoAssignRoleDisabled?: boolean;
         };
         /** @description A response model for group wall post information */
         'Roblox.Groups.Api.GroupWallPostV2Model': {
@@ -59446,7 +59472,7 @@ export interface components {
             /** @description The game description. */
             description?: string;
             creator?: components['schemas']['Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Core.CreatorType_'];
-            rootPlace?: components['schemas']['GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_'];
+            rootPlace?: components['schemas']['Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_'];
             /**
              * Format: date-time
              * @description When the game was created.
@@ -63054,7 +63080,7 @@ export interface components {
          * @description Defines the different types of servers
          * @enum {integer}
          */
-        ServerType: 0 | 1 | 2 | 3;
+        ServerType: 0 | 1 | 2 | 3 | 4 | 5;
         /** @description Response to set the matchmaking scoring configuration. */
         SetMatchmakingScoringConfigurationResponse: {
             scoringConfiguration?: components['schemas']['MatchmakingScoringConfiguration'];
@@ -63213,9 +63239,6 @@ export interface components {
         StringStringIEnumerableKeyValuePair: {
             key?: string | null;
             value?: string[] | null;
-        };
-        'StudioModelEvaluations.User': {
-            readonly id?: string | null;
         };
         /** @enum {string} */
         SubjectType: 'Invalid' | 'User' | 'Group' | 'GroupRoleset' | 'All' | 'Universe';
@@ -63456,6 +63479,7 @@ export interface components {
             details?: components['schemas']['TransactionDetailsResponse'] | null;
             currency?: components['schemas']['GenericCurrencyResponse'] | null;
             purchaseToken?: string | null;
+            transactionSubtype?: string | null;
         };
         TransactionRecordResponseApiPageResponse: {
             previousPageCursor?: string | null;
@@ -63630,7 +63654,8 @@ export interface components {
             | 'PublishingAdvanceRebates'
             | 'AffiliatePayout'
             | 'LicensingPayment'
-            | 'LicensingPaymentClawback';
+            | 'LicensingPaymentClawback'
+            | 'CurrencyTransfer';
         TransactionUsedTypesResponse: {
             HasPurchase?: boolean;
             HasSale?: boolean;
@@ -63653,6 +63678,7 @@ export interface components {
             HasGroupSubscriptionsRevsharePayout?: boolean;
             HasPublishingAdvanceRebates?: boolean;
             HasLicensingPayment?: boolean;
+            HasTransfer?: boolean;
         };
         /**
          * @description Contains the text to be translated, the source language (optional), and a

@@ -45618,7 +45618,7 @@ export interface paths {
                     Taxonomy: string;
                     AssetTypeIds: number[];
                     BundleTypeIds: number[];
-                    CategoryFilter: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+                    CategoryFilter: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
                     SortAggregation: 0 | 1 | 2 | 3 | 4 | 5;
                     SortType: 0 | 1 | 2 | 3 | 4 | 5;
                     CreatorType: 0 | 1 | 2;

@@ -2456,6 +2456,9 @@ export interface paths {
          *     If draftHash is provided, this call will fail if the hash doesn't match.
          *     A key not included will not be changed. To indicate deletion, set key to null.
          *     To discard a change, set key to its currently published value.
+         *     When `conditionalRules` is omitted or empty (`{}`), the CMS update omits the conditional-rules field so existing published rules remain at publish time;
+         *     send a non-empty `conditionalRules` object to merge rule changes.
+         *     Entry count and per-value size limits are enforced here via CreatorConfigsPublicApi.Utils.DraftValidationHelper; further schema validation is performed by Config Management.
          */
         patch: operations['CreatorConfigsPublicApi_UpdateDraft'];
         trace?: never;
@@ -2470,9 +2473,14 @@ export interface paths {
         get?: never;
         /**
          * Overwrites the entire draft with the request payload.
-         * @description Full overwrite of current draft. The payload is the expected final state after publish.
+         * @description Full overwrite of current draft. The payload is the expected final state after publish (not a merge with the draft or published config from the client’s perspective).
+         *     The service aligns that intent with CMS validation by emitting explicit deletions for published keys and conditional branches omitted from the body.
          *     If a key is not included, it is interpreted as removed.
+         *     When `conditionalRules` is included, `conditionalRules.rules` is authoritative for rule definitions:
+         *     any conditional rule that exists on the latest published configuration but is omitted from `rules` is removed (same as sending an empty RPN rule).
+         *     When `conditionalRules` is omitted, all published conditional rules are removed; entries must not use conditional branches or `.RBX.conditional.*` keys unless you send `conditionalRules`.
          *     If draftHash is provided, this call will fail if the hash doesn't match.
+         *     Entry count and per-value size limits are enforced here via CreatorConfigsPublicApi.Utils.DraftValidationHelper; further schema validation is performed by Config Management.
          */
         put: operations['CreatorConfigsPublicApi_OverwriteDraft'];
         post?: never;
@@ -10296,102 +10304,6 @@ export interface paths {
             cookie?: never;
         };
         get: operations['HomepageThumbnail_GetHomepageThumbnailsStatus'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/thumbnail-personalization-api/v1/universes/{universeId}/personalization': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations['ThumbnailPersonalizationApi.HomepageThumbnail_FindThumbnailPersonalizations'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/thumbnail-personalization-api/v1/universes/{universeId}/personalization/create': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations['ThumbnailPersonalizationApi.HomepageThumbnail_CreateThumbnailPersonalization'];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/thumbnail-personalization-api/v1/universes/{universeId}/personalization/update': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations['ThumbnailPersonalizationApi.HomepageThumbnail_UpdateThumbnailPersonalization'];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/thumbnail-personalization-api/v1/universes/{universeId}/thumbnails': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations['ThumbnailPersonalizationApi.HomepageThumbnail_GetHomepageThumbnails'];
-        put?: never;
-        post?: never;
-        delete: operations['ThumbnailPersonalizationApi.HomepageThumbnail_DeleteHomepageThumbnails'];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/thumbnail-personalization-api/v1/universes/{universeId}/thumbnails/uploads': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations['ThumbnailPersonalizationApi.HomepageThumbnail_UploadHomepageThumbnails'];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/thumbnail-personalization-api/v1/universes/{universeId}/thumbnails/uploads/status': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations['ThumbnailPersonalizationApi.HomepageThumbnail_GetHomepageThumbnailsStatus'];
         put?: never;
         post?: never;
         delete?: never;
@@ -22755,7 +22667,10 @@ export interface paths {
                         'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.GroupJoinRequestResponse_'];
                     };
                 };
-                /** @description 1: The group is invalid or does not exist. */
+                /**
+                 * @description 1: The group is invalid or does not exist.
+                 *     36: The pagination cursor is invalid.
+                 */
                 400: {
                     headers: {
                         [name: string]: unknown;
@@ -24425,7 +24340,10 @@ export interface paths {
                         'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.UserModel_'];
                     };
                 };
-                /** @description 1: The group is invalid or does not exist. */
+                /**
+                 * @description 1: The group is invalid or does not exist.
+                 *     36: The pagination cursor is invalid.
+                 */
                 400: {
                     headers: {
                         [name: string]: unknown;
@@ -25264,7 +25182,10 @@ export interface paths {
                         'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.UserGroupRoleResponse_'];
                     };
                 };
-                /** @description 1: The group is invalid or does not exist. */
+                /**
+                 * @description 1: The group is invalid or does not exist.
+                 *     36: The pagination cursor is invalid.
+                 */
                 400: {
                     headers: {
                         [name: string]: unknown;
@@ -49599,6 +49520,30 @@ export interface components {
              */
             browserTrackerId?: number | null;
         };
+        /** @description JSON shape of an RPN conditional rule in public API requests, aligned with `roblox.creatorexperienceconfig.conditionrules.v1.RpnRule`. */
+        ConditionalRuleDefinition: {
+            /** @description Postfix RPN token sequence. */
+            tokens?: components['schemas']['RpnTokenDto'][] | null;
+        };
+        /** @description Minimal delta for conditional rules on a revision (optional extension on list revisions). */
+        ConditionalRulesChangesPayload: {
+            rulesOrder?: components['schemas']['RulesOrderDeltaPayload'] | null;
+            rules?: {
+                [key: string]: components['schemas']['RuleDeltaPayload'];
+            } | null;
+        };
+        /** @description Public JSON shape for conditional rules (`rules` + `rulesOrder`), aligned with CMS `ConditionalRules`. */
+        ConditionalRulesPayload: {
+            /**
+             * @description RPN rules keyed by condition id. On `draft:overwrite`, omitting a rule id that exists on published removes that rule; JSON `null` tombstones;
+             *     `{ "tokens": [] }` is an explicit empty rule.
+             */
+            rules?: {
+                [key: string]: components['schemas']['ConditionalRuleDefinition'];
+            } | null;
+            /** @description Evaluation order (condition ids). */
+            rulesOrder?: string[] | null;
+        };
         /** @description A draft entry containing a value and optional description. */
         ConfigDraftEntry: {
             /** @description The value of the configuration entry. */
@@ -49614,6 +49559,8 @@ export interface components {
             entries?: {
                 [key: string]: components['schemas']['ConfigDraftEntry'];
             } | null;
+            /** @description Conditional rules staged on the draft, when any exist. */
+            conditionalRules?: components['schemas']['ConditionalRulesPayload'] | null;
         };
         /** @description A full representation of a configuration repository, including all entries and their metadata. */
         ConfigRepositoryFull: {
@@ -49623,6 +49570,8 @@ export interface components {
             } | null;
             /** @description Metadata about the configuration repository. */
             metadata?: components['schemas']['ConfigRepositoryMetadata'] | null;
+            /** @description Conditional RPN rules and evaluation order, when any exist. */
+            conditionalRules?: components['schemas']['ConditionalRulesPayload'] | null;
         };
         /** @description Metadata about the configuration repository. */
         ConfigRepositoryMetadata: {
@@ -49643,9 +49592,13 @@ export interface components {
             entries?: {
                 [key: string]: unknown;
             } | null;
+            /** @description Conditional RPN rules and evaluation order, when any exist. */
+            conditionalRules?: components['schemas']['ConditionalRulesPayload'] | null;
         };
         /** @description A full representation of a configuration value, including its metadata. */
         ConfigValueFull: {
+            /** @description Non-default branches (e.g. conditional), when present. */
+            variants?: components['schemas']['ConfigVariantDto'][] | null;
             /** @description The value of the configuration entry. */
             value?: unknown;
             /** @description A description of the configuration entry. */
@@ -49661,6 +49614,25 @@ export interface components {
              */
             lastAccessedTime?: string;
         };
+        /** @description A non-default branch on a config entry (public API discriminated variant). */
+        ConfigVariantDto: {
+            /**
+             * @description Variant discriminator (e.g. conditional branch).
+             *
+             *     conditional
+             */
+            type?: components['schemas']['ConfigVariantType'];
+            /** @description Identifier for this variant within CreatorConfigsPublicApi.Models.ConfigVariantDto.Type (e.g. conditional rule id for CreatorConfigsPublicApi.Models.ConfigVariantType.Conditional). */
+            variantTypeId?: string | null;
+            value?: unknown;
+        };
+        /**
+         * @description Discriminator for entries in CreatorConfigsPublicApi.Models.ConfigVariantDto variant lists (full config and revision snapshots).
+         *
+         *     conditional
+         * @enum {string}
+         */
+        ConfigVariantType: 'conditional';
         /** @description Represents the content of a message. */
         ContentMessage: {
             /**
@@ -51711,6 +51683,8 @@ export interface components {
             placeIdToVersions?: {
                 [key: string]: number[] | null;
             } | null;
+            /** @description Optional. Attributes string to include in the ServerLifecycleChanged CSM payload published to game servers. */
+            attributes?: string | null;
         };
         /** @description Launch Update response. */
         LaunchUpdateResponse: {
@@ -51970,6 +51944,13 @@ export interface components {
              *     page. If this field is omitted, there are no subsequent pages.
              */
             nextPageToken?: string;
+        };
+        /** @description Literal constant for an RPN operand (proto `LiteralValue` oneof as independent fields for JSON). */
+        LiteralValueDto: {
+            booleanValue?: string | null;
+            integerValue?: string | null;
+            doubleValue?: string | null;
+            stringValue?: string | null;
         };
         /**
          * @description A `LuauExecutionSessionTask` ("task" for short) executes a given Luau script
@@ -53390,9 +53371,15 @@ export interface components {
          *     RecommendationServicesConfig
          *
          *     DataStoresConfig
+         *
+         *     ExtendedServicesConfig
          * @enum {string}
          */
-        Repository: 'InExperienceConfig' | 'RecommendationServicesConfig' | 'DataStoresConfig';
+        Repository:
+            | 'InExperienceConfig'
+            | 'RecommendationServicesConfig'
+            | 'DataStoresConfig'
+            | 'ExtendedServicesConfig';
         /**
          * @description The current state of a place restart.
          * @enum {string}
@@ -53522,6 +53509,8 @@ export interface components {
             changes?: {
                 [key: string]: components['schemas']['RevisionChange'];
             } | null;
+            /** @description Optional delta for conditional rules when this revision touched rules or evaluation order. */
+            conditionalRulesChanges?: components['schemas']['ConditionalRulesChangesPayload'] | null;
         };
         /** @description The birthdate response */
         'Roblox.AccountInformation.Api.Models.BirthdateResponse': {
@@ -55558,6 +55547,13 @@ export interface components {
              * @enum {integer}
              */
             fiatModerationStatus?: 0 | 1 | 2 | 3 | 4;
+            /**
+             * @description Audiences allowed to view this universe, sourced from the new UniversePublicitySettings entity
+             *     in universe-settings-service. Populated from USS only when UniversePublicitySettingsTreatment
+             *     is ReverseShadow or Authority (USS is the source of truth in those modes); an empty list is
+             *     returned for Off and Shadow so clients always see a stable shape, never null.
+             */
+            audiences?: (0 | 1 | 2 | 3 | 4)[];
         };
         /** @description Model for UniverseSettings controller responses */
         'Roblox.Api.Develop.Models.UniverseSettingsResponseV2': {
@@ -56886,7 +56882,7 @@ export interface components {
             /** @description The System.Collections.Generic.IEnumerable`1 contained in the bundle, serialized if item is a bundle. */
             bundledItems?: components['schemas']['Roblox.Catalog.Api.BundleItemDetailModel'][];
             /** @description The System.Collections.Generic.IEnumerable`1 if item has Roblox.Catalog.Api.CatalogItemStatus. */
-            itemStatus?: (1 | 2 | 7)[];
+            itemStatus?: (1 | 2 | 7 | 8)[];
             /** @description The System.Collections.Generic.IEnumerable`1 if item has Roblox.Catalog.Api.CatalogItemRestriction. */
             itemRestrictions?: (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9)[];
             /** @description The verified status of a creator. */
@@ -57098,7 +57094,7 @@ export interface components {
              */
             productId?: number;
             /** @description The System.Collections.Generic.IEnumerable`1 if item has Roblox.Catalog.Api.CatalogItemStatus. */
-            itemStatus?: (1 | 2 | 7)[];
+            itemStatus?: (1 | 2 | 7 | 8)[];
             /** @description The System.Collections.Generic.IEnumerable`1 if item has Roblox.Catalog.Api.CatalogItemRestriction. */
             itemRestrictions?: (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9)[];
             /** @description The verified status of a creator. */
@@ -63125,6 +63121,26 @@ export interface components {
         'Roblox.Web.WebAPI.Models.ApiSuccessResponse': {
             success?: boolean;
         };
+        /** @description RPN operand: attribute reference or literal value (same concepts as the proto `RpnOperand` oneof). */
+        RpnOperandDto: {
+            attributeReference?: string | null;
+            /** @description Literal constant for an RPN operand (proto `LiteralValue` oneof as independent fields for JSON). */
+            literalValue?: components['schemas']['LiteralValueDto'] | null;
+        };
+        /** @description One RPN token: either a logical/comparison CreatorConfigsPublicApi.Models.ConditionalRuleOperator (proto JSON `OPERATOR_*`) or an operand object. */
+        RpnTokenDto: {
+            operator?: string | null;
+            /** @description RPN operand: attribute reference or literal value (same concepts as the proto `RpnOperand` oneof). */
+            operand?: components['schemas']['RpnOperandDto'] | null;
+        };
+        RuleDeltaPayload: {
+            before?: unknown;
+            after?: unknown;
+        };
+        RulesOrderDeltaPayload: {
+            before?: string[] | null;
+            after?: string[] | null;
+        };
         SalesReportDownloadRequest: {
             /** Format: int64 */
             targetId?: number;
@@ -63192,7 +63208,7 @@ export interface components {
              * Format: int64
              * @description The minimum price of the asset in cents. If included, must be greater than or equal to 0.
              */
-            minPriceCents?: number;
+            minPriceCents?: number | null;
             /**
              * Format: int64
              * @description The maximum price of the asset in cents. If included, must be greater than or equal to 0.
@@ -64289,14 +64305,25 @@ export interface components {
         UpdateCustomMatchmakingSignalResponse: {
             scoringConfiguration?: components['schemas']['MatchmakingScoringConfiguration'];
         };
-        /** @description Request model for updating a draft (partial update). */
+        /** @description Request model for draft updates: PATCH uses a partial merge; PUT `draft:overwrite` treats the body as the full intended configuration after publish. */
         UpdateDraftRequest: {
             /** @description The previous draft hash for concurrency control. If provided, the update will fail if it doesn't match. */
             draftHash?: string | null;
-            /** @description The entries to update. Keys not included will not be changed. Set key to null to delete, or set to published value to discard. */
+            /**
+             * @description On PATCH, keys not included are unchanged; set a key to null to delete a branch or entry per merge rules.
+             *     On PUT `draft:overwrite`, this map is the authoritative final entry set: any key present on the latest published configuration but omitted here is removed, and any conditional branch omitted for a key that remains is removed.
+             */
             entries?: {
                 [key: string]: unknown;
             } | null;
+            /**
+             * @description Optional conditional rules. On PATCH, merges with the current draft rules when this payload is non-empty (any rule id or `rulesOrder` entry).
+             *     Omit the property or send an empty object `{}` to leave rules unchanged (draft rules, or latest published rules if the draft has none yet).
+             *     On PUT `draft:overwrite`, when this property is present,
+             *     CreatorConfigsPublicApi.Models.ConditionalRulesPayload.Rules is the full intended rule set after publish: rules that exist on the latest published configuration but are omitted are removed.
+             *     When omitted on overwrite, all published conditional rules are cleared (entries must not reference conditionals unless you provide this object).
+             */
+            conditionalRules?: components['schemas']['ConditionalRulesPayload'] | null;
         };
         /** @description Updates the entry provided with a new value. */
         UpdateEntryRequest: {
@@ -68482,6 +68509,8 @@ export interface operations {
                  *     RecommendationServicesConfig
                  *
                  *     DataStoresConfig
+                 *
+                 *     ExtendedServicesConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -68539,6 +68568,8 @@ export interface operations {
                  *     RecommendationServicesConfig
                  *
                  *     DataStoresConfig
+                 *
+                 *     ExtendedServicesConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -68596,6 +68627,8 @@ export interface operations {
                  *     RecommendationServicesConfig
                  *
                  *     DataStoresConfig
+                 *
+                 *     ExtendedServicesConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -68660,6 +68693,8 @@ export interface operations {
                  *     RecommendationServicesConfig
                  *
                  *     DataStoresConfig
+                 *
+                 *     ExtendedServicesConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -68724,6 +68759,8 @@ export interface operations {
                  *     RecommendationServicesConfig
                  *
                  *     DataStoresConfig
+                 *
+                 *     ExtendedServicesConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -68788,6 +68825,8 @@ export interface operations {
                  *     RecommendationServicesConfig
                  *
                  *     DataStoresConfig
+                 *
+                 *     ExtendedServicesConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -68845,6 +68884,8 @@ export interface operations {
                  *     RecommendationServicesConfig
                  *
                  *     DataStoresConfig
+                 *
+                 *     ExtendedServicesConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -68924,6 +68965,8 @@ export interface operations {
                  *     RecommendationServicesConfig
                  *
                  *     DataStoresConfig
+                 *
+                 *     ExtendedServicesConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -68981,6 +69024,8 @@ export interface operations {
                  *     RecommendationServicesConfig
                  *
                  *     DataStoresConfig
+                 *
+                 *     ExtendedServicesConfig
                  */
                 repository: components['schemas']['Repository'];
                 revisionId: string;
@@ -71119,443 +71164,6 @@ export interface operations {
             };
         };
     };
-    'ThumbnailPersonalizationApi.HomepageThumbnail_FindThumbnailPersonalizations': {
-        parameters: {
-            query?: {
-                status?: components['schemas']['PersonalizedConfigStatus'];
-                limit?: number;
-                cursor?: string;
-            };
-            header?: never;
-            path: {
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-        };
-    };
-    'ThumbnailPersonalizationApi.HomepageThumbnail_CreateThumbnailPersonalization': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                'application/json-patch+json': components['schemas']['CreateThumbnailPersonalizationRequest'];
-                'application/json': components['schemas']['CreateThumbnailPersonalizationRequest'];
-                'text/json': components['schemas']['CreateThumbnailPersonalizationRequest'];
-                'application/*+json': components['schemas']['CreateThumbnailPersonalizationRequest'];
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-        };
-    };
-    'ThumbnailPersonalizationApi.HomepageThumbnail_UpdateThumbnailPersonalization': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                'application/json-patch+json': components['schemas']['UpdateThumbnailPersonalizationRequest'];
-                'application/json': components['schemas']['UpdateThumbnailPersonalizationRequest'];
-                'text/json': components['schemas']['UpdateThumbnailPersonalizationRequest'];
-                'application/*+json': components['schemas']['UpdateThumbnailPersonalizationRequest'];
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-        };
-    };
-    'ThumbnailPersonalizationApi.HomepageThumbnail_GetHomepageThumbnails': {
-        parameters: {
-            query?: {
-                limit?: number;
-                nextCursor?: string;
-            };
-            header?: never;
-            path: {
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['FindThumbnailsResponse'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-        };
-    };
-    'ThumbnailPersonalizationApi.HomepageThumbnail_DeleteHomepageThumbnails': {
-        parameters: {
-            query?: {
-                homepageThumbnailIds?: string[];
-            };
-            header?: never;
-            path: {
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-        };
-    };
-    'ThumbnailPersonalizationApi.HomepageThumbnail_UploadHomepageThumbnails': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                'multipart/form-data': {
-                    files?: string[];
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['UploadThumbnailsResponse'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-        };
-    };
-    'ThumbnailPersonalizationApi.HomepageThumbnail_GetHomepageThumbnailsStatus': {
-        parameters: {
-            query?: {
-                operationIds?: string[];
-            };
-            header?: never;
-            path: {
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['UploadThumbnailsStatusResponse'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-        };
-    };
     Saves_GetSaves: {
         parameters: {
             query?: {
@@ -71892,7 +71500,7 @@ export interface operations {
                 /** @description Whether the results should only include assets created by verified creators. */
                 includeOnlyVerifiedCreators?: boolean;
                 /** @description The minimum price of the asset in cents. If included, must be greater than or equal to 0. */
-                minPriceCents?: number;
+                minPriceCents?: number | null;
                 /** @description The maximum price of the asset in cents. If included, must be greater than or equal to 0. */
                 maxPriceCents?: number | null;
                 /** @description Additional keywords to query by. */

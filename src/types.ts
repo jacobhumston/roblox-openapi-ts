@@ -43259,6 +43259,74 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v2/collectible-items/{collectibleItemId}/owners': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets a list of owners of a collectible item. */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description The number of results per request. */
+                    limit?: number;
+                    /** @description The paging cursor for the previous or next page. */
+                    cursor?: string;
+                    /** @description The order the results are sorted in. */
+                    sortOrder?: 1 | 2;
+                };
+                header?: never;
+                path: {
+                    /** @description The collectible item ID. */
+                    collectibleItemId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Inventory.Api.V2.CollectibleItemOwnerResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Inventory.Api.V2.CollectibleItemOwnerResponse_'];
+                    };
+                };
+                /** @description 1: The collectible item id is invalid. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 2: You do not have permission to view the owners of this item. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v2/compression-dictionaries': {
         parameters: {
             query?: never;
@@ -47499,6 +47567,7 @@ export interface paths {
                  *     24: Invalid scale value
                  *     28: OptIn/Out Regions Not Supported.
                  *     41: You cannot change the private server price again so soon after the previous change. Please try again later.
+                 *     42: This experience must be Public before its audience can include anything other than Editors. Call /activate first.
                  */
                 400: {
                     headers: {
@@ -47528,6 +47597,13 @@ export interface paths {
                 };
                 /** @description 9: Failed to shutdown all intances of game after changing AvatarType. The change has been reverted. */
                 409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 43: Failed to update the audience configuration. The change was not applied. Please try again. */
+                500: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -53373,13 +53449,16 @@ export interface components {
          *     DataStoresConfig
          *
          *     ExtendedServicesConfig
+         *
+         *     LeaderboardsConfig
          * @enum {string}
          */
         Repository:
             | 'InExperienceConfig'
             | 'RecommendationServicesConfig'
             | 'DataStoresConfig'
-            | 'ExtendedServicesConfig';
+            | 'ExtendedServicesConfig'
+            | 'LeaderboardsConfig';
         /**
          * @description The current state of a place restart.
          * @enum {string}
@@ -56246,6 +56325,7 @@ export interface components {
             sessionId?: string;
             credentialNickname?: string;
             attestationResponse?: string;
+            source?: string;
         };
         'Roblox.Authentication.Api.Models.Request.IdentityVerificationLoginRequest': {
             loginTicket?: string;
@@ -57561,6 +57641,11 @@ export interface components {
             /** @description JWT token. If the channel is not private, this is omitted. */
             token?: string;
             program?: components['schemas']['Roblox.ClientSettings.Api.Models.Response.BetaProgramInfo'];
+            /**
+             * @description Whether the channel is flag-only. A flag-only channel uses production binaries.
+             *     If the channel is not flag-only, this is omitted.
+             */
+            isFlagOnly?: boolean;
         };
         'Roblox.Contacts.Api.Models.Response.ContactsMetadataResponseModel': {
             /** Format: int32 */
@@ -60387,6 +60472,12 @@ export interface components {
             /** Format: date-time */
             updated?: string;
         };
+        'Roblox.Inventory.Api.V2.CollectibleItemOwnerResponse': {
+            collectibleItemInstanceId?: string;
+            /** Format: int64 */
+            serialNumber?: number;
+            owner?: components['schemas']['Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Agents.AgentType_'];
+        };
         /** @description The user asset item model for V2 controllers. */
         'Roblox.Inventory.Api.V2.UserAssetItemModelV2': {
             /**
@@ -63077,6 +63168,11 @@ export interface components {
             previousPageCursor?: string;
             nextPageCursor?: string;
             data?: components['schemas']['Roblox.Inventory.Api.V2.AssetOwnerResponse'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Inventory.Api.V2.CollectibleItemOwnerResponse_': {
+            previousPageCursor?: string;
+            nextPageCursor?: string;
+            data?: components['schemas']['Roblox.Inventory.Api.V2.CollectibleItemOwnerResponse'][];
         };
         'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Inventory.Api.V2.UserAssetItemModelV2_': {
             previousPageCursor?: string;
@@ -68511,6 +68607,8 @@ export interface operations {
                  *     DataStoresConfig
                  *
                  *     ExtendedServicesConfig
+                 *
+                 *     LeaderboardsConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -68570,6 +68668,8 @@ export interface operations {
                  *     DataStoresConfig
                  *
                  *     ExtendedServicesConfig
+                 *
+                 *     LeaderboardsConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -68629,6 +68729,8 @@ export interface operations {
                  *     DataStoresConfig
                  *
                  *     ExtendedServicesConfig
+                 *
+                 *     LeaderboardsConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -68695,6 +68797,8 @@ export interface operations {
                  *     DataStoresConfig
                  *
                  *     ExtendedServicesConfig
+                 *
+                 *     LeaderboardsConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -68761,6 +68865,8 @@ export interface operations {
                  *     DataStoresConfig
                  *
                  *     ExtendedServicesConfig
+                 *
+                 *     LeaderboardsConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -68827,6 +68933,8 @@ export interface operations {
                  *     DataStoresConfig
                  *
                  *     ExtendedServicesConfig
+                 *
+                 *     LeaderboardsConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -68886,6 +68994,8 @@ export interface operations {
                  *     DataStoresConfig
                  *
                  *     ExtendedServicesConfig
+                 *
+                 *     LeaderboardsConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -68967,6 +69077,8 @@ export interface operations {
                  *     DataStoresConfig
                  *
                  *     ExtendedServicesConfig
+                 *
+                 *     LeaderboardsConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -69026,6 +69138,8 @@ export interface operations {
                  *     DataStoresConfig
                  *
                  *     ExtendedServicesConfig
+                 *
+                 *     LeaderboardsConfig
                  */
                 repository: components['schemas']['Repository'];
                 revisionId: string;

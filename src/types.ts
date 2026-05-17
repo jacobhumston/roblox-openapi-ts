@@ -47568,6 +47568,7 @@ export interface paths {
                  *     28: OptIn/Out Regions Not Supported.
                  *     41: You cannot change the private server price again so soon after the previous change. Please try again later.
                  *     42: This experience must be Public before its audience can include anything other than Editors. Call /activate first.
+                 *     44: The provided audience configuration is invalid. Ensure the audience list is not empty and contains only supported audience values.
                  */
                 400: {
                     headers: {
@@ -47588,6 +47589,7 @@ export interface paths {
                  *     14: You are not authorized to sell games.
                  *     29: Luobu app terms of service user agreement is missing.
                  *     30: Unknown error while updating Opt in out region.
+                 *     45: The creator of this experience is not eligible to set this audience.
                  */
                 403: {
                     headers: {
@@ -55349,6 +55351,11 @@ export interface components {
              * @description The updated System.DateTime
              */
             updated?: string;
+            /**
+             * @description The audiences this universe is visible to (e.g. Editors, PlayTesters, Friends, Public).
+             *     Always non-null; may be empty when audience visibility has not been configured.
+             */
+            audiences?: (0 | 1 | 2 | 3 | 4)[];
         };
         /** @description Represents a universe moderation policy status */
         'Roblox.Api.Develop.Models.UniverseModerationPolicyStatus': {
@@ -55531,9 +55538,8 @@ export interface components {
              */
             fiatProductChangeType?: 0 | 1 | 2 | 3;
             /**
-             * @description Audiences allowed to view this universe, written directly to the new UniversePublicitySettings
-             *     entity in universe-settings-service. When provided, persists exactly the supplied audience set
-             *     and skips the IsFriendsOnly-derived USS dual-write that runs under non-Off treatments.
+             * @description The audiences this universe should be visible to (e.g. Editors, PlayTesters, Friends, Public).
+             *     When provided, replaces the universe's existing audience set with the supplied values.
              */
             audiences?: (0 | 1 | 2 | 3 | 4)[];
         };
@@ -55627,10 +55633,8 @@ export interface components {
              */
             fiatModerationStatus?: 0 | 1 | 2 | 3 | 4;
             /**
-             * @description Audiences allowed to view this universe, sourced from the new UniversePublicitySettings entity
-             *     in universe-settings-service. Populated from USS only when UniversePublicitySettingsTreatment
-             *     is ReverseShadow or Authority (USS is the source of truth in those modes); an empty list is
-             *     returned for Off and Shadow so clients always see a stable shape, never null.
+             * @description The audiences this universe is visible to (e.g. Editors, PlayTesters, Friends, Public).
+             *     Always non-null; may be empty when audience visibility has not been configured.
              */
             audiences?: (0 | 1 | 2 | 3 | 4)[];
         };
@@ -55726,10 +55730,8 @@ export interface components {
             /** @description Whether the game is elegible for text chat service auto migration. */
             eligibleForTextChatMigration?: boolean;
             /**
-             * @description Audiences allowed to view this universe, sourced from the new UniversePublicitySettings entity
-             *     in universe-settings-service. Populated from USS only when UniversePublicitySettingsTreatment
-             *     is ReverseShadow or Authority (USS is the source of truth in those modes); an empty list is
-             *     returned for Off and Shadow so clients always see a stable shape, never null.
+             * @description The audiences this universe is visible to (e.g. Editors, PlayTesters, Friends, Public).
+             *     Always non-null; may be empty when audience visibility has not been configured.
              */
             audiences?: (0 | 1 | 2 | 3 | 4)[];
         };
@@ -63217,6 +63219,12 @@ export interface components {
         'Roblox.Web.WebAPI.Models.ApiSuccessResponse': {
             success?: boolean;
         };
+        RobuxRateBreakdown: {
+            /** Format: double */
+            o18?: number | null;
+            /** Format: double */
+            standard?: number | null;
+        };
         /** @description RPN operand: attribute reference or literal value (same concepts as the proto `RpnOperand` oneof). */
         RpnOperandDto: {
             attributeReference?: string | null;
@@ -63931,6 +63939,7 @@ export interface components {
             currency?: components['schemas']['GenericCurrencyResponse'] | null;
             purchaseToken?: string | null;
             transactionSubtype?: string | null;
+            robuxRateBreakdown?: components['schemas']['RobuxRateBreakdown'] | null;
         };
         TransactionRecordResponseApiPageResponse: {
             previousPageCursor?: string | null;

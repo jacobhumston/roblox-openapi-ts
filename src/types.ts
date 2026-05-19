@@ -47567,8 +47567,7 @@ export interface paths {
                  *     24: Invalid scale value
                  *     28: OptIn/Out Regions Not Supported.
                  *     41: You cannot change the private server price again so soon after the previous change. Please try again later.
-                 *     42: This experience must be Public before its audience can include anything other than Editors. Call /activate first.
-                 *     44: The provided audience configuration is invalid. Ensure the audience list is not empty and contains only supported audience values.
+                 *     44: The provided audience configuration is invalid. Ensure the audience list contains only supported audience values.
                  */
                 400: {
                     headers: {
@@ -52804,6 +52803,8 @@ export interface components {
             previousPageCursor?: string | null;
             data?: components['schemas']['MyPrivateServersData'][] | null;
         };
+        /** @enum {string} */
+        O18EligibilityTag: 'None' | 'O18Eligible' | 'O18EligibleAndPlus';
         /** @description This resource represents a long-running operation that is the result of a network API call. */
         'OCV1.Assets.Operation': {
             /** @description The server-assigned resource path. The default format is `operations/{operation_id}`. */
@@ -63939,6 +63940,7 @@ export interface components {
             currency?: components['schemas']['GenericCurrencyResponse'] | null;
             purchaseToken?: string | null;
             transactionSubtype?: string | null;
+            o18EligibilityTag?: components['schemas']['O18EligibilityTag'] | null;
             robuxRateBreakdown?: components['schemas']['RobuxRateBreakdown'] | null;
         };
         TransactionRecordResponseApiPageResponse: {
@@ -64024,6 +64026,7 @@ export interface components {
             details?: components['schemas']['TransactionDetailsResponse'] | null;
             currency?: components['schemas']['GenericCurrencyResponse'] | null;
             purchaseToken?: string | null;
+            o18EligibilityTag?: components['schemas']['O18EligibilityTag'] | null;
         };
         TransactionResponseApiPageResponse: {
             previousPageCursor?: string | null;
@@ -64085,6 +64088,8 @@ export interface components {
             licensingPaymentTotal?: number;
             /** Format: int64 */
             licensingPaymentClawbackOutgoingTotal?: number;
+            /** Format: int64 */
+            robloxSelectOutgoingTotal?: number;
         };
         /** @enum {string} */
         TransactionType:
@@ -64115,7 +64120,8 @@ export interface components {
             | 'AffiliatePayout'
             | 'LicensingPayment'
             | 'LicensingPaymentClawback'
-            | 'CurrencyTransfer';
+            | 'CurrencyTransfer'
+            | 'RobloxSelectTransfer';
         TransactionUsedTypesResponse: {
             HasPurchase?: boolean;
             HasSale?: boolean;
@@ -64139,6 +64145,7 @@ export interface components {
             HasPublishingAdvanceRebates?: boolean;
             HasLicensingPayment?: boolean;
             HasTransfer?: boolean;
+            HasRobloxSelectTransfer?: boolean;
         };
         /**
          * @description Contains the text to be translated, the source language (optional), and a

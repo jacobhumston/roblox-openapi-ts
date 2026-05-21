@@ -14924,54 +14924,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/contacts/metadata': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Gets contextual information for contacts and usertags
-         * @deprecated
-         * @description Endpoint is Deprecated
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Contacts.Api.Models.Response.ContactsMetadataResponseModel'];
-                        'text/json': components['schemas']['Roblox.Contacts.Api.Models.Response.ContactsMetadataResponseModel'];
-                    };
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v1/contacts/{targetContactId}/request-friendship': {
         parameters: {
             query?: never;
@@ -53454,6 +53406,8 @@ export interface components {
          *     ExtendedServicesConfig
          *
          *     LeaderboardsConfig
+         *
+         *     ExperienceUserConfig
          * @enum {string}
          */
         Repository:
@@ -53461,7 +53415,8 @@ export interface components {
             | 'RecommendationServicesConfig'
             | 'DataStoresConfig'
             | 'ExtendedServicesConfig'
-            | 'LeaderboardsConfig';
+            | 'LeaderboardsConfig'
+            | 'ExperienceUserConfig';
         /**
          * @description The current state of a place restart.
          * @enum {string}
@@ -57649,12 +57604,6 @@ export interface components {
              *     If the channel is not flag-only, this is omitted.
              */
             isFlagOnly?: boolean;
-        };
-        'Roblox.Contacts.Api.Models.Response.ContactsMetadataResponseModel': {
-            /** Format: int32 */
-            multiGetContactsMaxSize?: number;
-            /** Format: int32 */
-            multiGetContactsCacheTTLinMS?: number;
         };
         'Roblox.Contacts.Api.Request.GetUserTagsRequestModel': {
             targetUserIds?: number[];
@@ -63325,6 +63274,13 @@ export interface components {
             tags?: string[] | null;
             /** @description The category path to filter by. */
             categoryPath?: string | null;
+            /**
+             * @description Optional swimlane identifier (e.g. "trending", "essential", "priced").
+             *     Resolves through Toolbox.Service.Interfaces.Swimlanes.ISwimlaneRegistry to a provider whose
+             *     default sort intent and search-builder configuration are applied to the
+             *     query. Unknown, disabled, or category-ineligible values yield 400.
+             */
+            swimlane?: string | null;
             /** @description Indicates which fields will be populated in the response. */
             searchView?: components['schemas']['SearchView'];
             /** @description Audio-specific search filters. */
@@ -68625,6 +68581,8 @@ export interface operations {
                  *     ExtendedServicesConfig
                  *
                  *     LeaderboardsConfig
+                 *
+                 *     ExperienceUserConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -68686,6 +68644,8 @@ export interface operations {
                  *     ExtendedServicesConfig
                  *
                  *     LeaderboardsConfig
+                 *
+                 *     ExperienceUserConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -68747,6 +68707,8 @@ export interface operations {
                  *     ExtendedServicesConfig
                  *
                  *     LeaderboardsConfig
+                 *
+                 *     ExperienceUserConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -68815,6 +68777,8 @@ export interface operations {
                  *     ExtendedServicesConfig
                  *
                  *     LeaderboardsConfig
+                 *
+                 *     ExperienceUserConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -68883,6 +68847,8 @@ export interface operations {
                  *     ExtendedServicesConfig
                  *
                  *     LeaderboardsConfig
+                 *
+                 *     ExperienceUserConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -68951,6 +68917,8 @@ export interface operations {
                  *     ExtendedServicesConfig
                  *
                  *     LeaderboardsConfig
+                 *
+                 *     ExperienceUserConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -69012,6 +68980,8 @@ export interface operations {
                  *     ExtendedServicesConfig
                  *
                  *     LeaderboardsConfig
+                 *
+                 *     ExperienceUserConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -69095,6 +69065,8 @@ export interface operations {
                  *     ExtendedServicesConfig
                  *
                  *     LeaderboardsConfig
+                 *
+                 *     ExperienceUserConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -69156,6 +69128,8 @@ export interface operations {
                  *     ExtendedServicesConfig
                  *
                  *     LeaderboardsConfig
+                 *
+                 *     ExperienceUserConfig
                  */
                 repository: components['schemas']['Repository'];
                 revisionId: string;

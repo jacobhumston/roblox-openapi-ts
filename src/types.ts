@@ -9788,365 +9788,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/secrets/v1/universes/{universeId}/secrets': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * List Secrets
-         * @description Lists all secrets defined for a universe.
-         *     Secret content is not returned for security reasons - only metadata such as ID, domain, creation and update timestamps are included.
-         *
-         *     Only the owner of the universe can list secrets. For group-owned universes, only the group owner or authorized
-         *     members can list secrets.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Number of secrets to return per page (1-500, default 10) */
-                    limit?: number;
-                    /** @description Pagination cursor from previous response */
-                    cursor?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The universe ID */
-                    universeId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['SecretPaginatedList'];
-                    };
-                };
-                /** @description Bad Request */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['SecretsStoreService.ProblemDetails'];
-                    };
-                };
-                /** @description Forbidden */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['SecretsStoreService.ProblemDetails'];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /**
-         * Create Secret
-         * @description Creates a new secret. A maximum of 500 secrets per universe is allowed.
-         *
-         *     Only the owner of the universe can create secrets. For group-owned universes, only the group owner or authorized
-         *     members can create secrets.
-         *
-         *     To encrypt the secret:
-         *     1. Get the public key using the Get Public Key endpoint
-         *     2. Encrypt your secret using LibSodium sealed box
-         *     3. Base64 encode the encrypted content
-         *
-         *     Include the key_id from the public key response in the request.
-         *
-         *     For an example, see the [Secrets store guide](https://create.roblox.com/docs/cloud/guides/secrets-store).
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The universe ID */
-                    universeId: number;
-                };
-                cookie?: never;
-            };
-            /** @description The secret to create with encrypted content */
-            requestBody?: {
-                content: {
-                    'application/json': components['schemas']['Secret'];
-                };
-            };
-            responses: {
-                /** @description Created */
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Secret'];
-                    };
-                };
-                /** @description Bad Request */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['SecretsStoreService.ProblemDetails'];
-                    };
-                };
-                /** @description Forbidden */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['SecretsStoreService.ProblemDetails'];
-                    };
-                };
-                /** @description Conflict */
-                409: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['SecretsStoreService.ProblemDetails'];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/secrets/v1/universes/{universeId}/secrets/public-key': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get Public Key
-         * @description Retrieves the public key for a universe. You need this key to encrypt secret content
-         *     before sending it to Roblox.
-         *
-         *     Only the owner of the universe can retrieve the public key. For group-owned universes, only the group owner or
-         *     authorized members can retrieve the public key.
-         *
-         *     The secret id field is static and always returns "public-key".
-         *
-         *     The returned public key in the secret field is universe-specific and derived from a master key using the universe ID.
-         *     Use this key with LibSodium sealed box encryption to encrypt your secret content before
-         *     creating or updating secrets.
-         *
-         *     Include the key_id from the public key response in the request to create or update a secret.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The universe ID */
-                    universeId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Secret'];
-                    };
-                };
-                /** @description Bad Request */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['SecretsStoreService.ProblemDetails'];
-                    };
-                };
-                /** @description Forbidden */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['SecretsStoreService.ProblemDetails'];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/secrets/v1/universes/{universeId}/secrets/{secretId}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /**
-         * Delete Secret
-         * @description Permanently deletes a secret from a universe.
-         *
-         *     Only the owner of the universe can delete secrets. For group-owned universes, only the group owner or authorized
-         *     members can delete secrets.
-         *
-         *     This operation is irreversible. Make sure you no longer need the secret before deleting it.
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The universe ID */
-                    universeId: number;
-                    /** @description The ID of the secret to delete */
-                    secretId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description Bad Request */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['SecretsStoreService.ProblemDetails'];
-                    };
-                };
-                /** @description Forbidden */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['SecretsStoreService.ProblemDetails'];
-                    };
-                };
-                /** @description Not Found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['SecretsStoreService.ProblemDetails'];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        /**
-         * Update Secret
-         * @description Updates an existing secret.
-         *
-         *     Only the owner of the universe can update secrets. For group-owned universes, only the group owner or authorized
-         *     members can update secrets.
-         *
-         *     Only the secret content, key_id, and domain can be updated - the secret ID cannot be changed.
-         *
-         *     To encrypt the updated secret:
-         *     1. Get the current public key using the GetPublicKey endpoint
-         *     2. Encrypt your new secret content using LibSodium sealed box
-         *     3. Base64 encode the encrypted content
-         *
-         *     Include the key_id from the public key response in the request.
-         *
-         *     For an example, see the [Secrets store guide](https://create.roblox.com/docs/cloud/guides/secrets-store).
-         */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The universe ID */
-                    universeId: number;
-                    /** @description The ID of the secret to update */
-                    secretId: string;
-                };
-                cookie?: never;
-            };
-            /** @description The updated secret data with encrypted content */
-            requestBody?: {
-                content: {
-                    'application/json': components['schemas']['Secret'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Secret'];
-                    };
-                };
-                /** @description Bad Request */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['SecretsStoreService.ProblemDetails'];
-                    };
-                };
-                /** @description Forbidden */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['SecretsStoreService.ProblemDetails'];
-                    };
-                };
-                /** @description Not Found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['SecretsStoreService.ProblemDetails'];
-                    };
-                };
-            };
-        };
-        trace?: never;
-    };
     '/server-management/v1/universes/{universeId}/places/{placeId}/game-servers:filter-options': {
         parameters: {
             query?: never;
@@ -10208,102 +9849,6 @@ export interface paths {
         };
         /** Forecast the impact of restarting game servers for a universe. */
         get: operations['Restarts_ForecastRestart'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/thumbnail-personalization-api/v1/universe/{universeId}/personalization': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations['HomepageThumbnail_FindThumbnailPersonalizations'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/thumbnail-personalization-api/v1/universe/{universeId}/personalization/create': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations['HomepageThumbnail_CreateThumbnailPersonalization'];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/thumbnail-personalization-api/v1/universe/{universeId}/personalization/update': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations['HomepageThumbnail_UpdateThumbnailPersonalization'];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/thumbnail-personalization-api/v1/universe/{universeId}/thumbnails': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations['HomepageThumbnail_GetHomepageThumbnails'];
-        put?: never;
-        post?: never;
-        delete: operations['HomepageThumbnail_DeleteHomepageThumbnails'];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/thumbnail-personalization-api/v1/universe/{universeId}/thumbnails/uploads': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations['HomepageThumbnail_UploadHomepageThumbnails'];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/thumbnail-personalization-api/v1/universe/{universeId}/thumbnails/uploads/status': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations['HomepageThumbnail_GetHomepageThumbnailsStatus'];
         put?: never;
         post?: never;
         delete?: never;
@@ -14617,7 +14162,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Returns list of item details. */
+        /**
+         * Returns details for one or more catalog items.
+         * @description There is an item count limit per request. Exceeding this returns 400 Bad Request.
+         */
         post: {
             parameters: {
                 query?: never;
@@ -27912,43 +27460,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/metadata#ThumbnailsApi': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Return list of thumbnail meta data. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Thumbnails.Api.Models.ThumbnailMetaDataResponse'];
-                        'text/json': components['schemas']['Roblox.Thumbnails.Api.Models.ThumbnailMetaDataResponse'];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v1/metadata#TwoStepVerificationApi': {
         parameters: {
             query?: never;
@@ -33864,6 +33375,13 @@ export interface paths {
                         'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Badges.Api.BadgeResponse_'];
                     };
                 };
+                /** @description 26: The pagination cursor is invalid or incompatible with the current request. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
                 /** @description 3: The game is invalid or does not exist. */
                 404: {
                     headers: {
@@ -37701,7 +37219,9 @@ export interface paths {
                         | 87
                         | 88
                         | 89
-                        | 90;
+                        | 90
+                        | 91
+                        | 92;
                     /** @description The number of results per request. */
                     limit?: 10 | 25 | 50 | 100;
                     /** @description The paging cursor for the previous or next page. */
@@ -48380,6 +47900,8 @@ export interface paths {
                         | 88
                         | 89
                         | 90
+                        | 91
+                        | 92
                     )[];
                     /** @description Filters moderated assets when enabled. */
                     filterDisapprovedAssets?: boolean;
@@ -49800,9 +49322,6 @@ export interface components {
              */
             collectionName?: string | null;
         } | null;
-        CreateThumbnailPersonalizationRequest: {
-            homepageThumbnailIds: string[];
-        };
         /** @description The context of creation that is not part of the asset content, such as metadata and creator information. Required for [Create Asset](#POST-v1-assets). */
         CreationContext: {
             /** @description Desired privacy setting for the asset on creation. Only applies to asset types that support privacy override. */
@@ -50419,10 +49938,6 @@ export interface components {
          * @enum {string}
          */
         FilterType: 'String' | 'Number';
-        FindThumbnailsResponse: {
-            homepageThumbnails: components['schemas']['HomepageThumbnail'][];
-            nextCursor?: string | null;
-        };
         /**
          * @description Represents metadata about the long-running operation corresponding to a
          *     FlushMemoryStore request.
@@ -51246,16 +50761,6 @@ export interface components {
              */
             bypassSlowMode?: boolean;
         };
-        HomepageThumbnail: {
-            homepageThumbnailId: string;
-            /** Format: int64 */
-            assetId: number;
-            moderationStatus: components['schemas']['ThumbnailPersonalizationApi.ModerationStatus'];
-            personalizedConfigStatus: components['schemas']['PersonalizedConfigStatus'];
-            homepageThumbnailStatus: components['schemas']['HomepageThumbnailStatus'];
-        };
-        /** @enum {string} */
-        HomepageThumbnailStatus: 'Active' | 'Spammy';
         HttpContent: {
             readonly headers?: components['schemas']['StringStringIEnumerableKeyValuePair'][] | null;
         };
@@ -52900,8 +52405,6 @@ export interface components {
             /** @description The name of the entry. */
             readonly id?: string;
         };
-        /** @enum {string} */
-        PersonalizedConfigStatus: 'Active' | 'Inactive';
         /** @description Represents a Roblox place. */
         Place: {
             /**
@@ -57349,6 +56852,7 @@ export interface components {
             id?: number;
         };
         'Roblox.Catalog.Api.MultigetItemDetailsRequestModel': {
+            /** @description The items to retrieve details for. Each endpoint has an item count limit per request. */
             items?: components['schemas']['Roblox.Catalog.Api.MultigetItemDetailsRequestItem'][];
         };
         /** @description A model to represent owned bundles. */
@@ -59944,6 +59448,8 @@ export interface components {
             Recipients?: components['schemas']['Roblox.Groups.Api.PayoutRecipientRequest'][];
             /** @description The idempotency key of the payout request. */
             IdempotencyKey?: string;
+            /** @description Optional watermark contributions for DevEx attribution tracking. */
+            WatermarkContributions?: components['schemas']['Roblox.Groups.Api.WatermarkContributionRequest'][];
         };
         /** @description A request model for setting the authenticated user's primary group. */
         'Roblox.Groups.Api.PostGroupStatusRequest': {
@@ -60200,6 +59706,15 @@ export interface components {
             user?: components['schemas']['Roblox.Groups.Api.Models.Response.UserModel'];
             role?: components['schemas']['Roblox.Groups.Api.GroupRoleResponse'];
         };
+        'Roblox.Groups.Api.WatermarkContributionRequest': {
+            /**
+             * @description ['Standard' = 1, 'O18Boosted' = 2]
+             * @enum {string}
+             */
+            balanceKey?: 'Standard' | 'O18Boosted';
+            /** Format: int64 */
+            amount?: number;
+        };
         'Roblox.Groups.Client.BlockedKeywordModel': {
             id?: string;
             keyword?: string;
@@ -60320,10 +59835,10 @@ export interface components {
             name?: string;
             /**
              * Format: int32
-             * @description ['User' = 1, 'Group' = 2]
+             * @description ['User' = 1, 'Group' = 2, 'Experience' = 3]
              * @enum {integer}
              */
-            type?: 1 | 2;
+            type?: 1 | 2 | 3;
         };
         /** @description Model representing an inventory item */
         'Roblox.Inventory.Api.Models.IItemModel': {
@@ -60441,7 +59956,7 @@ export interface components {
             name?: string;
             /**
              * Format: int32
-             * @description The asset type id of asset with id Roblox.Inventory.Api.V2.UserAssetItemModelV2.AssetId. ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90]
+             * @description The asset type id of asset with id Roblox.Inventory.Api.V2.UserAssetItemModelV2.AssetId. ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92]
              * @enum {integer}
              */
             assetType?:
@@ -60527,7 +60042,9 @@ export interface components {
                 | 87
                 | 88
                 | 89
-                | 90;
+                | 90
+                | 91
+                | 92;
             /**
              * Format: date-time
              * @description The created date time of the user asset.
@@ -61402,16 +60919,6 @@ export interface components {
             balance?: number;
             /** @description Boolean, true if the user can afford to purchase the publishing of the audio file. */
             canAfford?: boolean;
-        };
-        /** @description A response model for thumbnails which belong to a specific universe ID */
-        'Roblox.Thumbnails.Api.Models.ThumbnailMetaDataResponse': {
-            /** @description webapp use cache */
-            isWebappUseCacheEnabled?: boolean;
-            /**
-             * Format: date-span
-             * @description webapp caching expiration in ms
-             */
-            webappCacheExpirationTimspan?: string;
         };
         /** @description A response model for thumbnails which belong to a specific universe ID */
         'Roblox.Thumbnails.Api.Models.UniverseThumbnailsResponse': {
@@ -63811,8 +63318,6 @@ export interface components {
                 | 'SUBSCRIBER_REFUNDED'
                 | 'LAPSED';
         };
-        /** @enum {string} */
-        'ThumbnailPersonalizationApi.ModerationStatus': 'Reviewing' | 'Rejected' | 'Approved' | 'Unspecified';
         'ThumbnailsApi.Roblox.Web.Responses.Thumbnails.ThumbnailResponse': {
             /** Format: int64 */
             targetId?: number;
@@ -64044,6 +63549,10 @@ export interface components {
             licensingPaymentTotal?: number;
             /** Format: int64 */
             licensingPaymentClawbackOutgoingTotal?: number;
+            /** Format: int64 */
+            incomingRobuxTransferTotal?: number;
+            /** Format: int64 */
+            outgoingRobuxTransferTotal?: number;
             /** Format: int64 */
             robloxSelectOutgoingTotal?: number;
         };
@@ -64467,32 +63976,6 @@ export interface components {
         /** @description The response for updating a matchmaking server attribute definition. */
         UpdateMatchmakingServerAttributeDefinitionResponse: {
             playerAttributeDefinition?: components['schemas']['MatchmakingServerAttributeDefinition'];
-        };
-        UpdateThumbnailPersonalizationRequest: {
-            homepageThumbnailIds: string[];
-            id: string;
-        };
-        /**
-         * Format: int32
-         * @enum {integer}
-         */
-        UploadStatus: 1 | 2;
-        UploadThumbnailStatus: {
-            homepageThumbnailId?: string | null;
-            /** Format: int64 */
-            assetId?: number;
-            moderationStatus?: components['schemas']['ThumbnailPersonalizationApi.ModerationStatus'];
-        };
-        UploadThumbnailsResponse: {
-            fileToOperationIdDict: {
-                [key: string]: string | null;
-            };
-        };
-        UploadThumbnailsStatusResponse: {
-            uploadStatus: components['schemas']['UploadStatus'];
-            uploadThumbnailStatusDict: {
-                [key: string]: components['schemas']['UploadThumbnailStatus'];
-            };
         };
         /** @description Represents any registered user of Roblox. */
         User: {
@@ -70827,443 +70310,6 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['ServerManagementService.ProblemDetails'];
-                };
-            };
-        };
-    };
-    HomepageThumbnail_FindThumbnailPersonalizations: {
-        parameters: {
-            query?: {
-                status?: components['schemas']['PersonalizedConfigStatus'];
-                limit?: number;
-                cursor?: string;
-            };
-            header?: never;
-            path: {
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-        };
-    };
-    HomepageThumbnail_CreateThumbnailPersonalization: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                'application/json-patch+json': components['schemas']['CreateThumbnailPersonalizationRequest'];
-                'application/json': components['schemas']['CreateThumbnailPersonalizationRequest'];
-                'text/json': components['schemas']['CreateThumbnailPersonalizationRequest'];
-                'application/*+json': components['schemas']['CreateThumbnailPersonalizationRequest'];
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-        };
-    };
-    HomepageThumbnail_UpdateThumbnailPersonalization: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                'application/json-patch+json': components['schemas']['UpdateThumbnailPersonalizationRequest'];
-                'application/json': components['schemas']['UpdateThumbnailPersonalizationRequest'];
-                'text/json': components['schemas']['UpdateThumbnailPersonalizationRequest'];
-                'application/*+json': components['schemas']['UpdateThumbnailPersonalizationRequest'];
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-        };
-    };
-    HomepageThumbnail_GetHomepageThumbnails: {
-        parameters: {
-            query?: {
-                limit?: number;
-                nextCursor?: string;
-            };
-            header?: never;
-            path: {
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['FindThumbnailsResponse'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-        };
-    };
-    HomepageThumbnail_DeleteHomepageThumbnails: {
-        parameters: {
-            query?: {
-                homepageThumbnailIds?: string[];
-            };
-            header?: never;
-            path: {
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-        };
-    };
-    HomepageThumbnail_UploadHomepageThumbnails: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                'multipart/form-data': {
-                    files?: string[];
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['UploadThumbnailsResponse'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-        };
-    };
-    HomepageThumbnail_GetHomepageThumbnailsStatus: {
-        parameters: {
-            query?: {
-                operationIds?: string[];
-            };
-            header?: never;
-            path: {
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['UploadThumbnailsStatusResponse'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['ActionResult'];
                 };
             };
         };

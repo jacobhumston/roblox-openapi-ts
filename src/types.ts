@@ -63554,6 +63554,8 @@ export interface components {
             /** Format: int64 */
             outgoingRobuxTransferTotal?: number;
             /** Format: int64 */
+            robloxSelectIncomingTotal?: number;
+            /** Format: int64 */
             robloxSelectOutgoingTotal?: number;
         };
         /** @enum {string} */

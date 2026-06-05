@@ -22940,6 +22940,7 @@ export interface paths {
                  *     23: Insufficient permissions to complete the request.
                  *     28: Group has paid out too recently. Please wait and try again.
                  *     35: 2-Step Verification is required to make further transactions. Go to Settings > Security to complete 2-Step Verification.
+                 *     52: Group has paid out to this recipient too many times recently. Please try again later.
                  */
                 403: {
                     headers: {
@@ -48609,6 +48610,134 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v4/avatar': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Gets the currently wearing avatar definition for the authenticated user.
+         * @description Returns an Roblox.Api.Avatar.Models.V4.AvatarDefinition containing an Roblox.Api.Avatar.Models.V4.AvatarModelV4 and Roblox.Api.Avatar.Models.V4.AvatarConfigurations.
+         */
+        get: {
+            parameters: {
+                query: {
+                    /** @description Selection types for the avatar data to return. */
+                    selectionTypes: (0 | 1 | 2 | 3 | 4 | 5)[];
+                };
+                header?: {
+                    'Roblox-Place-Id'?: number;
+                };
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarDefinition'];
+                        'text/json': components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarDefinition'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v4/outfits/{outfitId}/details': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Gets the definition for an outfit.
+         * @description Returns an Roblox.Api.Avatar.Models.V4.OutfitDefinition containing an Roblox.Api.Avatar.Models.V4.OutfitModelV4 and background Roblox.Api.Avatar.Models.V4.OutfitConfigurations.
+         */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The selection types for the outfit data to return. */
+                    selectionTypes: (0 | 1)[];
+                };
+                header?: {
+                    'Roblox-Place-Id'?: number;
+                };
+                path: {
+                    /** @description The outfit id. */
+                    outfitId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Api.Avatar.Models.V4.OutfitDefinition'];
+                        'text/json': components['schemas']['Roblox.Api.Avatar.Models.V4.OutfitDefinition'];
+                    };
+                };
+                /** @description 2: The outfit for the specified userOutfit is invalid. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: The requester does not have access to the details for the given user outfit. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: The specified userOutfitId is invalid. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -54218,6 +54347,39 @@ export interface components {
             /** @description Whether or not emotes are enabled */
             emotesEnabledForUser?: boolean;
         };
+        /** @description A model describing a the camera details for a single avatar thumbnail customization. */
+        'Roblox.Api.Avatar.Models.AvatarThumbnailCustomizationCameraModel': {
+            /**
+             * Format: double
+             * @description Field of view for the camera, in degrees.
+             */
+            fieldOfViewDeg?: number;
+            /**
+             * Format: double
+             * @description Rotation around y axis, in degrees.
+             */
+            yRotDeg?: number;
+            /**
+             * Format: double
+             * @description There's a natural camera distance we calculate based on avatar size. Apply this scale to that distance.
+             */
+            distanceScale?: number;
+        };
+        /** @description A model describing a single avatar thumbnail customization. */
+        'Roblox.Api.Avatar.Models.AvatarThumbnailCustomizationModel': {
+            /**
+             * Format: int32
+             * @description What type of 2D thumbnail are we customizing: |Closeup, FullBody.
+             * @enum {integer}
+             */
+            thumbnailType?: 0 | 1 | 2;
+            /**
+             * Format: int64
+             * @description What emote are we using to pose the avatar in the thumbnail.
+             */
+            emoteAssetId?: number;
+            camera?: components['schemas']['Roblox.Api.Avatar.Models.AvatarThumbnailCustomizationCameraModel'];
+        };
         /** @description A model container BrickColor ids for each body part. */
         'Roblox.Api.Avatar.Models.BodyColorModel': {
             /**
@@ -54463,6 +54625,70 @@ export interface components {
             /** Format: int32 */
             assetTypeID?: number;
             isPlayerChoice?: boolean;
+        };
+        /** @description A model containing avatar background data. */
+        'Roblox.Api.Avatar.Models.V4.AvatarBackgroundModel': {
+            backgroundAsset?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'];
+        };
+        /** @description Avatar config details. */
+        'Roblox.Api.Avatar.Models.V4.AvatarConfigurations': {
+            /** @description The emotes on the character. */
+            emotes?: components['schemas']['Roblox.Api.Avatar.Models.EmoteResponseModel'][];
+            background?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarBackgroundModel'];
+            /** @description List of customizations set for this avatar. At most one per thumbnail type (Closeup, FullBody). */
+            thumbnailCustomizations?: components['schemas']['Roblox.Api.Avatar.Models.AvatarThumbnailCustomizationModel'][];
+        };
+        /** @description Details about an avatar. */
+        'Roblox.Api.Avatar.Models.V4.AvatarDefinition': {
+            avatarModel?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarModelV4'];
+            avatarConfigurations?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarConfigurations'];
+        };
+        /** @description A model containing details about an avatar. */
+        'Roblox.Api.Avatar.Models.V4.AvatarModelV4': {
+            scales?: components['schemas']['Roblox.Web.Responses.Avatar.ScaleModel'];
+            /**
+             * Format: int32
+             * @description The avatar type.
+             * @enum {integer}
+             */
+            playerAvatarType?: 1 | 3;
+            bodyColor3s?: components['schemas']['Roblox.Api.Avatar.Models.BodyColors3Model'];
+            /** @description The assets worn on the character. */
+            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
+        };
+        /** @description Background configuration for an outfit. */
+        'Roblox.Api.Avatar.Models.V4.OutfitConfigurations': {
+            background?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarBackgroundModel'];
+        };
+        /** @description Details about an outfit. */
+        'Roblox.Api.Avatar.Models.V4.OutfitDefinition': {
+            outfitModel?: components['schemas']['Roblox.Api.Avatar.Models.V4.OutfitModelV4'];
+            outfitConfigurations?: components['schemas']['Roblox.Api.Avatar.Models.V4.OutfitConfigurations'];
+        };
+        /** @description A model containing core outfit details. */
+        'Roblox.Api.Avatar.Models.V4.OutfitModelV4': {
+            /** @description The outfit id. */
+            id?: string;
+            /** @description The outfit name. */
+            name?: string;
+            /** @description Whether the outfit can be modified by the user. */
+            isEditable?: boolean;
+            /**
+             * Format: int32
+             * @description The type of the outfit.
+             * @enum {integer}
+             */
+            outfitType?: 0 | 1 | 2 | 4 | 5;
+            /** @description The assets on the outfit. */
+            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
+            bodyColor3s?: components['schemas']['Roblox.Api.Avatar.Models.BodyColors3Model'];
+            scale?: components['schemas']['Roblox.Web.Responses.Avatar.ScaleModel'];
+            /**
+             * Format: int32
+             * @description The player avatar type.
+             * @enum {integer}
+             */
+            playerAvatarType?: 1 | 3;
         };
         /** @description A model that contains a list of AssetWear models */
         'Roblox.Api.Avatar.Models.WearRequestModel': {

@@ -45329,24 +45329,24 @@ export interface paths {
          */
         get: {
             parameters: {
-                query: {
-                    Taxonomy: string;
-                    AssetTypeIds: number[];
-                    BundleTypeIds: number[];
-                    CategoryFilter: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
-                    SortAggregation: 0 | 1 | 2 | 3 | 4 | 5;
-                    SortType: 0 | 1 | 2 | 3 | 4 | 5;
-                    CreatorType: 0 | 1 | 2;
-                    CreatorTargetId: number;
-                    CreatorName: string;
-                    MaxPrice: number;
-                    MinPrice: number;
-                    Keyword: string;
-                    IncludeNotForSale: boolean;
-                    TriggeredByTopicDiscovery: boolean;
-                    SalesTypeFilter: 0 | 1 | 2 | 3 | 4;
+                query?: {
+                    Taxonomy?: string;
+                    AssetTypeIds?: number[];
+                    BundleTypeIds?: number[];
+                    CategoryFilter?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+                    SortAggregation?: 0 | 1 | 2 | 3 | 4 | 5;
+                    SortType?: 0 | 1 | 2 | 3 | 4 | 5;
+                    CreatorType?: 0 | 1 | 2;
+                    CreatorTargetId?: number;
+                    CreatorName?: string;
+                    MaxPrice?: number;
+                    MinPrice?: number;
+                    Keyword?: string;
+                    IncludeNotForSale?: boolean;
+                    TriggeredByTopicDiscovery?: boolean;
+                    SalesTypeFilter?: 0 | 1 | 2 | 3 | 4;
                     /** @description The input topics format is split by ",". E.g "topics=cat,hat,red". */
-                    Topics: string;
+                    Topics?: string;
                     /** @description The number of results per request. */
                     limit?: 10 | 28 | 30 | 60 | 120;
                     /** @description The paging cursor for the previous or next page. */
@@ -62945,7 +62945,7 @@ export interface components {
          * @description Represents audio type values that will be properly displayed in Swagger UI.
          * @enum {string}
          */
-        SearchAudioTypeModel: 'Music' | 'SoundEffect';
+        SearchAudioTypeModel: 'Music' | 'SoundEffect' | 'Unknown';
         /**
          * @description This represents a "subset" of Toolbox.Service.CategoryType options and represent the full set
          *     of "categories" (or asset types) that can be searched upon from the toolbox search API.

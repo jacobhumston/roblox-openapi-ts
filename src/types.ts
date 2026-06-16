@@ -7447,7 +7447,9 @@ export interface paths {
                         | 'UpdateGroupIcon'
                         | 'UpdateGroupCoverPhoto'
                         | 'AssignRole'
-                        | 'UnassignRole';
+                        | 'UnassignRole'
+                        | 'PublishAnnouncement'
+                        | 'DeleteAnnouncement';
                     /** @description Filter for specific user id */
                     userId?: number;
                     /** @description The number of results per request. */
@@ -14085,85 +14087,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/contacts/{targetContactId}/request-friendship': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Send a contact friend request to target user */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The target contact Id for friend request */
-                    targetContactId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Friends.Api.CaptchaStatusResponseModel'];
-                        'text/json': components['schemas']['Roblox.Friends.Api.CaptchaStatusResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: The target user is invalid or does not exist.
-                 *     5: The target user is already a friend.
-                 *     6: Invalid parameters.
-                 *     7: The user cannot be friends with itself.
-                 *     31: User with max friends sent friend request.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     2: The user is banned from performing operation.
-                 *     3: The user is blocked from performing this action.
-                 *     14: The user has not passed the captcha.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 9: The flood limit has been exceeded. */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v1/country-regions': {
         parameters: {
             query?: never;
@@ -20236,7 +20159,9 @@ export interface paths {
                         | 'UpdateGroupIcon'
                         | 'UpdateGroupCoverPhoto'
                         | 'AssignRole'
-                        | 'UnassignRole';
+                        | 'UnassignRole'
+                        | 'PublishAnnouncement'
+                        | 'DeleteAnnouncement';
                     /** @description Filter for specific user id */
                     userId?: number;
                     /** @description The number of results per request. */
@@ -21040,6 +20965,58 @@ export interface paths {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/community-feature-freezes': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the freeze status of the community features for a group. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GetCommunityFeatureFreezesResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 49: User is invalid or does not exist */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -26603,56 +26580,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/my/new-friend-requests': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Friends.Api.Models.Response.ClearNewFriendRequestResponse'];
-                        'text/json': components['schemas']['Roblox.Friends.Api.Models.Response.ClearNewFriendRequestResponse'];
-                    };
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Token Validation Failed */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v1/my/new-friend-requests/count': {
         parameters: {
             query?: never;
@@ -32055,57 +31982,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/user/friend-requests/decline-all': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Decline all pending friend requests for the authenticated user. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Friends.Api.Models.Response.DeclineAllFriendRequestsResponse'];
-                        'text/json': components['schemas']['Roblox.Friends.Api.Models.Response.DeclineAllFriendRequestsResponse'];
-                    };
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Token Validation Failed */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v1/user/get-tags': {
         parameters: {
             query?: never;
@@ -33367,213 +33243,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/users/{requesterUserId}/accept-friend-request': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Accept a friend request. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The user Id of the requester */
-                    requesterUserId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: The target user is invalid or does not exist.
-                 *     10: The friend request does not exist.
-                 *     11: The current users friends limit has been exceeded.
-                 *     12: The target users friends limit has been exceeded.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     3: The user is blocked from performing this action.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/users/{requesterUserId}/decline-friend-request': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Decline a friend request. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The user Id of the requester */
-                    requesterUserId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: The target user is invalid or does not exist.
-                 *     10: The friend request does not exist.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Token Validation Failed */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/users/{senderUserId}/accept-friend-request-with-token': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Accept a friend request with an Off Network Friending token. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The user id of the sender of the off network friend request */
-                    senderUserId: number;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Friends.Api.Models.Request.FriendingTokenRequestModel'];
-                    'text/json': components['schemas']['Roblox.Friends.Api.Models.Request.FriendingTokenRequestModel'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: The target user is invalid or does not exist.
-                 *     3: The user is blocked from performing this action.
-                 *     5: The target user is already a friend.
-                 *     6: Invalid parameters.
-                 *     7: The user cannot be friends with itself.
-                 *     11: The current users friends limit has been exceeded.
-                 *     12: The target users friends limit has been exceeded.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Token Validation Failed */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v1/users/{targetUserId}/follow': {
         parameters: {
             query?: never;
@@ -33893,94 +33562,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/users/{targetUserId}/request-friendship': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Send a friend request to target user */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The target user Id for friend request */
-                    targetUserId: number;
-                };
-                cookie?: never;
-            };
-            /** @description The source which the friend request originated from */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Friends.Api.FriendshipRequestModel'];
-                    'text/json': components['schemas']['Roblox.Friends.Api.FriendshipRequestModel'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Friends.Api.CaptchaStatusResponseModel'];
-                        'text/json': components['schemas']['Roblox.Friends.Api.CaptchaStatusResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: The target user is invalid or does not exist.
-                 *     5: The target user is already a friend.
-                 *     6: Invalid parameters.
-                 *     7: The user cannot be friends with itself.
-                 *     10: The friend request does not exist.
-                 *     13: The users are not in the same game.
-                 *     31: User with max friends sent friend request.
-                 *     35: Invalid nickname.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     2: The user is banned from performing operation.
-                 *     3: The user is blocked from performing this action.
-                 *     14: The user has not passed the captcha.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 9: The flood limit has been exceeded. */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v1/users/{targetUserId}/unfollow': {
         parameters: {
             query?: never;
@@ -34044,67 +33625,6 @@ export interface paths {
                 };
                 /** @description 9: The flood limit has been exceeded. */
                 429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/users/{targetUserId}/unfriend': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Unfriend a user */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The target user id to unfriend */
-                    targetUserId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /** @description 1: The target user is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Token Validation Failed */
-                403: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -51917,8 +51437,6 @@ export interface components {
              * @enum {integer}
              */
             fiatModerationStatus?: 0 | 1 | 2 | 3 | 4;
-            /** @description Whether the game is elegible for text chat service auto migration. */
-            eligibleForTextChatMigration?: boolean;
             /**
              * @description The audiences this universe is visible to (e.g. Editors, PlayTesters, Friends, Public).
              *     Always non-null; may be empty when audience visibility has not been configured.
@@ -53840,31 +53358,6 @@ export interface components {
              */
             count?: number;
         };
-        'Roblox.Friends.Api.FriendshipRequestModel': {
-            /**
-             * Format: int32
-             * @description Which source the friend request originated from ['Unknown' = 0, 'PlayerSearch' = 1, 'QrCode' = 2, 'InGame' = 3, 'UserProfile' = 4, 'QqContactImporter' = 5, 'WeChatContactImporter' = 6, 'ProfileShare' = 7, 'PhoneContactImporter' = 8, 'FriendRecommendations' = 9, 'UserCommunities' = 10]
-             * @enum {integer}
-             */
-            friendshipOriginSourceType?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-            /** @description Optional nickname attached to friend request */
-            senderNickname?: string;
-        };
-        /** @description Request model for AcceptFriendRequestWithToken endpoint */
-        'Roblox.Friends.Api.Models.Request.FriendingTokenRequestModel': {
-            /** @description FriendingToken to authorize the creation of an Off Network Friend request */
-            friendingToken?: string;
-        };
-        /** @description The friendship status response model. */
-        'Roblox.Friends.Api.Models.Response.ClearNewFriendRequestResponse': {
-            /** @description Returns if the cache was successfully cleared. */
-            status?: boolean;
-        };
-        /** @description response for DeclineAllFriendRequests */
-        'Roblox.Friends.Api.Models.Response.DeclineAllFriendRequestsResponse': {
-            /** @description Whether or not the decline all job has been backgrounded */
-            backgrounded?: boolean;
-        };
         /** @description Response contained in list for FollowingExists endpoint. Corresponds to a single userId. */
         'Roblox.Friends.Api.Models.Response.FollowingExistsResponse': {
             /** @description Whether or not a user is following userId in FriendsController.FollowingExists */
@@ -55114,6 +54607,13 @@ export interface components {
              */
             userId?: number;
         };
+        /** @description Response model representing the freeze status of a community feature. */
+        'Roblox.Groups.Api.CommunityFeatureFreezeStatus': {
+            /** @description The community feature. */
+            feature?: string;
+            /** @description Whether the feature is currently disabled. */
+            isDisabled?: boolean;
+        };
         'Roblox.Groups.Api.CreateBlockedKeywordsRequest': {
             keywords?: string;
             isPrivate?: boolean;
@@ -55126,6 +54626,11 @@ export interface components {
             captchaToken?: string;
             captchaProvider?: string;
             challengeId?: string;
+        };
+        /** @description Response model for the community feature freezes endpoint. */
+        'Roblox.Groups.Api.GetCommunityFeatureFreezesResponse': {
+            /** @description The freeze status of each community feature. */
+            features?: components['schemas']['Roblox.Groups.Api.CommunityFeatureFreezeStatus'][];
         };
         /** @description Response model for the group features endpoint. */
         'Roblox.Groups.Api.GetGroupFeaturesResponse': {
@@ -55305,10 +54810,16 @@ export interface components {
         /** @description Response model representing the freeze status of a group feature. */
         'Roblox.Groups.Api.GroupFeatureResponse': {
             /**
-             * @description The feature type. ['Payouts' = 0, 'ContentUpload' = 1, 'GroupOwnershipTransfer' = 2, 'GameOwnershipTransfer' = 3]
+             * @description The feature type. ['Payouts' = 0, 'ContentUpload' = 1, 'GroupOwnershipTransfer' = 2, 'GameOwnershipTransfer' = 3, 'ForumRead' = 4, 'ForumWrite' = 5]
              * @enum {string}
              */
-            feature?: 'Payouts' | 'ContentUpload' | 'GroupOwnershipTransfer' | 'GameOwnershipTransfer';
+            feature?:
+                | 'Payouts'
+                | 'ContentUpload'
+                | 'GroupOwnershipTransfer'
+                | 'GameOwnershipTransfer'
+                | 'ForumRead'
+                | 'ForumWrite';
             /** @description Whether the feature is currently frozen. */
             isFeatureBlocked?: boolean;
             /**
@@ -55398,6 +54909,8 @@ export interface components {
             isBannedFromGroup?: boolean;
             /** @description Whether the user can view the group member list */
             canViewMemberList?: boolean;
+            /** @description Whether the authenticated user is the owner of the group */
+            isOwner?: boolean;
         };
         /** @description A model representing data about an Roblox.Platform.Membership.IUser */
         'Roblox.Groups.Api.GroupMembershipPermissionsModel': {
@@ -56030,6 +55543,16 @@ export interface components {
                  * @enum {string}
                  */
                 GameOwnershipTransfer?: 'On' | 'Blocked';
+                /**
+                 * @description The desired status of a group feature. ['On' = 0, 'Blocked' = 1]
+                 * @enum {string}
+                 */
+                ForumRead?: 'On' | 'Blocked';
+                /**
+                 * @description The desired status of a group feature. ['On' = 0, 'Blocked' = 1]
+                 * @enum {string}
+                 */
+                ForumWrite?: 'On' | 'Blocked';
             };
         };
         /** @description Response model for setting the desired status of group features. */
@@ -59226,8 +58749,11 @@ export interface components {
         SearchCategoryType: 'Audio' | 'Model' | 'Decal' | 'Plugin' | 'MeshPart' | 'Video' | 'FontFamily';
         /** @description Request model for searching Creator Store assets. */
         SearchCreatorStoreAssetsRequest: {
-            /** @description The asset type to search within. */
-            searchCategoryType: components['schemas']['SearchCategoryType'];
+            /**
+             * @description The asset type to search within. Optional when Toolbox.Service.SearchCreatorStoreAssetsRequest.CategoryPath
+             *     resolves to an asset type; otherwise required.
+             */
+            searchCategoryType?: components['schemas']['SearchCategoryType'] | null;
             /** @description The search terms used to filter the results. Only one of 'query' and 'image' can be present in a query. */
             query?: string | null;
             /**

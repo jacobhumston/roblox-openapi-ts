@@ -1,6 +1,6 @@
 {
     "name": "@jacobhumston/roblox-openapi-ts",
-    "version": "1.0.18",
+    "version": "1.0.19",
     "description": "An automatically updated Roblox API client based on their OpenAPI documentation.",
     "keywords": [
         "roblox",

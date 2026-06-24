@@ -10365,10 +10365,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['ThumbnailsApi.Roblox.Web.Responses.Thumbnails.ThumbnailResponse'];
-                        'text/json': components['schemas']['ThumbnailsApi.Roblox.Web.Responses.Thumbnails.ThumbnailResponse'];
-                    };
+                    content?: never;
                 };
                 /** @description 4: The requested Ids are invalid, of an invalid type or missing. */
                 400: {
@@ -10653,10 +10650,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                    };
+                    content?: never;
                 };
                 /**
                  * @description 1: There are too many requested Ids.
@@ -10719,10 +10713,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['ThumbnailsApi.Roblox.Web.Responses.Thumbnails.ThumbnailResponse'];
-                        'text/json': components['schemas']['ThumbnailsApi.Roblox.Web.Responses.Thumbnails.ThumbnailResponse'];
-                    };
+                    content?: never;
                 };
                 /** @description 4: The requested Ids are invalid, of an invalid type or missing. */
                 400: {
@@ -12344,10 +12335,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                    };
+                    content?: never;
                 };
                 /**
                  * @description 1: There are too many requested Ids.
@@ -13399,10 +13387,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailBatchResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailBatchResponse_'];
-                    };
+                    content?: never;
                 };
                 /**
                  * @description 1: There are too many requested Ids.
@@ -13681,10 +13666,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                    };
+                    content?: never;
                 };
                 /**
                  * @description 1: There are too many requested Ids.
@@ -14581,10 +14563,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                    };
+                    content?: never;
                 };
                 /**
                  * @description 1: There are too many requested Ids.
@@ -17112,10 +17091,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                    };
+                    content?: never;
                 };
                 /**
                  * @description 1: There are too many requested Ids.
@@ -18383,10 +18359,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                    };
+                    content?: never;
                 };
                 /**
                  * @description 1: There are too many requested Ids.
@@ -18551,10 +18524,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Thumbnails.Api.Models.UniverseThumbnailsResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Thumbnails.Api.Models.UniverseThumbnailsResponse_'];
-                    };
+                    content?: never;
                 };
                 /**
                  * @description 0: Unknown error
@@ -19114,10 +19084,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                    };
+                    content?: never;
                 };
                 /**
                  * @description 1: There are too many requested Ids.
@@ -19737,10 +19704,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                    };
+                    content?: never;
                 };
                 /**
                  * @description 1: There are too many requested Ids.
@@ -23757,80 +23721,6 @@ export interface paths {
         };
         trace?: never;
     };
-    '/v1/groups/{groupId}/status': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Sets group status */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            /** @description The Roblox.Groups.Api.PostGroupStatusRequest. */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Groups.Api.PostGroupStatusRequest'];
-                    'text/json': components['schemas']['Roblox.Groups.Api.PostGroupStatusRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.ShoutResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.ShoutResponse'];
-                    };
-                };
-                /**
-                 * @description 1: Group is invalid or does not exist.
-                 *     7: Missing group status content.
-                 *     32: Description was filtered.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     6: You are not authorized to set the status of this group
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        trace?: never;
-    };
     '/v1/groups/{groupId}/universes': {
         parameters: {
             query?: never;
@@ -24303,279 +24193,8 @@ export interface paths {
             };
         };
         put?: never;
-        /** Creates a post on a group wall */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            /** @description The Roblox.Groups.Api.CreateWallPostRequest. */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Groups.Api.CreateWallPostRequest'];
-                    'text/json': components['schemas']['Roblox.Groups.Api.CreateWallPostRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.Models.Response.GroupWallPostModel'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.Models.Response.GroupWallPostModel'];
-                    };
-                };
-                /**
-                 * @description 1: The group is invalid or does not exist.
-                 *     5: Your post was empty, white space, or more than 500 characters.
-                 *     9: The provided content was moderated.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     2: You do not have permission to access this group wall.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 1: The group is invalid or does not exist. */
-                405: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 4: You are posting too fast, please try again in a few minutes. */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/wall/posts/{postId}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
         post?: never;
-        /** Deletes a group wall post. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                    /** @description The group wall post id. */
-                    postId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: The group is invalid or does not exist.
-                 *     3: The group wall post id is invalid or does not exist.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     2: You do not have permission to access this group wall.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/wall/subscribe': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Subscribes the authenticated user to notifications of group wall events. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 1: The group is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     2: You do not have permission to access this group wall.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
         delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/wall/users/{userId}/posts': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /** Deletes all group wall posts made by a specific user. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                    /** @description The user id. */
-                    userId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: The group is invalid or does not exist.
-                 *     6: The user specified is invalid or does not exist.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     2: You do not have permission to access this group wall.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
         options?: never;
         head?: never;
         patch?: never;
@@ -27443,10 +27062,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                    };
+                    content?: never;
                 };
                 /**
                  * @description 1: There are too many requested Ids.
@@ -32855,10 +32471,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                    };
+                    content?: never;
                 };
                 /**
                  * @description 1: There are too many requested Ids.
@@ -32908,10 +32521,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['ThumbnailsApi.Roblox.Web.Responses.Thumbnails.ThumbnailResponse'];
-                        'text/json': components['schemas']['ThumbnailsApi.Roblox.Web.Responses.Thumbnails.ThumbnailResponse'];
-                    };
+                    content?: never;
                 };
                 /** @description 4: The requested Ids are invalid, of an invalid type or missing. */
                 400: {
@@ -32970,10 +32580,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                    };
+                    content?: never;
                 };
                 /**
                  * @description 1: There are too many requested Ids.
@@ -33040,10 +32647,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                    };
+                    content?: never;
                 };
                 /**
                  * @description 1: There are too many requested Ids.
@@ -33093,10 +32697,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['ThumbnailsApi.Roblox.Web.Responses.Thumbnails.ThumbnailResponse'];
-                        'text/json': components['schemas']['ThumbnailsApi.Roblox.Web.Responses.Thumbnails.ThumbnailResponse'];
-                    };
+                    content?: never;
                 };
             };
         };
@@ -33139,10 +32740,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_'];
-                    };
+                    content?: never;
                 };
                 /**
                  * @description 1: There are too many requested Ids.
@@ -39212,132 +38810,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v2/groups/{groupId}/wall/posts': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets a list of group wall posts. */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The number of results per request. */
-                    limit?: 10 | 25 | 50 | 100;
-                    /** @description The paging cursor for the previous or next page. */
-                    cursor?: string;
-                    /** @description Sorted by group wall post Id */
-                    sortOrder?: 'Asc' | 'Desc';
-                };
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.GroupWallPostV2Model_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.GroupWallPostV2Model_'];
-                    };
-                };
-                /** @description 1: The group is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 2: You do not have permission to access this group wall. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        /** Creates a post on a group wall */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            /** @description The Roblox.Groups.Api.CreateWallPostRequest. */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Groups.Api.CreateWallPostRequest'];
-                    'text/json': components['schemas']['Roblox.Groups.Api.CreateWallPostRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupWallPostV2Model'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupWallPostV2Model'];
-                    };
-                };
-                /**
-                 * @description 1: The group is invalid or does not exist.
-                 *     5: Your post was empty, white space, or more than 500 characters.
-                 *     9: The provided content was moderated.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     2: You do not have permission to access this group wall.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 4: You are posting too fast, please try again in a few minutes. */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v2/inventory/asset/{assetId}': {
         parameters: {
             query?: never;
@@ -43277,8 +42749,6 @@ export interface components {
             artist?: string | null;
             /** @description The name of the album to filter by. */
             album?: string | null;
-            /** @description Whether to include top charts in the results. */
-            includeTopCharts?: boolean | null;
             /** @description Indicates which music charts to filter from. */
             musicChartType?: components['schemas']['MusicChartType'];
         } | null;
@@ -49189,6 +48659,8 @@ export interface components {
              * @enum {integer}
              */
             fiatProductChangeType?: 0 | 1 | 2 | 3;
+            /** @description Whether demo mode is enabled for this paid access game. */
+            demoModeEnabled?: boolean;
         };
         /** @description Model for UniverseSettings patch requests */
         'Roblox.Api.Develop.Models.UniverseSettingsRequestV2': {
@@ -49281,6 +48753,8 @@ export interface components {
              *     When provided, replaces the universe's existing audience set with the supplied values.
              */
             audiences?: (0 | 1 | 2 | 3 | 4)[];
+            /** @description Whether demo mode is enabled for this paid access game. */
+            demoModeEnabled?: boolean;
         };
         /** @description Model for UniverseSettings controller responses */
         'Roblox.Api.Develop.Models.UniverseSettingsResponse': {
@@ -49376,6 +48850,13 @@ export interface components {
              *     Always non-null; may be empty when audience visibility has not been configured.
              */
             audiences?: (0 | 1 | 2 | 3 | 4)[];
+            /** @description Whether demo mode is enabled. */
+            demoModeEnabled?: boolean;
+            /**
+             * Format: date-time
+             * @description When demo mode was last toggled. For client-side throttle UX.
+             */
+            demoModeLastChangedTime?: string;
         };
         /** @description Model for UniverseSettings controller responses */
         'Roblox.Api.Develop.Models.UniverseSettingsResponseV2': {
@@ -49471,6 +48952,13 @@ export interface components {
              *     Always non-null; may be empty when audience visibility has not been configured.
              */
             audiences?: (0 | 1 | 2 | 3 | 4)[];
+            /** @description Whether demo mode is enabled. */
+            demoModeEnabled?: boolean;
+            /**
+             * Format: date-time
+             * @description When demo mode was last toggled. For client-side throttle UX.
+             */
+            demoModeLastChangedTime?: string;
         };
         /** @description Team create settings of a universe */
         'Roblox.Api.Develop.Models.UniverseTeamCreateSettingsModel': {
@@ -52298,15 +51786,6 @@ export interface components {
             keywords?: string;
             isPrivate?: boolean;
         };
-        /** @description A request model for creating a group wall post */
-        'Roblox.Groups.Api.CreateWallPostRequest': {
-            /** @description The wall post body */
-            body?: string;
-            captchaId?: string;
-            captchaToken?: string;
-            captchaProvider?: string;
-            challengeId?: string;
-        };
         /** @description Response model for the community feature freezes endpoint. */
         'Roblox.Groups.Api.GetCommunityFeatureFreezesResponse': {
             /** @description The freeze status of each community feature. */
@@ -52891,27 +52370,6 @@ export interface components {
              *     Null when the value could not be determined.
              */
             isAutoAssignRoleDisabled?: boolean;
-        };
-        /** @description A response model for group wall post information */
-        'Roblox.Groups.Api.GroupWallPostV2Model': {
-            /**
-             * Format: int64
-             * @description The group wall post Id.
-             */
-            id?: number;
-            poster?: components['schemas']['Roblox.Groups.Api.UserGroupRoleResponse'];
-            /** @description The group wall post body. */
-            body?: string;
-            /**
-             * Format: date-time
-             * @description When the group wall post was posted.
-             */
-            created?: string;
-            /**
-             * Format: date-time
-             * @description When the group wall post was last updated.
-             */
-            updated?: string;
         };
         /** @description A group roles response model */
         'Roblox.Groups.Api.GroupsDisplayOptionsResponse': {
@@ -54620,17 +54078,6 @@ export interface components {
             /** @description Boolean, true if the user can afford to purchase the publishing of the audio file. */
             canAfford?: boolean;
         };
-        /** @description A response model for thumbnails which belong to a specific universe ID */
-        'Roblox.Thumbnails.Api.Models.UniverseThumbnailsResponse': {
-            /**
-             * Format: int64
-             * @description Integer universe ID
-             */
-            universeId?: number;
-            error?: components['schemas']['Roblox.Web.WebAPI.Models.ApiErrorModel'];
-            /** @description An array of ThumbnailResponse objects */
-            thumbnails?: components['schemas']['ThumbnailsApi.Roblox.Web.Responses.Thumbnails.ThumbnailResponse'][];
-        };
         'Roblox.Thumbnails.Apis.Models.ThumbnailBatchRequest': {
             /** @description The request id. (Generated client side, used to represent the items in the request) */
             requestId?: string;
@@ -56046,22 +55493,6 @@ export interface components {
             type?: 0;
             name?: string;
         };
-        'Roblox.Web.Responses.Thumbnails.ThumbnailBatchResponse': {
-            requestId?: string;
-            /** Format: int32 */
-            errorCode?: number;
-            errorMessage?: string;
-            /** Format: int64 */
-            targetId?: number;
-            /**
-             * @description ['Error' = 0, 'Completed' = 1, 'InReview' = 2, 'Pending' = 3, 'Blocked' = 4, 'TemporarilyUnavailable' = 5]
-             * @enum {string}
-             */
-            state?: 'Error' | 'Completed' | 'InReview' | 'Pending' | 'Blocked' | 'TemporarilyUnavailable';
-            imageUrl?: string;
-            version?: string;
-            thumbnailSource?: string;
-        };
         'Roblox.Web.Responses.Users.SkinnyUserResponse': {
             /** Format: int64 */
             id?: number;
@@ -56168,9 +55599,6 @@ export interface components {
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Locale.Api.SupportedLocaleLocus_': {
             data?: components['schemas']['Roblox.Locale.Api.SupportedLocaleLocus'][];
         };
-        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Thumbnails.Api.Models.UniverseThumbnailsResponse_': {
-            data?: components['schemas']['Roblox.Thumbnails.Api.Models.UniverseThumbnailsResponse'][];
-        };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.TranslationRoles.Api.Assignee_': {
             data?: components['schemas']['Roblox.TranslationRoles.Api.Assignee'][];
         };
@@ -56192,25 +55620,11 @@ export interface components {
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Plugins.PluginResponse_': {
             data?: components['schemas']['Roblox.Web.Responses.Plugins.PluginResponse'][];
         };
-        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailBatchResponse_': {
-            data?: components['schemas']['Roblox.Web.Responses.Thumbnails.ThumbnailBatchResponse'][];
-        };
-        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Thumbnails.ThumbnailResponse_': {
-            data?: components['schemas']['ThumbnailsApi.Roblox.Web.Responses.Thumbnails.ThumbnailResponse'][];
-        };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Users.SkinnyUserResponse_': {
             data?: components['schemas']['Roblox.Web.Responses.Users.SkinnyUserResponse'][];
         };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_System.String_': {
             data?: string[];
-        };
-        'Roblox.Web.WebAPI.Models.ApiErrorModel': {
-            /** Format: int32 */
-            code?: number;
-            message?: string;
-            userFacingMessage?: string;
-            field?: string;
-            fieldData?: unknown;
         };
         'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Api.Develop.AssetVersion_': {
             previousPageCursor?: string;
@@ -56271,11 +55685,6 @@ export interface components {
             previousPageCursor?: string;
             nextPageCursor?: string;
             data?: components['schemas']['Roblox.Groups.Api.GroupJoinRequestResponse'][];
-        };
-        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.GroupWallPostV2Model_': {
-            previousPageCursor?: string;
-            nextPageCursor?: string;
-            data?: components['schemas']['Roblox.Groups.Api.GroupWallPostV2Model'][];
         };
         'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.GroupExperienceResponse_': {
             previousPageCursor?: string;
@@ -56480,12 +55889,7 @@ export interface components {
             tags?: string[] | null;
             /** @description The category path to filter by. */
             categoryPath?: string | null;
-            /**
-             * @description Optional swimlane identifier (e.g. "trending", "essential", "priced").
-             *     Resolves through Toolbox.Service.Interfaces.Swimlanes.ISwimlaneRegistry to a provider whose
-             *     default sort intent and search-builder configuration are applied to the
-             *     query. Unknown, disabled, or category-ineligible values yield 400.
-             */
+            /** @description Optional swimlane identifier (e.g. "trending", "essential", "priced"). */
             swimlane?: string | null;
             /** @description Indicates which fields will be populated in the response. */
             searchView?: components['schemas']['SearchView'];
@@ -57016,18 +56420,6 @@ export interface components {
                 | 'SUBSCRIBER_CANCELLED'
                 | 'SUBSCRIBER_REFUNDED'
                 | 'LAPSED';
-        };
-        'ThumbnailsApi.Roblox.Web.Responses.Thumbnails.ThumbnailResponse': {
-            /** Format: int64 */
-            targetId?: number;
-            /**
-             * @description ['Error' = 0, 'Completed' = 1, 'InReview' = 2, 'Pending' = 3, 'Blocked' = 4, 'TemporarilyUnavailable' = 5]
-             * @enum {string}
-             */
-            state?: 'Error' | 'Completed' | 'InReview' | 'Pending' | 'Blocked' | 'TemporarilyUnavailable';
-            imageUrl?: string;
-            version?: string;
-            thumbnailSource?: string;
         };
         /** @description Representation of an asset. */
         'ToolboxService.Asset': {
@@ -64343,9 +63735,9 @@ export interface operations {
     };
     Toolbox_SearchCreatorStoreAssetsDeprecated: {
         parameters: {
-            query: {
-                /** @description The asset type to search within. */
-                searchCategoryType: components['schemas']['SearchCategoryType'];
+            query?: {
+                /** @description The asset type to search within. Optional when categoryPath is present in the request; otherwise required. */
+                searchCategoryType?: components['schemas']['SearchCategoryType'] | null;
                 /** @description The search terms used to filter the results. */
                 query?: string;
                 /** @description When searching for models, the subtypes associated with the search results. */
@@ -64376,7 +63768,6 @@ export interface operations {
                 audioArtist?: string;
                 /** @description When searching for audio, the album name of the audio assets. */
                 audioAlbum?: string;
-                includeTopCharts?: boolean | null;
                 /** @description When searching for audio, the type of the audio assets. */
                 audioTypes?: components['schemas']['SearchAudioTypeModel'][] | null;
                 /** @description When searching for models, this filters that the following [Instance](https://create.roblox.com/docs/reference/engine/classes/Instance) types are included in the model. */
@@ -64389,11 +63780,15 @@ export interface operations {
                 maxPriceCents?: number | null;
                 /** @description Additional keywords to query by. */
                 facets?: string[] | null;
+                /** @description The tags used to filter the results. */
+                tags?: string[] | null;
                 categoryPath?: string;
                 /** @description Indicates which fields will be populated in the response. */
                 searchView?: components['schemas']['SearchView'];
                 /** @description Indicates which music charts to filter from. */
                 musicChartType?: components['schemas']['MusicChartType'];
+                /** @description Indicates which swimlane to filter from. */
+                swimlane?: string;
             };
             header?: never;
             path?: never;

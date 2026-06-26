@@ -9826,6 +9826,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/server-management/v1/universes/{universeId}/places/{placeId}/versions/{versionNumber}/game-servers/{jobId}/logs': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Lists game server logs for a specific server job id */
+        get: operations['GameServers_ListGameServerLogs'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/server-management/v1/universes/{universeId}/restarts': {
         parameters: {
             query?: never;
@@ -18734,75 +18751,6 @@ export interface paths {
             cookie?: never;
         };
         get: operations['PrivateServers_GetPrivateServerList'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/games/{placeId}/servers/{serverType}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get the game server list */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The sort order of the servers. */
-                    sortOrder?: 1 | 2;
-                    /** @description Exclude full servers. */
-                    excludeFullGames?: boolean;
-                    /** @description The number of results per request. */
-                    limit?: 10 | 25 | 50 | 100;
-                    /** @description The paging cursor for the previous or next page. */
-                    cursor?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description The Id of the place we are geting the server list for. */
-                    placeId: number;
-                    /** @description The type of the server we geting the server list for. */
-                    serverType: 0 | 1;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Web.Responses.Games.GameServerResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Web.Responses.Games.GameServerResponse_'];
-                    };
-                };
-                /**
-                 * @description 1: The place is invalid.
-                 *     6: The server type is invalid. For fetching private servers, please use https://games.roblox.com/v1/games/{placeId}/private-servers.
-                 *     7: Guest users are not allowed.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 1: The place is invalid. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
         put?: never;
         post?: never;
         delete?: never;
@@ -32439,6 +32387,8 @@ export interface paths {
                 query: {
                     /** @description CSV for the userIds to get avatar full body shots */
                     userIds: number[];
+                    /** @description Whether to include a background in the thumbnail (defaults to false) */
+                    includeBackground?: boolean;
                     /** @description The thumbnail size, formatted widthxheight */
                     size?:
                         | '30x30'
@@ -32553,6 +32503,8 @@ export interface paths {
                 query: {
                     /** @description CSV for the userIds to get avatar headshots */
                     userIds: number[];
+                    /** @description Whether to include a background in the thumbnail (defaults to false) */
+                    includeBackground?: boolean;
                     /** @description The thumbnail size, formatted widthxheight */
                     size?:
                         | '48x48'
@@ -32618,6 +32570,8 @@ export interface paths {
                 query: {
                     /** @description CSV for the userIds to get avatar headshots */
                     userIds: number[];
+                    /** @description Whether to include a background in the thumbnail (defaults to false) */
+                    includeBackground?: boolean;
                     /** @description The thumbnail size, formatted widthxheight */
                     size?:
                         | '48x48'
@@ -32722,6 +32676,8 @@ export interface paths {
                 query: {
                     /** @description CSV for the userOutfitIds to get user outfits */
                     userOutfitIds: number[];
+                    /** @description Whether to include a background in the thumbnail (defaults to false) */
+                    includeBackground?: boolean;
                     /** @description The thumbnail size, formatted widthxheight */
                     size?: '150x150' | '420x420';
                     /** @description The thumbnail format */
@@ -43808,6 +43764,45 @@ export interface components {
             name?: string | null;
             rootPlace?: components['schemas']['PlaceResponse'] | null;
         };
+        /** @description Response model for listing a game server log */
+        GameServerLog: {
+            /**
+             * Format: date-time
+             * @description The timestamp the log was received
+             */
+            messageTimestampMs?: string;
+            /**
+             * Format: int64
+             * @description The universe where the log was created
+             */
+            universeId?: number;
+            /** @description The place where the log was created */
+            placeId?: string | null;
+            /** @description The place version on which the log was created */
+            placeVersion?: string | null;
+            /** @description The Game Server id where the log was created */
+            jobId?: string | null;
+            /** @description The severity of the log */
+            severity?: components['schemas']['LogSeverity'];
+            /** @description The log message */
+            message?: string | null;
+            /** @description The stack trace of the log */
+            stackTrace?: string | null;
+            /** @description Optional message template included with structured logging */
+            messageTemplate?: string | null;
+            /** @description Optional message context included with structured logging */
+            context?: string | null;
+            /**
+             * Format: int32
+             * @description How many duplicate versions of this message were present in the same time window as this log
+             */
+            skippedCount?: number;
+            /**
+             * Format: int32
+             * @description How many more messages were present in the time window beyond our overall rate limits
+             */
+            rateLimitedCount?: number;
+        };
         GameServerResponse: {
             /** Format: uuid */
             id?: string | null;
@@ -45054,6 +45049,16 @@ export interface components {
             /** @description The next page token. */
             nextPageToken: string | null;
         };
+        /** @description Response model for listing game servers. */
+        ListGameServerLogsResponse: {
+            /** @description The GameServers from the specified PlaceVersion. */
+            gameServerLogs?: components['schemas']['GameServerLog'][] | null;
+            /**
+             * @description A token that you can send as a `pageToken` parameter to retrieve the next
+             *     page. If this field is omitted, there are no subsequent pages.
+             */
+            nextPageToken?: string | null;
+        };
         /** @description A list of GroupForumCategories in the parent collection. */
         ListGroupForumCategoriesResponse: {
             /** @description The GroupForumCategories from the specified Group. */
@@ -45236,6 +45241,13 @@ export interface components {
             doubleValue?: string | null;
             stringValue?: string | null;
         };
+        /**
+         * Format: int32
+         * @description Defines the various log severity types with values:
+         *     Output (0), Info (1), Warning (2), Error (3)
+         * @enum {integer}
+         */
+        LogSeverity: 0 | 1 | 2 | 3;
         /**
          * @description A `LuauExecutionSessionTask` ("task" for short) executes a given Luau script
          *     in the context of a specific version of a place.
@@ -51309,15 +51321,6 @@ export interface components {
             settingTargetId?: number;
             settingTargetCode?: string;
         };
-        /** @description A response model representing a game server player. */
-        'Roblox.Games.Api.GameServerPlayerResponse': {
-            /** @description The thumbnail token for the player. */
-            playerToken?: string;
-            /** Format: int64 */
-            id?: number;
-            name?: string;
-            displayName?: string;
-        };
         /** @description Game favorite request model. */
         'Roblox.Games.Api.Models.Request.GameFavoritesRequest': {
             /** @description true for favor the game, false for unfavor the game. */
@@ -51442,6 +51445,13 @@ export interface components {
              *     It must be the same as the canonical URL (rel-canonical meta tag) on the game's EDP.
              */
             canonicalUrlPath?: string;
+            /**
+             * @description Indicates whether this experience is content-restricted and has had its details wiped.
+             *     When true, the content fields (name, description, creator, etc.) contain placeholder or
+             *     empty values rather than the real data. Consumers should branch on this flag instead of
+             *     inferring restriction from placeholder text.
+             */
+            isContentRestricted?: boolean;
         };
         /** @description Game favorite response model. */
         'Roblox.Games.Api.Models.Response.GameFavoriteResponse': {
@@ -51691,6 +51701,11 @@ export interface components {
             unplayableDisplayText?: string;
             playableUxTreatment?: components['schemas']['Roblox.Games.Api.Models.Response.PlayableUxTreatment'];
             upsellUxTreatment?: components['schemas']['Roblox.Games.Api.Models.Response.UpsellUxTreatment'];
+            /**
+             * @description Whether the game supports demo play for users who have not purchased it.
+             *     Only set when PlayabilityStatus is PurchaseRequired or FiatPurchaseRequired.
+             */
+            demoModeAvailable?: boolean;
         };
         'Roblox.Games.Api.Models.Response.PlayableUxTreatment': {
             treatment?: string;
@@ -51746,15 +51761,6 @@ export interface components {
              *     join this game.").
              */
             bodyText?: string;
-        };
-        /** @description A response model specific to multi-get user. */
-        'Roblox.Games.Api.Models.Response.VerifiedBadgeUserResponse': {
-            /** @description The user's verified badge status. */
-            hasVerifiedBadge?: boolean;
-            /** Format: int64 */
-            id?: number;
-            name?: string;
-            displayName?: string;
         };
         /** @description ApiPageResponse for blocked keywords */
         'Roblox.Groups.Api.BlockedKeywordPageResponse_Roblox.Groups.Client.BlockedKeywordModel_': {
@@ -54127,6 +54133,8 @@ export interface components {
             accessContext?: string;
             /** @description Head shape for dynamic head thumbnails (only relevant for Asset thumbnail types with dynamic head) */
             headShape?: string;
+            /** @description Whether to include a background in avatar thumbnails (defaults to false) */
+            includeBackground?: boolean;
         };
         'Roblox.Trades.Api.CanTradeResponse': {
             /** @description Returns true if you can trade with the given user. */
@@ -55251,51 +55259,6 @@ export interface components {
              */
             placeVisits?: number;
         };
-        /** @description Game server list response model. */
-        'Roblox.Web.Responses.Games.GameServerResponse': {
-            /**
-             * Format: uuid
-             * @description The game server ID.
-             */
-            id?: string;
-            /**
-             * Format: int32
-             * @description The max number of players allowed to enter the server at the same time.
-             */
-            maxPlayers?: number;
-            /**
-             * Format: int32
-             * @description The number of players actively in the server.
-             */
-            playing?: number;
-            /** @description The thumbnail tokens for all the players in the server. */
-            playerTokens?: string[];
-            /** @description The players in the server. */
-            players?: components['schemas']['Roblox.Games.Api.GameServerPlayerResponse'][];
-            /**
-             * Format: double
-             * @description The current frames per second the server is running at.
-             */
-            fps?: number;
-            /**
-             * Format: int32
-             * @description The game server ping time (measured in milliseconds).
-             */
-            ping?: number;
-            /** @description The name of the private server. */
-            name?: string;
-            /**
-             * Format: int64
-             * @description The private server ID.
-             */
-            vipServerId?: number;
-            /**
-             * Format: uuid
-             * @description The private server access code.
-             */
-            accessCode?: string;
-            owner?: components['schemas']['Roblox.Games.Api.Models.Response.VerifiedBadgeUserResponse'];
-        };
         'Roblox.Web.Responses.Groups.GroupBasicResponse': {
             /** Format: int64 */
             id?: number;
@@ -55775,11 +55738,6 @@ export interface components {
             previousPageCursor?: string;
             nextPageCursor?: string;
             data?: components['schemas']['Roblox.Web.Responses.Games.GameResponseV2'][];
-        };
-        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Web.Responses.Games.GameServerResponse_': {
-            previousPageCursor?: string;
-            nextPageCursor?: string;
-            data?: components['schemas']['Roblox.Web.Responses.Games.GameServerResponse'][];
         };
         RobuxRateBreakdown: {
             /** Format: double */
@@ -63283,6 +63241,88 @@ export interface operations {
             };
         };
     };
+    GameServers_ListGameServerLogs: {
+        parameters: {
+            query?: {
+                /**
+                 * @description The maximum number of game servers to return. The service might return
+                 *     fewer than this value. If unspecified, at most 25 game servers are
+                 *     returned. The maximum value is 100 and higher values are set to 100.
+                 */
+                MaxPageSize?: number;
+                /**
+                 * @description A page token, received from a previous call, to retrieve a subsequent page.
+                 *     When paginating, all other parameters provided to the subsequent call must
+                 *     match the call that provided the page token.
+                 */
+                PageToken?: string;
+                /**
+                 * @description Sorting is supported only for a single field at a time.
+                 *     Example: "orderBy": "uptime"
+                 *     Defaults to ascending, but descending ordering is also supported by
+                 *     including the " desc" suffix. For example: "orderBy": "uptime desc".
+                 */
+                OrderBy?: string;
+                /**
+                 * @description This field may be set in order to filter the resources returned.
+                 *     - CEL filtering is supported on all fields.
+                 *     - Supported operators &&, <, <=, >, >=, ==, and `in`
+                 */
+                Filter?: string;
+            };
+            header?: never;
+            path: {
+                /** @description The universe id */
+                universeId: number;
+                /** @description The place id */
+                placeId: number;
+                /** @description The version number */
+                versionNumber: string;
+                /** @description The server job id */
+                jobId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ListGameServerLogsResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ServerManagementService.ProblemDetails'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ServerManagementService.ProblemDetails'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ServerManagementService.ProblemDetails'];
+                };
+            };
+        };
+    };
     Restarts_ListRestartStatuses: {
         parameters: {
             query?: never;
@@ -64024,8 +64064,6 @@ export interface operations {
                 };
                 content: {
                     'text/plain': components['schemas']['GameVoteResponseApiArrayResponse'];
-                    'application/json': components['schemas']['GameVoteResponseApiArrayResponse'];
-                    'text/json': components['schemas']['GameVoteResponseApiArrayResponse'];
                 };
             };
         };
@@ -64080,8 +64118,6 @@ export interface operations {
                 };
                 content: {
                     'text/plain': components['schemas']['ApiEmptyResponseModel'];
-                    'application/json': components['schemas']['ApiEmptyResponseModel'];
-                    'text/json': components['schemas']['ApiEmptyResponseModel'];
                 };
             };
         };
@@ -64104,8 +64140,6 @@ export interface operations {
                 };
                 content: {
                     'text/plain': components['schemas']['GameVoteResponse'];
-                    'application/json': components['schemas']['GameVoteResponse'];
-                    'text/json': components['schemas']['GameVoteResponse'];
                 };
             };
         };
@@ -64128,8 +64162,6 @@ export interface operations {
                 };
                 content: {
                     'text/plain': components['schemas']['UserGameVoteResponse'];
-                    'application/json': components['schemas']['UserGameVoteResponse'];
-                    'text/json': components['schemas']['UserGameVoteResponse'];
                 };
             };
         };

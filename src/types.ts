@@ -9792,6 +9792,57 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/place-version-history-api/v1/{placeId}/contributors': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Endpoint used to fetch all previous contributors of a place. */
+        get: operations['PlaceVersion_GetPlaceContributors'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/place-version-history-api/v1/{placeId}/history': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Endpoint used to get place versions, using various filters */
+        get: operations['PlaceVersion_GetPlaceVersionHistory'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/place-version-history-api/v1/{placeId}/version/{version}/notes': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Endpoint used to modify the notes of a particular version for a place. */
+        post: operations['PlaceVersion_UpdatePlaceVersionNotes'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/server-management/v1/universes/{universeId}/places/{placeId}/game-servers:filter-options': {
         parameters: {
             query?: never;
@@ -43488,8 +43539,11 @@ export interface components {
             universeId: number;
             /** @description Whether the developer product is currently on sale. */
             isForSale: boolean;
-            /** @description Whether the developer product is currently available for purchase on the external store page. */
-            storePageEnabled: boolean;
+            /**
+             * @deprecated
+             * @description Whether the developer product is currently available for purchase on the external store page.
+             */
+            storePageEnabled?: boolean | null;
             /** @description The pricing configuration associated with the product. */
             priceInformation: components['schemas']['PriceInformationStruct'] | null;
             /** @description Whether the developer product cannot be modified, such as when created as a commerce product. */
@@ -43962,6 +44016,16 @@ export interface components {
                 /** Format: double */
                 TextChat?: number;
             } | null;
+        };
+        GetPlaceContributorsResponse: {
+            nextCursor?: string | null;
+            hasMore?: boolean;
+            contributors?: number[] | null;
+        };
+        GetPlaceVersionHistoryResponse: {
+            nextCursor?: string | null;
+            hasMore?: boolean;
+            placeVersions?: components['schemas']['PlaceVersion'][] | null;
         };
         GetPrivateServerListResponse: {
             data?: components['schemas']['GameServerResponse'][] | null;
@@ -46147,6 +46211,12 @@ export interface components {
              */
             response?: components['schemas']['GoogleProtobufAny'];
         };
+        OperationErrorResponse: {
+            /** Format: int32 */
+            readonly code?: number;
+            readonly error?: string | null;
+            message?: string | null;
+        };
         /** @description A key-value entry in an ordered data store. */
         OrderedDataStoreEntry: {
             /**
@@ -46428,6 +46498,20 @@ export interface components {
             /** @description The versions of the place that will be closed during the update */
             placeVersionsToBeClosed?: number[] | null;
         };
+        PlaceVersion: {
+            version?: string | null;
+            title?: string | null;
+            description?: string | null;
+            contributors?: number[] | null;
+            saveType?: components['schemas']['SaveType'];
+            isPublished?: boolean;
+            publishStatus?: components['schemas']['PublishStatus'];
+            hasNotes?: boolean;
+            /** Format: date-time */
+            createdTime?: string;
+            /** Format: int64 */
+            createdBy?: number | null;
+        };
         /** @description The player categorical signal configuration. */
         PlayerCategoricalSignalConfiguration: {
             playerAttribute?: components['schemas']['MatchmakingAttributeReference'];
@@ -46620,6 +46704,11 @@ export interface components {
             /** @description The message content that you want to publish to the live server. */
             message?: string | null;
         };
+        /**
+         * Format: int32
+         * @enum {integer}
+         */
+        PublishStatus: 0 | 1 | 2;
         /** @description Publish a message on the specified topic. */
         PublishUniverseMessageRequest: {
             /**
@@ -55774,6 +55863,11 @@ export interface components {
             transactionType?: components['schemas']['TransactionType'];
         };
         /**
+         * Format: int32
+         * @enum {integer}
+         */
+        SaveType: 0 | 1 | 2;
+        /**
          * @description The category to sort the saves by.
          * @enum {string}
          */
@@ -57028,6 +57122,13 @@ export interface components {
         /** @description The response for updating a matchmaking server attribute definition. */
         UpdateMatchmakingServerAttributeDefinitionResponse: {
             playerAttributeDefinition?: components['schemas']['MatchmakingServerAttributeDefinition'];
+        };
+        UpdatePlaceVersionNotesRequest: {
+            title?: string | null;
+            description?: string | null;
+        };
+        UpdatePlaceVersionNotesResponse: {
+            placeVersion?: components['schemas']['PlaceVersion'] | null;
         };
         /** @description Represents any registered user of Roblox. */
         User: {
@@ -62116,6 +62217,7 @@ export interface operations {
                      */
                     imageFile?: string | null;
                     /**
+                     * @deprecated
                      * @description Whether regional pricing should be enabled for the developer product.
                      *     Should not be used when setting isManagedPricingEnabled.
                      */
@@ -62269,11 +62371,15 @@ export interface operations {
                      */
                     imageFile?: string | null;
                     /**
+                     * @deprecated
                      * @description Whether regional pricing should be enabled for the developer product.
                      *     Should not be used when setting isManagedPricingEnabled.
                      */
                     isRegionalPricingEnabled?: boolean | null;
-                    /** @description Whether the developer product should be available for purchase on the external store page. */
+                    /**
+                     * @deprecated
+                     * @description Whether the developer product should be available for purchase on the external store page.
+                     */
                     storePageEnabled?: boolean | null;
                     /** @description Whether managed pricing should be enabled for the developer product. */
                     isManagedPricingEnabled?: boolean | null;
@@ -62416,7 +62522,10 @@ export interface operations {
                      * @description The default price of the game pass.
                      */
                     price?: number | null;
-                    /** @description Whether regional pricing should be enabled for the game pass. */
+                    /**
+                     * @deprecated
+                     * @description Whether regional pricing should be enabled for the game pass.
+                     */
                     isRegionalPricingEnabled?: boolean | null;
                     /** @description Whether managed pricing should be enabled for the game pass. */
                     isManagedPricingEnabled?: boolean | null;
@@ -62571,7 +62680,10 @@ export interface operations {
                      * @description The default price of the game pass.
                      */
                     price?: number | null;
-                    /** @description Whether regional pricing should be enabled for the game pass. */
+                    /**
+                     * @deprecated
+                     * @description Whether regional pricing should be enabled for the game pass.
+                     */
                     isRegionalPricingEnabled?: boolean | null;
                     /** @description Whether managed pricing should be enabled for the game pass. */
                     isManagedPricingEnabled?: boolean | null;
@@ -63103,6 +63215,201 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    PlaceVersion_GetPlaceContributors: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                pageSize?: number;
+            };
+            header?: never;
+            path: {
+                placeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['GetPlaceContributorsResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OperationErrorResponse'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OperationErrorResponse'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OperationErrorResponse'];
+                };
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OperationErrorResponse'];
+                };
+            };
+        };
+    };
+    PlaceVersion_GetPlaceVersionHistory: {
+        parameters: {
+            query?: {
+                cursor?: string;
+                isPublished?: boolean;
+                hasNotes?: boolean;
+                saveType?: number;
+                searchTerm?: string;
+                contributor?: number;
+                startTime?: string;
+                endTime?: string;
+                pageSize?: number;
+            };
+            header?: never;
+            path: {
+                placeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['GetPlaceVersionHistoryResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OperationErrorResponse'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OperationErrorResponse'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OperationErrorResponse'];
+                };
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OperationErrorResponse'];
+                };
+            };
+        };
+    };
+    PlaceVersion_UpdatePlaceVersionNotes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                placeId: number;
+                version: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json-patch+json': components['schemas']['UpdatePlaceVersionNotesRequest'];
+                'application/json': components['schemas']['UpdatePlaceVersionNotesRequest'];
+                'text/json': components['schemas']['UpdatePlaceVersionNotesRequest'];
+                'application/*+json': components['schemas']['UpdatePlaceVersionNotesRequest'];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['UpdatePlaceVersionNotesResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OperationErrorResponse'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OperationErrorResponse'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OperationErrorResponse'];
+                };
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OperationErrorResponse'];
+                };
             };
         };
     };

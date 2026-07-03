@@ -42040,7 +42040,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations['TransactionRecords_GetUserTransactions'];
+        get: operations['TransactionRecordsApi.TransactionRecords_GetUserTransactions'];
         put?: never;
         post?: never;
         delete?: never;
@@ -46762,6 +46762,8 @@ export interface components {
          *     LeaderboardsConfig
          *
          *     ExperienceUserConfig
+         *
+         *     JourneysConfig
          * @enum {string}
          */
         Repository:
@@ -46770,7 +46772,8 @@ export interface components {
             | 'DataStoresConfig'
             | 'ExtendedServicesConfig'
             | 'LeaderboardsConfig'
-            | 'ExperienceUserConfig';
+            | 'ExperienceUserConfig'
+            | 'JourneysConfig';
         /**
          * @description The current state of a place restart.
          * @enum {string}
@@ -55267,6 +55270,7 @@ export interface components {
              *     we will keep existing behavior where we display offsale for games priced in fiat currency.
              */
             price?: number;
+            contentMetadata?: components['schemas']['Roblox.Games.Api.Models.Response.GameContentMetadataResponseModel'];
             /**
              * Format: int64
              * @description The game (universe) Id.
@@ -56701,6 +56705,8 @@ export interface components {
             robloxSelectIncomingTotal?: number;
             /** Format: int64 */
             robloxSelectOutgoingTotal?: number;
+            /** Format: int64 */
+            privateServerEngagementPayoutsTotal?: number;
         };
         /** @enum {string} */
         TransactionType:
@@ -56732,7 +56738,9 @@ export interface components {
             | 'LicensingPayment'
             | 'LicensingPaymentClawback'
             | 'CurrencyTransfer'
-            | 'RobloxSelectTransfer';
+            | 'RobloxSelectTransfer'
+            | 'PrivateServerEngagementPayout'
+            | 'CurrencySubscriptionStipend';
         TransactionUsedTypesResponse: {
             HasPurchase?: boolean;
             HasSale?: boolean;
@@ -56757,6 +56765,7 @@ export interface components {
             HasLicensingPayment?: boolean;
             HasTransfer?: boolean;
             HasRobloxSelectTransfer?: boolean;
+            HasPrivateServerEngagementPayout?: boolean;
         };
         /**
          * @description Contains the text to be translated, the source language (optional), and a
@@ -61232,6 +61241,8 @@ export interface operations {
                  *     LeaderboardsConfig
                  *
                  *     ExperienceUserConfig
+                 *
+                 *     JourneysConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -61295,6 +61306,8 @@ export interface operations {
                  *     LeaderboardsConfig
                  *
                  *     ExperienceUserConfig
+                 *
+                 *     JourneysConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -61358,6 +61371,8 @@ export interface operations {
                  *     LeaderboardsConfig
                  *
                  *     ExperienceUserConfig
+                 *
+                 *     JourneysConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -61428,6 +61443,8 @@ export interface operations {
                  *     LeaderboardsConfig
                  *
                  *     ExperienceUserConfig
+                 *
+                 *     JourneysConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -61498,6 +61515,8 @@ export interface operations {
                  *     LeaderboardsConfig
                  *
                  *     ExperienceUserConfig
+                 *
+                 *     JourneysConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -61568,6 +61587,8 @@ export interface operations {
                  *     LeaderboardsConfig
                  *
                  *     ExperienceUserConfig
+                 *
+                 *     JourneysConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -61631,6 +61652,8 @@ export interface operations {
                  *     LeaderboardsConfig
                  *
                  *     ExperienceUserConfig
+                 *
+                 *     JourneysConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -61716,6 +61739,8 @@ export interface operations {
                  *     LeaderboardsConfig
                  *
                  *     ExperienceUserConfig
+                 *
+                 *     JourneysConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -61779,6 +61804,8 @@ export interface operations {
                  *     LeaderboardsConfig
                  *
                  *     ExperienceUserConfig
+                 *
+                 *     JourneysConfig
                  */
                 repository: components['schemas']['Repository'];
                 revisionId: string;
@@ -64846,7 +64873,7 @@ export interface operations {
             };
         };
     };
-    TransactionRecords_GetUserTransactions: {
+    'TransactionRecordsApi.TransactionRecords_GetUserTransactions': {
         parameters: {
             query?: {
                 exclusiveStartCursor?: components['schemas']['Int64ExclusiveStartKeyCursor'];

@@ -1,4 +1,442 @@
 export interface paths {
+    '/analytics-query-api/v1/universes/{universeId}/dimension-values': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Queries dimension values for a universe.
+         * @description See the <a href="https://create.roblox.com/docs/cloud/guides/analytics">Analytics guide</a> for more information.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The universe ID to query dimension values for. */
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            /** @description The dimension values request. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['DimensionValuesRequest'];
+                    'text/json': components['schemas']['DimensionValuesRequest'];
+                    'application/*+json': components['schemas']['DimensionValuesRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['DimensionValuesOperationResult'];
+                    };
+                };
+                /** @description Accepted */
+                202: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationPending'];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+                /** @description Too Many Requests */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+                /** @description Internal Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+                /** @description Service Unavailable */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+                /** @description Gateway Timeout */
+                504: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/analytics-query-api/v1/universes/{universeId}/metrics': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Queries time series metric data for a universe.
+         * @description See the <a href="https://create.roblox.com/docs/cloud/guides/analytics">Analytics guide</a> for more information.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The universe ID to query metrics for. */
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            /** @description The query request. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['QueryRequest'];
+                    'text/json': components['schemas']['QueryRequest'];
+                    'application/*+json': components['schemas']['QueryRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['QueryOperationResult'];
+                    };
+                };
+                /** @description Accepted */
+                202: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationPending'];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+                /** @description Too Many Requests */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+                /** @description Internal Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+                /** @description Service Unavailable */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+                /** @description Gateway Timeout */
+                504: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/analytics-query-api/v1/universes/{universeId}/operations/dimension-values/{operationId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves the result of a long-running dimension values operation.
+         * @description See the <a href="https://create.roblox.com/docs/cloud/guides/analytics">Analytics guide</a> for more information.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The universe ID the operation belongs to. */
+                    universeId: number;
+                    /** @description The operation id returned from a prior dimension values request. */
+                    operationId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['DimensionValuesOperationResult'];
+                    };
+                };
+                /** @description Accepted */
+                202: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationPending'];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+                /** @description Too Many Requests */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+                /** @description Internal Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+                /** @description Service Unavailable */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+                /** @description Gateway Timeout */
+                504: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/analytics-query-api/v1/universes/{universeId}/operations/metrics/{operationId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves the result of a long-running metrics query operation.
+         * @description See the <a href="https://create.roblox.com/docs/cloud/guides/analytics">Analytics guide</a> for more information.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The universe ID the operation belongs to. */
+                    universeId: number;
+                    /** @description The operation id returned from a prior query request. */
+                    operationId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['QueryOperationResult'];
+                    };
+                };
+                /** @description Accepted */
+                202: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationPending'];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+                /** @description Too Many Requests */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+                /** @description Internal Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+                /** @description Service Unavailable */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+                /** @description Gateway Timeout */
+                504: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OperationError'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/asset-delivery-api/v1/assetId/{assetId}': {
         parameters: {
             query?: never;
@@ -1595,7 +2033,7 @@ export interface paths {
         };
         /**
          * Get Memory Store Flush Operation
-         * @description Retrieves the status of the operation to [flush the memory stores of a universe](https://create.roblox.com/docs/cloud/reference/features/memory-stores#Cloud_FlushMemoryStore).
+         * @description Retrieves the status of the operation to [flush the memory stores of a universe](https://create.roblox.com/docs/cloud/reference/features/storage#Cloud_FlushMemoryStore).
          */
         get: operations['Cloud_GetMemoryStoreFlushOperation'];
         put?: never;
@@ -1898,7 +2336,7 @@ export interface paths {
         };
         /**
          * Get Update Instance Operation
-         * @description Retrieves the status of the operation to [update an instance](https://create.roblox.com/docs/cloud/reference/features/instances#Cloud_UpdateInstance).
+         * @description Retrieves the status of the operation to [update an instance](https://create.roblox.com/docs/cloud/reference/features/universes#Cloud_UpdateInstance).
          */
         get: operations['Cloud_GetUpdateInstanceOperation'];
         put?: never;
@@ -42782,6 +43220,15 @@ export interface components {
             /** @description The list of grants that had errors. */
             errors?: components['schemas']['GrantPermissionError'][] | null;
         };
+        /** @description A breakdown dimension value in a query result. */
+        BreakdownValue: {
+            /** @description The dimension name. */
+            dimension: string;
+            /** @description The dimension value. */
+            value: string;
+            /** @description A human-readable display value when the dimension is a unique ID. */
+            displayValue?: string | null;
+        };
         /** @description Request model for bulk deleting saves */
         BulkDeleteSavesRequest: {
             /** @description A list of saves being deleted */
@@ -43306,6 +43753,27 @@ export interface components {
          * @enum {string}
          */
         CustomSignalType: 'Invalid' | 'PlayerCategorical' | 'ServerCategorical' | 'ServerNumerical' | 'PlayerNumerical';
+        /** @description A single data point in a metric query result. */
+        DataPoint: {
+            /**
+             * Format: date-time
+             * @description The timestamp of the data point in UTC.
+             */
+            time: string;
+            /**
+             * Format: double
+             * @description The numeric value of the data point.
+             */
+            value: number;
+            /** @description String values associated with the data point, when applicable. */
+            stringValues?: string[] | null;
+            status?: components['schemas']['DataStatus'];
+        };
+        /**
+         * @description The status of a data point in a query result.
+         * @enum {string}
+         */
+        DataStatus: 'Valid' | 'Projected' | 'NotStatisticallySignificant';
         /** @description Represents a data store. */
         DataStore: {
             /**
@@ -43561,6 +44029,59 @@ export interface components {
             /** @description Whether managed pricing is enabled for the developer product. */
             isManagedPricingEnabled: boolean;
         };
+        /** @description A single dimension value returned by a dimension values query. */
+        DimensionValue: {
+            /** @description The dimension value. */
+            value: string;
+            /** @description A human-readable display value when the dimension is a unique ID. */
+            displayValue?: string | null;
+        };
+        /** @description The values for a single dimension returned by a dimension values query. */
+        DimensionValues: {
+            /** @description The dimension name. */
+            dimension: string;
+            /** @description The values for the dimension. */
+            values?: components['schemas']['DimensionValue'][];
+        };
+        /** @description A completed long-running dimension values operation with results. */
+        DimensionValuesOperationResult: {
+            /** @description The server-assigned resource path. */
+            path?: string | null;
+            /** @description If false, the operation is still in progress. If true, the operation is completed. */
+            done?: boolean;
+            response?: components['schemas']['DimensionValuesResponse'];
+            metadata?: components['schemas']['OperationMetadata'];
+        };
+        /** @description A request to query dimension values. */
+        DimensionValuesRequest: {
+            /** @description The metric that provides context for resolving dimension namespaces. */
+            metric: string;
+            /** @description The dimensions to retrieve values for. Each entry is a single dimension name. */
+            dimensions?: string[];
+            /**
+             * Format: date-time
+             * @description The inclusive start of the query time range. Any UTC offset is accepted; results are always bucketed in UTC.
+             */
+            startTime: string;
+            /**
+             * Format: date-time
+             * @description The exclusive end of the query time range. Any UTC offset is accepted; results are always bucketed in UTC.
+             */
+            endTime: string;
+            /** @description Filters to apply to the query. */
+            filter?: components['schemas']['QueryFilter'][];
+            granularity?: components['schemas']['MetricGranularity'];
+            /**
+             * Format: int32
+             * @description The maximum number of values to return per dimension.
+             */
+            limit?: number;
+        };
+        /** @description The response for a dimension values query. */
+        DimensionValuesResponse: {
+            /** @description The dimension values returned by the query. */
+            values?: components['schemas']['DimensionValues'][];
+        };
         /** @description Discards read items from the front of the queue. */
         DiscardMemoryStoreQueueItemsRequest: {
             /**
@@ -43679,6 +44200,18 @@ export interface components {
             /** @description The list of available values for the filter. */
             values?: unknown[] | null;
         };
+        /**
+         * @description The operation to apply to a query filter.
+         * @enum {string}
+         */
+        FilterOperation:
+            | 'In'
+            | 'NotIn'
+            | 'GreaterThan'
+            | 'GreaterThanOrEqual'
+            | 'LessThan'
+            | 'LessThanOrEqual'
+            | 'Match';
         /** @description Response model for filter options endpoint. */
         FilterOptionsResponse: {
             /** @description A dictionary of filter field names to their metadata and available values. */
@@ -45912,6 +46445,18 @@ export interface components {
              */
             readonly count?: number;
         };
+        /**
+         * @description The time granularity of metric data points in a query.
+         * @enum {string}
+         */
+        MetricGranularity: 'OneMinute' | 'HalfHour' | 'OneHour' | 'OneDay' | 'OneWeek' | 'OneMonth' | 'None';
+        /** @description A metric value for a single breakdown series. */
+        MetricValue: {
+            /** @description The breakdown values for this series. */
+            breakdowns?: components['schemas']['BreakdownValue'][];
+            /** @description The data points for this series. */
+            dataPoints?: components['schemas']['DataPoint'][];
+        };
         /** @description Mock server signal values. */
         MockServerSignalValues: {
             /**
@@ -46211,11 +46756,36 @@ export interface components {
              */
             response?: components['schemas']['GoogleProtobufAny'];
         };
+        /** @description A completed long-running operation that failed with an error. */
+        OperationError: {
+            /** @description The server-assigned resource path. */
+            path?: string | null;
+            /** @description If false, the operation is still in progress. If true, the operation is completed. */
+            done?: boolean;
+            error?: components['schemas']['QueryError'];
+            metadata?: components['schemas']['OperationMetadata'];
+        };
         OperationErrorResponse: {
             /** Format: int32 */
             readonly code?: number;
             readonly error?: string | null;
             message?: string | null;
+        };
+        /** @description The metadata associated with a long-running operation. */
+        OperationMetadata: {
+            /**
+             * Format: date-time
+             * @description The time the operation was created.
+             */
+            createdTime?: string | null;
+        };
+        /** @description A long-running operation that is still in progress. */
+        OperationPending: {
+            /** @description The server-assigned resource path. */
+            path?: string | null;
+            /** @description If false, the operation is still in progress. If true, the operation is completed. */
+            done?: boolean;
+            metadata?: components['schemas']['OperationMetadata'];
         };
         /** @description A key-value entry in an ordered data store. */
         OrderedDataStoreEntry: {
@@ -46727,6 +47297,16 @@ export interface components {
             /** @description The suggested spelling correction for the original search query. */
             suggestedQuery?: string | null;
         } | null;
+        /** @description The error returned from a query request. */
+        QueryError: {
+            /**
+             * Format: int32
+             * @description The error code.
+             */
+            code?: number;
+            /** @description The message associated with the query error. */
+            message: string;
+        };
         /** @description The facets of a query. */
         QueryFacets: {
             /** @description Facets that are already applied to the search. */
@@ -46734,6 +47314,53 @@ export interface components {
             /** @description The unused and still available facets. */
             availableFacets?: string[] | null;
         } | null;
+        /** @description A filter applied to a query dimension. */
+        QueryFilter: {
+            /** @description The dimension name to filter on. */
+            dimension: string;
+            /** @description The values to filter by. */
+            values?: string[];
+            operation: components['schemas']['FilterOperation'];
+        };
+        /** @description A completed long-running query operation with results. */
+        QueryOperationResult: {
+            /** @description The server-assigned resource path. */
+            path?: string | null;
+            /** @description If false, the operation is still in progress. If true, the operation is completed. */
+            done?: boolean;
+            response?: components['schemas']['QueryResponse'];
+            metadata?: components['schemas']['OperationMetadata'];
+        };
+        /** @description A request to query time series metric data. */
+        QueryRequest: {
+            /** @description The metric to query. */
+            metric: string;
+            granularity: components['schemas']['MetricGranularity'];
+            /**
+             * Format: date-time
+             * @description The inclusive start of the query time range. Any UTC offset is accepted; results are always bucketed in UTC.
+             */
+            startTime: string;
+            /**
+             * Format: date-time
+             * @description The exclusive end of the query time range. Any UTC offset is accepted; results are always bucketed in UTC.
+             */
+            endTime: string;
+            /** @description The dimensions to group results by. Each entry is a single dimension name. */
+            breakdown?: string[];
+            /** @description Filters to apply to the query. */
+            filter?: components['schemas']['QueryFilter'][];
+            /**
+             * Format: int32
+             * @description The maximum number of breakdown series to return.
+             */
+            limit?: number;
+        };
+        /** @description The response for a metric query. */
+        QueryResponse: {
+            /** @description The metric values returned by the query. */
+            values?: components['schemas']['MetricValue'][];
+        };
         /** @description Returns the specified number of items at the front of the queue. */
         ReadMemoryStoreQueueItemsResponse: {
             /**

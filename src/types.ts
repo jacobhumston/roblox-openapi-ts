@@ -40278,7 +40278,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations['SalesReportDownload_PublishSalesReportDownloadMessage'];
+        post: operations['TransactionRecordsApi.SalesReportDownload_PublishSalesReportDownloadMessage'];
         delete?: never;
         options?: never;
         head?: never;
@@ -65424,7 +65424,7 @@ export interface operations {
             };
         };
     };
-    SalesReportDownload_PublishSalesReportDownloadMessage: {
+    'TransactionRecordsApi.SalesReportDownload_PublishSalesReportDownloadMessage': {
         parameters: {
             query?: never;
             header?: never;

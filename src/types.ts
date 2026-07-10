@@ -24576,67 +24576,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/groups/{groupId}/wall/posts': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets a list of group wall posts. */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The number of results per request. */
-                    limit?: 10 | 25 | 50 | 100;
-                    /** @description The paging cursor for the previous or next page. */
-                    cursor?: string;
-                    /** @description Sorted by group wall post Id */
-                    sortOrder?: 'Asc' | 'Desc';
-                };
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.GroupWallPostModel_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.GroupWallPostModel_'];
-                    };
-                };
-                /** @description 1: The group is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 2: You do not have permission to access this group wall. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v1/installer-cdns': {
         parameters: {
             query?: never;
@@ -36980,7 +36919,7 @@ export interface paths {
                 query?: {
                     includeLocked?: boolean;
                     includeNotificationPreferences?: boolean;
-                    discoveryType?: 0 | 1;
+                    discoveryType?: 0 | 1 | 2;
                 };
                 header?: never;
                 path: {
@@ -38286,75 +38225,6 @@ export interface paths {
                 };
             };
         };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v2/assets/{assetId}/bundles': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Lists bundles that contain the given asset (hydrated search-detail shape for marketplace). */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The number of results per request. */
-                    limit?: 10 | 25 | 50 | 100;
-                    /** @description The paging cursor for the previous or next page. */
-                    cursor?: string;
-                    /** @description The order the results are sorted in. */
-                    sortOrder?: 'Asc' | 'Desc';
-                };
-                header: {
-                    /** @description Roblox-Place-Id header. */
-                    'Roblox-Place-Id': number;
-                    /** @description Roblox-Game-Id header. */
-                    'Roblox-Game-Id': string;
-                };
-                path: {
-                    /** @description Asset id. */
-                    assetId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Catalog.Api.CatalogSearchDetailedResponseItem_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Catalog.Api.CatalogSearchDetailedResponseItem_'];
-                    };
-                };
-                /**
-                 * @description 1: Invalid assetId
-                 *     4: Invalid Cursor.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 7: User is unauthorized. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -42067,7 +41937,7 @@ export interface paths {
                 query: {
                     includeLocked: boolean;
                     includeNotificationPreferences: boolean;
-                    discoveryType: 0 | 1;
+                    discoveryType: 0 | 1 | 2;
                 };
                 header?: never;
                 path: {
@@ -50316,7 +50186,8 @@ export interface components {
                 | 89
                 | 90
                 | 91
-                | 92;
+                | 92
+                | 93;
             /**
              * Format: int32
              * @description The Roblox.Platform.Bundles.Core.BundleType serialized if item is a bundle.
@@ -50530,7 +50401,8 @@ export interface components {
                 | 89
                 | 90
                 | 91
-                | 92;
+                | 92
+                | 93;
             /**
              * Format: int32
              * @description The Roblox.Platform.Bundles.Core.BundleType serialized if item is a bundle.
@@ -52798,9 +52670,9 @@ export interface components {
         };
         /** @description A model representing data about an Roblox.Platform.Membership.IUser */
         'Roblox.Groups.Api.GroupMembershipPermissionsModel': {
-            /** @description View wall permission */
+            /** @description Update a member's role */
             changeRank?: boolean;
-            /** @description Post to wall permission */
+            /** @description Invite members to the group */
             inviteMembers?: boolean;
             /** @description Remove from group permission */
             removeMembers?: boolean;
@@ -52901,12 +52773,6 @@ export interface components {
         };
         /** @description A model representing group posts permissions */
         'Roblox.Groups.Api.GroupPostsPermissionsModel': {
-            /** @description View wall permission */
-            viewWall?: boolean;
-            /** @description Post to wall permission */
-            postToWall?: boolean;
-            /** @description Delete from wall permission */
-            deleteFromWall?: boolean;
             /** @description View status permission */
             viewStatus?: boolean;
             /** @description Post to status permission */
@@ -53114,18 +52980,6 @@ export interface components {
              */
             groupStatusMaxLength?: number;
             /**
-             * Format: int32
-             * @description The maximum length of a group wall post
-             */
-            groupPostMaxLength?: number;
-            /** @description If set to true, group details will subscribe and respond to wall notifications. */
-            isGroupWallNotificationsEnabled?: boolean;
-            /**
-             * Format: int32
-             * @description Time in milliseconds between calls to subscribe to group wall notifications.
-             */
-            groupWallNotificationsSubscribeIntervalInMilliseconds?: number;
-            /**
              * @description If set to true, groups showcase will not show on users profiles.
              *
              *     If set to false, group showcase will display on users profiles.
@@ -53244,27 +53098,6 @@ export interface components {
              * @description Date the name change was applied
              */
             created?: string;
-        };
-        /** @description A response model for group wall post information */
-        'Roblox.Groups.Api.Models.Response.GroupWallPostModel': {
-            /**
-             * Format: int64
-             * @description The group wall post Id.
-             */
-            id?: number;
-            poster?: components['schemas']['Roblox.Groups.Api.Models.Response.UserModel'];
-            /** @description The group wall post body. */
-            body?: string;
-            /**
-             * Format: date-time
-             * @description When the group wall post was posted.
-             */
-            created?: string;
-            /**
-             * Format: date-time
-             * @description When the group wall post was last updated.
-             */
-            updated?: string;
         };
         /** @description A model representing data about an Roblox.Platform.Membership.IUser */
         'Roblox.Groups.Api.Models.Response.UserModel': {
@@ -53535,14 +53368,11 @@ export interface components {
         'Roblox.Groups.Api.UpdatePermissionsRequest': {
             /** @description The permission-value pairs to be updated. */
             permissions?: {
-                DeleteFromWall?: boolean;
-                PostToWall?: boolean;
                 InviteMembers?: boolean;
                 PostToStatus?: boolean;
                 RemoveMembers?: boolean;
                 BanMembers?: boolean;
                 ViewStatus?: boolean;
-                ViewWall?: boolean;
                 ChangeRank?: boolean;
                 AdvertiseGroup?: boolean;
                 ManageRelationships?: boolean;
@@ -56378,11 +56208,6 @@ export interface components {
             previousPageCursor?: string;
             nextPageCursor?: string;
             data?: components['schemas']['Roblox.Groups.Api.Models.Response.GroupNameHistoryResponseItem'][];
-        };
-        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.GroupWallPostModel_': {
-            previousPageCursor?: string;
-            nextPageCursor?: string;
-            data?: components['schemas']['Roblox.Groups.Api.Models.Response.GroupWallPostModel'][];
         };
         'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.UserModel_': {
             previousPageCursor?: string;

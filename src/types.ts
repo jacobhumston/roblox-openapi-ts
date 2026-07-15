@@ -38060,10 +38060,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.Assets.AssetResponseItemV2'];
-                        'text/json': components['schemas']['Roblox.Web.Assets.AssetResponseItemV2'];
-                    };
+                    content?: never;
                 };
             };
         };
@@ -38116,10 +38113,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.Assets.AssetResponseItemV2'];
-                        'text/json': components['schemas']['Roblox.Web.Assets.AssetResponseItemV2'];
-                    };
+                    content?: never;
                 };
             };
         };
@@ -38173,10 +38167,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.Assets.AssetResponseItemV2'];
-                        'text/json': components['schemas']['Roblox.Web.Assets.AssetResponseItemV2'];
-                    };
+                    content?: never;
                 };
             };
         };
@@ -38220,10 +38211,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.Assets.AssetResponseItemV2'][];
-                        'text/json': components['schemas']['Roblox.Web.Assets.AssetResponseItemV2'][];
-                    };
+                    content?: never;
                 };
             };
         };
@@ -39244,10 +39232,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.Assets.AssetResponseItemV2'];
-                        'text/json': components['schemas']['Roblox.Web.Assets.AssetResponseItemV2'];
-                    };
+                    content?: never;
                 };
             };
         };
@@ -44971,6 +44956,104 @@ export interface components {
              * @example true
              */
             bypassSlowMode?: boolean;
+        };
+        'GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_': {
+            /** Format: int64 */
+            id?: number;
+            /**
+             * Format: int32
+             * @description ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94]
+             * @enum {integer}
+             */
+            type?:
+                | 1
+                | 2
+                | 3
+                | 4
+                | 5
+                | 6
+                | 7
+                | 8
+                | 9
+                | 10
+                | 11
+                | 12
+                | 13
+                | 16
+                | 17
+                | 18
+                | 19
+                | 21
+                | 22
+                | 24
+                | 25
+                | 26
+                | 27
+                | 28
+                | 29
+                | 30
+                | 31
+                | 32
+                | 33
+                | 34
+                | 35
+                | 37
+                | 38
+                | 39
+                | 40
+                | 41
+                | 42
+                | 43
+                | 44
+                | 45
+                | 46
+                | 47
+                | 48
+                | 49
+                | 50
+                | 51
+                | 52
+                | 53
+                | 54
+                | 55
+                | 56
+                | 59
+                | 60
+                | 61
+                | 62
+                | 63
+                | 64
+                | 65
+                | 66
+                | 67
+                | 68
+                | 69
+                | 70
+                | 71
+                | 72
+                | 73
+                | 74
+                | 75
+                | 76
+                | 77
+                | 78
+                | 79
+                | 80
+                | 81
+                | 82
+                | 83
+                | 84
+                | 85
+                | 86
+                | 87
+                | 88
+                | 89
+                | 90
+                | 91
+                | 92
+                | 93
+                | 94;
+            name?: string;
         };
         HttpContent: {
             readonly headers?: components['schemas']['StringStringIEnumerableKeyValuePair'][] | null;
@@ -53076,7 +53159,7 @@ export interface components {
             /** @description The game description. */
             description?: string;
             creator?: components['schemas']['Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Core.CreatorType_'];
-            rootPlace?: components['schemas']['Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_'];
+            rootPlace?: components['schemas']['GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_'];
             /**
              * Format: date-time
              * @description When the game was created.
@@ -53806,18 +53889,10 @@ export interface components {
              * @description The creator target Id.
              */
             creatorTargetId?: number;
-            /**
-             * Format: int64
-             * @description The Price for onSale asset
-             *     Note: This is now considered deprecated in favor of PriceConfiguration.
-             */
-            price?: number;
-            priceConfiguration?: components['schemas']['Roblox.ItemConfiguration.Api.PriceConfigurationModel'];
             /** @description Is the asset archived. */
             isArchived?: boolean;
             /** @description Type of the asset. */
             assetType?: string;
-            releaseConfiguration?: components['schemas']['Roblox.ItemConfiguration.Api.ReleaseConfigurationResponseModel'];
             /**
              * Format: date-time
              * @description Date asset was created.
@@ -53842,36 +53917,6 @@ export interface components {
             assetId?: number;
             /** @description The asset name. */
             name?: string;
-        };
-        /** @description Defines the configuration options for an items price. */
-        'Roblox.ItemConfiguration.Api.PriceConfigurationModel': {
-            /**
-             * Format: int64
-             * @description Gets or sets the standard price of the item in Robux.
-             */
-            priceInRobux?: number;
-            /**
-             * Format: int32
-             * @description Gets or sets the discount rate on the price of the item that is given to premium users
-             *     Should not be used while applying a PremiumPriceInRobux.
-             */
-            premiumDiscountPercentage?: number;
-            /**
-             * Format: int64
-             * @description Gets or sets the price of the item in Robux that applies only to premium users
-             *     Should not be used while applying a PremiumDiscountPercentage.
-             */
-            premiumPriceInRobux?: number;
-            /**
-             * Format: int64
-             * @description Gets or sets the price offset of the item in Robux above the price floor.
-             */
-            priceOffset?: number;
-        };
-        /** @description Defines the configuration options associated with releasing an item. */
-        'Roblox.ItemConfiguration.Api.ReleaseConfigurationResponseModel': {
-            /** @description Get or sets the sale availability locations list. */
-            saleAvailabilityLocations?: ('Undefined' | 'Catalog' | 'AllUniverses' | 'MyUniverses')[];
         };
         /** @description Model for Country Regions */
         'Roblox.Locale.Api.CountryRegion': {
@@ -55568,11 +55613,6 @@ export interface components {
             fidelity?: string;
             skipGenerationIfNotExist?: boolean;
         };
-        'Roblox.Web.Assets.AssetFormatLocation': {
-            assetFormat?: string;
-            location?: string;
-            assetMetadatas?: components['schemas']['Roblox.AssetDelivery.Api.AssetMetadata'][];
-        };
         'Roblox.Web.Assets.AssetResponseItemV1': {
             location?: string;
             errors?: components['schemas']['Roblox.Web.Assets.IAssetItemError'][];
@@ -55586,21 +55626,6 @@ export interface components {
             assetTypeId?: number;
             contentRepresentationSpecifier?: components['schemas']['Roblox.Web.Assets.AssetContentRepresentationSpecifier'];
             assetMetadatas?: components['schemas']['Roblox.AssetDelivery.Api.AssetMetadata'][];
-            /** @description Whether the asset is recordable in screen recordings. */
-            isRecordable?: boolean;
-        };
-        'Roblox.Web.Assets.AssetResponseItemV2': {
-            locations?: components['schemas']['Roblox.Web.Assets.AssetFormatLocation'][];
-            errors?: components['schemas']['Roblox.Web.Assets.IAssetItemError'][];
-            requestId?: string;
-            /** @description Whether the asset has been archived. */
-            isArchived?: boolean;
-            /**
-             * Format: int32
-             * @description Asset Type.
-             */
-            assetTypeId?: number;
-            contentRepresentationSpecifier?: components['schemas']['Roblox.Web.Assets.AssetContentRepresentationSpecifier'];
             /** @description Whether the asset is recordable in screen recordings. */
             isRecordable?: boolean;
         };

@@ -1,4 +1,959 @@
 export interface paths {
+    '/ads-management/v1/advertisable-universes': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List advertisable universes
+         * @description Returns the universe IDs of every experience the billing account is eligible to advertise. The complete list is returned in a single response; this endpoint is not paginated. Use these IDs to set targetUniverseId when creating a campaign, and resolve experience names with the Open Cloud Universe API.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ListAdvertisableUniversesResponse'];
+                    };
+                };
+                /** @description Permission denied */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Rate limit exceeded */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/ads-management/v1/billing-accounts': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List billing accounts
+         * @description Lists the billing accounts owned by the authenticated user. Each account includes its type, status, time zone, and create/update timestamps. Results are paginated with a cursor (pageToken).
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Maximum results per page (1-100, default 50) */
+                    maxPageSize?: number;
+                    /** @description Opaque cursor from a prior nextPageToken */
+                    pageToken?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ListBillingAccountsResponse'];
+                    };
+                };
+                /** @description Invalid maxPageSize or pageToken */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Permission denied */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Rate limit exceeded */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/ads-management/v1/billing-accounts/{id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a billing account
+         * @description Returns a single billing account owned by the authenticated user. Returns 404 if the account does not exist or is not owned by the caller.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Billing account ID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.BillingAccount'];
+                    };
+                };
+                /** @description Permission denied */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Billing account not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Rate limit exceeded */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/ads-management/v1/campaign-options': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get campaign options
+         * @description Returns the values accepted when creating a campaign: supported objectives, payment types, ad formats, and targeting dimensions. When universeId is supplied, the response also includes an eligibility block indicating whether that experience can currently be advertised, along with the reasons when it cannot.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Universe ID to check eligibility for */
+                    universeId?: string;
+                    /** @description Objective filter (ENGAGEMENT in v1) */
+                    objective?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.CampaignOptionsResponse'];
+                    };
+                };
+                /** @description Invalid objective or universeId */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Permission denied */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Rate limit exceeded */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/ads-management/v1/campaigns': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List campaigns
+         * @description Lists the campaigns in the caller's billing account. Campaigns are grouped by status (ACTIVE first, then PAUSED, then CANCELLED) and returned newest first within each group. Results are paginated with a cursor (pageToken); each page returns up to maxPageSize campaigns (default 50, max 100).
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Maximum results per page (1-100, default 50) */
+                    maxPageSize?: number;
+                    /** @description Opaque cursor from a prior nextPageToken */
+                    pageToken?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ListCampaignsResponse'];
+                    };
+                };
+                /** @description Invalid maxPageSize or pageToken */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Permission denied */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Rate limit exceeded */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        /**
+         * Create a campaign
+         * @description Creates an ad campaign in the billing account. The creatives you reference must already exist as Open Cloud image assets that you have permission to use; they are validated and saved to your account's reusable creatives when the campaign is created. On success the campaign is returned with deliveryStatus IN_REVIEW, meaning it is queued for ad-policy review and not yet serving — poll the campaign (or campaigns:batchGetStatus) until this changes. budget.amountMicros is the budget in micro-USD as a decimal string (e.g. "5000000" = $5.00). It must be at least the minimum campaign budget; an amount below the minimum returns 400 with the required minimum stated in the error message. schedule.durationInDays must not exceed 3650 (~10 years). The x-idempotency-key header is required and must be a UUID: retrying the same key with an identical body within 24 hours returns the original campaign (200), while reusing a key with a different body returns 409.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header: {
+                    /** @description Idempotency key (UUID); 24h dedupe window. Identical replay returns the original campaign (200); mismatched replay may conflict (409). */
+                    'x-idempotency-key': string;
+                };
+                path?: never;
+                cookie?: never;
+            };
+            /** @description Campaign creation request */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['internal_public_v1.CreateCampaignRequest'];
+                };
+            };
+            responses: {
+                /** @description Campaign created, or idempotent replay of a prior create with the same key and body */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.Campaign'];
+                    };
+                };
+                /** @description Validation error, invalid asset, or endTime sent */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Cannot manage account, universe not advertisable, or USE-permission denied */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Idempotency key reused with a different request body, or concurrent write conflict */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Rate limit exceeded */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/ads-management/v1/campaigns/{id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a campaign
+         * @description Returns a single campaign, including its status (the lifecycle state you control: ACTIVE, PAUSED, or CANCELLED) and its deliveryStatus (whether it is currently serving: SERVING, IN_REVIEW, NOT_SERVING, or REJECTED). deliveryStatusReasons lists any reasons that affect delivery — for example why a campaign is not serving or was rejected, or that a serving campaign is still in its initial learning period. Returns 404 if the campaign does not exist or is not owned by the caller.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Campaign ID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.Campaign'];
+                    };
+                };
+                /** @description Invalid campaign ID */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Permission denied */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Campaign not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Rate limit exceeded */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update a campaign
+         * @description Updates the mutable fields of a campaign. You can change: name, budget.amountMicros, schedule.startTime and schedule.durationInDays (schedule changes are only allowed before the campaign starts), and status. Set status to ACTIVE to run or resume the campaign, PAUSED to pause it, or CANCELLED to cancel it permanently. budget.type cannot be changed — only the amount. A budget increase takes effect immediately, but a budget decrease on a running campaign is scheduled for the next midnight in the account's time zone; while a decrease is pending, the response reports it in budget.scheduledAmountMicros and budget.scheduledEffectiveTime. The fields objective, paymentType, targeting, creativeAssetIds, and bid are fixed after creation and return 400 if included. The updated campaign is returned with its recomputed deliveryStatus.
+         */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Campaign ID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            /** @description Fields to update */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['internal_public_v1.UpdateCampaignRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.Campaign'];
+                    };
+                };
+                /** @description Validation error or immutable field supplied */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Permission denied */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Campaign not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Rate limit exceeded */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/ads-management/v1/campaigns/{id}/performance': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get campaign performance
+         * @description Returns aggregate performance for a single campaign over the requested period: impressions, clicks, plays, spend, CPM (cost per 1,000 impressions), CPP (cost per play), playRate, and CTR (click-through rate). Metrics are calculated in the billing account's time zone. Money fields (spendMicros, cpmMicros, cppMicros) are micro-USD returned as decimal strings (e.g. "5000000" = $5.00). Set the period query parameter to choose the window (defaults to LAST_7_DAYS).
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Reporting period (TODAY, YESTERDAY, LAST_7_DAYS, LAST_30_DAYS, THIS_MONTH, LAST_MONTH, YEAR_TO_DATE, PREVIOUS_YEAR; default LAST_7_DAYS) */
+                    period?: string;
+                };
+                header?: never;
+                path: {
+                    /** @description Campaign ID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.PerformanceResponse'];
+                    };
+                };
+                /** @description Invalid period value */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Permission denied */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Campaign not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Rate limit exceeded */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/ads-management/v1/campaigns:batchGetPerformance': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Batch get campaign performance
+         * @description Returns aggregate performance for up to 100 campaigns over a single shared period (default LAST_7_DAYS), calculated in the billing account's time zone. Each result carries the same metrics as the single-campaign performance endpoint: impressions, clicks, plays, spend, CPM (cost per 1,000 impressions), CPP (cost per play), playRate, and CTR (click-through rate). Provide the campaign IDs in campaignIds; any ID that is not found or is not owned by the caller is returned in the failures array with reason NOT_FOUND. Prefer this over calling the single-campaign endpoint in a loop when building account-wide dashboards.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description Campaign IDs (max 100) and optional period */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['internal_public_v1.BatchGetPerformanceRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.BatchGetPerformanceResponse'];
+                    };
+                };
+                /** @description Invalid request, exceeds 100 IDs, or invalid period */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Permission denied */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Rate limit exceeded */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/ads-management/v1/campaigns:batchGetStatus': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Batch get campaign status
+         * @description Returns the status (lifecycle state) and deliveryStatus (whether the campaign is currently serving), along with deliveryStatusReasons, for up to 100 campaigns in a single call. This is the recommended way to poll the review and serving state of many campaigns at once. Provide the campaign IDs in campaignIds; any ID that is not found or is not owned by the caller is returned in the failures array with reason NOT_FOUND.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description List of campaign IDs (max 100) */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['internal_public_v1.BatchGetStatusRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.BatchGetStatusResponse'];
+                    };
+                };
+                /** @description Invalid request or exceeds 100 IDs */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Permission denied */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Rate limit exceeded */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/ads-management/v1/creatives': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List creatives
+         * @description Lists the reusable creatives saved to the caller's billing account. Each creative includes its assetId, name, moderation status, dimensions, and source. Use isArchived to filter by archive state. Results are paginated with a cursor (pageToken).
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Filter by archived status */
+                    isArchived?: boolean;
+                    /** @description Maximum results per page (1-100, default 50) */
+                    maxPageSize?: number;
+                    /** @description Opaque cursor from a prior nextPageToken */
+                    pageToken?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ListCreativesResponse'];
+                    };
+                };
+                /** @description Invalid maxPageSize or pageToken */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Permission denied */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Rate limit exceeded */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/analytics-query-api/v1/universes/{universeId}/dimension-values': {
         parameters: {
             query?: never;
@@ -31215,6 +32170,183 @@ export interface paths {
         };
         trace?: never;
     };
+    '/v1/universes/{universeId}/configuration/playtesters': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get the list of playtesters for an owned universe. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The universe Id. */
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Api.Develop.Models.PlaytestersResponse'];
+                        'text/json': components['schemas']['Roblox.Api.Develop.Models.PlaytestersResponse'];
+                    };
+                };
+                /** @description 1: The universe does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 2: You are not authorized to configure this universe. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /** Add playtesters to an owned universe. Existing ids are ignored (additive union). */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The universe Id. */
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            /** @description The playtesters to add. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Api.Develop.Models.PlaytestersRequest'];
+                    'text/json': components['schemas']['Roblox.Api.Develop.Models.PlaytestersRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Api.Develop.Models.PlaytestersResponse'];
+                        'text/json': components['schemas']['Roblox.Api.Develop.Models.PlaytestersResponse'];
+                    };
+                };
+                /**
+                 * @description 1: The universe does not exist.
+                 *     48: The playtesters list is missing or empty.
+                 *     49: Too many playtesters were specified in a single request.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     2: You are not authorized to configure this universe.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        /** Remove playtesters from an owned universe. */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The universe Id. */
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            /** @description The playtesters to remove. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Api.Develop.Models.PlaytestersRequest'];
+                    'text/json': components['schemas']['Roblox.Api.Develop.Models.PlaytestersRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Api.Develop.Models.PlaytestersResponse'];
+                        'text/json': components['schemas']['Roblox.Api.Develop.Models.PlaytestersResponse'];
+                    };
+                };
+                /**
+                 * @description 1: The universe does not exist.
+                 *     48: The playtesters list is missing or empty.
+                 *     49: Too many playtesters were specified in a single request.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     2: You are not authorized to configure this universe.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/universes/{universeId}/configuration/vip-servers': {
         parameters: {
             query?: never;
@@ -44293,7 +45425,7 @@ export interface components {
          * @description Enum describing the different available filter fields.
          * @enum {string}
          */
-        FilterField: 'EngineVersion' | 'ALL';
+        FilterField: 'EngineVersion' | 'PlaceVersion' | 'ALL';
         /** @description Describes the metadata and available values for a single filter field. */
         FilterFieldInfo: {
             /** @description The technical name of the field. */
@@ -49129,6 +50261,10 @@ export interface components {
         };
         /** @description The result of various checks for a user's eligibility to activate a given universe from private to public. */
         'Roblox.Api.Develop.Models.ActivationEligibilityResponse': {
+            /**
+             * @description The overall result of activation eligibility. This requires the user publish gate
+             *     and either a maturity rating or an intact Build seal.
+             */
             isEligible?: boolean;
             /** @description Whether the place has an active content maturity rating or not. */
             maturityRated?: boolean;
@@ -49153,6 +50289,105 @@ export interface components {
             creatorTier?: 0 | 1 | 2 | 3 | 4;
             /** @description Audiences the universe is allowed to be published to. */
             allowedAudiences?: (0 | 1 | 2 | 3 | 4)[];
+            /**
+             * @description Whether the universe has a provisional rating via a Build seal in Content Catalog.
+             *     When true, the universe is eligible for activation even without a full maturity questionnaire.
+             */
+            provisionalRatingAllowed?: boolean;
+            provisionalRating?: components['schemas']['Roblox.Api.Develop.Models.BuildGeneratedRatingPreviewResponse'];
+        };
+        /** @description The complete build-generated rating preview returned by Experience Guidelines. */
+        'Roblox.Api.Develop.Models.BuildGeneratedRatingPreviewResponse': {
+            ageRecommendationDetails?: components['schemas']['Roblox.Api.Develop.Models.BuildGeneratedRatingPreviewResponse.AgeRecommendationDetailsModel'];
+            /** @description Country-specific restrictions produced by the preview. */
+            restrictedCountries?: components['schemas']['Roblox.Api.Develop.Models.BuildGeneratedRatingPreviewResponse.RestrictedCountryModel'][];
+        };
+        /** @description Age range for a descriptor usage. */
+        'Roblox.Api.Develop.Models.BuildGeneratedRatingPreviewResponse.AgeRangeModel': {
+            /**
+             * Format: int32
+             * @description Inclusive minimum age.
+             */
+            minAgeInclusive?: number;
+            /**
+             * Format: int32
+             * @description Inclusive maximum age.
+             */
+            maxAgeInclusive?: number;
+        };
+        /** @description Age recommendation details. */
+        'Roblox.Api.Develop.Models.BuildGeneratedRatingPreviewResponse.AgeRecommendationDetailsModel': {
+            ageRecommendationSummary?: components['schemas']['Roblox.Api.Develop.Models.BuildGeneratedRatingPreviewResponse.AgeRecommendationSummaryModel'];
+            /** @description Descriptor usages that contributed to the recommendation. */
+            experienceDescriptorUsages?: components['schemas']['Roblox.Api.Develop.Models.BuildGeneratedRatingPreviewResponse.ExperienceDescriptorUsageModel'][];
+        };
+        /** @description Age recommendation. */
+        'Roblox.Api.Develop.Models.BuildGeneratedRatingPreviewResponse.AgeRecommendationModel': {
+            /** @description Localized display name. */
+            displayName?: string;
+            /**
+             * Format: int32
+             * @description Minimum recommended age.
+             */
+            minimumAge?: number;
+            /** @description Localized short display name including the maturity header. */
+            displayNameWithHeaderShort?: string;
+            /** @description Localized minimum-age display value. */
+            minimumAgeDisplay?: string;
+            /** @description Explicit content maturity value. */
+            contentMaturity?: string;
+            /** @description IGRS rating enum name, when present. */
+            igrsRating?: string;
+            /** @description Localized IGRS rating display message, when present. */
+            igrsRatingDisplayMessage?: string;
+        };
+        /** @description Age recommendation summary. */
+        'Roblox.Api.Develop.Models.BuildGeneratedRatingPreviewResponse.AgeRecommendationSummaryModel': {
+            ageRecommendation?: components['schemas']['Roblox.Api.Develop.Models.BuildGeneratedRatingPreviewResponse.AgeRecommendationModel'];
+        };
+        /** @description Descriptor dimension usage. */
+        'Roblox.Api.Develop.Models.BuildGeneratedRatingPreviewResponse.ExperienceDescriptorDimensionUsageModel': {
+            /** @description Dimension name. */
+            dimensionName?: string;
+            /** @description Dimension value. */
+            dimensionValue?: string;
+        };
+        /** @description Experience descriptor definition. */
+        'Roblox.Api.Develop.Models.BuildGeneratedRatingPreviewResponse.ExperienceDescriptorModel': {
+            /** @description Descriptor name. */
+            name?: string;
+            /** @description Localized descriptor display name. */
+            displayName?: string;
+            /** @description Whether the descriptor is supported by the Compliance API. */
+            complianceApiSupported?: boolean;
+            /** @description Descriptor icon URL. */
+            iconUrl?: string;
+        };
+        /** @description A descriptor usage that contributed to a recommendation. */
+        'Roblox.Api.Develop.Models.BuildGeneratedRatingPreviewResponse.ExperienceDescriptorUsageModel': {
+            /** @description Descriptor usage name. */
+            name?: string;
+            /** @description Whether this usage follows the Compliance API, when specified. */
+            followsComplianceApi?: boolean;
+            experienceDescriptor?: components['schemas']['Roblox.Api.Develop.Models.BuildGeneratedRatingPreviewResponse.ExperienceDescriptorModel'];
+            /** @description Dimensions associated with this usage. */
+            experienceDescriptorDimensionUsages?: components['schemas']['Roblox.Api.Develop.Models.BuildGeneratedRatingPreviewResponse.ExperienceDescriptorDimensionUsageModel'][];
+            /** @description Whether the experience contains this descriptor. */
+            contains?: boolean;
+            ageRange?: components['schemas']['Roblox.Api.Develop.Models.BuildGeneratedRatingPreviewResponse.AgeRangeModel'];
+            /** @description Localized descriptor display name. */
+            descriptorDisplayName?: string;
+            /** @description Localized age-range display name. */
+            ageRangeDisplayName?: string;
+        };
+        /** @description Country-specific restrictions. */
+        'Roblox.Api.Develop.Models.BuildGeneratedRatingPreviewResponse.RestrictedCountryModel': {
+            /** @description ISO country code. */
+            countryCode?: string;
+            /** @description Descriptor usages responsible for the restriction. */
+            experienceDescriptorUsages?: components['schemas']['Roblox.Api.Develop.Models.BuildGeneratedRatingPreviewResponse.ExperienceDescriptorUsageModel'][];
+            /** @description Localized country display name. */
+            countryDisplayName?: string;
         };
         /** @description Represents a game template in API endpoint responses. */
         'Roblox.Api.Develop.Models.GameTemplateModel': {
@@ -49294,6 +50529,16 @@ export interface components {
             description?: string;
             /** @description Returns whether this place is the root place. */
             isRootPlace?: boolean;
+        };
+        /** @description Request model for adding or removing playtesters. */
+        'Roblox.Api.Develop.Models.PlaytestersRequest': {
+            /** @description The user ids to add or remove as playtesters for this universe. */
+            playtesters?: number[];
+        };
+        /** @description Response model for playtester list endpoints. */
+        'Roblox.Api.Develop.Models.PlaytestersResponse': {
+            /** @description The user ids that are playtesters for this universe. */
+            playtesters?: number[];
         };
         /** @description Model for private server details responses from the UniverseSettings controller. */
         'Roblox.Api.Develop.Models.PrivateServerDetailsResponse': {
@@ -58244,6 +59489,501 @@ export interface components {
              */
             upVotePercent?: number;
         } | null;
+        'internal_public_v1.AdFormat': {
+            /** @description The ad format name. */
+            format?: string;
+            /** @description The format height in pixels. */
+            height?: number;
+            /** @description The format width in pixels. */
+            width?: number;
+        };
+        'internal_public_v1.AdvertisableUniverse': {
+            /**
+             * @description The identifier of an experience the caller can advertise, as a decimal string.
+             *     Resolve its name via the Open Cloud Universe API.
+             */
+            universeId?: string;
+        };
+        'internal_public_v1.BatchGetPerformanceRequest': {
+            /** @description The campaign IDs to report on. Required. At most 100 per request. */
+            campaignIds?: string[];
+            /**
+             * @description The reporting window applied to every campaign in the batch. Optional; defaults
+             *     to `LAST_7_DAYS`. Can be `TODAY`, `YESTERDAY`, `LAST_7_DAYS`, `LAST_30_DAYS`,
+             *     `THIS_MONTH`, `LAST_MONTH`, `YEAR_TO_DATE`, or `PREVIOUS_YEAR`.
+             * @enum {string}
+             */
+            period?:
+                | 'TODAY'
+                | 'YESTERDAY'
+                | 'LAST_7_DAYS'
+                | 'LAST_30_DAYS'
+                | 'THIS_MONTH'
+                | 'LAST_MONTH'
+                | 'YEAR_TO_DATE'
+                | 'PREVIOUS_YEAR';
+        };
+        'internal_public_v1.BatchGetPerformanceResponse': {
+            /** @description The time the metrics were current, as an RFC 3339 UTC timestamp. */
+            dataAsOf?: string;
+            /** @description The last day of the window (inclusive), as YYYY-MM-DD in the account's time zone. */
+            endDate?: string;
+            /** @description The IDs that could not be resolved. Omitted when every ID resolved. */
+            failures?: components['schemas']['internal_public_v1.CampaignIDFailure'][];
+            /**
+             * @description The reporting window applied to every campaign. Can be `TODAY`, `YESTERDAY`,
+             *     `LAST_7_DAYS`, `LAST_30_DAYS`, `THIS_MONTH`, `LAST_MONTH`, `YEAR_TO_DATE`, or `PREVIOUS_YEAR`.
+             * @enum {string}
+             */
+            period?:
+                | 'TODAY'
+                | 'YESTERDAY'
+                | 'LAST_7_DAYS'
+                | 'LAST_30_DAYS'
+                | 'THIS_MONTH'
+                | 'LAST_MONTH'
+                | 'YEAR_TO_DATE'
+                | 'PREVIOUS_YEAR';
+            /** @description One entry per successfully resolved campaign. */
+            results?: components['schemas']['internal_public_v1.CampaignPerformance'][];
+            /** @description The first day of the window (inclusive), as YYYY-MM-DD in the account's time zone. */
+            startDate?: string;
+            /** @description The IANA time zone the window and metrics are computed in. */
+            timeZone?: string;
+        };
+        'internal_public_v1.BatchGetStatusRequest': {
+            /** @description The campaign IDs to look up. Required. At most 100 per request. */
+            campaignIds?: string[];
+        };
+        'internal_public_v1.BatchGetStatusResponse': {
+            /** @description The IDs that could not be resolved. Omitted when every ID resolved. */
+            failures?: components['schemas']['internal_public_v1.CampaignIDFailure'][];
+            /** @description One entry per successfully resolved campaign. */
+            statuses?: components['schemas']['internal_public_v1.CampaignStatus'][];
+        };
+        'internal_public_v1.Bid': {
+            /**
+             * @description The bidding strategy. v1 campaigns are always `AUTOMATED`.
+             * @enum {string}
+             */
+            strategy?: 'AUTOMATED';
+        };
+        'internal_public_v1.BillingAccount': {
+            /** @description The time the account was created, as an RFC 3339 UTC timestamp. */
+            createTime?: string;
+            /** @description The human-readable name of the account. */
+            displayName?: string;
+            /** @description The unique identifier of the billing account. Use it as the {id} path parameter. */
+            id?: string;
+            /** @description The identifier of the organization that owns the account. */
+            organizationId?: string;
+            /**
+             * @description The current state of the account. Can be `ACTIVE`, `DISABLED`, or `ARCHIVED`.
+             * @enum {string}
+             */
+            status?: 'ACTIVE' | 'DISABLED' | 'ARCHIVED';
+            /**
+             * @description The IANA time zone the account's reporting dates and budget schedules are
+             *     interpreted in. Example: `America/Los_Angeles`.
+             */
+            timeZone?: string;
+            /**
+             * @description The account category. External advertisers are always SELF_SERVICE; MANAGED and
+             *     INTERNAL are Roblox-operated accounts. Can be `SELF_SERVICE`, `MANAGED`, or `INTERNAL`.
+             * @enum {string}
+             */
+            type?: 'SELF_SERVICE' | 'MANAGED' | 'INTERNAL';
+            /** @description The time the account was last updated, as an RFC 3339 UTC timestamp. */
+            updateTime?: string;
+        };
+        'internal_public_v1.Budget': {
+            /**
+             * @description The budget amount in micro-USD, as a decimal string (for example, `5000000` =
+             *     $5.00). Money is sent and returned as a string so large values keep full
+             *     precision in every client. On a request it must be a numeric string of micro-USD.
+             */
+            amountMicros?: string;
+            /**
+             * @description The queued lower budget for a pending decrease, in micro-USD as a decimal string
+             *     (same format as amountMicros). A budget increase takes effect immediately, but a
+             *     decrease on a running campaign is applied at the next midnight in the account's
+             *     time zone; until then the campaign keeps serving on amountMicros (the current,
+             *     higher budget). Omitted when no decrease is pending.
+             */
+            scheduledAmountMicros?: string;
+            /**
+             * @description The time a pending budget decrease takes effect, as an RFC 3339 UTC timestamp.
+             *     Omitted when no decrease is pending.
+             */
+            scheduledEffectiveTime?: string;
+            /**
+             * @description The budget cadence. Fixed when the campaign is created. Can be `DAILY` or `LIFETIME`.
+             * @enum {string}
+             */
+            type?: 'DAILY' | 'LIFETIME';
+        };
+        'internal_public_v1.Campaign': {
+            bid?: components['schemas']['internal_public_v1.Bid'];
+            /** @description The billing account that owns and funds the campaign. */
+            billingAccountId?: string;
+            budget?: components['schemas']['internal_public_v1.Budget'];
+            /** @description The time the campaign was created, as an RFC 3339 UTC timestamp. */
+            createTime?: string;
+            /** @description The Open Cloud image asset IDs the campaign advertises, as decimal strings. */
+            creativeAssetIds?: string[];
+            /**
+             * @description The current serving state, derived by the system (read-only). Can be `SERVING`,
+             *     `IN_REVIEW`, `NOT_SERVING`, or `REJECTED`.
+             * @enum {string}
+             */
+            deliveryStatus?: 'SERVING' | 'IN_REVIEW' | 'NOT_SERVING' | 'REJECTED';
+            /**
+             * @description The reasons behind the current deliveryStatus, such as why a campaign is not
+             *     serving or was rejected, or `LEARNING` while a serving campaign ramps up. Omitted
+             *     when there are none.
+             */
+            deliveryStatusReasons?: (
+                | 'SCHEDULED'
+                | 'AUTO_PAUSED'
+                | 'PAUSED'
+                | 'INACTIVE'
+                | 'COMPLETED'
+                | 'EXPIRED'
+                | 'CANCELLED'
+                | 'MODERATED'
+                | 'CLICK_BAIT'
+                | 'GAME_FILTERED'
+                | 'PRIVATE'
+                | 'PLACE_JOIN_RESTRICTED'
+                | 'LEARNING'
+            )[];
+            /** @description The server-assigned unique identifier of the campaign. */
+            id?: string;
+            /** @description The display name of the campaign. */
+            name?: string;
+            /**
+             * @description The advertising goal of the campaign. Only `ENGAGEMENT` is supported in v1.
+             * @enum {string}
+             */
+            objective?: 'ENGAGEMENT';
+            /**
+             * @description How the campaign is paid for. Fixed when the campaign is created. Can be
+             *     `CREDIT_CARD`, `ADS_CREDIT`, or `INVOICE`.
+             * @enum {string}
+             */
+            paymentType?: 'CREDIT_CARD' | 'ADS_CREDIT' | 'INVOICE';
+            schedule?: components['schemas']['internal_public_v1.Schedule'];
+            /**
+             * @description The lifecycle state you control through update requests. Can be `ACTIVE`,
+             *     `PAUSED`, or `CANCELLED`. `CANCELLED` is permanent.
+             * @enum {string}
+             */
+            status?: 'ACTIVE' | 'PAUSED' | 'CANCELLED';
+            /** @description The identifier of the experience the campaign advertises. */
+            targetUniverseId?: string;
+            targeting?: components['schemas']['internal_public_v1.Targeting'];
+            /** @description The time the campaign was last updated, as an RFC 3339 UTC timestamp. */
+            updateTime?: string;
+        };
+        'internal_public_v1.CampaignIDFailure': {
+            /** @description The campaign ID that could not be resolved. */
+            id?: string;
+            /**
+             * @description Why the ID could not be resolved. `NOT_FOUND` means the campaign does not exist
+             *     or is not owned by the caller.
+             * @enum {string}
+             */
+            reason?: 'NOT_FOUND';
+        };
+        'internal_public_v1.CampaignOptionsResponse': {
+            /** @description The supported creative formats and their pixel dimensions. */
+            adFormats?: components['schemas']['internal_public_v1.AdFormat'][];
+            /**
+             * @description The eligibility result for the requested experience. Present only when
+             *     universeId was supplied in the request.
+             */
+            eligibility?: components['schemas']['internal_public_v1.UniverseEligibility'];
+            /** @description The campaign objectives you can create. Only `ENGAGEMENT` is supported in v1. */
+            objectives?: 'ENGAGEMENT'[];
+            /**
+             * @description The payment types available for the caller's account. Values can be
+             *     `CREDIT_CARD`, `ADS_CREDIT`, or `INVOICE`.
+             */
+            paymentTypes?: ('CREDIT_CARD' | 'ADS_CREDIT' | 'INVOICE')[];
+            targetingDimensions?: components['schemas']['internal_public_v1.TargetingDimensions'];
+        };
+        'internal_public_v1.CampaignPerformance': {
+            /** @description The campaign these metrics belong to. */
+            campaignId?: string;
+            totals?: components['schemas']['internal_public_v1.PerformanceTotals'];
+        };
+        'internal_public_v1.CampaignStatus': {
+            /**
+             * @description The current serving state. Can be `SERVING`, `IN_REVIEW`, `NOT_SERVING`, or `REJECTED`.
+             * @enum {string}
+             */
+            deliveryStatus?: 'SERVING' | 'IN_REVIEW' | 'NOT_SERVING' | 'REJECTED';
+            /** @description The reasons behind the current deliveryStatus. Omitted when there are none. */
+            deliveryStatusReasons?: (
+                | 'SCHEDULED'
+                | 'AUTO_PAUSED'
+                | 'PAUSED'
+                | 'INACTIVE'
+                | 'COMPLETED'
+                | 'EXPIRED'
+                | 'CANCELLED'
+                | 'MODERATED'
+                | 'CLICK_BAIT'
+                | 'GAME_FILTERED'
+                | 'PRIVATE'
+                | 'PLACE_JOIN_RESTRICTED'
+                | 'LEARNING'
+            )[];
+            /** @description The campaign identifier. */
+            id?: string;
+            /**
+             * @description The lifecycle state. Can be `ACTIVE`, `PAUSED`, or `CANCELLED`.
+             * @enum {string}
+             */
+            status?: 'ACTIVE' | 'PAUSED' | 'CANCELLED';
+        };
+        'internal_public_v1.CreateCampaignRequest': {
+            /** @description Optional bidding strategy. Only `AUTOMATED` is accepted in v1; may be omitted. */
+            bid?: components['schemas']['internal_public_v1.Bid'];
+            budget?: components['schemas']['internal_public_v1.Budget'];
+            /**
+             * @description The Open Cloud image asset IDs to advertise, as decimal strings. Required. The
+             *     assets must already exist and be usable by the caller.
+             */
+            creativeAssetIds?: string[];
+            /** @description The display name of the campaign. Required. */
+            name?: string;
+            /**
+             * @description The advertising goal. Required. Only `ENGAGEMENT` is supported in v1.
+             * @enum {string}
+             */
+            objective?: 'ENGAGEMENT';
+            /**
+             * @description How the campaign is paid for. Required. Can be `CREDIT_CARD`, `ADS_CREDIT`, or
+             *     `INVOICE`, subject to what the billing account supports.
+             * @enum {string}
+             */
+            paymentType?: 'CREDIT_CARD' | 'ADS_CREDIT' | 'INVOICE';
+            schedule?: components['schemas']['internal_public_v1.Schedule'];
+            /** @description The identifier of the experience to advertise. Required. */
+            targetUniverseId?: string;
+            /** @description Optional audience targeting. Omit it, or send an empty object, to reach all audiences. */
+            targeting?: components['schemas']['internal_public_v1.Targeting'];
+        };
+        'internal_public_v1.Creative': {
+            /** @description The Open Cloud image asset ID backing this creative, as a decimal string. */
+            assetId?: string;
+            /** @description The display name of the underlying asset. */
+            assetName?: string;
+            /**
+             * @description The media type of the asset. Only `IMAGE` is supported in v1.
+             * @enum {string}
+             */
+            assetType?: 'IMAGE';
+            /** @description The time the creative was added to the library, as an RFC 3339 UTC timestamp. */
+            createTime?: string;
+            /** @description The height of the asset in pixels. Omitted when unknown. */
+            height?: number;
+            /** @description The identifier of the creative library entry. This is distinct from assetId. */
+            id?: string;
+            /** @description Whether the creative has been archived (soft-deleted). */
+            isArchived?: boolean;
+            /**
+             * @description The content-review outcome for the asset. Can be `PENDING_REVIEW`, `APPROVED`, or `REJECTED`.
+             * @enum {string}
+             */
+            moderationStatus?: 'PENDING_REVIEW' | 'APPROVED' | 'REJECTED';
+            /**
+             * @description How the asset was produced. Can be `UPLOAD` or `IN_HOUSE_GEN_AI`.
+             * @enum {string}
+             */
+            source?: 'UPLOAD' | 'IN_HOUSE_GEN_AI';
+            /**
+             * @description The identifier of the experience the creative is associated with, if any, as a
+             *     decimal string. Omitted when not associated with an experience.
+             */
+            universeId?: string;
+            /** @description The time the creative was last updated, as an RFC 3339 UTC timestamp. */
+            updateTime?: string;
+            /** @description The width of the asset in pixels. Omitted when unknown. */
+            width?: number;
+        };
+        'internal_public_v1.ErrorEnvelope': {
+            /** @description A human-readable explanation of this specific failure. */
+            detail?: string;
+            /** @description The individual errors. There is at least one entry; each has a code and message. */
+            errors?: components['schemas']['internal_public_v1.PublicError'][];
+            /** @description The HTTP status code, repeated here for convenience. */
+            status?: number;
+            /** @description A short summary of the error class. */
+            title?: string;
+        };
+        'internal_public_v1.ListAdvertisableUniversesResponse': {
+            /**
+             * @description The complete set of experiences the caller can advertise. This endpoint is not
+             *     paginated; the full list is returned in one response.
+             */
+            advertisableUniverses?: components['schemas']['internal_public_v1.AdvertisableUniverse'][];
+        };
+        'internal_public_v1.ListBillingAccountsResponse': {
+            /** @description The page of billing accounts. */
+            billingAccounts?: components['schemas']['internal_public_v1.BillingAccount'][];
+            /**
+             * @description The cursor for the next page. Pass it as pageToken to fetch the next page.
+             *     Absent on the last page.
+             */
+            nextPageToken?: string;
+        };
+        'internal_public_v1.ListCampaignsResponse': {
+            /** @description The page of campaigns. */
+            campaigns?: components['schemas']['internal_public_v1.Campaign'][];
+            /**
+             * @description The cursor for the next page. Pass it as pageToken to fetch the next page.
+             *     Absent on the last page.
+             */
+            nextPageToken?: string;
+        };
+        'internal_public_v1.ListCreativesResponse': {
+            /** @description The page of creatives. */
+            creatives?: components['schemas']['internal_public_v1.Creative'][];
+            /**
+             * @description The cursor for the next page. Pass it as pageToken to fetch the next page.
+             *     Absent on the last page.
+             */
+            nextPageToken?: string;
+        };
+        'internal_public_v1.PerformanceResponse': {
+            /** @description The campaign these metrics belong to. */
+            campaignId?: string;
+            /** @description The time the metrics were current, as an RFC 3339 UTC timestamp. */
+            dataAsOf?: string;
+            /** @description The last day of the window (inclusive), as YYYY-MM-DD in the account's time zone. */
+            endDate?: string;
+            /**
+             * @description The reporting window applied. Can be `TODAY`, `YESTERDAY`, `LAST_7_DAYS`,
+             *     `LAST_30_DAYS`, `THIS_MONTH`, `LAST_MONTH`, `YEAR_TO_DATE`, or `PREVIOUS_YEAR`.
+             * @enum {string}
+             */
+            period?:
+                | 'TODAY'
+                | 'YESTERDAY'
+                | 'LAST_7_DAYS'
+                | 'LAST_30_DAYS'
+                | 'THIS_MONTH'
+                | 'LAST_MONTH'
+                | 'YEAR_TO_DATE'
+                | 'PREVIOUS_YEAR';
+            /** @description The first day of the window (inclusive), as YYYY-MM-DD in the account's time zone. */
+            startDate?: string;
+            /** @description The IANA time zone the window and metrics are computed in. */
+            timeZone?: string;
+            totals?: components['schemas']['internal_public_v1.PerformanceTotals'];
+        };
+        'internal_public_v1.PerformanceTotals': {
+            /** @description The number of clicks on an ad. */
+            clicks?: number;
+            /** @description Cost per 1,000 impressions in micro-USD, as a decimal string. */
+            cpmMicros?: string;
+            /** @description Cost per play in micro-USD, as a decimal string. */
+            cppMicros?: string;
+            /** @description The click-through rate: clicks divided by impressions, from 0 to 1. */
+            ctr?: number;
+            /** @description The number of times an ad was shown. */
+            impressions?: number;
+            /** @description The play rate: plays divided by impressions, from 0 to 1. */
+            playRate?: number;
+            /** @description The number of resulting experience plays. */
+            plays?: number;
+            /** @description Total spend in micro-USD, as a decimal string (for example, `5000000` = $5.00). */
+            spendMicros?: string;
+        };
+        'internal_public_v1.PublicError': {
+            /**
+             * @description A stable, machine-readable error code (for example, `INVALID_ARGUMENT`,
+             *     `NOT_FOUND`, `PERMISSION_DENIED`, or `RATE_LIMITED`).
+             */
+            code?: string;
+            /** @description A human-readable description of the error. */
+            message?: string;
+        };
+        'internal_public_v1.Schedule': {
+            /**
+             * @description How long the campaign runs from startTime, in days. Must not exceed 3650 (about
+             *     10 years).
+             */
+            durationInDays?: number;
+            /**
+             * @description Not accepted in v1 and never returned; supplying it returns 400. Use
+             *     durationInDays to set when the campaign ends. Reserved for a future objective.
+             */
+            endTime?: string;
+            /**
+             * @description The time the campaign starts serving, as an RFC 3339 UTC timestamp. On a create
+             *     request it must not be in the past.
+             */
+            startTime?: string;
+        };
+        'internal_public_v1.Targeting': {
+            /**
+             * @description The age brackets to deliver to. Empty means all ages. Values can be `AGE_13_17`,
+             *     `AGE_18_24`, or `AGE_25_PLUS`.
+             */
+            ageGroups?: ('AGE_13_17' | 'AGE_18_24' | 'AGE_25_PLUS')[];
+            /**
+             * @description The ISO 3166-1 alpha-2 country codes to deliver to (for example, `US`). Empty
+             *     means all countries.
+             */
+            countries?: string[];
+            /**
+             * @description The device types to deliver to. Empty means all devices. Values can be `PHONE`,
+             *     `TABLET`, `DESKTOP`, or `CONSOLE`.
+             */
+            devices?: ('PHONE' | 'TABLET' | 'DESKTOP' | 'CONSOLE')[];
+        };
+        'internal_public_v1.TargetingDimensions': {
+            /** @description The selectable age brackets. Values can be `AGE_13_17`, `AGE_18_24`, or `AGE_25_PLUS`. */
+            ageGroups?: ('AGE_13_17' | 'AGE_18_24' | 'AGE_25_PLUS')[];
+            /** @description The selectable ISO 3166-1 alpha-2 country codes (for example, `US`). */
+            countries?: string[];
+            /** @description The selectable device types. Values can be `PHONE`, `TABLET`, `DESKTOP`, or `CONSOLE`. */
+            devices?: ('PHONE' | 'TABLET' | 'DESKTOP' | 'CONSOLE')[];
+        };
+        'internal_public_v1.UniverseEligibility': {
+            /** @description Whether the experience can currently be advertised. */
+            eligible?: boolean;
+            /**
+             * @description The reasons the experience is not eligible. Omitted when eligible. Values can be
+             *     `NO_PERMISSION` or `BLOCKED`.
+             */
+            reasons?: ('NO_PERMISSION' | 'BLOCKED')[];
+            /** @description The identifier of the experience that was checked. */
+            universeId?: string;
+        };
+        'internal_public_v1.UpdateCampaignRequest': {
+            /** @description Immutable in v1; including it returns 400. */
+            bid?: components['schemas']['internal_public_v1.Bid'];
+            /** @description A budget change. Only the amount may change; the budget type is immutable. */
+            budget?: components['schemas']['internal_public_v1.Budget'];
+            /** @description Immutable in v1; including it returns 400. */
+            creativeAssetIds?: string[];
+            /** @description A new display name for the campaign. */
+            name?: string;
+            /** @description A schedule change. Allowed only before the campaign starts. */
+            schedule?: components['schemas']['internal_public_v1.Schedule'];
+            /**
+             * @description A lifecycle transition: `ACTIVE` to run or resume, `PAUSED` to pause, or
+             *     `CANCELLED` to cancel permanently.
+             * @enum {string}
+             */
+            status?: 'ACTIVE' | 'PAUSED' | 'CANCELLED';
+            /** @description Immutable in v1; including it returns 400. */
+            targeting?: components['schemas']['internal_public_v1.Targeting'];
+        };
         /** @description A simple container used to hold and organize Roblox instances. */
         'roblox.engine.Folder': Record<string, never>;
         /** @description Instance is the base class for all classes in the Roblox class hierarchy. */

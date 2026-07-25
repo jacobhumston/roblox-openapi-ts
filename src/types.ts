@@ -44732,6 +44732,7 @@ export interface components {
             /** Format: int64 */
             expectedPrice?: number;
             isPurchaseConfirmed?: boolean | null;
+            idempotencyKey?: string | null;
         };
         /** @description Request model for creating a save */
         CreateSaveRequest: {

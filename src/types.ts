@@ -240,7 +240,7 @@ export interface paths {
                     /** @description Universe ID to check eligibility for */
                     universeId?: string;
                     /** @description Objective filter (ENGAGEMENT in v1) */
-                    objective?: string;
+                    objective?: 'ENGAGEMENT';
                 };
                 header?: never;
                 path?: never;
@@ -620,176 +620,6 @@ export interface paths {
                 };
             };
         };
-        trace?: never;
-    };
-    '/ads-management/v1/campaigns/{id}/performance': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get campaign performance
-         * @description Returns aggregate performance for a single campaign over the requested period: impressions, clicks, plays, spend, CPM (cost per 1,000 impressions), CPP (cost per play), playRate, and CTR (click-through rate). Metrics are calculated in the billing account's time zone. Money fields (spendMicros, cpmMicros, cppMicros) are micro-USD returned as decimal strings (e.g. "5000000" = $5.00). Set the period query parameter to choose the window (defaults to LAST_7_DAYS).
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Reporting period (TODAY, YESTERDAY, LAST_7_DAYS, LAST_30_DAYS, THIS_MONTH, LAST_MONTH, YEAR_TO_DATE, PREVIOUS_YEAR; default LAST_7_DAYS) */
-                    period?: string;
-                };
-                header?: never;
-                path: {
-                    /** @description Campaign ID */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.PerformanceResponse'];
-                    };
-                };
-                /** @description Invalid period value */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Permission denied */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Campaign not found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Rate limit exceeded */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Internal server error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/ads-management/v1/campaigns:batchGetPerformance': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Batch get campaign performance
-         * @description Returns aggregate performance for up to 100 campaigns over a single shared period (default LAST_7_DAYS), calculated in the billing account's time zone. Each result carries the same metrics as the single-campaign performance endpoint: impressions, clicks, plays, spend, CPM (cost per 1,000 impressions), CPP (cost per play), playRate, and CTR (click-through rate). Provide the campaign IDs in campaignIds; any ID that is not found or is not owned by the caller is returned in the failures array with reason NOT_FOUND. Prefer this over calling the single-campaign endpoint in a loop when building account-wide dashboards.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Campaign IDs (max 100) and optional period */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['internal_public_v1.BatchGetPerformanceRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.BatchGetPerformanceResponse'];
-                    };
-                };
-                /** @description Invalid request, exceeds 100 IDs, or invalid period */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Permission denied */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Rate limit exceeded */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Internal server error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
         trace?: never;
     };
     '/ads-management/v1/campaigns:batchGetStatus': {
@@ -59505,56 +59335,9 @@ export interface components {
              */
             universeId?: string;
         };
-        'internal_public_v1.BatchGetPerformanceRequest': {
-            /** @description The campaign IDs to report on. Required. At most 100 per request. */
-            campaignIds?: string[];
-            /**
-             * @description The reporting window applied to every campaign in the batch. Optional; defaults
-             *     to `LAST_7_DAYS`. Can be `TODAY`, `YESTERDAY`, `LAST_7_DAYS`, `LAST_30_DAYS`,
-             *     `THIS_MONTH`, `LAST_MONTH`, `YEAR_TO_DATE`, or `PREVIOUS_YEAR`.
-             * @enum {string}
-             */
-            period?:
-                | 'TODAY'
-                | 'YESTERDAY'
-                | 'LAST_7_DAYS'
-                | 'LAST_30_DAYS'
-                | 'THIS_MONTH'
-                | 'LAST_MONTH'
-                | 'YEAR_TO_DATE'
-                | 'PREVIOUS_YEAR';
-        };
-        'internal_public_v1.BatchGetPerformanceResponse': {
-            /** @description The time the metrics were current, as an RFC 3339 UTC timestamp. */
-            dataAsOf?: string;
-            /** @description The last day of the window (inclusive), as YYYY-MM-DD in the account's time zone. */
-            endDate?: string;
-            /** @description The IDs that could not be resolved. Omitted when every ID resolved. */
-            failures?: components['schemas']['internal_public_v1.CampaignIDFailure'][];
-            /**
-             * @description The reporting window applied to every campaign. Can be `TODAY`, `YESTERDAY`,
-             *     `LAST_7_DAYS`, `LAST_30_DAYS`, `THIS_MONTH`, `LAST_MONTH`, `YEAR_TO_DATE`, or `PREVIOUS_YEAR`.
-             * @enum {string}
-             */
-            period?:
-                | 'TODAY'
-                | 'YESTERDAY'
-                | 'LAST_7_DAYS'
-                | 'LAST_30_DAYS'
-                | 'THIS_MONTH'
-                | 'LAST_MONTH'
-                | 'YEAR_TO_DATE'
-                | 'PREVIOUS_YEAR';
-            /** @description One entry per successfully resolved campaign. */
-            results?: components['schemas']['internal_public_v1.CampaignPerformance'][];
-            /** @description The first day of the window (inclusive), as YYYY-MM-DD in the account's time zone. */
-            startDate?: string;
-            /** @description The IANA time zone the window and metrics are computed in. */
-            timeZone?: string;
-        };
         'internal_public_v1.BatchGetStatusRequest': {
             /** @description The campaign IDs to look up. Required. At most 100 per request. */
-            campaignIds?: string[];
+            campaignIds: string[];
         };
         'internal_public_v1.BatchGetStatusResponse': {
             /** @description The IDs that could not be resolved. Omitted when every ID resolved. */
@@ -59713,11 +59496,6 @@ export interface components {
             paymentTypes?: ('CREDIT_CARD' | 'ADS_CREDIT' | 'INVOICE')[];
             targetingDimensions?: components['schemas']['internal_public_v1.TargetingDimensions'];
         };
-        'internal_public_v1.CampaignPerformance': {
-            /** @description The campaign these metrics belong to. */
-            campaignId?: string;
-            totals?: components['schemas']['internal_public_v1.PerformanceTotals'];
-        };
         'internal_public_v1.CampaignStatus': {
             /**
              * @description The current serving state. Can be `SERVING`, `IN_REVIEW`, `NOT_SERVING`, or `REJECTED`.
@@ -59751,28 +59529,28 @@ export interface components {
         'internal_public_v1.CreateCampaignRequest': {
             /** @description Optional bidding strategy. Only `AUTOMATED` is accepted in v1; may be omitted. */
             bid?: components['schemas']['internal_public_v1.Bid'];
-            budget?: components['schemas']['internal_public_v1.Budget'];
+            budget: components['schemas']['internal_public_v1.Budget'];
             /**
              * @description The Open Cloud image asset IDs to advertise, as decimal strings. Required. The
              *     assets must already exist and be usable by the caller.
              */
-            creativeAssetIds?: string[];
+            creativeAssetIds: string[];
             /** @description The display name of the campaign. Required. */
-            name?: string;
+            name: string;
             /**
              * @description The advertising goal. Required. Only `ENGAGEMENT` is supported in v1.
              * @enum {string}
              */
-            objective?: 'ENGAGEMENT';
+            objective: 'ENGAGEMENT';
             /**
              * @description How the campaign is paid for. Required. Can be `CREDIT_CARD`, `ADS_CREDIT`, or
              *     `INVOICE`, subject to what the billing account supports.
              * @enum {string}
              */
-            paymentType?: 'CREDIT_CARD' | 'ADS_CREDIT' | 'INVOICE';
-            schedule?: components['schemas']['internal_public_v1.Schedule'];
+            paymentType: 'CREDIT_CARD' | 'ADS_CREDIT' | 'INVOICE';
+            schedule: components['schemas']['internal_public_v1.Schedule'];
             /** @description The identifier of the experience to advertise. Required. */
-            targetUniverseId?: string;
+            targetUniverseId: string;
             /** @description Optional audience targeting. Omit it, or send an empty object, to reach all audiences. */
             targeting?: components['schemas']['internal_public_v1.Targeting'];
         };
@@ -59858,51 +59636,6 @@ export interface components {
              */
             nextPageToken?: string;
         };
-        'internal_public_v1.PerformanceResponse': {
-            /** @description The campaign these metrics belong to. */
-            campaignId?: string;
-            /** @description The time the metrics were current, as an RFC 3339 UTC timestamp. */
-            dataAsOf?: string;
-            /** @description The last day of the window (inclusive), as YYYY-MM-DD in the account's time zone. */
-            endDate?: string;
-            /**
-             * @description The reporting window applied. Can be `TODAY`, `YESTERDAY`, `LAST_7_DAYS`,
-             *     `LAST_30_DAYS`, `THIS_MONTH`, `LAST_MONTH`, `YEAR_TO_DATE`, or `PREVIOUS_YEAR`.
-             * @enum {string}
-             */
-            period?:
-                | 'TODAY'
-                | 'YESTERDAY'
-                | 'LAST_7_DAYS'
-                | 'LAST_30_DAYS'
-                | 'THIS_MONTH'
-                | 'LAST_MONTH'
-                | 'YEAR_TO_DATE'
-                | 'PREVIOUS_YEAR';
-            /** @description The first day of the window (inclusive), as YYYY-MM-DD in the account's time zone. */
-            startDate?: string;
-            /** @description The IANA time zone the window and metrics are computed in. */
-            timeZone?: string;
-            totals?: components['schemas']['internal_public_v1.PerformanceTotals'];
-        };
-        'internal_public_v1.PerformanceTotals': {
-            /** @description The number of clicks on an ad. */
-            clicks?: number;
-            /** @description Cost per 1,000 impressions in micro-USD, as a decimal string. */
-            cpmMicros?: string;
-            /** @description Cost per play in micro-USD, as a decimal string. */
-            cppMicros?: string;
-            /** @description The click-through rate: clicks divided by impressions, from 0 to 1. */
-            ctr?: number;
-            /** @description The number of times an ad was shown. */
-            impressions?: number;
-            /** @description The play rate: plays divided by impressions, from 0 to 1. */
-            playRate?: number;
-            /** @description The number of resulting experience plays. */
-            plays?: number;
-            /** @description Total spend in micro-USD, as a decimal string (for example, `5000000` = $5.00). */
-            spendMicros?: string;
-        };
         'internal_public_v1.PublicError': {
             /**
              * @description A stable, machine-readable error code (for example, `INVALID_ARGUMENT`,
@@ -59965,11 +59698,22 @@ export interface components {
             /** @description The identifier of the experience that was checked. */
             universeId?: string;
         };
+        'internal_public_v1.UpdateBudget': {
+            /**
+             * @description The new budget amount in micro-USD, as a decimal string (for example,
+             *     `5000000` = $5.00). Money is sent as a string so large values keep full
+             *     precision in every client. Must be a numeric string of micro-USD.
+             */
+            amountMicros?: string;
+        };
         'internal_public_v1.UpdateCampaignRequest': {
             /** @description Immutable in v1; including it returns 400. */
             bid?: components['schemas']['internal_public_v1.Bid'];
-            /** @description A budget change. Only the amount may change; the budget type is immutable. */
-            budget?: components['schemas']['internal_public_v1.Budget'];
+            /**
+             * @description A budget change. Only the amount is mutable; the budget type is fixed at
+             *     creation, so it is not part of this object. Sending `type` returns 400.
+             */
+            budget?: components['schemas']['internal_public_v1.UpdateBudget'];
             /** @description Immutable in v1; including it returns 400. */
             creativeAssetIds?: string[];
             /** @description A new display name for the campaign. */

@@ -3070,7 +3070,9 @@ export interface paths {
         head?: never;
         /**
          * Update Place
-         * @description Updates the specified place.
+         * @description Updates the specified place. To avoid overwriting changes, this endpoint
+         *     responds with an HTTP 409 Conflict error if the place is open in an
+         *     active Team Create session.
          */
         patch: operations['Cloud_UpdatePlace'];
         trace?: never;
@@ -8668,7 +8670,9 @@ export interface paths {
                         | 'AssignRole'
                         | 'UnassignRole'
                         | 'PublishAnnouncement'
-                        | 'DeleteAnnouncement';
+                        | 'DeleteAnnouncement'
+                        | 'UpdateRoleSetPermissions'
+                        | 'UpdateGroupSecuritySettings';
                     /** @description Filter for specific user id */
                     userId?: number;
                     /** @description The number of results per request. */
@@ -21430,7 +21434,9 @@ export interface paths {
                         | 'AssignRole'
                         | 'UnassignRole'
                         | 'PublishAnnouncement'
-                        | 'DeleteAnnouncement';
+                        | 'DeleteAnnouncement'
+                        | 'UpdateRoleSetPermissions'
+                        | 'UpdateGroupSecuritySettings';
                     /** @description Filter for specific user id */
                     userId?: number;
                     /** @description The number of results per request. */
@@ -54221,6 +54227,8 @@ export interface components {
         'Roblox.Groups.Api.GroupSearchPageResponse': {
             /** @description Keyword used for search query */
             keyword?: string;
+            /** Format: int64 */
+            totalResults?: number;
             previousPageCursor?: string;
             nextPageCursor?: string;
             data?: components['schemas']['Roblox.Groups.Api.GroupSearchResponseItem'][];

@@ -22284,6 +22284,69 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/groups/{groupId}/community-tier/evaluate': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Client.TierEvaluationResultResponse'];
+                    };
+                };
+                /** @description 1: Group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     22: The feature is disabled.
+                 *     23: Insufficient permissions to complete the request.
+                 *     49: User is invalid or does not exist
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/groups/{groupId}/configuration': {
         parameters: {
             query?: never;
@@ -32093,6 +32156,7 @@ export interface paths {
                  * @description 1: The universe does not exist.
                  *     48: The playtesters list is missing or empty.
                  *     49: Too many playtesters were specified in a single request.
+                 *     51: One or more playtesters cannot be added due to safety restrictions.
                  */
                 400: {
                     headers: {
@@ -43864,6 +43928,57 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/virtual-events/v3/game-events/{eventId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a single game event by ID.
+         *     Use `?fields=` to request a subset of fields; unknown field names return 400.
+         */
+        get: operations['GameEvent_Get'];
+        put?: never;
+        post?: never;
+        /**
+         * Permanently delete an existing game event. Returns 204 No Content on success.
+         *     Permission is enforced via an explicit pre-check: callers that can read but not edit
+         *     receive 403; callers that cannot read receive 404.
+         */
+        delete: operations['GameEvent_Delete'];
+        options?: never;
+        head?: never;
+        /**
+         * Partially update a game event. Only fields present in the request body are changed; omitted or null fields are left
+         *     unchanged. Empty body is a no-op and returns the current game event resource.
+         */
+        patch: operations['GameEvent_Update'];
+        trace?: never;
+    };
+    '/virtual-events/v3/universes/{universeId}/game-events': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List game events under a universe.
+         *     Use `?fields=` to trim the response payload.
+         *     Response is always 200 (empty list for unknown universe).
+         */
+        get: operations['GameEvents_List'];
+        put?: never;
+        /** Create a new game event. Returns the full resource on success. */
+        post: operations['GameEvents_Create'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -44315,6 +44430,17 @@ export interface components {
             doesOwnerPrivacyRestrictJoins?: boolean;
             inviteResponseType?: components['schemas']['PrivateServerInviteResponseType'];
         };
+        CategoryResponse: {
+            /**
+             * @description The event category type of an event.
+             *
+             *     Mirror of:
+             *     https://github.rbx.com/Roblox/virtual-events/blob/master/services/virtual-events/src/Implementations/Types/EventCategory.cs
+             */
+            category?: components['schemas']['EventCategory'];
+            /** Format: int32 */
+            rank?: number;
+        };
         /** @description Get Client Status request. */
         ClientStatusGetRequest: {
             /**
@@ -44408,6 +44534,17 @@ export interface components {
             /** @description Conditional RPN rules and evaluation order, when any exist. */
             conditionalRules?: components['schemas']['ConditionalRulesPayload'] | null;
         };
+        ConfigResponse: {
+            /** @description Cron expression defining the event's recurrence schedule, if any. */
+            recurrence?: string | null;
+            /**
+             * Format: date-time
+             * @description The latest UTC timestamp at which automatic recurrence scheduling can occur.
+             */
+            recurrenceEndTime?: string | null;
+            /** @description The audience that should receive notifications for this event. */
+            notificationAudience?: components['schemas']['EventNotificationAudience'];
+        };
         /** @description A full representation of a configuration value, including its metadata. */
         ConfigValueFull: {
             /** @description Non-default branches (e.g. conditional), when present. */
@@ -44487,6 +44624,62 @@ export interface components {
              * @description The value to set the new entry. If the input value exceeds the maximum value supported by int64, which is 9,223,372,036,854,775,807, the request fails with a 400 Bad Request error.
              */
             value: number;
+        };
+        /** @description Optional event configuration block (recurrence + notification audience) on the v3 Create body. */
+        CreateGameEventConfigRequest: {
+            /** @description Cron expression for recurrence. Null = no recurrence. Validated server-side. */
+            recurrence?: string | null;
+            /** Format: date-time */
+            recurrenceEndTime?: string | null;
+            notificationAudience?: components['schemas']['EventNotificationAudience'] | null;
+        };
+        /**
+         * @description Request body for `POST /v3/universes/{universeId}/game-events`.
+         *     `universeId` comes from the URL path, not the body.
+         *     VirtualEventsApi.Models.V3.Request.CreateGameEventRequest.Visibility is restricted to Public/Private — Moderated is server-side only.
+         *     Nullable CLR properties allow JSON binding to materialize incomplete requests; required
+         *     fields are enforced by the virtual-events gRPC service when `CreateVirtualEvent` runs.
+         */
+        CreateGameEventRequest: {
+            /** @description Event title. Clients must provide a non-empty value. */
+            title?: string | null;
+            /** @description Event subtitle. Clients must provide a non-empty value. */
+            subtitle?: string | null;
+            /** @description Optional event description. */
+            description?: string | null;
+            /**
+             * Format: date-time
+             * @description Event start time. Clients must provide a timestamp such as
+             *     `yyyy-MM-ddTHH:mm:ss.fffzzz` or `yyyy-MM-ddTHH:mm:ss.fffZ`.
+             */
+            startTime?: string | null;
+            /**
+             * Format: date-time
+             * @description Event end time. Clients must provide a timestamp such as
+             *     `yyyy-MM-ddTHH:mm:ss.fffzzz` or `yyyy-MM-ddTHH:mm:ss.fffZ`, and it must be after
+             *     VirtualEventsApi.Models.V3.Request.CreateGameEventRequest.StartTime.
+             */
+            endTime?: string | null;
+            /** @description Must be `Public` or `Private`; `Moderated` is server-managed and rejected. */
+            visibility?: components['schemas']['EventVisibility'] | null;
+            /**
+             * Format: int64
+             * @description Group host. When omitted, the authenticated user is the host.
+             */
+            groupId?: number | null;
+            /**
+             * Format: int64
+             * @description Optional venue place ID. When omitted, the event is created in the universe root place.
+             */
+            placeId?: number | null;
+            categories?: components['schemas']['EventRankedCategory'][] | null;
+            thumbnails?: components['schemas']['EventMedia'][] | null;
+            /** @description Optional event configuration block (recurrence + notification audience) on the v3 Create body. */
+            config?: components['schemas']['CreateGameEventConfigRequest'] | null;
+            /** @description Optional featuring status flag. When omitted, defaults to "not featured". */
+            featuringStatus?: components['schemas']['FeaturingStatus'] | null;
+            /** @description Optional tagline. Length and content are validated server-side. */
+            tagline?: string | null;
         };
         /** @description Request to create a new MatchmakingPlayerAttributeDefinition. */
         CreateMatchmakingPlayerAttributeDefinitionRequest: {
@@ -45259,6 +45452,68 @@ export interface components {
             hint?: string | null;
         };
         /**
+         * @description The event category type of an event.
+         *
+         *     Mirror of:
+         *     https://github.rbx.com/Roblox/virtual-events/blob/master/services/virtual-events/src/Implementations/Types/EventCategory.cs
+         * @enum {string}
+         */
+        EventCategory:
+            | 'contentUpdate'
+            | 'locationUpdate'
+            | 'systemUpdate'
+            | 'activity'
+            | 'newContent'
+            | 'itemDrop'
+            | 'newSeason'
+            | 'newLocation'
+            | 'newMap'
+            | 'moreLevels'
+            | 'newFeature'
+            | 'earlyAccess'
+            | 'expansion'
+            | 'challenge'
+            | 'quest'
+            | 'festival';
+        /** @description Representation of some media associated with an event. */
+        EventMedia: {
+            /**
+             * Format: int64
+             * @description The ID of the media.
+             */
+            mediaId?: number;
+            /**
+             * Format: int32
+             * @description The rank of the media.
+             */
+            rank?: number;
+        };
+        /**
+         * @description The notification audience for an experience event
+         * @enum {string}
+         */
+        EventNotificationAudience: 'all' | 'rsvp' | 'subscribed' | 'group' | 'none';
+        /** @description Representation of the category associated with an event. */
+        EventRankedCategory: {
+            /** @description The category content. */
+            category?: components['schemas']['EventCategory'];
+            /**
+             * Format: int32
+             * @description The rank of the category.
+             */
+            rank?: number;
+        };
+        /**
+         * @description The visibility of a virtual event.
+         * @enum {string}
+         */
+        EventVisibility: 'private' | 'public' | 'moderated';
+        /**
+         * @description The featuring status of a virtual event.
+         * @enum {string}
+         */
+        FeaturingStatus: 'invalid' | 'enabled' | 'disabled';
+        /**
          * @description Enum describing the different available filter fields.
          * @enum {string}
          */
@@ -45331,6 +45586,48 @@ export interface components {
         /** @description ForecastUpdateResponse is used to return information about the forecasted update of a place. */
         ForecastUpdateResponse: {
             placeSummaries?: components['schemas']['PlaceSummaryForGameUpdate'][] | null;
+        };
+        /** @description v3 game event response. All fields except VirtualEventsApi.Models.V3.Response.GameEventResponse.Id are gated by the `?fields=` mask. */
+        GameEventResponse: {
+            /**
+             * @description The unique id of the game event. Always populated. Serialized as a string to
+             *     preserve precision for clients (event IDs exceed 2^53).
+             */
+            id?: string | null;
+            title?: string | null;
+            /** @description Localized title (caller's locale). Populated only when `displayTitle` is in the mask. */
+            displayTitle?: string | null;
+            subtitle?: string | null;
+            /** @description Localized subtitle. Populated only when `displaySubtitle` is in the mask. */
+            displaySubtitle?: string | null;
+            description?: string | null;
+            /** @description Localized description. Populated only when `displayDescription` is in the mask. */
+            displayDescription?: string | null;
+            /** Format: date-time */
+            startTime?: string | null;
+            /** Format: date-time */
+            endTime?: string | null;
+            /** Format: int64 */
+            universeId?: number | null;
+            /** Format: int64 */
+            placeId?: number | null;
+            /** @description Host block. VirtualEventsApi.Models.V3.Response.HostResponse.HostName and VirtualEventsApi.Models.V3.Response.HostResponse.HasVerifiedBadge are omitted when host-details resolution failed. */
+            host?: components['schemas']['HostResponse'] | null;
+            visibility?: components['schemas']['EventVisibility'] | null;
+            featuringStatus?: components['schemas']['FeaturingStatus'] | null;
+            /** @description Tagline for featuring review; visible to curators only when featuring is opted into. */
+            tagline?: string | null;
+            categories?: components['schemas']['CategoryResponse'][] | null;
+            thumbnails?: components['schemas']['ThumbnailResponse'][] | null;
+            /** @description Whether all requested thumbnails were successfully persisted. Returned on Create/Update. */
+            allThumbnailsCreated?: boolean | null;
+            config?: components['schemas']['ConfigResponse'] | null;
+            /** @description Authenticated caller's RSVP status. Omitted for unauthenticated callers. */
+            userRsvpStatus?: components['schemas']['RsvpStatus'] | null;
+            /** Format: date-time */
+            createTime?: string | null;
+            /** Format: date-time */
+            updateTime?: string | null;
         };
         /** @description Creator-facing representation of a game pass configuration. */
         GamePassConfigV2: {
@@ -46164,6 +46461,20 @@ export interface components {
         };
         /** @enum {string} */
         HomepageThumbnailStatus: 'Active' | 'Spammy';
+        /** @description Host block. VirtualEventsApi.Models.V3.Response.HostResponse.HostName and VirtualEventsApi.Models.V3.Response.HostResponse.HasVerifiedBadge are omitted when host-details resolution failed. */
+        HostResponse: {
+            /** @description The type of host of a virtual event. */
+            hostType?: components['schemas']['HostType'];
+            /** Format: int64 */
+            hostId?: number;
+            hostName?: string | null;
+            hasVerifiedBadge?: boolean | null;
+        };
+        /**
+         * @description The type of host of a virtual event.
+         * @enum {string}
+         */
+        HostType: 'user' | 'group';
         HttpContent: {
             readonly headers?: components['schemas']['StringStringIEnumerableKeyValuePair'][] | null;
         };
@@ -47872,6 +48183,12 @@ export interface components {
             value?: number;
             /** @description The name of the entry. */
             readonly id?: string;
+        };
+        /** @description Paginated response for v3 LIST. Page tokens are null at the collection boundaries. */
+        PaginatedGameEventsResponse: {
+            gameEvents?: components['schemas']['GameEventResponse'][] | null;
+            nextPageToken?: string | null;
+            previousPageToken?: string | null;
         };
         /** @enum {string} */
         PersonalizedConfigStatus: 'Active' | 'Inactive';
@@ -54822,6 +55139,10 @@ export interface components {
             contentType?: string;
             contentId?: string;
         };
+        'Roblox.Groups.Client.TierEvaluationResultResponse': {
+            tierInfo?: components['schemas']['Roblox.Groups.Client.CommunityTierInfoResponse'];
+            passedSignals?: string[];
+        };
         'Roblox.InGameContentTables.Client.GameLocation': {
             path?: string;
         };
@@ -57551,6 +57872,11 @@ export interface components {
             /** @description RPN operand: attribute reference or literal value (same concepts as the proto `RpnOperand` oneof). */
             operand?: components['schemas']['RpnOperandDto'] | null;
         };
+        /**
+         * @description The type of RSVP statuses.
+         * @enum {string}
+         */
+        RsvpStatus: 'none' | 'going' | 'maybeGoing' | 'notGoing';
         RuleDeltaPayload: {
             before?: unknown;
             after?: unknown;
@@ -58199,6 +58525,12 @@ export interface components {
         };
         /** @enum {string} */
         'ThumbnailPersonalizationApi.ModerationStatus': 'Reviewing' | 'Rejected' | 'Approved' | 'Unspecified';
+        ThumbnailResponse: {
+            /** Format: int64 */
+            mediaId?: number;
+            /** Format: int32 */
+            rank?: number;
+        };
         /** @description Representation of an asset. */
         'ToolboxService.Asset': {
             /**
@@ -58787,6 +59119,37 @@ export interface components {
              */
             value: number;
         };
+        /** @description Optional config block on the v3 PATCH body. Null sub-fields = no change. */
+        UpdateGameEventConfigRequest: {
+            /** @description New cron recurrence expression. Null = no change. Validated server-side. */
+            recurrence?: string | null;
+            /** Format: date-time */
+            recurrenceEndTime?: string | null;
+            notificationAudience?: components['schemas']['EventNotificationAudience'] | null;
+        };
+        /**
+         * @description Request body for `PATCH /v3/game-events/{eventId}`.
+         *     Every field is optional; null = "no change". An empty body is a no-op and returns the current resource.
+         */
+        UpdateGameEventRequest: {
+            title?: string | null;
+            subtitle?: string | null;
+            description?: string | null;
+            /** Format: date-time */
+            startTime?: string | null;
+            /** Format: date-time */
+            endTime?: string | null;
+            /** @description Must be `Public` or `Private`; other values are rejected. Null = no change. */
+            visibility?: components['schemas']['EventVisibility'] | null;
+            /** Format: int64 */
+            placeId?: number | null;
+            categories?: components['schemas']['EventRankedCategory'][] | null;
+            thumbnails?: components['schemas']['EventMedia'][] | null;
+            /** @description Optional config block on the v3 PATCH body. Null sub-fields = no change. */
+            config?: components['schemas']['UpdateGameEventConfigRequest'] | null;
+            featuringStatus?: components['schemas']['FeaturingStatus'] | null;
+            tagline?: string | null;
+        };
         /**
          * @description Represents metadata about the long-running operation corresponding to a
          *     UpdateInstance request.
@@ -59296,6 +59659,16 @@ export interface components {
             name?: string | null;
             displayName?: string | null;
             hasVerifiedBadge?: boolean;
+        };
+        'VirtualEventsApi.ProblemDetails': {
+            type?: string | null;
+            title?: string | null;
+            /** Format: int32 */
+            status?: number | null;
+            detail?: string | null;
+            instance?: string | null;
+        } & {
+            [key: string]: unknown;
         };
         /** @description model for voting. */
         VotingModel: {
@@ -67482,6 +67855,283 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['TransactionRecordResponseApiPageResponse'];
+                };
+            };
+        };
+    };
+    GameEvent_Get: {
+        parameters: {
+            query?: {
+                /** @description Optional field mask (comma-separated; omit or use * for all fields). */
+                fields?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Game event ID (from path). */
+                eventId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The requested game event. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['GameEventResponse'];
+                };
+            };
+            /** @description Malformed `?fields=` or invalid event ID. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['VirtualEventsApi.ProblemDetails'];
+                };
+            };
+            /** @description Event does not exist. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['VirtualEventsApi.ProblemDetails'];
+                };
+            };
+        };
+    };
+    GameEvent_Delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Game event ID to delete (from path). */
+                eventId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The event was deleted. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Caller is not authenticated. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['VirtualEventsApi.ProblemDetails'];
+                };
+            };
+            /** @description Caller can read the event but lacks delete permission. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['VirtualEventsApi.ProblemDetails'];
+                };
+            };
+            /** @description Event does not exist or caller cannot see it. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['VirtualEventsApi.ProblemDetails'];
+                };
+            };
+            /** @description The backend rejected the delete after the permission pre-check passed. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['VirtualEventsApi.ProblemDetails'];
+                };
+            };
+        };
+    };
+    GameEvent_Update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Game event ID from the route. */
+                eventId: number;
+            };
+            cookie?: never;
+        };
+        /** @description Partial update payload. Omitted or null fields are treated as no change. */
+        requestBody?: {
+            content: {
+                'application/json-patch+json': components['schemas']['UpdateGameEventRequest'];
+                'application/json': components['schemas']['UpdateGameEventRequest'];
+                'text/json': components['schemas']['UpdateGameEventRequest'];
+                'application/*+json': components['schemas']['UpdateGameEventRequest'];
+            };
+        };
+        responses: {
+            /** @description The updated game event resource. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['GameEventResponse'];
+                };
+            };
+            /** @description Validation failure or backend reject. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['VirtualEventsApi.ProblemDetails'];
+                };
+            };
+            /** @description Caller is not authenticated. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['VirtualEventsApi.ProblemDetails'];
+                };
+            };
+            /** @description Caller can read but lacks edit permission. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['VirtualEventsApi.ProblemDetails'];
+                };
+            };
+            /** @description Event not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['VirtualEventsApi.ProblemDetails'];
+                };
+            };
+        };
+    };
+    GameEvents_List: {
+        parameters: {
+            query?: {
+                /** @description Requested page size. */
+                pageSize?: number;
+                /** @description Continuation token from a prior page's `nextPageToken`. */
+                pageToken?: string;
+                /** @description When true, treats `pageToken` as a backward-pagination cursor. */
+                reverse?: boolean;
+                /** @description Upper bound on event start time. */
+                startsBefore?: string;
+                /** @description Lower bound on event start time. */
+                startsAfter?: string;
+                /** @description Upper bound on event end time. */
+                endsBefore?: string;
+                /** @description Lower bound on event end time. Defaults to now when neither bound is set. */
+                endsAfter?: string;
+                /** @description Visibility filter. */
+                visibility?: components['schemas']['EventVisibility'];
+                /** @description Field mask (comma-separated; omit or `*` for all fields). */
+                fields?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Universe that owns the events (from path). */
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description A page of game events. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['PaginatedGameEventsResponse'];
+                };
+            };
+            /** @description Invalid `?fields=`, out-of-range `pageSize`, or bad query parameter. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['VirtualEventsApi.ProblemDetails'];
+                };
+            };
+        };
+    };
+    GameEvents_Create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Universe that will own the new event (from path). */
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        /** @description The create payload. */
+        requestBody?: {
+            content: {
+                'application/json-patch+json': components['schemas']['CreateGameEventRequest'];
+                'application/json': components['schemas']['CreateGameEventRequest'];
+                'text/json': components['schemas']['CreateGameEventRequest'];
+                'application/*+json': components['schemas']['CreateGameEventRequest'];
+            };
+        };
+        responses: {
+            /** @description The newly-created game event resource. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['GameEventResponse'];
+                };
+            };
+            /** @description Validation failure or server-side reject (moderation, age requirement, ...). */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['VirtualEventsApi.ProblemDetails'];
+                };
+            };
+            /** @description Caller is not authenticated. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['VirtualEventsApi.ProblemDetails'];
+                };
+            };
+            /** @description Caller lacks permission or quota is exhausted. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['VirtualEventsApi.ProblemDetails'];
                 };
             };
         };

@@ -21327,8 +21327,8 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupDetailResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupDetailResponse'];
+                        'application/json': components['schemas']['GroupsApi.Roblox.Groups.Api.GroupDetailResponse'];
+                        'text/json': components['schemas']['GroupsApi.Roblox.Groups.Api.GroupDetailResponse'];
                     };
                 };
                 /** @description 1: Group is invalid or does not exist. */
@@ -46451,6 +46451,51 @@ export interface components {
              */
             bypassSlowMode?: boolean;
         };
+        /** @description A detailed group response model */
+        'GroupsApi.Roblox.Groups.Api.GroupDetailResponse': {
+            /**
+             * Format: int64
+             * @description The group id
+             */
+            id?: number;
+            /** @description The group name */
+            name?: string;
+            /** @description The group description */
+            description?: string;
+            owner?: components['schemas']['Roblox.Groups.Api.Models.Response.UserModel'];
+            shout?: components['schemas']['Roblox.Groups.Api.ShoutResponse'];
+            /**
+             * Format: int32
+             * @description The number of members in the group
+             */
+            memberCount?: number;
+            /** @description Whether the group is Builders Club only */
+            isBuildersClubOnly?: boolean;
+            /** @description Whether the group is public (no approval required) */
+            publicEntryAllowed?: boolean;
+            /** @description Whether the group is locked */
+            isLocked?: boolean;
+            /** @description Whether the group has a verified badge. */
+            hasVerifiedBadge?: boolean;
+            /**
+             * @description Whether the group has social modules enabled (e.g. Forums)
+             *     (determines if "Followers" vs "Members" should be shown).
+             */
+            hasSocialModules?: boolean;
+            communityTier?: components['schemas']['GroupsApi.Roblox.Groups.Client.CommunityTierInfoResponse'];
+        };
+        'GroupsApi.Roblox.Groups.Client.CommunityTierInfoResponse': {
+            /** Format: int64 */
+            groupId?: number;
+            /** Format: int32 */
+            currentTier?: number;
+            /** Format: int32 */
+            previousTier?: number;
+            /** Format: date-time */
+            tierUpdatedTime?: string;
+            /** Format: date-time */
+            lastEvaluatedTime?: string;
+        };
         HomepageThumbnail: {
             homepageThumbnailId: string;
             /** Format: int64 */
@@ -51411,6 +51456,11 @@ export interface components {
             oldNotificationToken?: string;
             /** @description Name of the requesting device */
             deviceName?: string;
+            /**
+             * @description True when the client granted iOS provisional authorization (silent, quiet-only)
+             *     rather than full authorization. Absent/null is treated as not provisional.
+             */
+            isProvisional?: boolean;
         };
         'Roblox.Api.Notifications.Models.RegisterIOSPushKitRequestModel': {
             /** @description Token for notification */
@@ -54171,39 +54221,6 @@ export interface components {
             /** @description The new description returned */
             newDescription?: string;
         };
-        /** @description A detailed group response model */
-        'Roblox.Groups.Api.GroupDetailResponse': {
-            /**
-             * Format: int64
-             * @description The group id
-             */
-            id?: number;
-            /** @description The group name */
-            name?: string;
-            /** @description The group description */
-            description?: string;
-            owner?: components['schemas']['Roblox.Groups.Api.Models.Response.UserModel'];
-            shout?: components['schemas']['Roblox.Groups.Api.ShoutResponse'];
-            /**
-             * Format: int32
-             * @description The number of members in the group
-             */
-            memberCount?: number;
-            /** @description Whether the group is Builders Club only */
-            isBuildersClubOnly?: boolean;
-            /** @description Whether the group is public (no approval required) */
-            publicEntryAllowed?: boolean;
-            /** @description Whether the group is locked */
-            isLocked?: boolean;
-            /** @description Whether the group has a verified badge. */
-            hasVerifiedBadge?: boolean;
-            /**
-             * @description Whether the group has social modules enabled (e.g. Forums)
-             *     (determines if "Followers" vs "Members" should be shown).
-             */
-            hasSocialModules?: boolean;
-            communityTier?: components['schemas']['Roblox.Groups.Client.CommunityTierInfoResponse'];
-        };
         /** @description A model representing data about an Roblox.Platform.Membership.IUser */
         'Roblox.Groups.Api.GroupEconomyPermissionsModel': {
             /** @description Spend group funds permission */
@@ -54292,7 +54309,7 @@ export interface components {
         };
         /** @description A group membership response model */
         'Roblox.Groups.Api.GroupMembershipDetailResponse': {
-            group?: components['schemas']['Roblox.Groups.Api.GroupDetailResponse'];
+            group?: components['schemas']['GroupsApi.Roblox.Groups.Api.GroupDetailResponse'];
             role?: components['schemas']['Roblox.Groups.Api.GroupRoleResponse'];
             /** @description Whether the group is the user's Primary Group */
             isPrimaryGroup?: boolean;
@@ -54462,7 +54479,7 @@ export interface components {
              */
             totalGroupCount?: number;
             /** @description The related or requested groups */
-            relatedGroups?: components['schemas']['Roblox.Groups.Api.GroupDetailResponse'][];
+            relatedGroups?: components['schemas']['GroupsApi.Roblox.Groups.Api.GroupDetailResponse'][];
             /**
              * Format: int64
              * @description The index for the next page of related groups
@@ -54628,7 +54645,7 @@ export interface components {
              *     Null when the value could not be determined.
              */
             isAutoAssignRoleDisabled?: boolean;
-            communityTier?: components['schemas']['Roblox.Groups.Client.CommunityTierInfoResponse'];
+            communityTier?: components['schemas']['GroupsApi.Roblox.Groups.Client.CommunityTierInfoResponse'];
         };
         /** @description A group roles response model */
         'Roblox.Groups.Api.GroupsDisplayOptionsResponse': {
@@ -55104,18 +55121,6 @@ export interface components {
             /** Format: date-time */
             updatedAt?: string;
         };
-        'Roblox.Groups.Client.CommunityTierInfoResponse': {
-            /** Format: int64 */
-            groupId?: number;
-            /** Format: int32 */
-            currentTier?: number;
-            /** Format: int32 */
-            previousTier?: number;
-            /** Format: date-time */
-            tierUpdatedTime?: string;
-            /** Format: date-time */
-            lastEvaluatedTime?: string;
-        };
         'Roblox.Groups.Client.CreateBlockedKeywordsResponse': {
             createdKeywords?: components['schemas']['Roblox.Groups.Client.BlockedKeywordModel'][];
             hadModeratedKeywords?: boolean;
@@ -55140,7 +55145,7 @@ export interface components {
             contentId?: string;
         };
         'Roblox.Groups.Client.TierEvaluationResultResponse': {
-            tierInfo?: components['schemas']['Roblox.Groups.Client.CommunityTierInfoResponse'];
+            tierInfo?: components['schemas']['GroupsApi.Roblox.Groups.Client.CommunityTierInfoResponse'];
             passedSignals?: string[];
         };
         'Roblox.InGameContentTables.Client.GameLocation': {
@@ -57654,7 +57659,7 @@ export interface components {
             data?: components['schemas']['Roblox.Games.Api.Models.Response.GameProductResponse'][];
         };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupDetailResponse_': {
-            data?: components['schemas']['Roblox.Groups.Api.GroupDetailResponse'][];
+            data?: components['schemas']['GroupsApi.Roblox.Groups.Api.GroupDetailResponse'][];
         };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupMembershipDetailResponse_': {
             data?: components['schemas']['Roblox.Groups.Api.GroupMembershipDetailResponse'][];

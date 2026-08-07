@@ -2957,6 +2957,10 @@ export interface paths {
         /**
          * Flush Memory Store
          * @description Asynchronously flush all data structures in the universe.
+         *
+         *     Unlike some other endpoints, the flush response `path` already
+         *     includes the `cloud/v2` prefix. Poll the operation at
+         *     `https://apis.roblox.com/{path}` without adding another prefix.
          */
         post: operations['Cloud_FlushMemoryStore'];
         delete?: never;
@@ -19857,6 +19861,13 @@ export interface paths {
                     };
                     content?: never;
                 };
+                /** @description 4: Too many requests have been made. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
             };
         };
         put?: never;
@@ -21327,8 +21338,8 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['GroupsApi.Roblox.Groups.Api.GroupDetailResponse'];
-                        'text/json': components['schemas']['GroupsApi.Roblox.Groups.Api.GroupDetailResponse'];
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupDetailResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupDetailResponse'];
                     };
                 };
                 /** @description 1: Group is invalid or does not exist. */
@@ -24561,6 +24572,13 @@ export interface paths {
                     };
                     content?: never;
                 };
+                /** @description 28: Migration in progress. Please try again in a moment. */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
             };
         };
         delete?: never;
@@ -24634,6 +24652,13 @@ export interface paths {
                     };
                     content?: never;
                 };
+                /** @description 28: Migration in progress. Please try again in a moment. */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
             };
         };
         options?: never;
@@ -24698,6 +24723,13 @@ export interface paths {
                  *     9: You do not have permissions to perform this action.
                  */
                 403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 28: Migration in progress. Please try again in a moment. */
+                409: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -43928,6 +43960,189 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v4/avatar': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Gets the currently wearing avatar definition for the authenticated user.
+         * @description Returns an Roblox.Api.Avatar.Models.V4.AvatarDefinition containing an Roblox.Api.Avatar.Models.V4.AvatarModelV4 and Roblox.Api.Avatar.Models.V4.AvatarConfigurations.
+         */
+        get: {
+            parameters: {
+                query: {
+                    /** @description Selection types for the avatar data to return. */
+                    selectionTypes: (0 | 1 | 2 | 3 | 4 | 5 | 6)[];
+                };
+                header?: {
+                    'Roblox-Place-Id'?: number;
+                };
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarDefinition'];
+                        'text/json': components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarDefinition'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v4/avatar/users/{userId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Gets the currently wearing avatar definition for the specified user.
+         * @description Returns an Roblox.Api.Avatar.Models.V4.AvatarDefinition containing an Roblox.Api.Avatar.Models.V4.AvatarModelV4 and Roblox.Api.Avatar.Models.V4.AvatarConfigurations.
+         *     Behavior is aligned with the V2 `GET v2/avatar/users/{userId}/avatar` endpoint.
+         */
+        get: {
+            parameters: {
+                query: {
+                    /** @description Selection types for the avatar data to return. */
+                    selectionTypes: (0 | 1 | 2 | 3 | 4 | 5 | 6)[];
+                };
+                header?: {
+                    'Roblox-Place-Id'?: number;
+                };
+                path: {
+                    /** @description The target user id. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarDefinition'];
+                        'text/json': components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarDefinition'];
+                    };
+                };
+                /**
+                 * @description 1: The specified user does not exist.
+                 *     2: An account for the given userId does not exist!
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v4/outfits/{outfitId}/details': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Gets the definition for an outfit.
+         * @description Returns an Roblox.Api.Avatar.Models.V4.OutfitDefinition containing an Roblox.Api.Avatar.Models.V4.OutfitModelV4 and background Roblox.Api.Avatar.Models.V4.OutfitConfigurations.
+         *     Behavior is aligned with the V1/V3 `GET v{1|3}/outfits/{userOutfitId}/details` endpoints (authentication optional).
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Selection types for the outfit data to return. */
+                    selectionTypes?: (0 | 1)[];
+                    /** @description Whether to return assets with availability status. */
+                    checkAssetAvailability?: boolean;
+                };
+                header?: {
+                    'Roblox-Place-Id'?: number;
+                };
+                path: {
+                    /** @description The outfit id. */
+                    outfitId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Api.Avatar.Models.V4.OutfitDefinition'];
+                        'text/json': components['schemas']['Roblox.Api.Avatar.Models.V4.OutfitDefinition'];
+                    };
+                };
+                /** @description 2: The outfit for the specified userOutfit is invalid. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: The requester does not have access to the details for the given user outfit. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: The specified userOutfitId is invalid. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/virtual-events/v3/game-events/{eventId}': {
         parameters: {
             query?: never;
@@ -45145,7 +45360,13 @@ export interface components {
              *     only for convenience.
              */
             readonly id?: string;
-            /** @description Users associated with the entry. */
+            /**
+             * @description Users associated with the entry.
+             *
+             *     Each value must be a user resource path in the format `users/{user_id}`,
+             *     not a bare user ID.
+             * @example users/123
+             */
             users?: string[];
             /** @description An arbitrary set of attributes associated with the entry. */
             attributes?: Record<string, never>;
@@ -46451,51 +46672,6 @@ export interface components {
              */
             bypassSlowMode?: boolean;
         };
-        /** @description A detailed group response model */
-        'GroupsApi.Roblox.Groups.Api.GroupDetailResponse': {
-            /**
-             * Format: int64
-             * @description The group id
-             */
-            id?: number;
-            /** @description The group name */
-            name?: string;
-            /** @description The group description */
-            description?: string;
-            owner?: components['schemas']['Roblox.Groups.Api.Models.Response.UserModel'];
-            shout?: components['schemas']['Roblox.Groups.Api.ShoutResponse'];
-            /**
-             * Format: int32
-             * @description The number of members in the group
-             */
-            memberCount?: number;
-            /** @description Whether the group is Builders Club only */
-            isBuildersClubOnly?: boolean;
-            /** @description Whether the group is public (no approval required) */
-            publicEntryAllowed?: boolean;
-            /** @description Whether the group is locked */
-            isLocked?: boolean;
-            /** @description Whether the group has a verified badge. */
-            hasVerifiedBadge?: boolean;
-            /**
-             * @description Whether the group has social modules enabled (e.g. Forums)
-             *     (determines if "Followers" vs "Members" should be shown).
-             */
-            hasSocialModules?: boolean;
-            communityTier?: components['schemas']['GroupsApi.Roblox.Groups.Client.CommunityTierInfoResponse'];
-        };
-        'GroupsApi.Roblox.Groups.Client.CommunityTierInfoResponse': {
-            /** Format: int64 */
-            groupId?: number;
-            /** Format: int32 */
-            currentTier?: number;
-            /** Format: int32 */
-            previousTier?: number;
-            /** Format: date-time */
-            tierUpdatedTime?: string;
-            /** Format: date-time */
-            lastEvaluatedTime?: string;
-        };
         HomepageThumbnail: {
             homepageThumbnailId: string;
             /** Format: int64 */
@@ -46591,7 +46767,11 @@ export interface components {
             /**
              * @description Users associated with the entry.
              *
+             *     Each value must be a user resource path in the format `users/{user_id}`,
+             *     not a bare user ID.
+             *
              *     If this is not provided, existing user IDs are cleared.
+             * @example users/123
              */
             users?: string[];
             /**
@@ -47197,7 +47377,7 @@ export interface components {
         /** @description A list of MemoryStoreSortedMapItems in the parent collection. */
         ListMemoryStoreSortedMapItemsResponse: {
             /** @description The MemoryStoreSortedMapItems from the specified MemoryStoreSortedMap. */
-            memoryStoreSortedMapItems?: components['schemas']['MemoryStoreSortedMapItem'][];
+            items?: components['schemas']['MemoryStoreSortedMapItem'][];
             /**
              * @description A token that you can send as a `pageToken` parameter to retrieve the next
              *     page. If this field is omitted, there are no subsequent pages.
@@ -50149,6 +50329,39 @@ export interface components {
             /** @description Whether or not emotes are enabled */
             emotesEnabledForUser?: boolean;
         };
+        /** @description A model describing a the camera details for a single avatar thumbnail customization. */
+        'Roblox.Api.Avatar.Models.AvatarThumbnailCustomizationCameraModel': {
+            /**
+             * Format: double
+             * @description Field of view for the camera, in degrees.
+             */
+            fieldOfViewDeg?: number;
+            /**
+             * Format: double
+             * @description Rotation around y axis, in degrees.
+             */
+            yRotDeg?: number;
+            /**
+             * Format: double
+             * @description There's a natural camera distance we calculate based on avatar size. Apply this scale to that distance.
+             */
+            distanceScale?: number;
+        };
+        /** @description A model describing a single avatar thumbnail customization. */
+        'Roblox.Api.Avatar.Models.AvatarThumbnailCustomizationModel': {
+            /**
+             * Format: int32
+             * @description What type of 2D thumbnail are we customizing: |Closeup, FullBody.
+             * @enum {integer}
+             */
+            thumbnailType?: 0 | 1 | 2;
+            /**
+             * Format: int64
+             * @description What emote are we using to pose the avatar in the thumbnail.
+             */
+            emoteAssetId?: number;
+            camera?: components['schemas']['Roblox.Api.Avatar.Models.AvatarThumbnailCustomizationCameraModel'];
+        };
         /** @description A model container BrickColor ids for each body part. */
         'Roblox.Api.Avatar.Models.BodyColorModel': {
             /**
@@ -50208,6 +50421,21 @@ export interface components {
              * @description The BrickColor id for left leg color
              */
             leftLegColorId?: number;
+        };
+        /** @description A model containing RGB hex colors for each body part. */
+        'Roblox.Api.Avatar.Models.BodyColorsModelV4': {
+            /** @description The RGB hex color for head color, e.g. #FFFFFF */
+            headColor?: string;
+            /** @description The RGB hex color for torso color, e.g. #FFFFFF */
+            torsoColor?: string;
+            /** @description The RGB hex color for right arm color, e.g. #FFFFFF */
+            rightArmColor?: string;
+            /** @description The RGB hex color for left arm color, e.g. #FFFFFF */
+            leftArmColor?: string;
+            /** @description The RGB hex color for right leg color, e.g. #FFFFFF */
+            rightLegColor?: string;
+            /** @description The RGB hex color for left leg color, e.g. #FFFFFF */
+            leftLegColor?: string;
         };
         /** @description A model containing details about avatar-related business rules */
         'Roblox.Api.Avatar.Models.DefaultClothingAssets': {
@@ -50394,6 +50622,89 @@ export interface components {
             /** Format: int32 */
             assetTypeID?: number;
             isPlayerChoice?: boolean;
+        };
+        /** @description A model containing avatar background data. */
+        'Roblox.Api.Avatar.Models.V4.AvatarBackgroundModel': {
+            backgroundAsset?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'];
+        };
+        /** @description Avatar config details. */
+        'Roblox.Api.Avatar.Models.V4.AvatarConfigurations': {
+            /** @description The emotes on the character. */
+            emotes?: components['schemas']['Roblox.Api.Avatar.Models.EmoteResponseModel'][];
+            background?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarBackgroundModel'];
+            /** @description List of customizations set for this avatar. At most one per thumbnail type (Closeup, FullBody). */
+            thumbnailCustomizations?: components['schemas']['Roblox.Api.Avatar.Models.AvatarThumbnailCustomizationModel'][];
+            profileFrame?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarProfileFrameModel'];
+        };
+        /** @description Details about an avatar. */
+        'Roblox.Api.Avatar.Models.V4.AvatarDefinition': {
+            avatarModel?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarModelV4'];
+            avatarConfigurations?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarConfigurations'];
+        };
+        /** @description A model containing details about an avatar. */
+        'Roblox.Api.Avatar.Models.V4.AvatarModelV4': {
+            scales?: components['schemas']['Roblox.Web.Responses.Avatar.ScaleModel'];
+            /**
+             * Format: int32
+             * @description The avatar type.
+             * @enum {integer}
+             */
+            playerAvatarType?: 1 | 3;
+            bodyColors?: components['schemas']['Roblox.Api.Avatar.Models.BodyColorsModelV4'];
+            /** @description The assets worn on the character. */
+            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
+        };
+        /** @description A model containing avatar profile frame data. */
+        'Roblox.Api.Avatar.Models.V4.AvatarProfileFrameModel': {
+            frameAsset?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'];
+        };
+        /** @description Background configuration for an outfit. */
+        'Roblox.Api.Avatar.Models.V4.OutfitConfigurations': {
+            background?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarBackgroundModel'];
+        };
+        /** @description Details about an outfit. */
+        'Roblox.Api.Avatar.Models.V4.OutfitDefinition': {
+            /** @description The moderation status of the outfit, not applicable when outfit is created outside experience */
+            moderationStatus?: string;
+            /**
+             * Format: int64
+             * @description The bundle ID, currently only returned for in-experience created outfits.
+             */
+            bundleId?: number;
+            outfitModel?: components['schemas']['Roblox.Api.Avatar.Models.V4.OutfitModelV4'];
+            outfitConfigurations?: components['schemas']['Roblox.Api.Avatar.Models.V4.OutfitConfigurations'];
+        };
+        /** @description A model containing core outfit details. */
+        'Roblox.Api.Avatar.Models.V4.OutfitModelV4': {
+            /**
+             * Format: int64
+             * @description The universe id of the outfit, null when outfit is not created in-experience
+             */
+            universeId?: number;
+            /** @description The inventory type of the outfit. */
+            inventoryType?: string;
+            /** @description The outfit id. */
+            id?: string;
+            /** @description The outfit name. */
+            name?: string;
+            /** @description Whether the outfit can be modified by the user. */
+            isEditable?: boolean;
+            /**
+             * Format: int32
+             * @description The type of the outfit.
+             * @enum {integer}
+             */
+            outfitType?: 0 | 1 | 2 | 4 | 5;
+            /** @description The assets on the outfit. */
+            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
+            bodyColors?: components['schemas']['Roblox.Api.Avatar.Models.BodyColorsModelV4'];
+            scale?: components['schemas']['Roblox.Web.Responses.Avatar.ScaleModel'];
+            /**
+             * Format: int32
+             * @description The player avatar type.
+             * @enum {integer}
+             */
+            playerAvatarType?: 1 | 3;
         };
         /** @description A model that contains a list of AssetWear models */
         'Roblox.Api.Avatar.Models.WearRequestModel': {
@@ -54221,6 +54532,39 @@ export interface components {
             /** @description The new description returned */
             newDescription?: string;
         };
+        /** @description A detailed group response model */
+        'Roblox.Groups.Api.GroupDetailResponse': {
+            /**
+             * Format: int64
+             * @description The group id
+             */
+            id?: number;
+            /** @description The group name */
+            name?: string;
+            /** @description The group description */
+            description?: string;
+            owner?: components['schemas']['Roblox.Groups.Api.Models.Response.UserModel'];
+            shout?: components['schemas']['Roblox.Groups.Api.ShoutResponse'];
+            /**
+             * Format: int32
+             * @description The number of members in the group
+             */
+            memberCount?: number;
+            /** @description Whether the group is Builders Club only */
+            isBuildersClubOnly?: boolean;
+            /** @description Whether the group is public (no approval required) */
+            publicEntryAllowed?: boolean;
+            /** @description Whether the group is locked */
+            isLocked?: boolean;
+            /** @description Whether the group has a verified badge. */
+            hasVerifiedBadge?: boolean;
+            /**
+             * @description Whether the group has social modules enabled (e.g. Forums)
+             *     (determines if "Followers" vs "Members" should be shown).
+             */
+            hasSocialModules?: boolean;
+            communityTier?: components['schemas']['Roblox.Groups.Client.CommunityTierInfoResponse'];
+        };
         /** @description A model representing data about an Roblox.Platform.Membership.IUser */
         'Roblox.Groups.Api.GroupEconomyPermissionsModel': {
             /** @description Spend group funds permission */
@@ -54309,7 +54653,7 @@ export interface components {
         };
         /** @description A group membership response model */
         'Roblox.Groups.Api.GroupMembershipDetailResponse': {
-            group?: components['schemas']['GroupsApi.Roblox.Groups.Api.GroupDetailResponse'];
+            group?: components['schemas']['Roblox.Groups.Api.GroupDetailResponse'];
             role?: components['schemas']['Roblox.Groups.Api.GroupRoleResponse'];
             /** @description Whether the group is the user's Primary Group */
             isPrimaryGroup?: boolean;
@@ -54479,7 +54823,7 @@ export interface components {
              */
             totalGroupCount?: number;
             /** @description The related or requested groups */
-            relatedGroups?: components['schemas']['GroupsApi.Roblox.Groups.Api.GroupDetailResponse'][];
+            relatedGroups?: components['schemas']['Roblox.Groups.Api.GroupDetailResponse'][];
             /**
              * Format: int64
              * @description The index for the next page of related groups
@@ -54645,7 +54989,7 @@ export interface components {
              *     Null when the value could not be determined.
              */
             isAutoAssignRoleDisabled?: boolean;
-            communityTier?: components['schemas']['GroupsApi.Roblox.Groups.Client.CommunityTierInfoResponse'];
+            communityTier?: components['schemas']['Roblox.Groups.Client.CommunityTierInfoResponse'];
         };
         /** @description A group roles response model */
         'Roblox.Groups.Api.GroupsDisplayOptionsResponse': {
@@ -55121,6 +55465,19 @@ export interface components {
             /** Format: date-time */
             updatedAt?: string;
         };
+        'Roblox.Groups.Client.CommunityTierInfoResponse': {
+            /** Format: int64 */
+            groupId?: number;
+            /** Format: int32 */
+            currentTier?: number;
+            /** Format: int32 */
+            previousTier?: number;
+            /** Format: date-time */
+            tierUpdatedTime?: string;
+            /** Format: date-time */
+            lastEvaluatedTime?: string;
+            requirements?: components['schemas']['Roblox.Groups.Client.TierRequirement'][];
+        };
         'Roblox.Groups.Client.CreateBlockedKeywordsResponse': {
             createdKeywords?: components['schemas']['Roblox.Groups.Client.BlockedKeywordModel'][];
             hadModeratedKeywords?: boolean;
@@ -55145,8 +55502,18 @@ export interface components {
             contentId?: string;
         };
         'Roblox.Groups.Client.TierEvaluationResultResponse': {
-            tierInfo?: components['schemas']['GroupsApi.Roblox.Groups.Client.CommunityTierInfoResponse'];
+            tierInfo?: components['schemas']['Roblox.Groups.Client.CommunityTierInfoResponse'];
             passedSignals?: string[];
+            requirements?: components['schemas']['Roblox.Groups.Client.TierRequirement'][];
+        };
+        'Roblox.Groups.Client.TierRequirement': {
+            /**
+             * Format: int32
+             * @description ['OwnerModerationStatusOk' = 1, 'OwnerAgeEstimationVerified' = 2, 'OwnerIdVerified' = 3, 'OwnerTwoStepVerified' = 4, 'CommunityMeetsPlayerRequirement' = 5]
+             * @enum {integer}
+             */
+            key?: 1 | 2 | 3 | 4 | 5;
+            satisfied?: boolean;
         };
         'Roblox.InGameContentTables.Client.GameLocation': {
             path?: string;
@@ -57235,6 +57602,8 @@ export interface components {
             usageContext?: number;
             contentRepresentationPriorityList?: string;
             doNotFallbackToBaselineRepresentation?: boolean;
+            /** Format: int64 */
+            xcachesplit?: number;
         };
         'Roblox.Web.Captcha.Models.Request.CaptchaTokenRequest': {
             captchaId?: string;
@@ -57659,7 +58028,7 @@ export interface components {
             data?: components['schemas']['Roblox.Games.Api.Models.Response.GameProductResponse'][];
         };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupDetailResponse_': {
-            data?: components['schemas']['GroupsApi.Roblox.Groups.Api.GroupDetailResponse'][];
+            data?: components['schemas']['Roblox.Groups.Api.GroupDetailResponse'][];
         };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupMembershipDetailResponse_': {
             data?: components['schemas']['Roblox.Groups.Api.GroupMembershipDetailResponse'][];

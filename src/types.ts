@@ -11628,7 +11628,6 @@ export interface paths {
                     contentRepresentationPriorityList?: string;
                     assetResolutionMode?: string;
                     accessContext?: string;
-                    usageContext?: number;
                 };
                 header: {
                     'Accept-Encoding': string;
@@ -11637,6 +11636,7 @@ export interface paths {
                     Accept: string;
                     AssetFormat: string;
                     'Roblox-AssetFormat': string;
+                    usageContext?: number;
                 };
                 path?: never;
                 cookie?: never;
@@ -58580,7 +58580,9 @@ export interface components {
             | 'roblox_restarted'
             | 'crashed'
             | 'out_of_memory'
-            | 'moderated';
+            | 'moderated'
+            | 'pending'
+            | 'unspecified';
         /**
          * Format: int32
          * @description Defines the different types of servers
@@ -59444,6 +59446,9 @@ export interface components {
              */
             templateRootPlace: string;
         };
+        UniverseEligibility: {
+            eligible?: boolean;
+        };
         /**
          * @description A social link that may be associated with the universe.
          *
@@ -60241,7 +60246,7 @@ export interface components {
              * @description The eligibility result for the requested experience. Present only when
              *     universeId was supplied in the request.
              */
-            eligibility?: components['schemas']['internal_public_v1.UniverseEligibility'];
+            eligibility?: components['schemas']['UniverseEligibility'];
             /** @description The campaign objectives you can create. Only `ENGAGEMENT` is supported in v1. */
             objectives?: 'ENGAGEMENT'[];
             /**
@@ -60441,17 +60446,6 @@ export interface components {
             countries?: string[];
             /** @description The selectable device types. Values can be `PHONE`, `TABLET`, `DESKTOP`, or `CONSOLE`. */
             devices?: ('PHONE' | 'TABLET' | 'DESKTOP' | 'CONSOLE')[];
-        };
-        'internal_public_v1.UniverseEligibility': {
-            /** @description Whether the experience can currently be advertised. */
-            eligible?: boolean;
-            /**
-             * @description The reasons the experience is not eligible. Omitted when eligible. Values can be
-             *     `NO_PERMISSION` or `BLOCKED`.
-             */
-            reasons?: ('NO_PERMISSION' | 'BLOCKED')[];
-            /** @description The identifier of the experience that was checked. */
-            universeId?: string;
         };
         'internal_public_v1.UpdateBudget': {
             /**

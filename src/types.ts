@@ -810,9 +810,9 @@ export interface paths {
             /** @description The dimension values request. */
             requestBody: {
                 content: {
-                    'application/json': components['schemas']['DimensionValuesRequest'];
-                    'text/json': components['schemas']['DimensionValuesRequest'];
-                    'application/*+json': components['schemas']['DimensionValuesRequest'];
+                    'application/json': components['schemas']['AnalyticsQueryPublicApi.DimensionValuesRequest'];
+                    'text/json': components['schemas']['AnalyticsQueryPublicApi.DimensionValuesRequest'];
+                    'application/*+json': components['schemas']['AnalyticsQueryPublicApi.DimensionValuesRequest'];
                 };
             };
             responses: {
@@ -922,9 +922,9 @@ export interface paths {
             /** @description The query request. */
             requestBody: {
                 content: {
-                    'application/json': components['schemas']['QueryRequest'];
-                    'text/json': components['schemas']['QueryRequest'];
-                    'application/*+json': components['schemas']['QueryRequest'];
+                    'application/json': components['schemas']['AnalyticsQueryPublicApi.QueryRequest'];
+                    'text/json': components['schemas']['AnalyticsQueryPublicApi.QueryRequest'];
+                    'application/*+json': components['schemas']['AnalyticsQueryPublicApi.QueryRequest'];
                 };
             };
             responses: {
@@ -4148,7 +4148,10 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        /** Updates badge configuration. */
+        /**
+         * Updates badge configuration.
+         * @description Managers may change enabled state, name, and description when authorized for the badge.
+         */
         patch: {
             parameters: {
                 query?: never;
@@ -4228,7 +4231,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Creates a new badge. */
+        /**
+         * Creates a new badge.
+         * @description Charges the selected payment source and creates the badge under the universe's root place.
+         */
         post: {
             parameters: {
                 query?: never;
@@ -4248,7 +4254,7 @@ export interface paths {
                         description?: string;
                         /**
                          * Format: int32
-                         * @description Whether or not to pay for the badge with user funds, or group funds. ['User' = 1, 'Group' = 2]
+                         * @description Whether or not to pay for the badge with user funds, or group funds.
                          * @enum {integer}
                          */
                         paymentSourceType?: 1 | 2;
@@ -13749,7 +13755,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Gets metadata about the badges system. */
+        /**
+         * Gets metadata about the badges system.
+         * @description Returns creation price and field length limits. Callers use this before creating or editing badges.
+         */
         get: {
             parameters: {
                 query?: never;
@@ -13786,7 +13795,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Gets badge information by the badge Id. */
+        /**
+         * Gets badge information by the badge Id.
+         * @description Returns display fields, award statistics, and owning universe for a single badge.
+         */
         get: {
             parameters: {
                 query?: never;
@@ -13826,7 +13838,10 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        /** Updates badge configuration. */
+        /**
+         * Updates badge configuration.
+         * @description Managers may change enabled state, name, and description when authorized for the badge.
+         */
         patch: {
             parameters: {
                 query?: never;
@@ -13989,94 +14004,6 @@ export interface paths {
                 };
             };
         };
-        trace?: never;
-    };
-    '/v1/badges/{badgeId}/icon': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Overwrites a badge icon with a new one. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The badge Id. */
-                    badgeId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    'multipart/form-data': {
-                        /** Format: binary */
-                        Files?: string;
-                    };
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Badges.Api.IconUploadResponse'];
-                        'text/json': components['schemas']['Roblox.Badges.Api.IconUploadResponse'];
-                    };
-                };
-                /**
-                 * @description 6: Text moderated.
-                 *     22: Icon file is not present in the request.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     2: You do not have permission to manage this badge.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 1: Badge is invalid or does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 13: Too many requests, try again later. */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
         trace?: never;
     };
     '/v1/badges/{badgeId}/icon#publish.roblox.com': {
@@ -31801,7 +31728,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Gets badges by their awarding game. */
+        /**
+         * Gets badges by their awarding game.
+         * @description Lists badges created under the universe's root place, with paging and optional sort.
+         */
         get: {
             parameters: {
                 query?: {
@@ -31850,7 +31780,10 @@ export interface paths {
             };
         };
         put?: never;
-        /** Creates a new badge. */
+        /**
+         * Creates a new badge.
+         * @description Charges the selected payment source and creates the badge under the universe's root place.
+         */
         post: {
             parameters: {
                 query?: never;
@@ -31870,7 +31803,7 @@ export interface paths {
                         description?: string;
                         /**
                          * Format: int32
-                         * @description Whether or not to pay for the badge with user funds, or group funds. ['User' = 1, 'Group' = 2]
+                         * @description Whether or not to pay for the badge with user funds, or group funds.
                          * @enum {integer}
                          */
                         paymentSourceType?: 1 | 2;
@@ -32414,7 +32347,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Gets the number of free badges left for the current UTC day by their awarding game. */
+        /**
+         * Gets the number of free badges left for the current UTC day by their awarding game.
+         * @description Reflects daily free-creation allowance for the universe when the feature is enabled.
+         */
         get: {
             parameters: {
                 query?: never;
@@ -33001,7 +32937,10 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        /** Removes a badge from the authenticated user. */
+        /**
+         * Removes a badge from the authenticated user.
+         * @description Revokes the caller's own awarded badge instance when the badge exists on their account.
+         */
         delete: {
             parameters: {
                 query?: never;
@@ -35147,163 +35086,6 @@ export interface paths {
                  *     2: An account for the given userId does not exist!
                  */
                 400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/users/{userId}/badges': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets a list of badges a user has been awarded. */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The number of results per request. */
-                    limit?: 10 | 25 | 50 | 100;
-                    /** @description The paging cursor for the previous or next page. */
-                    cursor?: string;
-                    /** @description The order the results are sorted in. */
-                    sortOrder?: 'Asc' | 'Desc';
-                };
-                header?: never;
-                path: {
-                    /** @description The user Id. */
-                    userId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Badges.Api.GetBadgesByUserResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Badges.Api.GetBadgesByUserResponse_'];
-                    };
-                };
-                /** @description 4: User is invalid or does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/users/{userId}/badges/awarded-dates': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets timestamps for when badges were awarded to a user. */
-        get: {
-            parameters: {
-                query: {
-                    /** @description The CSV of badge Ids. */
-                    badgeIds: number[];
-                };
-                header?: never;
-                path: {
-                    /** @description The user Id. */
-                    userId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Badges.Api.BadgeAwardResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Badges.Api.BadgeAwardResponse_'];
-                    };
-                };
-                /** @description 5: Too many badge Ids. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 4: User is invalid or does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/users/{userId}/badges/{badgeId}/awarded-date': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets timestamp for when a single badge was awarded to a user. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description User id. */
-                    userId: number;
-                    /** @description Badge id. */
-                    badgeId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 4: User is invalid or does not exist. */
-                404: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -44209,6 +43991,160 @@ export interface components {
         };
         /** @enum {string} */
         AgentType: 'User' | 'Group';
+        /** @description A breakdown dimension value in a query result. */
+        'AnalyticsQueryPublicApi.BreakdownValue': {
+            /** @description The dimension name. */
+            dimension: string;
+            /** @description The dimension value. */
+            value: string;
+            /** @description A human-readable display value when the dimension is a unique ID. */
+            displayValue?: string | null;
+        };
+        /** @description A single data point in a metric query result. */
+        'AnalyticsQueryPublicApi.DataPoint': {
+            /**
+             * Format: date-time
+             * @description The timestamp of the data point in UTC.
+             */
+            time: string;
+            /**
+             * Format: double
+             * @description The numeric value of the data point.
+             */
+            value: number;
+            /** @description String values associated with the data point, when applicable. */
+            stringValues?: string[] | null;
+            status?: components['schemas']['AnalyticsQueryPublicApi.DataStatus'];
+        };
+        /**
+         * @description The status of a data point in a query result.
+         * @enum {string}
+         */
+        'AnalyticsQueryPublicApi.DataStatus': 'Valid' | 'Projected' | 'NotStatisticallySignificant';
+        /** @description The values for a single dimension returned by a dimension values query. */
+        'AnalyticsQueryPublicApi.DimensionValues': {
+            /** @description The dimension name. */
+            dimension: string;
+            /** @description The values for the dimension. */
+            values?: components['schemas']['DimensionValue'][];
+        };
+        /** @description A request to query dimension values. */
+        'AnalyticsQueryPublicApi.DimensionValuesRequest': {
+            /** @description The metric that provides context for resolving dimension namespaces. */
+            metric: string;
+            /** @description The dimensions to retrieve values for. Each entry is a single dimension name. */
+            dimensions?: string[];
+            /**
+             * Format: date-time
+             * @description The inclusive start of the query time range. Any UTC offset is accepted; results are always bucketed in UTC.
+             */
+            startTime: string;
+            /**
+             * Format: date-time
+             * @description The exclusive end of the query time range. Any UTC offset is accepted; results are always bucketed in UTC.
+             */
+            endTime: string;
+            /** @description Filters to apply to the query. */
+            filter?: components['schemas']['AnalyticsQueryPublicApi.QueryFilter'][];
+            granularity?: components['schemas']['AnalyticsQueryPublicApi.MetricGranularity'];
+            /**
+             * Format: int32
+             * @description The maximum number of values to return per dimension.
+             */
+            limit?: number;
+        };
+        /** @description The response for a dimension values query. */
+        'AnalyticsQueryPublicApi.DimensionValuesResponse': {
+            /** @description The dimension values returned by the query. */
+            values?: components['schemas']['AnalyticsQueryPublicApi.DimensionValues'][];
+        };
+        /**
+         * @description The operation to apply to a query filter.
+         * @enum {string}
+         */
+        'AnalyticsQueryPublicApi.FilterOperation':
+            | 'In'
+            | 'NotIn'
+            | 'GreaterThan'
+            | 'GreaterThanOrEqual'
+            | 'LessThan'
+            | 'LessThanOrEqual'
+            | 'Match';
+        /**
+         * @description The time granularity of metric data points in a query.
+         * @enum {string}
+         */
+        'AnalyticsQueryPublicApi.MetricGranularity':
+            | 'OneMinute'
+            | 'HalfHour'
+            | 'OneHour'
+            | 'OneDay'
+            | 'OneWeek'
+            | 'OneMonth'
+            | 'None';
+        /** @description A metric value for a single breakdown series. */
+        'AnalyticsQueryPublicApi.MetricValue': {
+            /** @description The breakdown values for this series. */
+            breakdowns?: components['schemas']['AnalyticsQueryPublicApi.BreakdownValue'][];
+            /** @description The data points for this series. */
+            dataPoints?: components['schemas']['AnalyticsQueryPublicApi.DataPoint'][];
+        };
+        /** @description The metadata associated with a long-running operation. */
+        'AnalyticsQueryPublicApi.OperationMetadata': {
+            /**
+             * Format: date-time
+             * @description The time the operation was created.
+             */
+            createdTime?: string | null;
+        };
+        /** @description The error returned from a query request. */
+        'AnalyticsQueryPublicApi.QueryError': {
+            /**
+             * Format: int32
+             * @description The error code.
+             */
+            code?: number;
+            /** @description The message associated with the query error. */
+            message: string;
+        };
+        /** @description A filter applied to a query dimension. */
+        'AnalyticsQueryPublicApi.QueryFilter': {
+            /** @description The dimension name to filter on. */
+            dimension: string;
+            /** @description The values to filter by. */
+            values?: string[];
+            operation: components['schemas']['AnalyticsQueryPublicApi.FilterOperation'];
+        };
+        /** @description A request to query time series metric data. */
+        'AnalyticsQueryPublicApi.QueryRequest': {
+            /** @description The metric to query. */
+            metric: string;
+            granularity: components['schemas']['AnalyticsQueryPublicApi.MetricGranularity'];
+            /**
+             * Format: date-time
+             * @description The inclusive start of the query time range. Any UTC offset is accepted; results are always bucketed in UTC.
+             */
+            startTime: string;
+            /**
+             * Format: date-time
+             * @description The exclusive end of the query time range. Any UTC offset is accepted; results are always bucketed in UTC.
+             */
+            endTime: string;
+            /** @description The dimensions to group results by. Each entry is a single dimension name. */
+            breakdown?: string[];
+            /** @description Filters to apply to the query. */
+            filter?: components['schemas']['AnalyticsQueryPublicApi.QueryFilter'][];
+            /**
+             * Format: int32
+             * @description The maximum number of breakdown series to return.
+             */
+            limit?: number;
+        };
+        /** @description The response for a metric query. */
+        'AnalyticsQueryPublicApi.QueryResponse': {
+            /** @description The metric values returned by the query. */
+            values?: components['schemas']['AnalyticsQueryPublicApi.MetricValue'][];
+        };
         ApiEmptyResponseModel: Record<string, never>;
         /** @description Represents an asset. */
         Asset: {
@@ -44617,15 +44553,6 @@ export interface components {
             successAssetIds?: number[] | null;
             /** @description The list of grants that had errors. */
             errors?: components['schemas']['GrantPermissionError'][] | null;
-        };
-        /** @description A breakdown dimension value in a query result. */
-        BreakdownValue: {
-            /** @description The dimension name. */
-            dimension: string;
-            /** @description The dimension value. */
-            value: string;
-            /** @description A human-readable display value when the dimension is a unique ID. */
-            displayValue?: string | null;
         };
         /** @description Request model for bulk deleting saves */
         BulkDeleteSavesRequest: {
@@ -45233,27 +45160,6 @@ export interface components {
          * @enum {string}
          */
         CustomSignalType: 'Invalid' | 'PlayerCategorical' | 'ServerCategorical' | 'ServerNumerical' | 'PlayerNumerical';
-        /** @description A single data point in a metric query result. */
-        DataPoint: {
-            /**
-             * Format: date-time
-             * @description The timestamp of the data point in UTC.
-             */
-            time: string;
-            /**
-             * Format: double
-             * @description The numeric value of the data point.
-             */
-            value: number;
-            /** @description String values associated with the data point, when applicable. */
-            stringValues?: string[] | null;
-            status?: components['schemas']['DataStatus'];
-        };
-        /**
-         * @description The status of a data point in a query result.
-         * @enum {string}
-         */
-        DataStatus: 'Valid' | 'Projected' | 'NotStatisticallySignificant';
         /** @description Represents a data store. */
         DataStore: {
             /**
@@ -45522,51 +45428,14 @@ export interface components {
             /** @description A human-readable display value when the dimension is a unique ID. */
             displayValue?: string | null;
         };
-        /** @description The values for a single dimension returned by a dimension values query. */
-        DimensionValues: {
-            /** @description The dimension name. */
-            dimension: string;
-            /** @description The values for the dimension. */
-            values?: components['schemas']['DimensionValue'][];
-        };
         /** @description A completed long-running dimension values operation with results. */
         DimensionValuesOperationResult: {
             /** @description The server-assigned resource path. */
             path?: string | null;
             /** @description If false, the operation is still in progress. If true, the operation is completed. */
             done?: boolean;
-            response?: components['schemas']['DimensionValuesResponse'];
-            metadata?: components['schemas']['OperationMetadata'];
-        };
-        /** @description A request to query dimension values. */
-        DimensionValuesRequest: {
-            /** @description The metric that provides context for resolving dimension namespaces. */
-            metric: string;
-            /** @description The dimensions to retrieve values for. Each entry is a single dimension name. */
-            dimensions?: string[];
-            /**
-             * Format: date-time
-             * @description The inclusive start of the query time range. Any UTC offset is accepted; results are always bucketed in UTC.
-             */
-            startTime: string;
-            /**
-             * Format: date-time
-             * @description The exclusive end of the query time range. Any UTC offset is accepted; results are always bucketed in UTC.
-             */
-            endTime: string;
-            /** @description Filters to apply to the query. */
-            filter?: components['schemas']['QueryFilter'][];
-            granularity?: components['schemas']['MetricGranularity'];
-            /**
-             * Format: int32
-             * @description The maximum number of values to return per dimension.
-             */
-            limit?: number;
-        };
-        /** @description The response for a dimension values query. */
-        DimensionValuesResponse: {
-            /** @description The dimension values returned by the query. */
-            values?: components['schemas']['DimensionValues'][];
+            response?: components['schemas']['AnalyticsQueryPublicApi.DimensionValuesResponse'];
+            metadata?: components['schemas']['AnalyticsQueryPublicApi.OperationMetadata'];
         };
         /** @description Discards read items from the front of the queue. */
         DiscardMemoryStoreQueueItemsRequest: {
@@ -45748,18 +45617,6 @@ export interface components {
             /** @description The list of available values for the filter. */
             values?: unknown[] | null;
         };
-        /**
-         * @description The operation to apply to a query filter.
-         * @enum {string}
-         */
-        FilterOperation:
-            | 'In'
-            | 'NotIn'
-            | 'GreaterThan'
-            | 'GreaterThanOrEqual'
-            | 'LessThan'
-            | 'LessThanOrEqual'
-            | 'Match';
         /** @description Response model for filter options endpoint. */
         FilterOptionsResponse: {
             /** @description A dictionary of filter field names to their metadata and available values. */
@@ -48047,18 +47904,6 @@ export interface components {
              */
             readonly count?: number;
         };
-        /**
-         * @description The time granularity of metric data points in a query.
-         * @enum {string}
-         */
-        MetricGranularity: 'OneMinute' | 'HalfHour' | 'OneHour' | 'OneDay' | 'OneWeek' | 'OneMonth' | 'None';
-        /** @description A metric value for a single breakdown series. */
-        MetricValue: {
-            /** @description The breakdown values for this series. */
-            breakdowns?: components['schemas']['BreakdownValue'][];
-            /** @description The data points for this series. */
-            dataPoints?: components['schemas']['DataPoint'][];
-        };
         /** @description Mock server signal values. */
         MockServerSignalValues: {
             /**
@@ -48364,8 +48209,8 @@ export interface components {
             path?: string | null;
             /** @description If false, the operation is still in progress. If true, the operation is completed. */
             done?: boolean;
-            error?: components['schemas']['QueryError'];
-            metadata?: components['schemas']['OperationMetadata'];
+            error?: components['schemas']['AnalyticsQueryPublicApi.QueryError'];
+            metadata?: components['schemas']['AnalyticsQueryPublicApi.OperationMetadata'];
         };
         OperationErrorResponse: {
             /** Format: int32 */
@@ -48373,21 +48218,13 @@ export interface components {
             readonly error?: string | null;
             message?: string | null;
         };
-        /** @description The metadata associated with a long-running operation. */
-        OperationMetadata: {
-            /**
-             * Format: date-time
-             * @description The time the operation was created.
-             */
-            createdTime?: string | null;
-        };
         /** @description A long-running operation that is still in progress. */
         OperationPending: {
             /** @description The server-assigned resource path. */
             path?: string | null;
             /** @description If false, the operation is still in progress. If true, the operation is completed. */
             done?: boolean;
-            metadata?: components['schemas']['OperationMetadata'];
+            metadata?: components['schemas']['AnalyticsQueryPublicApi.OperationMetadata'];
         };
         /** @description A key-value entry in an ordered data store. */
         OrderedDataStoreEntry: {
@@ -48927,16 +48764,6 @@ export interface components {
             /** @description The suggested spelling correction for the original search query. */
             suggestedQuery?: string | null;
         } | null;
-        /** @description The error returned from a query request. */
-        QueryError: {
-            /**
-             * Format: int32
-             * @description The error code.
-             */
-            code?: number;
-            /** @description The message associated with the query error. */
-            message: string;
-        };
         /** @description The facets of a query. */
         QueryFacets: {
             /** @description Facets that are already applied to the search. */
@@ -48944,52 +48771,14 @@ export interface components {
             /** @description The unused and still available facets. */
             availableFacets?: string[] | null;
         } | null;
-        /** @description A filter applied to a query dimension. */
-        QueryFilter: {
-            /** @description The dimension name to filter on. */
-            dimension: string;
-            /** @description The values to filter by. */
-            values?: string[];
-            operation: components['schemas']['FilterOperation'];
-        };
         /** @description A completed long-running query operation with results. */
         QueryOperationResult: {
             /** @description The server-assigned resource path. */
             path?: string | null;
             /** @description If false, the operation is still in progress. If true, the operation is completed. */
             done?: boolean;
-            response?: components['schemas']['QueryResponse'];
-            metadata?: components['schemas']['OperationMetadata'];
-        };
-        /** @description A request to query time series metric data. */
-        QueryRequest: {
-            /** @description The metric to query. */
-            metric: string;
-            granularity: components['schemas']['MetricGranularity'];
-            /**
-             * Format: date-time
-             * @description The inclusive start of the query time range. Any UTC offset is accepted; results are always bucketed in UTC.
-             */
-            startTime: string;
-            /**
-             * Format: date-time
-             * @description The exclusive end of the query time range. Any UTC offset is accepted; results are always bucketed in UTC.
-             */
-            endTime: string;
-            /** @description The dimensions to group results by. Each entry is a single dimension name. */
-            breakdown?: string[];
-            /** @description Filters to apply to the query. */
-            filter?: components['schemas']['QueryFilter'][];
-            /**
-             * Format: int32
-             * @description The maximum number of breakdown series to return.
-             */
-            limit?: number;
-        };
-        /** @description The response for a metric query. */
-        QueryResponse: {
-            /** @description The metric values returned by the query. */
-            values?: components['schemas']['MetricValue'][];
+            response?: components['schemas']['AnalyticsQueryPublicApi.QueryResponse'];
+            metadata?: components['schemas']['AnalyticsQueryPublicApi.OperationMetadata'];
         };
         /** @description Returns the specified number of items at the front of the queue. */
         ReadMemoryStoreQueueItemsResponse: {
@@ -51842,31 +51631,6 @@ export interface components {
                 | 'AndroidTencentService'
                 | 'IOSPushKit';
         };
-        /** @description The result of being awarded a badge. */
-        'Roblox.Badges.Api.BadgeAwardResponse': {
-            /**
-             * Format: int64
-             * @description The badge Id.
-             */
-            badgeId?: number;
-            /**
-             * Format: date-time
-             * @description When the badge was awarded.
-             */
-            awardedDate?: string;
-        };
-        /** @description Represents information about the badge creator. (Creator of the place that awarded the badge) */
-        'Roblox.Badges.Api.BadgeCreatorResponse': {
-            /**
-             * Format: int64
-             * @description The creator ID
-             */
-            id?: number;
-            /** @description The name of the creator */
-            name?: string;
-            /** @description The type of the creator */
-            type?: string;
-        };
         /** @description Metadata about badges. */
         'Roblox.Badges.Api.BadgeMetadataResponse': {
             /**
@@ -51930,35 +51694,6 @@ export interface components {
             updated?: string;
             statistics?: components['schemas']['Roblox.Web.Responses.Badges.BadgeAwardStatisticsResponse'];
             awardingUniverse?: components['schemas']['Roblox.Badges.Api.UniverseResponse'];
-        };
-        /** @description Response for the GetBadgesByUser endpoint. */
-        'Roblox.Badges.Api.GetBadgesByUserResponse': {
-            creator?: components['schemas']['Roblox.Badges.Api.BadgeCreatorResponse'];
-            /** Format: int64 */
-            id?: number;
-            name?: string;
-            description?: string;
-            displayName?: string;
-            displayDescription?: string;
-            enabled?: boolean;
-            /** Format: int64 */
-            iconImageId?: number;
-            /** Format: int64 */
-            displayIconImageId?: number;
-            awarder?: components['schemas']['Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Badges.BadgeAwarderType_'];
-            statistics?: components['schemas']['Roblox.Web.Responses.Badges.BadgeAwardStatisticsResponse'];
-            /** Format: date-time */
-            created?: string;
-            /** Format: date-time */
-            updated?: string;
-        };
-        /** @description Badge icon upload response. */
-        'Roblox.Badges.Api.IconUploadResponse': {
-            /**
-             * Format: int64
-             * @description The asset id of the uploaded icon.
-             */
-            targetId?: number;
         };
         /** @description A response containing universe information. */
         'Roblox.Badges.Api.UniverseResponse': {
@@ -57970,9 +57705,6 @@ export interface components {
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Api.Develop.Models.UniverseTeamCreateSettingsModel_': {
             data?: components['schemas']['Roblox.Api.Develop.Models.UniverseTeamCreateSettingsModel'][];
         };
-        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Badges.Api.BadgeAwardResponse_': {
-            data?: components['schemas']['Roblox.Badges.Api.BadgeAwardResponse'][];
-        };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Catalog.Api.BundleDetailsModel_': {
             data?: components['schemas']['Roblox.Catalog.Api.BundleDetailsModel'][];
         };
@@ -58097,11 +57829,6 @@ export interface components {
             previousPageCursor?: string;
             nextPageCursor?: string;
             data?: components['schemas']['Roblox.Badges.Api.BadgeResponse'][];
-        };
-        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Badges.Api.GetBadgesByUserResponse_': {
-            previousPageCursor?: string;
-            nextPageCursor?: string;
-            data?: components['schemas']['Roblox.Badges.Api.GetBadgesByUserResponse'][];
         };
         'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Catalog.Api.BundleDetailsModel_': {
             previousPageCursor?: string;

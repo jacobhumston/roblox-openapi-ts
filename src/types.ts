@@ -1409,7 +1409,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description OK */
+                /** @description Success */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -1436,7 +1436,7 @@ export interface paths {
                         'application/json': components['schemas']['AssetPermissions.ErrorResponse'];
                     };
                 };
-                /** @description Internal Server Error */
+                /** @description Server Error */
                 500: {
                     headers: {
                         [name: string]: unknown;
@@ -27384,6 +27384,8 @@ export interface paths {
                     /** @description Optional session identifier. */
                     sessionId?: string;
                     friendRequestSort?: 0 | 1 | 2;
+                    /** @description Whether to uprank unseen friend requests and return isUnseen per friend request. */
+                    uprankUnseen?: boolean;
                 };
                 header?: never;
                 path?: never;
@@ -44241,7 +44243,16 @@ export interface components {
             | 'SubjectNotFound'
             | 'AssetTypeNotEnabled'
             | 'PermissionLimitReached'
-            | 'DependenciesLimitReached';
+            | 'DependenciesLimitReached'
+            | 'NotRequestable'
+            | 'RequesterNotConnected'
+            | 'AlreadyPending'
+            | 'AlreadyHasAccess'
+            | 'RequestNotFound'
+            | 'InvalidRequestStatus'
+            | 'RateLimited'
+            | 'CallerNotOwner'
+            | 'BatchSizeLimitExceeded';
         /** @description The error object for responses. */
         'AssetPermissions.ErrorResponse': {
             error?: components['schemas']['AssetPermissions.Error'];
@@ -52825,6 +52836,8 @@ export interface components {
             mutualFriendsList?: string[];
             /** @description The user's verified badge status. */
             hasVerifiedBadge?: boolean;
+            /** @description The user's verified badge status. */
+            isUnseen?: boolean;
             /** @description The user description. */
             description?: string;
             /**
@@ -66120,6 +66133,8 @@ export interface operations {
                  * @description The maximum number of game servers to return. The service might return
                  *     fewer than this value. If unspecified, at most 25 game servers are
                  *     returned. The maximum value is 100 and higher values are set to 100.
+                 *     Zero returns no game servers and only the total count, for callers that
+                 *     need the count without paging through rows.
                  */
                 MaxPageSize?: number;
                 /**

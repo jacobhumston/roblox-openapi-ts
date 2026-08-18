@@ -840,7 +840,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
                 /** @description Forbidden */
@@ -849,7 +849,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
                 /** @description Too Many Requests */
@@ -858,7 +858,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
                 /** @description Internal Server Error */
@@ -867,7 +867,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
                 /** @description Service Unavailable */
@@ -876,7 +876,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
                 /** @description Gateway Timeout */
@@ -885,7 +885,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
             };
@@ -952,7 +952,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
                 /** @description Forbidden */
@@ -961,7 +961,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
                 /** @description Too Many Requests */
@@ -970,7 +970,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
                 /** @description Internal Server Error */
@@ -979,7 +979,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
                 /** @description Service Unavailable */
@@ -988,7 +988,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
                 /** @description Gateway Timeout */
@@ -997,7 +997,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
             };
@@ -1057,7 +1057,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
                 /** @description Not Found */
@@ -1066,7 +1066,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
                 /** @description Too Many Requests */
@@ -1075,7 +1075,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
                 /** @description Internal Server Error */
@@ -1084,7 +1084,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
                 /** @description Service Unavailable */
@@ -1093,7 +1093,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
                 /** @description Gateway Timeout */
@@ -1102,7 +1102,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
             };
@@ -1164,7 +1164,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
                 /** @description Not Found */
@@ -1173,7 +1173,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
                 /** @description Too Many Requests */
@@ -1182,7 +1182,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
                 /** @description Internal Server Error */
@@ -1191,7 +1191,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
                 /** @description Service Unavailable */
@@ -1200,7 +1200,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
                 /** @description Gateway Timeout */
@@ -1209,7 +1209,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['OperationError'];
+                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
                     };
                 };
             };
@@ -44091,6 +44091,15 @@ export interface components {
             /** @description The data points for this series. */
             dataPoints?: components['schemas']['AnalyticsQueryPublicApi.DataPoint'][];
         };
+        /** @description A completed long-running operation that failed with an error. */
+        'AnalyticsQueryPublicApi.OperationError': {
+            /** @description The server-assigned resource path. */
+            path?: string | null;
+            /** @description If false, the operation is still in progress. If true, the operation is completed. */
+            done?: boolean;
+            error?: components['schemas']['AnalyticsQueryPublicApi.QueryError'];
+            metadata?: components['schemas']['AnalyticsQueryPublicApi.OperationMetadata'];
+        };
         /** @description The metadata associated with a long-running operation. */
         'AnalyticsQueryPublicApi.OperationMetadata': {
             /**
@@ -48214,15 +48223,6 @@ export interface components {
              */
             response?: components['schemas']['GoogleProtobufAny'];
         };
-        /** @description A completed long-running operation that failed with an error. */
-        OperationError: {
-            /** @description The server-assigned resource path. */
-            path?: string | null;
-            /** @description If false, the operation is still in progress. If true, the operation is completed. */
-            done?: boolean;
-            error?: components['schemas']['AnalyticsQueryPublicApi.QueryError'];
-            metadata?: components['schemas']['AnalyticsQueryPublicApi.OperationMetadata'];
-        };
         OperationErrorResponse: {
             /** Format: int32 */
             readonly code?: number;
@@ -48821,6 +48821,8 @@ export interface components {
          *     ExperienceUserConfig
          *
          *     JourneysConfig
+         *
+         *     AntiCheatConfig
          * @enum {string}
          */
         Repository:
@@ -48830,7 +48832,8 @@ export interface components {
             | 'ExtendedServicesConfig'
             | 'LeaderboardsConfig'
             | 'ExperienceUserConfig'
-            | 'JourneysConfig';
+            | 'JourneysConfig'
+            | 'AntiCheatConfig';
         /**
          * @description The current state of a place restart.
          * @enum {string}
@@ -54095,30 +54098,15 @@ export interface components {
             /** @description Zendesk (or similar forum provider) article ID for the client to build a redirect URL. */
             articleId?: string;
         };
-        /**
-         * @description Upsell UX treatment metadata appended to a playability response when an experience is
-         *     currently playable but will be restricted under upcoming Roblox-Core content rules.
-         *     Mirrors the existing Roblox.Games.Api.Models.Response.PlayableUxTreatment contract intentionally so client
-         *     rendering can be unified.
-         */
+        /** @description Upsell UX treatment metadata appended to a playability response. */
         'Roblox.Games.Api.Models.Response.UpsellUxTreatment': {
-            /**
-             * @description Identifier of the client component to render (currently "ageCheckUpsell").
-             *     Absent when the upsell should not surface.
-             */
+            /** @description Identifier of the client component to render. */
             treatment?: string;
             data?: components['schemas']['Roblox.Games.Api.Models.Response.UpsellUxTreatmentData'];
         };
-        /**
-         * @description Localized strings for an Roblox.Games.Api.Models.Response.UpsellUxTreatment. Currently only carries
-         *     Roblox.Games.Api.Models.Response.UpsellUxTreatmentData.BodyText; structured to allow additional fields without breaking the
-         *     JSON contract.
-         */
+        /** @description Localized strings for an Roblox.Games.Api.Models.Response.UpsellUxTreatment. */
         'Roblox.Games.Api.Models.Response.UpsellUxTreatmentData': {
-            /**
-             * @description Localized body text for the upsell banner (e.g. "You'll soon need an age check to
-             *     join this game.").
-             */
+            /** @description Localized body text for the upsell. */
             bodyText?: string;
         };
         /** @description ApiPageResponse for blocked keywords */
@@ -63874,6 +63862,8 @@ export interface operations {
                  *     ExperienceUserConfig
                  *
                  *     JourneysConfig
+                 *
+                 *     AntiCheatConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -63939,6 +63929,8 @@ export interface operations {
                  *     ExperienceUserConfig
                  *
                  *     JourneysConfig
+                 *
+                 *     AntiCheatConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -64004,6 +63996,8 @@ export interface operations {
                  *     ExperienceUserConfig
                  *
                  *     JourneysConfig
+                 *
+                 *     AntiCheatConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -64076,6 +64070,8 @@ export interface operations {
                  *     ExperienceUserConfig
                  *
                  *     JourneysConfig
+                 *
+                 *     AntiCheatConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -64148,6 +64144,8 @@ export interface operations {
                  *     ExperienceUserConfig
                  *
                  *     JourneysConfig
+                 *
+                 *     AntiCheatConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -64220,6 +64218,8 @@ export interface operations {
                  *     ExperienceUserConfig
                  *
                  *     JourneysConfig
+                 *
+                 *     AntiCheatConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -64285,6 +64285,8 @@ export interface operations {
                  *     ExperienceUserConfig
                  *
                  *     JourneysConfig
+                 *
+                 *     AntiCheatConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -64372,6 +64374,8 @@ export interface operations {
                  *     ExperienceUserConfig
                  *
                  *     JourneysConfig
+                 *
+                 *     AntiCheatConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -64437,6 +64441,8 @@ export interface operations {
                  *     ExperienceUserConfig
                  *
                  *     JourneysConfig
+                 *
+                 *     AntiCheatConfig
                  */
                 repository: components['schemas']['Repository'];
                 revisionId: string;

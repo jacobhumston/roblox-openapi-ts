@@ -3796,6 +3796,175 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/creator-configs-public-api/v1/experimentation/universes/{universeId}/experiments': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lists experiments for a universe.
+         * @description Pagination is offset-based (`maxPageSize` + `skip`). The response carries the page slice plus the unpaginated total
+         *     matching the filters. Request includes optional pagination, search, and filters.
+         */
+        get: operations['PublicExperimentation_ListExperiments'];
+        put?: never;
+        /**
+         * Creates a new experiment for a universe.
+         * @description Returns an ExperimentOperation describing the async create call.
+         */
+        post: operations['PublicExperimentation_CreateExperiment'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/creator-configs-public-api/v1/experimentation/universes/{universeId}/experiments/{experimentId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Gets an experiment by ID.
+         * @description Returns the `experiment`. Returns 404 if the experiment doesn't exist for the universe.
+         */
+        get: operations['PublicExperimentation_GetExperiment'];
+        put?: never;
+        post?: never;
+        /**
+         * Discards an experiment.
+         * @description The experiment record is retained with state Deleted.
+         */
+        delete: operations['PublicExperimentation_DiscardExperiment'];
+        options?: never;
+        head?: never;
+        /**
+         * Updates an existing experiment.
+         * @description The payload is a full replacement of the mutable experiment fields. Returns an
+         *     ExperimentOperation describing the async update.
+         */
+        patch: operations['PublicExperimentation_UpdateExperiment'];
+        trace?: never;
+    };
+    '/creator-configs-public-api/v1/experimentation/universes/{universeId}/experiments/{experimentId}/stats': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets diagnostic stats for an experiment. */
+        get: operations['PublicExperimentation_GetExperimentStats'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/creator-configs-public-api/v1/experimentation/universes/{universeId}/experiments/{experimentId}:complete': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Completes an experiment by stopping it and rolling out the requested variant. */
+        post: operations['PublicExperimentation_CompleteExperiment'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/creator-configs-public-api/v1/experimentation/universes/{universeId}/experiments/{experimentId}:schedule': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Schedules an experiment to start at a future UTC time.
+         * @description Body must include `scheduledStartTime` as an ISO-8601 UTC timestamp.
+         */
+        post: operations['PublicExperimentation_ScheduleExperiment'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/creator-configs-public-api/v1/experimentation/universes/{universeId}/experiments/{experimentId}:start': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Starts an experiment immediately.
+         * @description For a future-dated start, use the sibling `:schedule` endpoint.
+         */
+        post: operations['PublicExperimentation_StartExperiment'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/creator-configs-public-api/v1/experimentation/universes/{universeId}/experiments:calculateMde': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Calculates the Minimum Detectable Effect (MDE) for a prospective experiment.
+         * @description Poll by clients until the operation is complete.
+         */
+        post: operations['PublicExperimentation_CalculateExperimentMde'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/creator-configs-public-api/v1/experimentation/universes/{universeId}/operations/{operationId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Gets the status of an experiment async operation.
+         * @description Polled by clients between mutations (Create / Update / Start / Schedule /
+         *     Complete / Discard) to determine when the operation reaches `done = true`.
+         */
+        get: operations['PublicExperimentation_GetExperimentOperationStatus'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/datastores/v1/universes/{universeId}/standard-datastores': {
         parameters: {
             query?: never;
@@ -13310,7 +13479,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Returns details about the authenticated user's avatar. */
+        /**
+         * Returns details about the authenticated user's avatar.
+         * @deprecated
+         * @description Please use GET v4/avatar
+         */
         get: {
             parameters: {
                 query?: never;
@@ -27951,7 +28124,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Gets details about the contents of an outfit. */
+        /**
+         * Gets details about the contents of an outfit.
+         * @deprecated
+         * @description Please use GET v4/outfits/{outfitId}/details
+         */
         get: {
             parameters: {
                 query?: never;
@@ -39426,6 +39603,90 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v2/avatar': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Sets the avatar to the incoming avatar using field masks.
+         * @deprecated
+         * @description Only allows items that you own, are not expired, and are wearable asset types.
+         *     Any assets being worn before this method is called are automatically removed.
+         *
+         *     Please use PATCH v4/avatar
+         */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: {
+                    'Roblox-Place-Id'?: number;
+                };
+                path?: never;
+                cookie?: never;
+            };
+            /** @description Model of avatar that we are updating to. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Api.Avatar.Models.UpdateAvatarRequestModel'];
+                    'text/json': components['schemas']['Roblox.Api.Avatar.Models.UpdateAvatarRequestModel'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Api.Avatar.Models.UpdateAvatarResponseModel'];
+                        'text/json': components['schemas']['Roblox.Api.Avatar.Models.UpdateAvatarResponseModel'];
+                    };
+                };
+                /**
+                 * @description 3: Invalid assetId
+                 *     5: Meta does not apply to specified asset type
+                 *     7: Required meta is not provided for the specific asset type
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 2: Failed to wear asset. */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
     '/v2/avatar/avatar': {
         parameters: {
             query?: never;
@@ -39484,7 +39745,11 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Sets the authenticated user's body colors. */
+        /**
+         * Sets the authenticated user's body colors.
+         * @deprecated
+         * @description Please use PATCH v4/avatar
+         */
         post: {
             parameters: {
                 query?: never;
@@ -39544,8 +39809,11 @@ export interface paths {
         put?: never;
         /**
          * Sets the avatar's current assets to the list.
+         * @deprecated
          * @description Only allows items that you own, are not expired, and are wearable asset types.
          *     Any assets being worn before this method is called are automatically removed.
+         *
+         *     Please use PATCH v4/avatar
          */
         post: {
             parameters: {
@@ -40419,7 +40687,7 @@ export interface paths {
          * @description Fails if any of the assetIds are not owned by the user, or not wearable types.
          *     The name property of the request is optional as one will be auto-generated when the request has a null name.
          *
-         *     please use v3/outfits/create
+         *     Please use POST v4/outfits/create
          */
         post: {
             parameters: {
@@ -40516,7 +40784,7 @@ export interface paths {
          * @description Fails if the user does not own any of the assetIds or if they are not wearable asset types.
          *     Accepts partial updates.
          *
-         *     Please use PATCH v3/outfits/{userOutfitId}
+         *     Please use PATCH v4/outfits/{outfitId}
          */
         patch: {
             parameters: {
@@ -43500,8 +43768,11 @@ export interface paths {
         put?: never;
         /**
          * Creates a new outfit.
+         * @deprecated
          * @description Fails if any of the assetIds are not owned by the user, or not wearable types.
          *     The name property of the request is optional as one will be auto-generated when the request has a null name.
+         *
+         *     Please use POST v4/outfits/create
          */
         post: {
             parameters: {
@@ -43594,8 +43865,11 @@ export interface paths {
         head?: never;
         /**
          * Updates the contents of an outfit.
+         * @deprecated
          * @description Fails if the user does not own any of the assetIds or if they are not wearable asset types.
          *     Accepts partial updates.
+         *
+         *     Please use PATCH v4/outfits/{outfitId}
          */
         patch: {
             parameters: {
@@ -43793,7 +44067,72 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch?: never;
+        /**
+         * Sets the avatar to the incoming avatar using field masks.
+         * @description Only allows items that you own, are not expired, and are wearable asset types.
+         *     Any assets being worn before this method is called are automatically removed.
+         */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: {
+                    'Roblox-Place-Id'?: number;
+                };
+                path?: never;
+                cookie?: never;
+            };
+            /** @description Model of avatar that we are updating to. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Api.Avatar.Models.V4.Request.UpdateAvatarDefinitionRequestV4'];
+                    'text/json': components['schemas']['Roblox.Api.Avatar.Models.V4.Request.UpdateAvatarDefinitionRequestV4'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Api.Avatar.Models.V4.Response.UpdateAvatarDefinitionResponseV4'];
+                        'text/json': components['schemas']['Roblox.Api.Avatar.Models.V4.Response.UpdateAvatarDefinitionResponseV4'];
+                    };
+                };
+                /**
+                 * @description 3: Invalid assetId
+                 *     5: Meta does not apply to specified asset type
+                 *     7: Required meta is not provided for the specific asset type
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 2: Failed to wear asset. */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         trace?: never;
     };
     '/v4/avatar/users/{userId}': {
@@ -43853,6 +44192,195 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    '/v4/outfits/create': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Creates a new outfit.
+         * @description Fails if any of the assetIds are not owned by the user, or not wearable types.
+         *     The name property of the request is optional as one will be auto-generated when the request has a null name.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: {
+                    'Roblox-Place-Id'?: number;
+                };
+                path?: never;
+                cookie?: never;
+            };
+            /** @description The outfit definition to create. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Api.Avatar.Models.V4.Request.CreateOutfitDefinitionRequestV4'];
+                    'text/json': components['schemas']['Roblox.Api.Avatar.Models.V4.Request.CreateOutfitDefinitionRequestV4'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Api.Avatar.Models.V4.Response.CreateOutfitDefinitionResponseV4'];
+                        'text/json': components['schemas']['Roblox.Api.Avatar.Models.V4.Response.CreateOutfitDefinitionResponseV4'];
+                    };
+                };
+                /**
+                 * @description 3: Body colors must be valid BrickColor IDs
+                 *     4: Invalid outfit name
+                 *     5: Asset is not wearable by you and was not added to the outfit
+                 *     7: Invalid Player Avatar Type. Valid types are R6 and R15
+                 *     8: Invalid assetIds
+                 *     9: Meta does not apply to specified asset type
+                 *     10: Required meta is not provided for the specific asset type
+                 *     12: Outfit type invalid or not permitted
+                 *     13: Invalid Scale
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     1: You already have the maximum number of outfits
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 6: An error occurred while creating the outfit */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v4/outfits/{outfitId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Updates the contents of an outfit.
+         * @description Fails if the user does not own any of the assetIds or if they are not wearable asset types.
+         *     Accepts partial updates via update types.
+         */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: {
+                    'Roblox-Place-Id'?: number;
+                };
+                path: {
+                    /** @description The user outfit id. */
+                    outfitId: string;
+                };
+                cookie?: never;
+            };
+            /** @description The outfit definition fields to update. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Api.Avatar.Models.V4.Request.UpdateOutfitDefinitionRequestV4'];
+                    'text/json': components['schemas']['Roblox.Api.Avatar.Models.V4.Request.UpdateOutfitDefinitionRequestV4'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Api.Avatar.Models.V4.Response.UpdateOutfitDefinitionResponseV4'];
+                        'text/json': components['schemas']['Roblox.Api.Avatar.Models.V4.Response.UpdateOutfitDefinitionResponseV4'];
+                    };
+                };
+                /**
+                 * @description 3: Body colors must be valid BrickColor IDs
+                 *     4: Invalid outfit name
+                 *     5: Asset is not wearable by you
+                 *     8: Invalid Player Avatar Type. Valid types are R6 and R15
+                 *     11: Meta does not apply to specified asset type
+                 *     12: Meta is required for this specific asset type
+                 *     13: Invalid Outfit Type
+                 *     14: Invalid scale
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     2: You don't have permission to update this outfit.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: The specified userOutfit does not exist! */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 6: An error occurred while trying to update the outfit */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         trace?: never;
     };
     '/v4/outfits/{outfitId}/details': {
@@ -44587,6 +45115,58 @@ export interface components {
              */
             deletedCount?: number;
         } | null;
+        /**
+         * @description Request body for
+         *     `POST /v1/experimentation/universes/{universeId}/experiments:calculateMde`.
+         */
+        CalculateExperimentMdeData: {
+            /**
+             * Format: int32
+             * @description Exposure percent in range 0-100. Percent of eligible users seeing the experiment.
+             */
+            exposurePercent?: number;
+            /**
+             * Format: int64
+             * @description Planned duration of the experiment in whole seconds.
+             *     Values must be an exact multiple of `86400`.
+             */
+            durationSeconds?: number;
+            /**
+             * Format: double
+             * @description Relative weight (in [0, 100]) for the baseline (control) variant.
+             */
+            baselineWeight?: number;
+            /** @description Relative weights (each in [0, 100]) for each non-baseline variant. */
+            variantWeights?: number[] | null;
+            /**
+             * @description The goal metric whose detectable effect is being calculated.
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_AVERAGE_SESSION_TIME
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_PLAYTIME_PER_USER
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_DAY_1_RETENTION
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_DAY_7_RETENTION
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_PAYER_CONVERSION_RATE
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_AVERAGE_REVENUE_PER_USER
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_AVERAGE_REVENUE_PER_PAYING_USER
+             */
+            universeGoalMetric?: components['schemas']['UniverseExperimentMetric'];
+            /** @description Targeting criteria used to scope the analytics window. */
+            targetingCriteria?: components['schemas']['TargetingCriteria'] | null;
+        };
+        /**
+         * @description Response body for
+         *     `POST /v1/experimentation/universes/{universeId}/experiments:calculateMde`.
+         */
+        CalculateExperimentMdeResponse: {
+            /** @description The MDE async operation. */
+            operation?: components['schemas']['MdeOperation'] | null;
+        };
         CanInviteUserResponse: {
             canInvite?: boolean;
             doesOwnerPrivacyRestrictJoins?: boolean;
@@ -44621,7 +45201,26 @@ export interface components {
              */
             browserTrackerId?: number | null;
         };
-        /** @description JSON shape of an RPN conditional rule in public API requests, aligned with `roblox.creatorexperienceconfig.conditionrules.v1.RpnRule`. */
+        /**
+         * @description Request body for
+         *     `POST /v1/experimentation/universes/{universeId}/experiments/{experimentId}:complete`.
+         */
+        CompleteExperimentRequest: {
+            /**
+             * @description ID of the variant to roll out as the winning variant. If omitted, the experiment is
+             *     stopped without rolling out a winner.
+             */
+            variantId?: string | null;
+        };
+        /**
+         * @description Response body for
+         *     `POST /v1/experimentation/universes/{universeId}/experiments/{experimentId}:complete`.
+         */
+        CompleteExperimentResponse: {
+            /** @description The async operation that completed the experiment. */
+            operation?: components['schemas']['ExperimentOperation'] | null;
+        };
+        /** @description JSON shape of an RPN conditional rule in public API requests. */
         ConditionalRuleDefinition: {
             /** @description Postfix RPN token sequence. */
             tokens?: components['schemas']['RpnTokenDto'][] | null;
@@ -44786,6 +45385,53 @@ export interface components {
              * @description The value to set the new entry. If the input value exceeds the maximum value supported by int64, which is 9,223,372,036,854,775,807, the request fails with a 400 Bad Request error.
              */
             value: number;
+        };
+        /**
+         * @description Request body for `POST /v1/experimentation/universes/{universeId}/experiments`.
+         *     Payload describing a new experiment.
+         */
+        CreateExperimentData: {
+            /** @description Experiment display name. */
+            name?: string | null;
+            /** @description Experiment description. */
+            description?: string | null;
+            /** @description Experiment configuration (variants + product-type-specific data). */
+            experimentConfiguration?: components['schemas']['ExperimentConfiguration'] | null;
+            /**
+             * Format: int32
+             * @description Exposure percent in range 0-100. Percent of eligible users seeing the experiment.
+             */
+            exposurePercent?: number;
+            /** @description Targeting criteria scoping which users are eligible for the experiment. */
+            targetingCriteria?: components['schemas']['TargetingCriteria'] | null;
+            /**
+             * Format: int64
+             * @description Experiment duration in whole seconds.
+             */
+            durationSeconds?: number;
+            /**
+             * @description Goal metric for the experiment.
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_AVERAGE_SESSION_TIME
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_PLAYTIME_PER_USER
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_DAY_1_RETENTION
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_DAY_7_RETENTION
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_PAYER_CONVERSION_RATE
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_AVERAGE_REVENUE_PER_USER
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_AVERAGE_REVENUE_PER_PAYING_USER
+             */
+            universeGoalMetric?: components['schemas']['UniverseExperimentMetric'];
+        };
+        /** @description Response body for POST /v1/universes/{universeId}/experiment. */
+        CreateExperimentResponse: {
+            /** @description Resulting async operation describing the create call. */
+            operation?: components['schemas']['ExperimentOperation'] | null;
         };
         /** @description Optional event configuration block (recurrence + notification audience) on the v3 Create body. */
         CreateGameEventConfigRequest: {
@@ -45457,6 +46103,11 @@ export interface components {
             response?: components['schemas']['AnalyticsQueryPublicApi.DimensionValuesResponse'];
             metadata?: components['schemas']['AnalyticsQueryPublicApi.OperationMetadata'];
         };
+        /** @description Response body for DELETE /v1/universes/{universeId}/experiment/{experimentId}. */
+        DiscardExperimentResponse: {
+            /** @description Resulting async operation describing the delete call. */
+            operation?: components['schemas']['ExperimentOperation'] | null;
+        };
         /** @description Discards read items from the front of the queue. */
         DiscardMemoryStoreQueueItemsRequest: {
             /**
@@ -45618,6 +46269,353 @@ export interface components {
          * @enum {string}
          */
         EventVisibility: 'private' | 'public' | 'moderated';
+        /** @description Application-layer error emitted on a failed experiment operation. */
+        ExperimentApiError: {
+            /**
+             * @description Broad category of the failure.
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_INVALID_VARIANT_CONFIGURATION
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_INVALID_VARIANT_LABEL
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_MUST_HAVE_EXACTLY_ONE_BASELINE_VARIANT
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_OVERLAPPING_RUNTIME
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_INVALID_SCORING_CONFIGURATIONS
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_UNEXPECTED_PRODUCT_TYPE
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_EMPTY_CONFIGURATION
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_EMPTY_VARIANT_METADATA
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_VARIANT_WEIGHT_MUST_BE_POSITIVE
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_VARIANT_WEIGHTS_UNBALANCED
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_PLACE_CONFIG_REQUIRES_SCORING_ID_OR_DEFAULT
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_CONFIGS_MISSING_VARIANT
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_CONFIGS_VARIANT_MISSING_KEY
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_CONFIGS_VARIANT_MISSING_VALUE
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_CONFIGS_KEY_ALREADY_IN_USE
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_SYSTEM_ERROR
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_EXPERIMENT_RESULTS_NOT_FOUND
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_INVALID_TARGETING_CRITERIA
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_TARGETING_NOT_ALLOWED
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_INVALID_DURATION
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_CONFIGS_VARIANT_CONFIG_NOT_FOUND
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_INVALID_EXPERIMENT_NAME
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_CONDITIONAL_CONFIG_REQUIRES_NULL_BASELINE
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_CONTROL_VARIANT_MUST_MATCH_CURRENT_CONFIGURATION
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_VARIANTS_MUST_COVER_SAME_PLACES
+             *
+             *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_VARIANT_HAS_DUPLICATE_PLACES
+             */
+            errorType?: components['schemas']['ExperimentApiErrorType'];
+            /** @description Stable machine-readable error code. */
+            errorCode?: string | null;
+            /** @description Human-readable description of the failure. */
+            errorMessage?: string | null;
+            /** @description Optional structured context about the failure (field paths, offending values, etc.). */
+            errorContext?: {
+                [key: string]: string | null;
+            } | null;
+        };
+        /**
+         * @description Validation failures.
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_INVALID_VARIANT_CONFIGURATION
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_INVALID_VARIANT_LABEL
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_MUST_HAVE_EXACTLY_ONE_BASELINE_VARIANT
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_OVERLAPPING_RUNTIME
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_INVALID_SCORING_CONFIGURATIONS
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_UNEXPECTED_PRODUCT_TYPE
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_EMPTY_CONFIGURATION
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_EMPTY_VARIANT_METADATA
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_VARIANT_WEIGHT_MUST_BE_POSITIVE
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_VARIANT_WEIGHTS_UNBALANCED
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_PLACE_CONFIG_REQUIRES_SCORING_ID_OR_DEFAULT
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_CONFIGS_MISSING_VARIANT
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_CONFIGS_VARIANT_MISSING_KEY
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_CONFIGS_VARIANT_MISSING_VALUE
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_CONFIGS_KEY_ALREADY_IN_USE
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_SYSTEM_ERROR
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_EXPERIMENT_RESULTS_NOT_FOUND
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_INVALID_TARGETING_CRITERIA
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_TARGETING_NOT_ALLOWED
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_INVALID_DURATION
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_CONFIGS_VARIANT_CONFIG_NOT_FOUND
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_INVALID_EXPERIMENT_NAME
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_CONDITIONAL_CONFIG_REQUIRES_NULL_BASELINE
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_CONTROL_VARIANT_MUST_MATCH_CURRENT_CONFIGURATION
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_VARIANTS_MUST_COVER_SAME_PLACES
+         *
+         *     EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_VARIANT_HAS_DUPLICATE_PLACES
+         * @enum {string}
+         */
+        ExperimentApiErrorType:
+            | 'EXPERIMENT_API_ERROR_TYPE_INVALID_VARIANT_CONFIGURATION'
+            | 'EXPERIMENT_API_ERROR_TYPE_INVALID_VARIANT_LABEL'
+            | 'EXPERIMENT_API_ERROR_TYPE_MUST_HAVE_EXACTLY_ONE_BASELINE_VARIANT'
+            | 'EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_OVERLAPPING_RUNTIME'
+            | 'EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_INVALID_SCORING_CONFIGURATIONS'
+            | 'EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_UNEXPECTED_PRODUCT_TYPE'
+            | 'EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_EMPTY_CONFIGURATION'
+            | 'EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_EMPTY_VARIANT_METADATA'
+            | 'EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_VARIANT_WEIGHT_MUST_BE_POSITIVE'
+            | 'EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_VARIANT_WEIGHTS_UNBALANCED'
+            | 'EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_PLACE_CONFIG_REQUIRES_SCORING_ID_OR_DEFAULT'
+            | 'EXPERIMENT_API_ERROR_TYPE_CONFIGS_MISSING_VARIANT'
+            | 'EXPERIMENT_API_ERROR_TYPE_CONFIGS_VARIANT_MISSING_KEY'
+            | 'EXPERIMENT_API_ERROR_TYPE_CONFIGS_VARIANT_MISSING_VALUE'
+            | 'EXPERIMENT_API_ERROR_TYPE_CONFIGS_KEY_ALREADY_IN_USE'
+            | 'EXPERIMENT_API_ERROR_TYPE_SYSTEM_ERROR'
+            | 'EXPERIMENT_API_ERROR_TYPE_EXPERIMENT_RESULTS_NOT_FOUND'
+            | 'EXPERIMENT_API_ERROR_TYPE_INVALID_TARGETING_CRITERIA'
+            | 'EXPERIMENT_API_ERROR_TYPE_TARGETING_NOT_ALLOWED'
+            | 'EXPERIMENT_API_ERROR_TYPE_INVALID_DURATION'
+            | 'EXPERIMENT_API_ERROR_TYPE_CONFIGS_VARIANT_CONFIG_NOT_FOUND'
+            | 'EXPERIMENT_API_ERROR_TYPE_INVALID_EXPERIMENT_NAME'
+            | 'EXPERIMENT_API_ERROR_TYPE_CONDITIONAL_CONFIG_REQUIRES_NULL_BASELINE'
+            | 'EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_CONTROL_VARIANT_MUST_MATCH_CURRENT_CONFIGURATION'
+            | 'EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_VARIANTS_MUST_COVER_SAME_PLACES'
+            | 'EXPERIMENT_API_ERROR_TYPE_MATCHMAKING_VARIANT_HAS_DUPLICATE_PLACES';
+        ExperimentConfigEntry: {
+            /** @description The config key this variant overrides. Must match across variants in the same experiment. */
+            key?: string | null;
+            /**
+             * @description The value assigned to Key for this variant. Can be a string, number, bool, array, object,
+             *     or null.
+             */
+            entryValue?: unknown;
+            /** @description Optional human-readable description carried alongside the value. */
+            description?: string | null;
+        };
+        /**
+         * @description Union of per-product experiment configurations. At most one of InGameConfigExperimentConfiguration or
+         *     MatchmakingExperimentConfiguration may be set.
+         */
+        ExperimentConfiguration: {
+            /**
+             * @description Discriminator selecting which configuration variant is populated.
+             *
+             *     EXPERIMENT_PRODUCT_TYPE_IN_GAME_CONFIGS
+             *
+             *     EXPERIMENT_PRODUCT_TYPE_MATCHMAKING
+             */
+            productType?: components['schemas']['ExperimentProductType'];
+            /** @description Populated when ProductType is InGameConfigExperimentConfiguration, null otherwise. */
+            inGameConfigExperimentConfiguration?: components['schemas']['InGameConfigExperimentConfiguration'] | null;
+            /** @description Populated when ProductType is MatchmakingExperimentConfiguration, null otherwise. */
+            matchmakingExperimentConfiguration?: components['schemas']['MatchmakingExperimentConfiguration'] | null;
+        };
+        /**
+         * @description Async operation result for an experiment Create / Update / Discard call. When
+         *     Done is true, at most one of Error or Experiment is set; when false, neither is. A successful delete is the
+         *     one case where a done operation carries neither: the experiment no longer exists, so
+         *     no Experiment body is returned.
+         */
+        ExperimentOperation: {
+            /** @description Stable operation ID. */
+            operationId?: string | null;
+            /**
+             * @description Current operational status of the operation.
+             *
+             *     OPERATIONAL_STATUS_READY
+             *
+             *     OPERATIONAL_STATUS_CREATING
+             *
+             *     OPERATIONAL_STATUS_UPDATING
+             *
+             *     OPERATIONAL_STATUS_STARTING
+             *
+             *     OPERATIONAL_STATUS_STOPPING
+             *
+             *     OPERATIONAL_STATUS_SCHEDULING
+             *
+             *     OPERATIONAL_STATUS_DELETING
+             *
+             *     OPERATIONAL_STATUS_RAMPING_UP
+             *
+             *     OPERATIONAL_STATUS_SYNCING
+             *
+             *     OPERATIONAL_STATUS_ROLLING_OUT
+             */
+            status?: components['schemas']['OperationalStatus'];
+            /**
+             * Format: date-time
+             * @description UTC time the operation was created.
+             */
+            createdTime?: string;
+            /**
+             * @description True once the operation terminates (success or failure). When false, neither
+             *     Error nor Experiment is populated.
+             */
+            done?: boolean;
+            /** @description Error outcome. Populated iff Done is true and the operation failed. */
+            error?: components['schemas']['ExperimentApiError'] | null;
+            /**
+             * @description Successful outcome. Populated iff Done is true and the operation
+             *     succeeded and returned an experiment resource.
+             */
+            experiment?: components['schemas']['ProductExperiment'] | null;
+        };
+        /**
+         * @description Type of product the experiment is targeting.
+         *
+         *     EXPERIMENT_PRODUCT_TYPE_IN_GAME_CONFIGS
+         *
+         *     EXPERIMENT_PRODUCT_TYPE_MATCHMAKING
+         * @enum {string}
+         */
+        ExperimentProductType: 'EXPERIMENT_PRODUCT_TYPE_IN_GAME_CONFIGS' | 'EXPERIMENT_PRODUCT_TYPE_MATCHMAKING';
+        /**
+         * @description Lifecycle state of an experiment.
+         *
+         *     EXPERIMENT_STATE_DRAFT
+         *
+         *     EXPERIMENT_STATE_SCHEDULED
+         *
+         *     EXPERIMENT_STATE_RUNNING
+         *
+         *     EXPERIMENT_STATE_COMPLETED
+         *
+         *     EXPERIMENT_STATE_CANCELLED
+         *
+         *     EXPERIMENT_STATE_DELETED
+         * @enum {string}
+         */
+        ExperimentState:
+            | 'EXPERIMENT_STATE_DRAFT'
+            | 'EXPERIMENT_STATE_SCHEDULED'
+            | 'EXPERIMENT_STATE_RUNNING'
+            | 'EXPERIMENT_STATE_COMPLETED'
+            | 'EXPERIMENT_STATE_CANCELLED'
+            | 'EXPERIMENT_STATE_DELETED';
+        /** @description Computed stats for a running experiment. */
+        ExperimentStats: {
+            /** @description True if Sample Ratio Mismatch (SRM) was detected for the experiment. */
+            isSrmDetected?: boolean;
+        };
+        /**
+         * @description Async operation for fetching experiment stats. When Done is true exactly
+         *     one of Error or ExperimentStats is set; when false, neither is.
+         */
+        ExperimentStatsOperation: {
+            /**
+             * Format: int64
+             * @description Experiment ID the stats are for.
+             */
+            experimentId?: number;
+            /** @description UTC time the operation was last modified. */
+            lastModifiedTime?: string | null;
+            /** @description True once the stats fetch terminates (success or failure). */
+            done?: boolean;
+            /** @description Error outcome, when Done is true and the fetch failed. */
+            error?: components['schemas']['ExperimentApiError'] | null;
+            /** @description Successful outcome, when Done is true and stats are available. */
+            experimentStats?: components['schemas']['ExperimentStats'] | null;
+        };
+        /**
+         * @description Summary view of an experiment returned by the list endpoint. Does not include the variant /
+         *     configuration payload; clients should call Get for the full payload.
+         */
+        ExperimentSummary: {
+            /** @description Experiment ID. */
+            id?: string | null;
+            /** @description Experiment display name. */
+            name?: string | null;
+            /** @description Experiment description. */
+            description?: string | null;
+            /**
+             * Format: date-time
+             * @description UTC time the experiment was created.
+             */
+            createdTime?: string;
+            /** @description UTC time the experiment was last updated. */
+            lastUpdatedTime?: string | null;
+            /** @description UTC time the experiment was started, if running. */
+            startedTime?: string | null;
+            /** @description UTC time the experiment was stopped, if completed/cancelled. */
+            stoppedTime?: string | null;
+            /**
+             * @description Lifecycle state.
+             *
+             *     EXPERIMENT_STATE_DRAFT
+             *
+             *     EXPERIMENT_STATE_SCHEDULED
+             *
+             *     EXPERIMENT_STATE_RUNNING
+             *
+             *     EXPERIMENT_STATE_COMPLETED
+             *
+             *     EXPERIMENT_STATE_CANCELLED
+             *
+             *     EXPERIMENT_STATE_DELETED
+             */
+            state?: components['schemas']['ExperimentState'];
+            /** @description User ID of the creator of the experiment. */
+            createdBy?: string | null;
+            /**
+             * @description Convenience field exposing the first config key referenced by the first variant
+             *     (in-game-configs experiments only). Empty for matchmaking.
+             */
+            experimentConfigKey?: string | null;
+            /** @description UTC time the experiment is scheduled to start, if scheduled. */
+            scheduledTime?: string | null;
+            /**
+             * Format: int64
+             * @description Planned experiment duration in whole seconds.
+             */
+            durationSeconds?: number;
+            /**
+             * @description Product type.
+             *
+             *     EXPERIMENT_PRODUCT_TYPE_IN_GAME_CONFIGS
+             *
+             *     EXPERIMENT_PRODUCT_TYPE_MATCHMAKING
+             */
+            productType?: components['schemas']['ExperimentProductType'];
+        };
         /**
          * @description The featuring status of a virtual event.
          * @enum {string}
@@ -45958,6 +46956,27 @@ export interface components {
             /** Format: int64 */
             amount?: number;
             type?: components['schemas']['TransactionRecordsApi.CurrencyType'];
+        };
+        /**
+         * @description Response body for
+         *     `GET /v1/experimentation/universes/{universeId}/operations/{operationId}`.
+         */
+        GetExperimentOperationStatusResponse: {
+            /** @description The current state of the async operation. */
+            operation?: components['schemas']['ExperimentOperation'] | null;
+        };
+        /** @description Response body for GET /v1/universes/{universeId}/experiment/{experimentId}. */
+        GetExperimentResponse: {
+            /** @description The requested experiment. */
+            experiment?: components['schemas']['ProductExperiment'] | null;
+        };
+        /**
+         * @description Response body for
+         *     `GET /v1/experimentation/universes/{universeId}/experiments/{experimentId}/stats`.
+         */
+        GetExperimentStatsResponse: {
+            /** @description The async operation containing the experiment stats. */
+            operation?: components['schemas']['ExperimentStatsOperation'] | null;
         };
         /**
          * @description Represents metadata about the long-running operation corresponding to a
@@ -46629,6 +47648,11 @@ export interface components {
             /** @description The asset that was saved. */
             creatorStoreAsset?: components['schemas']['CreatorStoreAsset'] | null;
         } | null;
+        /** @description Configuration for an in-game-config experiment. */
+        InGameConfigExperimentConfiguration: {
+            /** @description Variants participating in the experiment. Exactly one must have IsBaseline set. */
+            variants?: components['schemas']['SingleConfigExperimentVariant'][] | null;
+        };
         /**
          * @description Increments the entry value.
          *
@@ -47118,6 +48142,17 @@ export interface components {
             /** @description A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
             nextPageToken?: string;
         };
+        /** @description Response body for `GET /v1/experimentation/universes/{universeId}/experiments`. */
+        ListExperimentsResponse: {
+            /** @description The page of experiments matching the query. */
+            experiments?: components['schemas']['ExperimentSummary'][] | null;
+            /**
+             * Format: int32
+             * @description Total number of experiments for the universe matching the filters
+             *                 (independent of pagination).
+             */
+            total?: number;
+        };
         /** @description Response for listing game pass configuration details by universe */
         ListGamePassConfigsByUniverseResponse: {
             /** @description The list of game passes with their corresponding configuration details. */
@@ -47310,7 +48345,7 @@ export interface components {
              */
             nextPageToken?: string;
         };
-        /** @description Literal constant for an RPN operand (proto `LiteralValue` oneof as independent fields for JSON). */
+        /** @description Literal constant for an RPN operand. */
         LiteralValueDto: {
             booleanValue?: string | null;
             integerValue?: string | null;
@@ -47685,6 +48720,18 @@ export interface components {
             /** @description Whether text chat signal is enabled for Custom Matchmaking. */
             isMatchmakingTextChatSignalEnabled?: boolean;
         };
+        /** @description Configuration for a matchmaking experiment. */
+        MatchmakingExperimentConfiguration: {
+            /** @description Variants participating in the experiment. */
+            variants?: components['schemas']['MatchmakingExperimentVariant'][] | null;
+        };
+        /** @description Variant definition for a matchmaking experiment. */
+        MatchmakingExperimentVariant: {
+            /** @description Metadata common to all variants. */
+            variantMeta?: components['schemas']['VariantMeta'] | null;
+            /** @description Per-place matchmaking scoring configurations applied when this variant is selected. */
+            placeMatchmakingConfigs?: components['schemas']['PlaceScoringConfig'][] | null;
+        };
         /**
          * @description The numerical attribute comparison type for matchmaking.
          * @enum {string}
@@ -47820,6 +48867,40 @@ export interface components {
              */
             weight?: number;
             signalType?: components['schemas']['MatchmakingSignalType'];
+        };
+        /**
+         * @description Async operation result for a `:calculateMde` call. When Done is true
+         *     exactly one of Error or Mde is set; when false, neither is.
+         */
+        MdeOperation: {
+            /** @description Stable operation ID. */
+            operationId?: string | null;
+            /** @description UTC time the operation was last modified. */
+            lastModifiedTime?: string | null;
+            /** @description True once the calculation terminates (success or failure). */
+            done?: boolean;
+            /** @description Error outcome, when Done is true and the calculation failed. */
+            error?: components['schemas']['ExperimentApiError'] | null;
+            /** @description Successful outcome, when Done is true and a result is available. */
+            mde?: components['schemas']['MdeResult'] | null;
+        };
+        /**
+         * @description MDE calculation result. Returned in the `operation.result` field on a successful
+         *     `POST .../experiments:calculateMde` call.
+         */
+        MdeResult: {
+            /**
+             * Format: int32
+             * @description Estimated total sample size required for the experiment.
+             */
+            totalSampleSize?: number;
+            /** @description MDE expressed as a relative percentage of the goal metric, per non-baseline variant. */
+            mdeRelativePercentages?: number[] | null;
+            /**
+             * Format: int32
+             * @description Below this sample-size threshold the MDE estimate is unreliable.
+             */
+            minimumSampleSizeThreshold?: number;
         };
         /** @description Represents the memory store of the universe. */
         MemoryStore: {
@@ -48237,6 +49318,41 @@ export interface components {
             done?: boolean;
             metadata?: components['schemas']['AnalyticsQueryPublicApi.OperationMetadata'];
         };
+        /**
+         * @description Current operational status reported on an experiment or an async operation performed on one.
+         *
+         *     OPERATIONAL_STATUS_READY
+         *
+         *     OPERATIONAL_STATUS_CREATING
+         *
+         *     OPERATIONAL_STATUS_UPDATING
+         *
+         *     OPERATIONAL_STATUS_STARTING
+         *
+         *     OPERATIONAL_STATUS_STOPPING
+         *
+         *     OPERATIONAL_STATUS_SCHEDULING
+         *
+         *     OPERATIONAL_STATUS_DELETING
+         *
+         *     OPERATIONAL_STATUS_RAMPING_UP
+         *
+         *     OPERATIONAL_STATUS_SYNCING
+         *
+         *     OPERATIONAL_STATUS_ROLLING_OUT
+         * @enum {string}
+         */
+        OperationalStatus:
+            | 'OPERATIONAL_STATUS_READY'
+            | 'OPERATIONAL_STATUS_CREATING'
+            | 'OPERATIONAL_STATUS_UPDATING'
+            | 'OPERATIONAL_STATUS_STARTING'
+            | 'OPERATIONAL_STATUS_STOPPING'
+            | 'OPERATIONAL_STATUS_SCHEDULING'
+            | 'OPERATIONAL_STATUS_DELETING'
+            | 'OPERATIONAL_STATUS_RAMPING_UP'
+            | 'OPERATIONAL_STATUS_SYNCING'
+            | 'OPERATIONAL_STATUS_ROLLING_OUT';
         /** @description A key-value entry in an ordered data store. */
         OrderedDataStoreEntry: {
             /**
@@ -48378,6 +49494,21 @@ export interface components {
             filter?: components['schemas']['PlaceFilter'] | null;
             /** @description Latest version at the time of the restart. */
             latestVersion?: string | null;
+        };
+        /** @description Matchmaking scoring configuration applied to a single place in an experiment variant. */
+        PlaceScoringConfig: {
+            /**
+             * Format: int64
+             * @description Place ID this scoring config applies to.
+             */
+            placeId?: number;
+            /** @description Matchmaking scoring config ID for this place. Ignored when UsePlatformDefault is true. */
+            matchmakingScoringConfigId?: string | null;
+            /**
+             * @description When true, this place uses the platform default matchmaking scoring config instead of
+             *     MatchmakingScoringConfigId.
+             */
+            usePlatformDefault?: boolean;
         };
         /** @description Per-place forecast data for a game restart. */
         PlaceSummaryForGameRestart: {
@@ -48661,7 +49792,7 @@ export interface components {
             metadata?: components['schemas']['PrivateServerSubscriptionMetadata'] | null;
         };
         /** @enum {string} */
-        PrivateServerSubscriptionTag: 'Invalid' | 'RobloxSubscription';
+        PrivateServerSubscriptionTag: 'Invalid' | 'RobloxSubscription' | 'RobloxSubscriptionActiveBenefit';
         PrivateServerUpdatePermissionsRequest: {
             clanAllowed?: boolean | null;
             /** Format: int64 */
@@ -48722,6 +49853,89 @@ export interface components {
                   [key: string]: unknown;
               })
             | null;
+        /**
+         * @description Config-based experiment for a given product. Returned by the Get endpoint and embedded in
+         *     a successful experiment operation.
+         */
+        ProductExperiment: {
+            /** @description Experiment ID. */
+            id?: string | null;
+            /** @description Experiment display name. */
+            name?: string | null;
+            /** @description Experiment description. */
+            description?: string | null;
+            /**
+             * Format: date-time
+             * @description UTC time the experiment was created.
+             */
+            createdTime?: string;
+            /** @description UTC time the experiment was last updated. */
+            lastUpdatedTime?: string | null;
+            /** @description UTC time the experiment was started (running), if it has been. */
+            startedTime?: string | null;
+            /** @description UTC time the experiment was stopped, if it has been. */
+            stoppedTime?: string | null;
+            /**
+             * @description Lifecycle state.
+             *
+             *     EXPERIMENT_STATE_DRAFT
+             *
+             *     EXPERIMENT_STATE_SCHEDULED
+             *
+             *     EXPERIMENT_STATE_RUNNING
+             *
+             *     EXPERIMENT_STATE_COMPLETED
+             *
+             *     EXPERIMENT_STATE_CANCELLED
+             *
+             *     EXPERIMENT_STATE_DELETED
+             */
+            state?: components['schemas']['ExperimentState'];
+            /** @description Experiment configuration (variants and product-type-specific data). */
+            experimentConfiguration?: components['schemas']['ExperimentConfiguration'] | null;
+            /**
+             * Format: int32
+             * @description Exposure percent in range 0-100.
+             */
+            exposurePercent?: number;
+            /** @description Targeting criteria scoping which users are eligible for the experiment. */
+            targetingCriteria?: components['schemas']['TargetingCriteria'] | null;
+            /**
+             * @description Current operational status of an in-flight async operation (if any).
+             *
+             *     OPERATIONAL_STATUS_READY
+             *
+             *     OPERATIONAL_STATUS_CREATING
+             *
+             *     OPERATIONAL_STATUS_UPDATING
+             *
+             *     OPERATIONAL_STATUS_STARTING
+             *
+             *     OPERATIONAL_STATUS_STOPPING
+             *
+             *     OPERATIONAL_STATUS_SCHEDULING
+             *
+             *     OPERATIONAL_STATUS_DELETING
+             *
+             *     OPERATIONAL_STATUS_RAMPING_UP
+             *
+             *     OPERATIONAL_STATUS_SYNCING
+             *
+             *     OPERATIONAL_STATUS_ROLLING_OUT
+             */
+            operationalStatus?: components['schemas']['OperationalStatus'];
+            /** @description User ID of the creator of the experiment. */
+            createdBy?: string | null;
+            /** @description UTC time the experiment is scheduled to start, if scheduled. */
+            scheduledTime?: string | null;
+            /**
+             * Format: int64
+             * @description Experiment duration in whole seconds.
+             */
+            durationSeconds?: number;
+            /** @description Metric configuration (goal + learning metrics). */
+            universeMetricConfiguration?: components['schemas']['UniverseMetricConfiguration'] | null;
+        };
         /** @description Request model for publishing a draft. */
         PublishDraftRequest: {
             /** @description The draft hash for concurrency control. If provided, the publish will fail if it doesn't match. */
@@ -50247,6 +51461,19 @@ export interface components {
             /** @description List of asset Ids used to equip pants for default clothing when the avatar appears nude. */
             defaultPantAssetIds?: number[];
         };
+        /** @description Request model to equip a emote */
+        'Roblox.Api.Avatar.Models.EmoteRequestModel': {
+            /**
+             * Format: int64
+             * @description The asset id of the emote
+             */
+            assetId?: number;
+            /**
+             * Format: int32
+             * @description The position to equip the emote to
+             */
+            position?: number;
+        };
         /** @description Response object representing a user's emote */
         'Roblox.Api.Avatar.Models.EmoteResponseModel': {
             /**
@@ -50282,6 +51509,40 @@ export interface components {
             universeAvatarAssetOverrides?: components['schemas']['Roblox.Api.Avatar.Models.UniverseAvatarAssetOverrideResponseModel'][];
             /** @description Moderation status */
             moderationStatus?: string;
+        };
+        'Roblox.Api.Avatar.Models.InvalidBackgroundResponse': {
+            /**
+             * Format: int64
+             * @description The asset id of the emote
+             */
+            BackgroundAssetId?: number;
+            /** @description The error associated with the background. */
+            Error?: string;
+        };
+        /** @description Response object representing an invalid emote */
+        'Roblox.Api.Avatar.Models.InvalidEmoteResponseModel': {
+            /**
+             * Format: int64
+             * @description The asset id of the emote
+             */
+            assetId?: number;
+            /**
+             * Format: int32
+             * @description The position the emote is equipped to
+             */
+            position?: number;
+            /** @description The error occured while trying to equip this emote */
+            error?: string;
+        };
+        /** @description Validation error for a profile frame that could not be applied. */
+        'Roblox.Api.Avatar.Models.InvalidProfileFrameResponse': {
+            /**
+             * Format: int64
+             * @description The asset id of the profile frame.
+             */
+            FrameAssetId?: number;
+            /** @description The error associated with the profile frame. */
+            Error?: string;
         };
         /** @description A model containing details about a user outfit */
         'Roblox.Api.Avatar.Models.OutfitDetailsModel': {
@@ -50426,9 +51687,56 @@ export interface components {
             assetTypeID?: number;
             isPlayerChoice?: boolean;
         };
+        /** @description A model containing details about an avatar. */
+        'Roblox.Api.Avatar.Models.UpdateAvatarDataModel': {
+            scales?: components['schemas']['Roblox.Web.Responses.Avatar.ScaleModel'];
+            /**
+             * Format: int32
+             * @description The avatar type.
+             * @enum {integer}
+             */
+            playerAvatarType?: 1 | 3;
+            bodyColors?: components['schemas']['Roblox.Api.Avatar.Models.BodyColors3Model'];
+            /** @description The assets worn on the character. */
+            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetWearModel'][];
+        };
+        /** @description A model containing details about an avatar update request. */
+        'Roblox.Api.Avatar.Models.UpdateAvatarRequestModel': {
+            /**
+             * @description Update mask specifying which avatar fields to update (can include multiple).
+             *     Acceptable values:
+             *     - UpdateAvatarType: updates avatar.type (R6/R15)
+             *     - UpdateScales: updates avatar.scale
+             *     - UpdateBodyColors: updates avatar.body_color_set
+             *     - UpdateAssets: updates avatar.avatar_assets
+             */
+            updateMask?: (0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8)[];
+            data?: components['schemas']['Roblox.Api.Avatar.Models.UpdateAvatarDataModel'];
+        };
+        /** @description A model for update avatar responses. */
+        'Roblox.Api.Avatar.Models.UpdateAvatarResponseModel': {
+            /**
+             * @description The assets that could not be worn
+             *     Unlike invalidAssetIds, only contains assets that are wearable types.
+             */
+            invalidAssets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
+            /** @description Whether or not all the outfit contents were successfully worn. */
+            success?: boolean;
+        };
         /** @description A model containing avatar background data. */
         'Roblox.Api.Avatar.Models.V4.AvatarBackgroundModel': {
             backgroundAsset?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'];
+        };
+        /**
+         * @description A model which contains the asset id of the background. This can be
+         *     extended to have more attributes in the future.
+         */
+        'Roblox.Api.Avatar.Models.V4.AvatarBackgroundRequestModel': {
+            /**
+             * Format: int64
+             * @description An asset id.
+             */
+            id?: number;
         };
         /** @description Avatar config details. */
         'Roblox.Api.Avatar.Models.V4.AvatarConfigurations': {
@@ -50460,6 +51768,14 @@ export interface components {
         /** @description A model containing avatar profile frame data. */
         'Roblox.Api.Avatar.Models.V4.AvatarProfileFrameModel': {
             frameAsset?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'];
+        };
+        /** @description A model which contains the asset id of the profile frame. */
+        'Roblox.Api.Avatar.Models.V4.AvatarProfileFrameRequestModel': {
+            /**
+             * Format: int64
+             * @description An asset id. Use 0 to clear the equipped frame.
+             */
+            id?: number;
         };
         /** @description Background configuration for an outfit. */
         'Roblox.Api.Avatar.Models.V4.OutfitConfigurations': {
@@ -50508,6 +51824,129 @@ export interface components {
              * @enum {integer}
              */
             playerAvatarType?: 1 | 3;
+        };
+        /** @description Request model for creating an outfit (V4). */
+        'Roblox.Api.Avatar.Models.V4.Request.CreateOutfitDefinitionRequestV4': {
+            outfitDefinition?: components['schemas']['Roblox.Api.Avatar.Models.V4.UpdateOutfitDefinition'];
+        };
+        /** @description Request model for updating an avatar definition (V4). */
+        'Roblox.Api.Avatar.Models.V4.Request.UpdateAvatarDefinitionRequestV4': {
+            /** @description The list of data needed to be updated. */
+            updateTypes?: (0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8)[];
+            avatarDefinition?: components['schemas']['Roblox.Api.Avatar.Models.V4.UpdateAvatarDefinition'];
+        };
+        /** @description Request model for updating an outfit (V4). */
+        'Roblox.Api.Avatar.Models.V4.Request.UpdateOutfitDefinitionRequestV4': {
+            /** @description The list of data needed to be updated. */
+            updateTypes?: (0 | 1 | 2 | 3 | 4 | 5 | 6)[];
+            outfitDefinition?: components['schemas']['Roblox.Api.Avatar.Models.V4.UpdateOutfitDefinition'];
+        };
+        /** @description Validation details for avatar mutation responses when one or more inputs could not be applied. */
+        'Roblox.Api.Avatar.Models.V4.Response.AvatarValidationResultV4': {
+            /** @description Assets that could not be worn. */
+            invalidAssets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
+            /** @description Background assets that could not be applied. */
+            invalidBackground?: components['schemas']['Roblox.Api.Avatar.Models.InvalidBackgroundResponse'][];
+            /** @description Profile frame assets that could not be applied. */
+            invalidProfileFrame?: components['schemas']['Roblox.Api.Avatar.Models.InvalidProfileFrameResponse'][];
+            /** @description Emotes that could not be equipped. */
+            invalidEmotes?: components['schemas']['Roblox.Api.Avatar.Models.InvalidEmoteResponseModel'][];
+            /** @description Thumbnail customizations that could not be applied. */
+            invalidThumbnailCustomizations?: components['schemas']['Roblox.Api.Avatar.Models.V4.Response.InvalidThumbnailCustomizationResponse'][];
+        };
+        /** @description Response model for create outfit (V4). */
+        'Roblox.Api.Avatar.Models.V4.Response.CreateOutfitDefinitionResponseV4': {
+            /** @description Whether all requested changes were successfully applied. */
+            success?: boolean;
+            validation?: components['schemas']['Roblox.Api.Avatar.Models.V4.Response.OutfitValidationResultV4'];
+        };
+        'Roblox.Api.Avatar.Models.V4.Response.InvalidThumbnailCustomizationResponse': {
+            ThumbnailCustomizationModel?: components['schemas']['Roblox.Api.Avatar.Models.AvatarThumbnailCustomizationModel'];
+            /** @description The error associated with the thumbnail customization */
+            Error?: string;
+        };
+        /** @description Validation details for outfit mutation responses when one or more inputs could not be applied. */
+        'Roblox.Api.Avatar.Models.V4.Response.OutfitValidationResultV4': {
+            /** @description Assets that could not be worn. */
+            unwornAssets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
+            /** @description Background assets that could not be applied. */
+            invalidBackground?: components['schemas']['Roblox.Api.Avatar.Models.InvalidBackgroundResponse'][];
+        };
+        /** @description Response model for update avatar (V4). */
+        'Roblox.Api.Avatar.Models.V4.Response.UpdateAvatarDefinitionResponseV4': {
+            /** @description Whether all requested changes were successfully applied. */
+            success?: boolean;
+            /**
+             * @description Temporary top-level mirror of Roblox.Api.Avatar.Models.V4.Response.AvatarValidationResultV4.InvalidAssets to unblock
+             *     clients that still read `invalidAssets` at the response root during backgrounds rollout.
+             *     Prefer Roblox.Api.Avatar.Models.V4.Response.UpdateAvatarDefinitionResponseV4.Validation.Roblox.Api.Avatar.Models.V4.Response.AvatarValidationResultV4.InvalidAssets.
+             *     Will be reverted once the engine fix is fully deployed.
+             */
+            invalidAssets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
+            validation?: components['schemas']['Roblox.Api.Avatar.Models.V4.Response.AvatarValidationResultV4'];
+        };
+        /** @description Response model for update outfit (V4). */
+        'Roblox.Api.Avatar.Models.V4.Response.UpdateOutfitDefinitionResponseV4': {
+            /** @description Whether all requested changes were successfully applied. */
+            success?: boolean;
+            validation?: components['schemas']['Roblox.Api.Avatar.Models.V4.Response.OutfitValidationResultV4'];
+        };
+        /** @description A model containing avatar config fields to update. */
+        'Roblox.Api.Avatar.Models.V4.UpdateAvatarConfig': {
+            /** @description The avatar's emotes. */
+            emoteRequestModels?: components['schemas']['Roblox.Api.Avatar.Models.EmoteRequestModel'][];
+            /** @description The avatar's thumbnail customizations. */
+            thumbnailCustomizationModels?: components['schemas']['Roblox.Api.Avatar.Models.AvatarThumbnailCustomizationModel'][];
+            backgroundRequestModel?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarBackgroundRequestModel'];
+            profileFrameRequestModel?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarProfileFrameRequestModel'];
+        };
+        /** @description A model containing details about an avatar update. */
+        'Roblox.Api.Avatar.Models.V4.UpdateAvatarDefinition': {
+            updateAvatarModel?: components['schemas']['Roblox.Api.Avatar.Models.V4.UpdateAvatarModelV4'];
+            updateAvatarConfig?: components['schemas']['Roblox.Api.Avatar.Models.V4.UpdateAvatarConfig'];
+        };
+        /** @description A model containing avatar model fields to update. */
+        'Roblox.Api.Avatar.Models.V4.UpdateAvatarModelV4': {
+            scales?: components['schemas']['Roblox.Web.Responses.Avatar.ScaleModel'];
+            /**
+             * Format: int32
+             * @description The avatar type.
+             * @enum {integer}
+             */
+            playerAvatarType?: 1 | 3;
+            bodyColors?: components['schemas']['Roblox.Api.Avatar.Models.BodyColorsModelV4'];
+            /** @description The assets worn on the character. */
+            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetWearModel'][];
+        };
+        /** @description A model containing outfit config fields to update. */
+        'Roblox.Api.Avatar.Models.V4.UpdateOutfitConfig': {
+            backgroundRequestModel?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarBackgroundRequestModel'];
+        };
+        /** @description A model containing outfit fields to create or update. */
+        'Roblox.Api.Avatar.Models.V4.UpdateOutfitDefinition': {
+            updateOutfitModel?: components['schemas']['Roblox.Api.Avatar.Models.V4.UpdateOutfitModelV4'];
+            updateOutfitConfig?: components['schemas']['Roblox.Api.Avatar.Models.V4.UpdateOutfitConfig'];
+        };
+        /** @description A model containing core outfit fields to update. */
+        'Roblox.Api.Avatar.Models.V4.UpdateOutfitModelV4': {
+            /** @description The outfit name. */
+            name?: string;
+            bodyColors?: components['schemas']['Roblox.Api.Avatar.Models.BodyColorsModelV4'];
+            /** @description The assets on the outfit. */
+            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetWearModel'][];
+            scale?: components['schemas']['Roblox.Web.Responses.Avatar.ScaleModel'];
+            /**
+             * Format: int32
+             * @description The player avatar type.
+             * @enum {integer}
+             */
+            playerAvatarType?: 1 | 3;
+            /**
+             * Format: int32
+             * @description The type of outfit (for example Avatar or Makeup). Defaults to Avatar when omitted.
+             * @enum {integer}
+             */
+            outfitType?: 0 | 1 | 2 | 4 | 5;
         };
         /** @description A model that contains a list of AssetWear models */
         'Roblox.Api.Avatar.Models.WearRequestModel': {
@@ -52823,10 +54262,10 @@ export interface components {
             sourceUniverseId?: number;
             /**
              * Format: int32
-             * @description The origin source type associated with the friend request. ['Unknown' = 0, 'PlayerSearch' = 1, 'QrCode' = 2, 'InGame' = 3, 'UserProfile' = 4, 'QqContactImporter' = 5, 'WeChatContactImporter' = 6, 'ProfileShare' = 7, 'PhoneContactImporter' = 8, 'FriendRecommendations' = 9, 'UserCommunities' = 10, 'TrustedFriend' = 11]
+             * @description The origin source type associated with the friend request. ['Unknown' = 0, 'PlayerSearch' = 1, 'QrCode' = 2, 'InGame' = 3, 'UserProfile' = 4, 'QqContactImporter' = 5, 'WeChatContactImporter' = 6, 'ProfileShare' = 7, 'PhoneContactImporter' = 8, 'FriendRecommendations' = 9, 'UserCommunities' = 10, 'TrustedFriend' = 11, 'SchoolMemberList' = 12]
              * @enum {integer}
              */
-            originSourceType?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
+            originSourceType?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
             /** @description The contact name associated with the friend request. */
             contactName?: string;
             /** @description The nickname associated with the friend request. */
@@ -57962,16 +59401,16 @@ export interface components {
             /** Format: double */
             standard?: number | null;
         };
-        /** @description RPN operand: attribute reference or literal value (same concepts as the proto `RpnOperand` oneof). */
+        /** @description RPN operand: attribute reference or literal value. */
         RpnOperandDto: {
             attributeReference?: string | null;
-            /** @description Literal constant for an RPN operand (proto `LiteralValue` oneof as independent fields for JSON). */
+            /** @description Literal constant for an RPN operand. */
             literalValue?: components['schemas']['LiteralValueDto'] | null;
         };
-        /** @description One RPN token: either a logical/comparison CreatorConfigsPublicApi.Models.ConditionalRuleOperator (proto JSON `OPERATOR_*`) or an operand object. */
+        /** @description One RPN token: either a logical/comparison ConditionalRuleOperator or an operand object. */
         RpnTokenDto: {
             operator?: string | null;
-            /** @description RPN operand: attribute reference or literal value (same concepts as the proto `RpnOperand` oneof). */
+            /** @description RPN operand: attribute reference or literal value. */
             operand?: components['schemas']['RpnOperandDto'] | null;
         };
         /**
@@ -58005,6 +59444,22 @@ export interface components {
          * @enum {string}
          */
         SavesSortCategory: 'Name' | 'Creator' | 'Ratings' | 'TargetType' | 'DateSaved' | 'LastModified' | 'Price';
+        /**
+         * @description Request body for
+         *     `POST /v1/experimentation/universes/{universeId}/experiments/{experimentId}:schedule`.
+         */
+        ScheduleExperimentRequest: {
+            /** @description UTC time at which the experiment should be auto-started. */
+            scheduledStartTime?: string | null;
+        };
+        /**
+         * @description Response body for
+         *     `POST /v1/experimentation/universes/{universeId}/experiments/{experimentId}:schedule`.
+         */
+        ScheduleExperimentResponse: {
+            /** @description The async operation that scheduled the experiment. */
+            operation?: components['schemas']['ExperimentOperation'] | null;
+        };
         /**
          * @description Represents audio type values that will be properly displayed in Swagger UI.
          * @enum {string}
@@ -58377,6 +59832,13 @@ export interface components {
              */
             gameId?: string | null;
         };
+        /** @description Variant definition for an in-game-config experiment (CreatorConfigsPublicApi.Models.Experimentation.InGameConfigExperimentConfiguration). */
+        SingleConfigExperimentVariant: {
+            /** @description Metadata common to all variants. */
+            variantMeta?: components['schemas']['VariantMeta'] | null;
+            /** @description The config entry value for this variant. Required for non-`IsBaseline` variants. */
+            configEntry?: components['schemas']['ExperimentConfigEntry'] | null;
+        };
         SkinnyUserResponse: {
             /** Format: int64 */
             id?: number;
@@ -58439,6 +59901,14 @@ export interface components {
                   subcategory?: string | null;
               } & components['schemas']['Audio'])
             | null;
+        /**
+         * @description Response body for
+         *     `POST /v1/experimentation/universes/{universeId}/experiments/{experimentId}:start`.
+         */
+        StartExperimentResponse: {
+            /** @description The async operation that started the experiment. */
+            operation?: components['schemas']['ExperimentOperation'] | null;
+        };
         /**
          * @description Whether the asset is active or archived. Unspecified isn't used.
          * @enum {string}
@@ -58626,6 +60096,14 @@ export interface components {
                 | 'SUBSCRIBER_CANCELLED'
                 | 'SUBSCRIBER_REFUNDED'
                 | 'LAPSED';
+        };
+        /** @description Eligibility criteria scoping which users an experiment can apply to. */
+        TargetingCriteria: {
+            /**
+             * @description RPN rule that decides whether an evaluator (user, request, etc.) is eligible for the
+             *     experiment. `null` means no targeting (every otherwise-eligible user is in scope).
+             */
+            rule?: components['schemas']['ConditionalRuleDefinition'] | null;
         };
         /** @enum {string} */
         'ThumbnailPersonalizationApi.ModerationStatus': 'Reviewing' | 'Rejected' | 'Approved' | 'Unspecified';
@@ -59178,6 +60656,55 @@ export interface components {
             eligible?: boolean;
         };
         /**
+         * @description Metric tracked for a universe experiment.
+         *
+         *     UNIVERSE_EXPERIMENT_METRIC_AVERAGE_SESSION_TIME
+         *
+         *     UNIVERSE_EXPERIMENT_METRIC_PLAYTIME_PER_USER
+         *
+         *     UNIVERSE_EXPERIMENT_METRIC_DAY_1_RETENTION
+         *
+         *     UNIVERSE_EXPERIMENT_METRIC_DAY_7_RETENTION
+         *
+         *     UNIVERSE_EXPERIMENT_METRIC_PAYER_CONVERSION_RATE
+         *
+         *     UNIVERSE_EXPERIMENT_METRIC_AVERAGE_REVENUE_PER_USER
+         *
+         *     UNIVERSE_EXPERIMENT_METRIC_AVERAGE_REVENUE_PER_PAYING_USER
+         * @enum {string}
+         */
+        UniverseExperimentMetric:
+            | 'UNIVERSE_EXPERIMENT_METRIC_AVERAGE_SESSION_TIME'
+            | 'UNIVERSE_EXPERIMENT_METRIC_PLAYTIME_PER_USER'
+            | 'UNIVERSE_EXPERIMENT_METRIC_DAY_1_RETENTION'
+            | 'UNIVERSE_EXPERIMENT_METRIC_DAY_7_RETENTION'
+            | 'UNIVERSE_EXPERIMENT_METRIC_PAYER_CONVERSION_RATE'
+            | 'UNIVERSE_EXPERIMENT_METRIC_AVERAGE_REVENUE_PER_USER'
+            | 'UNIVERSE_EXPERIMENT_METRIC_AVERAGE_REVENUE_PER_PAYING_USER';
+        /** @description Metric configuration for an experiment. */
+        UniverseMetricConfiguration: {
+            /**
+             * @description Goal metric.
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_AVERAGE_SESSION_TIME
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_PLAYTIME_PER_USER
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_DAY_1_RETENTION
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_DAY_7_RETENTION
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_PAYER_CONVERSION_RATE
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_AVERAGE_REVENUE_PER_USER
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_AVERAGE_REVENUE_PER_PAYING_USER
+             */
+            goalMetric?: components['schemas']['UniverseExperimentMetric'];
+            /** @description Learning (observation-only) metrics. */
+            learningMetrics?: components['schemas']['UniverseExperimentMetric'][] | null;
+        };
+        /**
          * @description A social link that may be associated with the universe.
          *
          *     Can only be removed when using a field mask.
@@ -59225,6 +60752,54 @@ export interface components {
              * @description The value to update the entry. If the input value exceeds the maximum value supported by int64, which is 9,223,372,036,854,775,807, the request fails with a 400 Bad Request error.
              */
             value: number;
+        };
+        /**
+         * @description Request body for
+         *     `PATCH /v1/experimentation/universes/{universeId}/experiments/{experimentId}`.
+         *     Mirrors CreatorConfigsPublicApi.Models.Experimentation.CreateExperimentData; updating is modeled as a full replace of these fields.
+         */
+        UpdateExperimentData: {
+            /** @description Experiment display name. */
+            name?: string | null;
+            /** @description Experiment description. */
+            description?: string | null;
+            /** @description Experiment configuration (variants + product-type-specific data). */
+            experimentConfiguration?: components['schemas']['ExperimentConfiguration'] | null;
+            /**
+             * Format: int32
+             * @description Exposure percent in range 0-100.
+             */
+            exposurePercent?: number;
+            /** @description Targeting criteria scoping which users are eligible for the experiment. */
+            targetingCriteria?: components['schemas']['TargetingCriteria'] | null;
+            /**
+             * Format: int64
+             * @description Experiment duration in whole seconds.
+             */
+            durationSeconds?: number;
+            /**
+             * @description Goal metric for the experiment.
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_AVERAGE_SESSION_TIME
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_PLAYTIME_PER_USER
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_DAY_1_RETENTION
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_DAY_7_RETENTION
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_PAYER_CONVERSION_RATE
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_AVERAGE_REVENUE_PER_USER
+             *
+             *     UNIVERSE_EXPERIMENT_METRIC_AVERAGE_REVENUE_PER_PAYING_USER
+             */
+            universeGoalMetric?: components['schemas']['UniverseExperimentMetric'];
+        };
+        /** @description Response body for PATCH /v1/universes/{universeId}/experiment/{experimentId}. */
+        UpdateExperimentResponse: {
+            /** @description Resulting async operation describing the update call. */
+            operation?: components['schemas']['ExperimentOperation'] | null;
         };
         /** @description Optional config block on the v3 PATCH body. Null sub-fields = no change. */
         UpdateGameEventConfigRequest: {
@@ -59759,6 +61334,28 @@ export interface components {
                 | 'FRIENDS_AND_FOLLOWING'
                 | 'FRIENDS_FOLLOWING_AND_FOLLOWERS'
                 | 'EVERYONE';
+        };
+        /** @description Metadata shared by every experiment variant. */
+        VariantMeta: {
+            /**
+             * @description Unique identifier for the variant. Only assigned once the experiment starts running;
+             *     empty or null for draft variants.
+             */
+            variantId?: string | null;
+            /**
+             * @description Human-readable label for the variant, e.g. `Control`, `Treatment A`. Non-empty,
+             *     at most 50 characters; must start with a letter and contain only letters, digits, spaces,
+             *     underscores, or hyphens.
+             */
+            label?: string | null;
+            /** @description True iff this variant is the baseline. Exactly one variant must be the baseline. */
+            isBaseline?: boolean;
+            /**
+             * Format: int32
+             * @description Relative traffic weight for this variant. The platform normalizes across all variants,
+             *     so weights do not have to sum to 100.
+             */
+            weight?: number;
         };
         VerifiedBadgeUserResponse: {
             /** Format: int64 */
@@ -64458,6 +66055,596 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['DraftHashResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+        };
+    };
+    PublicExperimentation_ListExperiments: {
+        parameters: {
+            query?: {
+                maxPageSize?: string;
+                skip?: string;
+                searchKey?: string;
+                stateFilters?: components['schemas']['ExperimentState'][];
+                sortOrder?: string;
+                sortKey?: string;
+                productTypeFilter?: string;
+            };
+            header?: never;
+            path: {
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ListExperimentsResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+        };
+    };
+    PublicExperimentation_CreateExperiment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json-patch+json': components['schemas']['CreateExperimentData'];
+                'application/json': components['schemas']['CreateExperimentData'];
+                'text/json': components['schemas']['CreateExperimentData'];
+                'application/*+json': components['schemas']['CreateExperimentData'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['CreateExperimentResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+        };
+    };
+    PublicExperimentation_GetExperiment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+                experimentId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['GetExperimentResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+        };
+    };
+    PublicExperimentation_DiscardExperiment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+                experimentId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['DiscardExperimentResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+        };
+    };
+    PublicExperimentation_UpdateExperiment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+                experimentId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json-patch+json': components['schemas']['UpdateExperimentData'];
+                'application/json': components['schemas']['UpdateExperimentData'];
+                'text/json': components['schemas']['UpdateExperimentData'];
+                'application/*+json': components['schemas']['UpdateExperimentData'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['UpdateExperimentResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+        };
+    };
+    PublicExperimentation_GetExperimentStats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+                experimentId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['GetExperimentStatsResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+        };
+    };
+    PublicExperimentation_CompleteExperiment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+                experimentId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json-patch+json': components['schemas']['CompleteExperimentRequest'];
+                'application/json': components['schemas']['CompleteExperimentRequest'];
+                'text/json': components['schemas']['CompleteExperimentRequest'];
+                'application/*+json': components['schemas']['CompleteExperimentRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['CompleteExperimentResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+        };
+    };
+    PublicExperimentation_ScheduleExperiment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+                experimentId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json-patch+json': components['schemas']['ScheduleExperimentRequest'];
+                'application/json': components['schemas']['ScheduleExperimentRequest'];
+                'text/json': components['schemas']['ScheduleExperimentRequest'];
+                'application/*+json': components['schemas']['ScheduleExperimentRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ScheduleExperimentResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+        };
+    };
+    PublicExperimentation_StartExperiment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+                experimentId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['StartExperimentResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+        };
+    };
+    PublicExperimentation_CalculateExperimentMde: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'application/json-patch+json': components['schemas']['CalculateExperimentMdeData'];
+                'application/json': components['schemas']['CalculateExperimentMdeData'];
+                'text/json': components['schemas']['CalculateExperimentMdeData'];
+                'application/*+json': components['schemas']['CalculateExperimentMdeData'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['CalculateExperimentMdeResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ActionResult'];
+                };
+            };
+        };
+    };
+    PublicExperimentation_GetExperimentOperationStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+                operationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['GetExperimentOperationStatusResponse'];
                 };
             };
             /** @description Bad Request */

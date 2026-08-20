@@ -8851,7 +8851,9 @@ export interface paths {
                         | 'PublishAnnouncement'
                         | 'DeleteAnnouncement'
                         | 'UpdateRoleSetPermissions'
-                        | 'UpdateGroupSecuritySettings';
+                        | 'UpdateGroupSecuritySettings'
+                        | 'GrantEnterpriseTier'
+                        | 'RevokeEnterpriseTier';
                     /** @description Filter for specific user id */
                     userId?: number;
                     /** @description The number of results per request. */
@@ -15409,8 +15411,8 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['Roblox.ClientSettings.Api.Models.Response.ClientVersionResponse'];
-                        'text/json': components['schemas']['Roblox.ClientSettings.Api.Models.Response.ClientVersionResponse'];
+                        'application/json': components['schemas']['ClientSettingsApi.Roblox.ClientSettings.Api.Models.Response.ClientVersionResponse'];
+                        'text/json': components['schemas']['ClientSettingsApi.Roblox.ClientSettings.Api.Models.Response.ClientVersionResponse'];
                     };
                 };
             };
@@ -21547,7 +21549,9 @@ export interface paths {
                         | 'PublishAnnouncement'
                         | 'DeleteAnnouncement'
                         | 'UpdateRoleSetPermissions'
-                        | 'UpdateGroupSecuritySettings';
+                        | 'UpdateGroupSecuritySettings'
+                        | 'GrantEnterpriseTier'
+                        | 'RevokeEnterpriseTier';
                     /** @description Filter for specific user id */
                     userId?: number;
                     /** @description The number of results per request. */
@@ -29070,6 +29074,162 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    '/v1/preferences/publishing': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    groupId?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.PublishingPreferences.PublishingPreferencesResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.PublishingPreferences.PublishingPreferencesResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.PublishingPreferences.CreatePublishingPreferencesRequest'];
+                    'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.PublishingPreferences.CreatePublishingPreferencesRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.PublishingPreferences.PublishingPreferencesResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.PublishingPreferences.PublishingPreferencesResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete: {
+            parameters: {
+                query?: {
+                    groupId?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.PublishingPreferences.UpdatePublishingPreferencesRequest'];
+                    'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.PublishingPreferences.UpdatePublishingPreferencesRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.PublishingPreferences.PublishingPreferencesResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.PublishingPreferences.PublishingPreferencesResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         trace?: never;
     };
     '/v1/presence/users': {
@@ -44782,7 +44942,7 @@ export interface components {
             | 'PermissionLimitReached'
             | 'DependenciesLimitReached'
             | 'NotRequestable'
-            | 'RequesterNotConnected'
+            | 'RequesterNotAConnection'
             | 'AlreadyPending'
             | 'AlreadyHasAccess'
             | 'RequestNotFound'
@@ -45182,6 +45342,14 @@ export interface components {
             category?: components['schemas']['EventCategory'];
             /** Format: int32 */
             rank?: number;
+        };
+        'ClientSettingsApi.Roblox.ClientSettings.Api.Models.Response.ClientVersionResponse': {
+            version?: string;
+            clientVersionUpload?: string;
+            bootstrapperVersion?: string;
+            nextClientVersionUpload?: string;
+            nextClientVersion?: string;
+            forceInstall?: boolean;
         };
         /** @description Get Client Status request. */
         ClientStatusGetRequest: {
@@ -56652,6 +56820,7 @@ export interface components {
             /** Format: date-time */
             lastEvaluatedTime?: string;
             requirements?: components['schemas']['Roblox.Groups.Client.TierRequirement'][];
+            capabilities?: components['schemas']['Roblox.Groups.Client.TierCapabilities'];
         };
         'Roblox.Groups.Client.CreateBlockedKeywordsResponse': {
             createdKeywords?: components['schemas']['Roblox.Groups.Client.BlockedKeywordModel'][];
@@ -56675,6 +56844,9 @@ export interface components {
             groupId?: number;
             contentType?: string;
             contentId?: string;
+        };
+        'Roblox.Groups.Client.TierCapabilities': {
+            isEligibleForUnrestrictedMessages?: boolean;
         };
         'Roblox.Groups.Client.TierEvaluationResultResponse': {
             tierInfo?: components['schemas']['Roblox.Groups.Client.CommunityTierInfoResponse'];
@@ -57054,6 +57226,90 @@ export interface components {
             assetId?: number;
             /** @description The asset name. */
             name?: string;
+        };
+        'Roblox.ItemConfiguration.Api.Models.Request.PublishingPreferences.CreatePublishingPreferencesRequest': {
+            /** Format: int64 */
+            creatorUserId?: number;
+            /** Format: int64 */
+            creatorGroupId?: number;
+            /**
+             * Format: int32
+             * @description Publishing type for the collectible. Currently can be either Limited or NonLimited. ['Invalid' = 0, 'Limited' = 1, 'NonLimited' = 2]
+             * @enum {integer}
+             */
+            publishingType?: 0 | 1 | 2;
+            /**
+             * Format: int32
+             * @description Represents possible SaleLocation types of the Collectibles System. ['SALE_LOCATION_TYPE_INVALID' = 0, 'SALE_LOCATION_TYPE_SHOP_AND_ALL_EXPERIENCES' = 1, 'SALE_LOCATION_EXPERIENCES_AND_DEV_API_ONLY' = 2, 'SALE_LOCATION_TYPE_SHOP_ONLY' = 3, 'SALE_LOCATION_TYPE_SHOP_AND_EXPERIENCES_BY_ID' = 4]
+             * @enum {integer}
+             */
+            saleLocationType?: 0 | 1 | 2 | 3 | 4;
+            places?: number[];
+            /** Format: int64 */
+            priceInRobux?: number;
+            /** Format: int64 */
+            priceOffset?: number;
+            isFree?: boolean;
+            enableRegionalPricing?: boolean;
+            isRentalOptIn?: boolean;
+            autoPublishEnabled?: boolean;
+        };
+        'Roblox.ItemConfiguration.Api.Models.Request.PublishingPreferences.UpdatePublishingPreferencesRequest': {
+            /** Format: int64 */
+            creatorUserId?: number;
+            /** Format: int64 */
+            creatorGroupId?: number;
+            /**
+             * Format: int32
+             * @enum {integer}
+             */
+            publishingType?: 0 | 1 | 2;
+            /**
+             * Format: int32
+             * @enum {integer}
+             */
+            saleLocationType?: 0 | 1 | 2 | 3 | 4;
+            places?: number[];
+            /** Format: int64 */
+            priceInRobux?: number;
+            /** Format: int64 */
+            priceOffset?: number;
+            isFree?: boolean;
+            enableRegionalPricing?: boolean;
+            isRentalOptIn?: boolean;
+            autoPublishEnabled?: boolean;
+        };
+        'Roblox.ItemConfiguration.Api.Models.Response.PublishingPreferences.PublishingPreferencesResponse': {
+            id?: string;
+            /** Format: int64 */
+            creatorUserId?: number;
+            /** Format: int64 */
+            creatorGroupId?: number;
+            /**
+             * Format: int32
+             * @description Publishing type for the collectible. Currently can be either Limited or NonLimited. ['Invalid' = 0, 'Limited' = 1, 'NonLimited' = 2]
+             * @enum {integer}
+             */
+            publishingType?: 0 | 1 | 2;
+            /**
+             * Format: int32
+             * @description Represents possible SaleLocation types of the Collectibles System. ['SALE_LOCATION_TYPE_INVALID' = 0, 'SALE_LOCATION_TYPE_SHOP_AND_ALL_EXPERIENCES' = 1, 'SALE_LOCATION_EXPERIENCES_AND_DEV_API_ONLY' = 2, 'SALE_LOCATION_TYPE_SHOP_ONLY' = 3, 'SALE_LOCATION_TYPE_SHOP_AND_EXPERIENCES_BY_ID' = 4]
+             * @enum {integer}
+             */
+            saleLocationType?: 0 | 1 | 2 | 3 | 4;
+            places?: number[];
+            /** Format: int64 */
+            priceInRobux?: number;
+            /** Format: int64 */
+            priceOffset?: number;
+            isFree?: boolean;
+            enableRegionalPricing?: boolean;
+            isRentalOptIn?: boolean;
+            autoPublishEnabled?: boolean;
+            /** Format: date-time */
+            created?: string;
+            /** Format: date-time */
+            updated?: string;
         };
         /** @description Model for Country Regions */
         'Roblox.Locale.Api.CountryRegion': {

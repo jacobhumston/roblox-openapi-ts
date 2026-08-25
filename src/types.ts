@@ -12827,107 +12827,6 @@ export interface paths {
         };
         trace?: never;
     };
-    '/v1/autolocalization/games/{gameId}/autolocalizationtable': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * @deprecated
-         * @description Use the Autolocalization controller in LocalizationTables API
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    gameId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.GameInternationalization.Api.GameAutolocalizationInformationResponse'];
-                        'text/json': components['schemas']['Roblox.GameInternationalization.Api.GameAutolocalizationInformationResponse'];
-                    };
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Token Validation Failed */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        /**
-         * @deprecated
-         * @description Use the Autolocalization controller in LocalizationTables API
-         */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    gameId: number;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.GameInternationalization.Api.SetAutolocalizationTableForGameRequest'];
-                    'text/json': components['schemas']['Roblox.GameInternationalization.Api.SetAutolocalizationTableForGameRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Token Validation Failed */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        trace?: never;
-    };
     '/v1/autolocalization/games/{gameId}/autolocalizationtable#localizationtables.roblox.com': {
         parameters: {
             query?: never;
@@ -13021,87 +12920,6 @@ export interface paths {
         };
         trace?: never;
     };
-    '/v1/autolocalization/games/{gameId}/settings': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /**
-         * Sets a game's auto-localization related settings
-         * @deprecated
-         * @description Use the Autolocalization controller in LocalizationTables API
-         */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id of the game. */
-                    gameId: number;
-                };
-                cookie?: never;
-            };
-            /** @description The request body. */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.GameInternationalization.Api.SetAutolocalizationSettingsForGameRequest'];
-                    'text/json': components['schemas']['Roblox.GameInternationalization.Api.SetAutolocalizationSettingsForGameRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /** @description 14: Invalid game id */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     18: You do not have permission to manage this game
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 17: Feature is disabled */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        trace?: never;
-    };
     '/v1/autolocalization/games/{gameId}/settings#localizationtables.roblox.com': {
         parameters: {
             query?: never;
@@ -13180,54 +12998,6 @@ export interface paths {
                 };
             };
         };
-        trace?: never;
-    };
-    '/v1/autolocalization/metadata': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Metadata for AutoLocalization Configuration
-         * @deprecated
-         * @description Use the Autolocalization controller in LocalizationTables API
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.GameInternationalization.Api.AutoLocalizationMetadataResponse'];
-                        'text/json': components['schemas']['Roblox.GameInternationalization.Api.AutoLocalizationMetadataResponse'];
-                    };
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
         trace?: never;
     };
     '/v1/autolocalization/metadata#localizationtables.roblox.com': {
@@ -15411,8 +15181,8 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['ClientSettingsApi.Roblox.ClientSettings.Api.Models.Response.ClientVersionResponse'];
-                        'text/json': components['schemas']['ClientSettingsApi.Roblox.ClientSettings.Api.Models.Response.ClientVersionResponse'];
+                        'application/json': components['schemas']['Roblox.ClientSettings.Api.Models.Response.ClientVersionResponse'];
+                        'text/json': components['schemas']['Roblox.ClientSettings.Api.Models.Response.ClientVersionResponse'];
                     };
                 };
             };
@@ -26773,63 +26543,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/localizationtable/gametables/{gameId}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    gameId: number;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.GameInternationalization.Api.AssociateLocalizationTablesToGameRequest'];
-                    'text/json': components['schemas']['Roblox.GameInternationalization.Api.AssociateLocalizationTablesToGameRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.GameInternationalization.Api.AssociateLocalizationTablesToGameResponse'];
-                        'text/json': components['schemas']['Roblox.GameInternationalization.Api.AssociateLocalizationTablesToGameResponse'];
-                    };
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Token Validation Failed */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        trace?: never;
-    };
     '/v1/marAssetHash/{marAssetHash}/marCheckSum/{marCheckSum}': {
         parameters: {
             query?: never;
@@ -34583,6 +34296,8 @@ export interface paths {
                     userIds: number[];
                     /** @description Whether to include a background in the thumbnail (defaults to false) */
                     includeBackground?: boolean;
+                    /** @description Whether to composite the user's equipped profile frame into the thumbnail (defaults to false) */
+                    includeProfileFrame?: boolean;
                     /** @description The thumbnail size, formatted widthxheight */
                     size?:
                         | '48x48'
@@ -45343,14 +45058,6 @@ export interface components {
             /** Format: int32 */
             rank?: number;
         };
-        'ClientSettingsApi.Roblox.ClientSettings.Api.Models.Response.ClientVersionResponse': {
-            version?: string;
-            clientVersionUpload?: string;
-            bootstrapperVersion?: string;
-            nextClientVersionUpload?: string;
-            nextClientVersion?: string;
-            forceInstall?: boolean;
-        };
         /** @description Get Client Status request. */
         ClientStatusGetRequest: {
             /**
@@ -50306,6 +50013,8 @@ export interface components {
             publishingAdvanceRebates?: number;
             /** Format: int64 */
             groupAffiliatePayoutRobux?: number;
+            /** Format: int64 */
+            creatorRewardsPayoutRobux?: number;
         };
         /** @enum {string} */
         RevenueSummaryTimeFrame: 'Day' | 'Week' | 'Month' | 'Year';
@@ -54193,6 +53902,7 @@ export interface components {
             bootstrapperVersion?: string;
             nextClientVersionUpload?: string;
             nextClientVersion?: string;
+            forceInstall?: boolean;
         };
         'Roblox.ClientSettings.Api.Models.Response.MobileClientVersionResponse': {
             activeVersion?: string;
@@ -54672,22 +54382,6 @@ export interface components {
              */
             count?: number;
         };
-        'Roblox.GameInternationalization.Api.AssociateLocalizationTablesToGameRequest': {
-            tables?: components['schemas']['Roblox.GameInternationalization.Api.LocalizationTableGameAssociation'][];
-        };
-        'Roblox.GameInternationalization.Api.AssociateLocalizationTablesToGameResponse': {
-            success?: boolean;
-        };
-        'Roblox.GameInternationalization.Api.AutoLocalizationMetadataResponse': {
-            /** @description Is React Implementation of AutoLocalization Settings Enabled */
-            isReactVersionEnabledForAutoLocalizationSettings?: boolean;
-            /** @description Is Tabbed UI Enabled for Configure Localization Page */
-            isTabbedUIEnabledForConfigureLocalizationPage?: boolean;
-            /** @description Is Toggle UI Enabled for Automatic Translations */
-            isAutomaticTranslationToggleUIEnabled?: boolean;
-            /** @description Is Quota UI Enabled for Automatic Translations */
-            isAutomaticTranslationQuotaUIEnabled?: boolean;
-        };
         'Roblox.GameInternationalization.Api.AutomaticTranslationStatusTargetLanguage': {
             /** @description The language code. */
             languageCode?: string;
@@ -54721,14 +54415,6 @@ export interface components {
             /** Format: int32 */
             errorCode?: number;
         };
-        'Roblox.GameInternationalization.Api.GameAutolocalizationInformationResponse': {
-            isAutolocalizationEnabled?: boolean;
-            shouldUseLocalizationTable?: boolean;
-            /** Format: uuid */
-            autoLocalizationTableId?: string;
-            /** Format: int64 */
-            assetId?: number;
-        };
         /** @description A response model for getting the automatic translation allowed status of target languages. */
         'Roblox.GameInternationalization.Api.GetAllowedAutomaticTranslationStatusForLanguagesResponse': {
             /** @description The source language. */
@@ -54760,7 +54446,7 @@ export interface components {
             imageId?: string;
             imageUrl?: string;
             /**
-             * @description Enum for image status. ['Approved' = 0, 'PendingReview' = 1, 'UnAvailable' = 2, 'Rejected' = 3, 'Error' = 4]
+             * @description Enum for image status.
              * @enum {string}
              */
             state?: 'Approved' | 'PendingReview' | 'UnAvailable' | 'Rejected' | 'Error';
@@ -54771,7 +54457,7 @@ export interface components {
             imageId?: string;
             imageUrl?: string;
             /**
-             * @description Enum for image status. ['Approved' = 0, 'PendingReview' = 1, 'UnAvailable' = 2, 'Rejected' = 3, 'Error' = 4]
+             * @description Enum for image status.
              * @enum {string}
              */
             state?: 'Approved' | 'PendingReview' | 'UnAvailable' | 'Rejected' | 'Error';
@@ -54781,7 +54467,7 @@ export interface components {
             imageId?: string;
             imageUrl?: string;
             /**
-             * @description Enum for image status. ['Approved' = 0, 'PendingReview' = 1, 'UnAvailable' = 2, 'Rejected' = 3, 'Error' = 4]
+             * @description Enum for image status.
              * @enum {string}
              */
             state?: 'Approved' | 'PendingReview' | 'UnAvailable' | 'Rejected' | 'Error';
@@ -54792,7 +54478,7 @@ export interface components {
             imageId?: string;
             imageUrl?: string;
             /**
-             * @description Enum for image status. ['Approved' = 0, 'PendingReview' = 1, 'UnAvailable' = 2, 'Rejected' = 3, 'Error' = 4]
+             * @description Enum for image status.
              * @enum {string}
              */
             state?: 'Approved' | 'PendingReview' | 'UnAvailable' | 'Rejected' | 'Error';
@@ -54814,7 +54500,7 @@ export interface components {
             /** Format: int64 */
             contentId?: number;
             /**
-             * @description The enum representing the type of request while requesting name/description history ['UniverseDisplayNames' = 0, 'UniverseDisplayDescriptions' = 1, 'BadgeDisplayName' = 2, 'BadgeDisplayDescription' = 3, 'DeveloperProductDisplayName' = 4, 'DeveloperProductDisplayDescription' = 5, 'GamePassDisplayName' = 6, 'GamePassDisplayDescription' = 7]
+             * @description The enum representing the type of request while requesting name/description history
              * @enum {string}
              */
             contentType?:
@@ -54851,7 +54537,7 @@ export interface components {
             /** @description The code of the language or locale. */
             languageOrLocaleCode?: string;
             /**
-             * @description An indicator that says whether the passed in language/locale code represents a language or locale. ['Language' = 0, 'Locale' = 1]
+             * @description An indicator that says whether the passed in language/locale code represents a language or locale.
              * @enum {string}
              */
             languageOrLocaleType?: 'Language' | 'Locale';
@@ -54876,7 +54562,7 @@ export interface components {
         'Roblox.GameInternationalization.Api.LanguageOrLocale': {
             name?: string;
             /**
-             * @description An enum to distinguish between locale codes and language codes. ['Language' = 0, 'Locale' = 1]
+             * @description An enum to distinguish between locale codes and language codes.
              * @enum {string}
              */
             languageCodeType?: 'Language' | 'Locale';
@@ -54884,7 +54570,7 @@ export interface components {
         };
         'Roblox.GameInternationalization.Api.LanguageOrLocaleSettings': {
             /**
-             * @description The language code type. ['Language' = 0, 'Locale' = 1]
+             * @description The language code type.
              * @enum {string}
              */
             languageCodeType?: 'Language' | 'Locale';
@@ -54899,16 +54585,11 @@ export interface components {
             languageFamily?: components['schemas']['Roblox.GameInternationalization.Api.Language'];
             childLocales?: components['schemas']['Roblox.Localization.Client.SupportedLocale'][];
         };
-        'Roblox.GameInternationalization.Api.LocalizationTableGameAssociation': {
-            /** Format: uuid */
-            id?: string;
-            dissociate?: boolean;
-        };
         'Roblox.GameInternationalization.Api.MediaAssetResponse': {
             mediaAssetId?: string;
             mediaAssetAltText?: string;
             /**
-             * @description Enum for image status. ['Approved' = 0, 'PendingReview' = 1, 'UnAvailable' = 2, 'Rejected' = 3, 'Error' = 4]
+             * @description Enum for image status.
              * @enum {string}
              */
             state?: 'Approved' | 'PendingReview' | 'UnAvailable' | 'Rejected' | 'Error';
@@ -54953,7 +54634,7 @@ export interface components {
         };
         'Roblox.GameInternationalization.Api.PatchLanguage': {
             /**
-             * @description The language code type. ['Language' = 0, 'Locale' = 1]
+             * @description The language code type.
              * @enum {string}
              */
             languageCodeType?: 'Language' | 'Locale';
@@ -54980,7 +54661,7 @@ export interface components {
              */
             endDateTime?: string;
             /**
-             * @description The report type ['GameTranslationStatus' = 0, 'GameTranslationStatusForTranslator' = 1, 'GameTranslationStatusForTranslatorGroup' = 2, 'Test' = 3]
+             * @description The report type
              * @enum {string}
              */
             reportType?:
@@ -55000,14 +54681,6 @@ export interface components {
              * @enum {string}
              */
             reportGenerationStatus?: 'inProgress' | 'ready' | 'unavailable';
-        };
-        'Roblox.GameInternationalization.Api.SetAutolocalizationSettingsForGameRequest': {
-            isAutolocalizationEnabled?: boolean;
-            shouldUseLocalizationTable?: boolean;
-        };
-        'Roblox.GameInternationalization.Api.SetAutolocalizationTableForGameRequest': {
-            /** Format: uuid */
-            tableId?: string;
         };
         /** @description A request model for sorting of image Ids for game thumbnails */
         'Roblox.GameInternationalization.Api.SortImageIdsRequest': {
@@ -55050,7 +54723,7 @@ export interface components {
             /** Format: int32 */
             count?: number;
             /**
-             * @description The enum representing a translation status. ['Approved' = 0]
+             * @description The enum representing a translation status.
              * @enum {string}
              */
             translationStatus?: 'Approved';
@@ -55063,7 +54736,7 @@ export interface components {
         /** @description A response model that contains category info for getting a translation count. */
         'Roblox.GameInternationalization.Api.TranslationCountCategoryInfoResponse': {
             /**
-             * @description The category of the translation counts. ['InGameContent' = 0]
+             * @description The category of the translation counts.
              * @enum {string}
              */
             category?: 'InGameContent';
@@ -55084,7 +54757,7 @@ export interface components {
              */
             gameId?: number;
             /**
-             * @description The status of the response for the requested game. ['LanguageOrLocaleSupportedForGame' = 0, 'LanguageOrLocaleNotSupportedForGame' = 1, 'LanguageOrLocaleIsSource' = 2, 'InsufficientPermission' = 3, 'GameDoesNotExist' = 4, 'GameDoesNotHaveTable' = 5, 'UnknownError' = 6]
+             * @description The status of the response for the requested game.
              * @enum {string}
              */
             status?:
@@ -55100,7 +54773,7 @@ export interface components {
         };
         'Roblox.GameInternationalization.Api.TranslationCountLanguageOrLocaleResponse': {
             /**
-             * @description The status of the response for the requested game. ['Success' = 1, 'LanguageOrLocaleNotSupportedForGame' = 2]
+             * @description The status of the response for the requested game.
              * @enum {string}
              */
             status?: 'Success' | 'LanguageOrLocaleNotSupportedForGame';
@@ -55108,7 +54781,7 @@ export interface components {
             categories?: components['schemas']['Roblox.GameInternationalization.Api.TranslationCountCategoryInfoResponse'][];
             name?: string;
             /**
-             * @description An enum to distinguish between locale codes and language codes. ['Language' = 0, 'Locale' = 1]
+             * @description An enum to distinguish between locale codes and language codes.
              * @enum {string}
              */
             languageCodeType?: 'Language' | 'Locale';
@@ -58128,6 +57801,11 @@ export interface components {
             headShape?: string;
             /** @description Whether to include a background in avatar thumbnails (defaults to false) */
             includeBackground?: boolean;
+            /**
+             * @description Whether to composite the user's equipped profile frame into the thumbnail (defaults to false).
+             *     When true the returned image has the frame baked in server-side.
+             */
+            includeProfileFrame?: boolean;
         };
         'Roblox.Trades.Api.CanTradeResponse': {
             /** @description Returns true if you can trade with the given user. */
@@ -58149,7 +57827,7 @@ export interface components {
             /** @description Whether the user can trade or not. */
             canTrade?: boolean;
             /**
-             * @description The trade eligibility status of the user. ['Unknown' = 0, 'Eligible' = 1, 'IneligibleTradeSystemDisabled' = 2, 'IneligibleCannotTradeWithRoblox' = 3, 'IneligibleUserNotFound' = 4, 'IneligibleMissingPremiumMembership' = 5, 'IneligibleLegalOrRegulatoryRestrictions' = 6]
+             * @description The trade eligibility status of the user. ['Unknown' = 0, 'Eligible' = 1, 'IneligibleTradeSystemDisabled' = 2, 'IneligibleCannotTradeWithRoblox' = 3, 'IneligibleUserNotFound' = 4, 'IneligibleMissingPremiumMembership' = 5, 'IneligibleLegalOrRegulatoryRestrictions' = 6, 'IneligibleFreeTradesLimitReached' = 7]
              * @enum {string}
              */
             tradeEligibility?:
@@ -58159,7 +57837,10 @@ export interface components {
                 | 'IneligibleCannotTradeWithRoblox'
                 | 'IneligibleUserNotFound'
                 | 'IneligibleMissingPremiumMembership'
-                | 'IneligibleLegalOrRegulatoryRestrictions';
+                | 'IneligibleLegalOrRegulatoryRestrictions'
+                | 'IneligibleFreeTradesLimitReached';
+            freeTradesAllowance?: components['schemas']['Roblox.Trades.Api.Models.V2.FreeTradesAllowanceResponse'];
+            currencyTransferEligibility?: components['schemas']['Roblox.Trades.Api.Models.V2.CurrencyTransferEligibilityResponse'];
         };
         /** @description The response for the CanTradeWith endpoint. */
         'Roblox.Trades.Api.Models.V2.CanTradeWithResponse': {
@@ -58186,6 +57867,22 @@ export interface components {
                 | 'TargetUserIneligible'
                 | 'CannotTradeWithSelf'
                 | 'CallingUserPrivacySettingsRestricted';
+            currencyTransferEligibility?: components['schemas']['Roblox.Trades.Api.Models.V2.CurrencyTransferEligibilityResponse'];
+        };
+        'Roblox.Trades.Api.Models.V2.CurrencyTransferEligibilityResponse': {
+            canSend?: boolean;
+            canRequest?: boolean;
+        };
+        'Roblox.Trades.Api.Models.V2.FreeTradesAllowanceResponse': {
+            /** Format: int32 */
+            limit?: number;
+            /** Format: int32 */
+            remaining?: number;
+            /**
+             * @description ['Day' = 1, 'Week' = 2, 'Month' = 3, 'Year' = 4, 'Lifetime' = 5]
+             * @enum {string}
+             */
+            window?: 'day' | 'week' | 'month' | 'year' | 'lifetime';
         };
         /** @description The response for the GetUserTradableItems endpoint. */
         'Roblox.Trades.Api.Models.V2.GetUserTradableItemsResponse': {
@@ -60599,6 +60296,10 @@ export interface components {
             robloxSelectOutgoingTotal?: number;
             /** Format: int64 */
             privateServerEngagementPayoutsTotal?: number;
+            /** Format: int64 */
+            creatorRewardsPayoutsTotal?: number;
+            /** Format: int64 */
+            subscriptionReferralPayoutsTotal?: number;
         };
         /** @enum {string} */
         TransactionType:
@@ -60632,7 +60333,9 @@ export interface components {
             | 'CurrencyTransfer'
             | 'RobloxSelectTransfer'
             | 'PrivateServerEngagementPayout'
-            | 'CurrencySubscriptionStipend';
+            | 'CurrencySubscriptionStipend'
+            | 'SubscriptionReferralPayout'
+            | 'CreatorRewardsPayout';
         TransactionUsedTypesResponse: {
             HasPurchase?: boolean;
             HasSale?: boolean;
@@ -60658,6 +60361,8 @@ export interface components {
             HasTransfer?: boolean;
             HasRobloxSelectTransfer?: boolean;
             HasPrivateServerEngagementPayout?: boolean;
+            HasCreatorRewardsPayout?: boolean;
+            HasSubscriptionReferralPayout?: boolean;
         };
         /**
          * @description Contains the text to be translated, the source language (optional), and a

@@ -6787,13 +6787,6 @@ export interface paths {
                     };
                     content?: never;
                 };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
                 /** @description 0: An unknown error occurred. */
                 500: {
                     headers: {
@@ -17687,13 +17680,6 @@ export interface paths {
                  *     52: Image dimensions are invalid
                  */
                 400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -54107,6 +54093,7 @@ export interface components {
             success?: boolean;
             /** @description Captcha is set to true if captcha is required from user to perform action */
             isCaptchaRequired?: boolean;
+            notificationMuted?: boolean;
         };
         /** @description Response model for following or followers Count */
         'Roblox.Friends.Api.FollowCountResponse': {
@@ -68366,28 +68353,23 @@ export interface operations {
         parameters: {
             query?: {
                 /**
-                 * @description The maximum number of game servers to return. The service might return
-                 *     fewer than this value. If unspecified, at most 25 game servers are
-                 *     returned. The maximum value is 100 and higher values are set to 100.
+                 * @description The maximum number of log entries to return. Defaults to 25 and values above 100 are
+                 *     capped at 100.
                  */
                 MaxPageSize?: number;
                 /**
-                 * @description A page token, received from a previous call, to retrieve a subsequent page.
-                 *     When paginating, all other parameters provided to the subsequent call must
-                 *     match the call that provided the page token.
+                 * @description An opaque token from a previous response. Preserve the other query parameters when
+                 *     requesting the next page.
                  */
                 PageToken?: string;
                 /**
-                 * @description Sorting is supported only for a single field at a time.
-                 *     Example: "orderBy": "uptime"
-                 *     Defaults to ascending, but descending ordering is also supported by
-                 *     including the " desc" suffix. For example: "orderBy": "uptime desc".
+                 * @description Sorts by `message_timestamp` or `log_severity`. Append ` desc` for descending order.
+                 *     Each endpoint defines its own default when this value is omitted.
                  */
                 OrderBy?: string;
                 /**
-                 * @description This field may be set in order to filter the resources returned.
-                 *     - CEL filtering is supported on all fields.
-                 *     - Supported operators &&, <, <=, >, >=, ==, and `in`
+                 * @description Filters log entries with CEL. Use `severity` with equality or `in`, `message_timestamp`
+                 *     with comparisons, or `search` with equality or inequality for case-insensitive full-text matching.
                  */
                 Filter?: string;
             };

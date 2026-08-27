@@ -12747,79 +12747,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/auto-localization-table/games/{gameId}/ingestion': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Ingests entries for auto localization. Needs to be an authorized user. */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The game id. */
-                    gameId: number;
-                };
-                cookie?: never;
-            };
-            requestBody: components['requestBodies']['Roblox.LocalizationTables.Api.IngestAutoScrapedContentForGameRequest'];
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': Record<string, never>;
-                        'text/json': Record<string, never>;
-                    };
-                };
-                /**
-                 * @description 10: Maximum entries exceeded. Please keep the number of entries per request below the maximum.
-                 *     13: Request body can't be null
-                 *     16: Entries can't be null or empty
-                 *     34: Actor provided is invalid
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Token Validation Failed */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 17: Feature is disabled */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        trace?: never;
-    };
     '/v1/autolocalization/games/{gameId}/autolocalizationtable#localizationtables.roblox.com': {
         parameters: {
             query?: never;
@@ -43283,6 +43210,7 @@ export interface paths {
                         | 92
                         | 93
                         | 94
+                        | 95
                     )[];
                     /** @description Filters moderated assets when enabled. */
                     filterDisapprovedAssets?: boolean;
@@ -56729,7 +56657,7 @@ export interface components {
             name?: string;
             /**
              * Format: int32
-             * @description The asset type id of asset with id Roblox.Inventory.Api.V2.UserAssetItemModelV2.AssetId. ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94]
+             * @description The asset type id of asset with id Roblox.Inventory.Api.V2.UserAssetItemModelV2.AssetId. ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95]
              * @enum {integer}
              */
             assetType?:
@@ -56819,7 +56747,8 @@ export interface components {
                 | 91
                 | 92
                 | 93
-                | 94;
+                | 94
+                | 95;
             /**
              * Format: date-time
              * @description The created date time of the user asset.
@@ -57137,21 +57066,6 @@ export interface components {
             /** @description Is Quota UI Enabled for Automatic Translations */
             isAutomaticTranslationQuotaUIEnabled?: boolean;
         };
-        'Roblox.LocalizationTables.Api.AutoScrapeEntry': {
-            context?: string;
-            source?: string;
-            screenshot?: string;
-            meta?: components['schemas']['Roblox.LocalizationTables.Api.AutoScrapeEntryMetadata'];
-        };
-        'Roblox.LocalizationTables.Api.AutoScrapeEntryMetadata': {
-            text?: string;
-            /** Format: int64 */
-            userId?: number;
-            osPlatform?: string;
-            /** Format: uuid */
-            sessionId?: string;
-            matchedEntry?: components['schemas']['Roblox.LocalizationTables.Api.MatchedEntry'];
-        };
         'Roblox.LocalizationTables.Api.CreateTableRequest': {
             name?: string;
             /** @enum {string} */
@@ -57176,7 +57090,7 @@ export interface components {
              */
             count?: number;
             /**
-             * @description In which order the data is sorted. ['Asc' = 1, 'Desc' = 2]
+             * @description In which order the data is sorted.
              * @enum {string}
              */
             sortOrder?: 'Asc' | 'Desc';
@@ -57286,6 +57200,8 @@ export interface components {
             sourceLanguage?: string;
             /** Format: int64 */
             assetId?: number;
+            shouldUseImageLocalizationTable?: boolean;
+            isAutoLocalizationForImageEnabled?: boolean;
         };
         'Roblox.LocalizationTables.Api.GetLimitsResponse': {
             entryOperationLimits?: components['schemas']['Roblox.LocalizationTables.Api.EntryOperationLimits'];
@@ -57342,7 +57258,7 @@ export interface components {
             id?: string;
             name?: string;
             /**
-             * @description Enum for valid OwnerTypes. ['User' = 0, 'Group' = 1]
+             * @description Enum for valid OwnerTypes.
              * @enum {string}
              */
             ownerType?: 'User' | 'Group';
@@ -57350,29 +57266,6 @@ export interface components {
             ownerId?: number;
             /** Format: int64 */
             assetId?: number;
-        };
-        /** @description An ingest content request to IngestAutoScrapedContentForGame. */
-        'Roblox.LocalizationTables.Api.IngestAutoScrapedContentForGameRequest': {
-            /** @description The entries of an ingest content request. */
-            entries?: components['schemas']['Roblox.LocalizationTables.Api.AutoScrapeEntry'][];
-            metadata?: components['schemas']['Roblox.LocalizationTables.Api.IngestContentMetadata'];
-        };
-        /** @description The metadata of an ingest content request. */
-        'Roblox.LocalizationTables.Api.IngestContentMetadata': {
-            placeInformation?: components['schemas']['Roblox.LocalizationTables.Api.IngestContentMetadataPlaceInformation'];
-        };
-        /** @description The place information metadata of an ingest content request. */
-        'Roblox.LocalizationTables.Api.IngestContentMetadataPlaceInformation': {
-            /**
-             * Format: int64
-             * @description The place id of an ingest content request.
-             */
-            placeId?: number;
-            /**
-             * Format: int32
-             * @description The place version number of an ingest content request.
-             */
-            placeVersionNumber?: number;
         };
         'Roblox.LocalizationTables.Api.LocalizationTablesMetadataResponse': {
             /** @description Is bulk upload feature enabled */
@@ -57387,11 +57280,6 @@ export interface components {
             isUntranslatedFilterEnabled?: boolean;
             /** @description Is filter for automatic translations on UI is enabled */
             isAutomaticTranslationFilterEnabled?: boolean;
-        };
-        'Roblox.LocalizationTables.Api.MatchedEntry': {
-            source?: string;
-            /** Format: int32 */
-            matchedParamIndex?: number;
         };
         'Roblox.LocalizationTables.Api.ModifiedEntry': {
             identifier?: components['schemas']['Roblox.LocalizationTables.Api.EntryIdentifier'];
@@ -57420,6 +57308,8 @@ export interface components {
             isAutomaticEntriesSettingEnabled?: boolean;
             isAutomaticEntriesDeletionsEnabled?: boolean;
             shouldUseLocalizationTable?: boolean;
+            shouldUseImageLocalizationTable?: boolean;
+            isAutoLocalizationForImageEnabled?: boolean;
         };
         'Roblox.LocalizationTables.Api.SetAutolocalizationTableForGameRequest': {
             /** Format: uuid */
@@ -61890,13 +61780,6 @@ export interface components {
             content: {
                 'application/json': components['schemas']['Roblox.Groups.Api.PayoutRequest'];
                 'text/json': components['schemas']['Roblox.Groups.Api.PayoutRequest'];
-            };
-        };
-        /** @description The request body. */
-        'Roblox.LocalizationTables.Api.IngestAutoScrapedContentForGameRequest': {
-            content: {
-                'application/json': components['schemas']['Roblox.LocalizationTables.Api.IngestAutoScrapedContentForGameRequest'];
-                'text/json': components['schemas']['Roblox.LocalizationTables.Api.IngestAutoScrapedContentForGameRequest'];
             };
         };
         'Roblox.PrivateMessages.Api.Models.BatchMessagesRequest': {

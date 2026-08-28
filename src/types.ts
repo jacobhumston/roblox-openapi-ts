@@ -8814,6 +8814,7 @@ export interface paths {
                         | 'PublishPlace'
                         | 'UpdateRolesetRank'
                         | 'UpdateRolesetData'
+                        | 'UpdateRoleSetPosition'
                         | 'BanMember'
                         | 'UnbanMember'
                         | 'CreateForumCategory'
@@ -21202,6 +21203,7 @@ export interface paths {
                         | 'PublishPlace'
                         | 'UpdateRolesetRank'
                         | 'UpdateRolesetData'
+                        | 'UpdateRoleSetPosition'
                         | 'BanMember'
                         | 'UnbanMember'
                         | 'CreateForumCategory'
@@ -23959,7 +23961,9 @@ export interface paths {
         /** Gets a list of the rolesets in a group. */
         get: {
             parameters: {
-                query?: never;
+                query: {
+                    includePrivate: boolean;
+                };
                 header?: never;
                 path: {
                     /** @description The group id. */
@@ -29083,6 +29087,7 @@ export interface paths {
                 query: {
                     /** @description A list of role ids */
                     ids: number[];
+                    includePrivate: boolean;
                 };
                 header?: never;
                 path?: never;
@@ -34963,7 +34968,8 @@ export interface paths {
                         | 91
                         | 92
                         | 93
-                        | 94;
+                        | 94
+                        | 95;
                     /** @description The number of results per request. */
                     limit?: 10 | 25 | 50 | 100;
                     /** @description The paging cursor for the previous or next page. */
@@ -47357,6 +47363,105 @@ export interface components {
              */
             bypassSlowMode?: boolean;
         };
+        'GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_': {
+            /** Format: int64 */
+            id?: number;
+            /**
+             * Format: int32
+             * @description ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95]
+             * @enum {integer}
+             */
+            type?:
+                | 1
+                | 2
+                | 3
+                | 4
+                | 5
+                | 6
+                | 7
+                | 8
+                | 9
+                | 10
+                | 11
+                | 12
+                | 13
+                | 16
+                | 17
+                | 18
+                | 19
+                | 21
+                | 22
+                | 24
+                | 25
+                | 26
+                | 27
+                | 28
+                | 29
+                | 30
+                | 31
+                | 32
+                | 33
+                | 34
+                | 35
+                | 37
+                | 38
+                | 39
+                | 40
+                | 41
+                | 42
+                | 43
+                | 44
+                | 45
+                | 46
+                | 47
+                | 48
+                | 49
+                | 50
+                | 51
+                | 52
+                | 53
+                | 54
+                | 55
+                | 56
+                | 59
+                | 60
+                | 61
+                | 62
+                | 63
+                | 64
+                | 65
+                | 66
+                | 67
+                | 68
+                | 69
+                | 70
+                | 71
+                | 72
+                | 73
+                | 74
+                | 75
+                | 76
+                | 77
+                | 78
+                | 79
+                | 80
+                | 81
+                | 82
+                | 83
+                | 84
+                | 85
+                | 86
+                | 87
+                | 88
+                | 89
+                | 90
+                | 91
+                | 92
+                | 93
+                | 94
+                | 95;
+            name?: string;
+        };
         HomepageThumbnail: {
             homepageThumbnailId: string;
             /** Format: int64 */
@@ -55009,6 +55114,11 @@ export interface components {
              *     inferring restriction from placeholder text.
              */
             isContentRestricted?: boolean;
+            /**
+             * @description How the experience was created, as reported by hydration (e.g. "build").
+             *     Omitted when hydration does not return a value.
+             */
+            creationSource?: string;
         };
         /** @description Game favorite response model. */
         'Roblox.Games.Api.Models.Response.GameFavoriteResponse': {
@@ -55794,6 +55904,11 @@ export interface components {
              * @enum {integer}
              */
             color?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16;
+            /**
+             * @description Whether the role is private (only visible to members with permission).
+             *     Omitted from the response when false.
+             */
+            isPrivate?: boolean;
         };
         /** @description A group role response model */
         'Roblox.Groups.Api.GroupRoleResponse': {
@@ -55824,6 +55939,11 @@ export interface components {
              * @enum {integer}
              */
             color?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16;
+            /**
+             * @description Whether the role is private (only visible to members with permission).
+             *     Omitted from the response when false.
+             */
+            isPrivate?: boolean;
         };
         /** @description Response Model For Group Search Metadata Endpoint */
         'Roblox.Groups.Api.GroupSearchMetadataResponse': {
@@ -55988,6 +56108,11 @@ export interface components {
             rank?: number;
             /** @description Setting to use group funds or not. */
             usingGroupFunds?: boolean;
+            /**
+             * @description Optional. When true the role is only visible to members with permission to see private roles.
+             *     Defaults to false (public). Only accessible to group owners.
+             */
+            isPrivate?: boolean;
         };
         'Roblox.Groups.Api.Models.Request.UpdateRoleSetRequest': {
             /** @description The name of the roleset. */
@@ -56006,6 +56131,12 @@ export interface components {
              *     When set, name, description, and color are updated via UpdateGroupRoleSetProperties.
              */
             color?: number;
+            /**
+             * @description Optional. When set, updates the visibility of the roleset.
+             *     Only accessible to group owners.
+             *     The base (guest) role cannot be made private.
+             */
+            isPrivate?: boolean;
         };
         /** @description A group audit log response model */
         'Roblox.Groups.Api.Models.Response.GroupAuditLogResponseItem': {
@@ -56032,7 +56163,7 @@ export interface components {
             /** @description The game description. */
             description?: string;
             creator?: components['schemas']['Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Core.CreatorType_'];
-            rootPlace?: components['schemas']['Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_'];
+            rootPlace?: components['schemas']['GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_'];
             /**
              * Format: date-time
              * @description When the game was created.

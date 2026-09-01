@@ -45718,7 +45718,17 @@ export interface components {
              *     value before proceeding.
              */
             etag?: string;
-            /** @description The value of the entry. */
+            /**
+             * @description The value of the entry.
+             *
+             *     When a stored value contains a non-finite Luau number that JSON can't
+             *     represent, Open Cloud responses replace the number with a tagged JSON
+             *     object:
+             *
+             *     * Positive infinity: `{"m": null, "t": "numeric", "v": "inf"}`
+             *     * Negative infinity: `{"m": null, "t": "numeric", "v": "-inf"}`
+             *     * NaN: `{"m": null, "t": "numeric", "v": "nan"}`
+             */
             value?: components['schemas']['GoogleProtobufValue'];
             /**
              * @description The resource ID of the entry.

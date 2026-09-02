@@ -44967,6 +44967,221 @@ export interface components {
             doesOwnerPrivacyRestrictJoins?: boolean;
             inviteResponseType?: components['schemas']['PrivateServerInviteResponseType'];
         };
+        /** @description This is the beta (non game-engine) version of our hydration model representing asset or bundle in marketplace. */
+        'CatalogApi.Roblox.Catalog.Api.CatalogSearchDetailedResponseItemV2': {
+            /** @description The System.Collections.Generic.IEnumerable`1 contained in the bundle, serialized if item is a bundle. */
+            bundledItems?: components['schemas']['Roblox.Catalog.Api.BundleItemDetailModelV2'][];
+            /** @description The taxonomy ids and names for this item. */
+            taxonomy?: components['schemas']['Roblox.Catalog.Api.TaxonomyModel'][];
+            /**
+             * Format: date-time
+             * @description The UTC creation date-time of the asset or bundle.
+             */
+            itemCreatedUtc?: string;
+            discountInformation?: components['schemas']['Roblox.Catalog.Api.DiscountInformation'];
+            /**
+             * Format: int64
+             * @description The Item Id.
+             */
+            id?: number;
+            /**
+             * Format: int32
+             * @description The Roblox.Catalog.Api.CatalogSearchDetailedResponseItem.ItemType item type. ['Asset' = 1, 'Bundle' = 2]
+             * @enum {integer}
+             */
+            itemType?: 1 | 2;
+            /**
+             * Format: int32
+             * @description The Roblox.Platform.Assets.AssetType serialized if item is an asset.
+             * @enum {integer}
+             */
+            assetType?:
+                | 1
+                | 2
+                | 3
+                | 4
+                | 5
+                | 6
+                | 7
+                | 8
+                | 9
+                | 10
+                | 11
+                | 12
+                | 13
+                | 16
+                | 17
+                | 18
+                | 19
+                | 21
+                | 22
+                | 24
+                | 25
+                | 26
+                | 27
+                | 28
+                | 29
+                | 30
+                | 31
+                | 32
+                | 33
+                | 34
+                | 35
+                | 37
+                | 38
+                | 39
+                | 40
+                | 41
+                | 42
+                | 43
+                | 44
+                | 45
+                | 46
+                | 47
+                | 48
+                | 49
+                | 50
+                | 51
+                | 52
+                | 53
+                | 54
+                | 55
+                | 56
+                | 59
+                | 60
+                | 61
+                | 62
+                | 63
+                | 64
+                | 65
+                | 66
+                | 67
+                | 68
+                | 69
+                | 70
+                | 71
+                | 72
+                | 73
+                | 74
+                | 75
+                | 76
+                | 77
+                | 78
+                | 79
+                | 80
+                | 81
+                | 82
+                | 83
+                | 84
+                | 85
+                | 86
+                | 87
+                | 88
+                | 89
+                | 90
+                | 91
+                | 92
+                | 93
+                | 94
+                | 95;
+            /**
+             * Format: int32
+             * @description The Roblox.Platform.Bundles.Core.BundleType serialized if item is a bundle.
+             * @enum {integer}
+             */
+            bundleType?: 1 | 2 | 3 | 4;
+            /** @description Gets or sets the property whether a bundle is recolorable or not. Not serialized for asset. */
+            isRecolorable?: boolean;
+            /** @description The item name. */
+            name?: string;
+            /** @description The item description. */
+            description?: string;
+            /**
+             * Format: int64
+             * @description The product id of corresponding item.
+             */
+            productId?: number;
+            /** @description The System.Collections.Generic.IEnumerable`1 if item has Roblox.Catalog.Api.CatalogItemStatus. */
+            itemStatus?: (1 | 2 | 7 | 8)[];
+            /** @description The System.Collections.Generic.IEnumerable`1 if item has Roblox.Catalog.Api.CatalogItemRestriction. */
+            itemRestrictions?: (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9)[];
+            /** @description The verified status of a creator. */
+            creatorHasVerifiedBadge?: boolean;
+            /**
+             * Format: int32
+             * @description The Roblox.Catalog.Api.CatalogSearchDetailedResponseItem.CreatorType of the item's creator.
+             * @enum {integer}
+             */
+            creatorType?: 0 | 1 | 2;
+            /**
+             * Format: int64
+             * @description The creator id of the item's creator.
+             */
+            creatorTargetId?: number;
+            /** @description The creator name of the item's creator. */
+            creatorName?: string;
+            /**
+             * Format: int64
+             * @description The item's price.
+             */
+            price?: number;
+            /**
+             * Format: int64
+             * @description The item's lowest price, only if the item is resellable and there are resellers.
+             */
+            lowestPrice?: number;
+            /**
+             * Format: int64
+             * @description The item's lowest resale price, only if the item is resellable and there are resellers, including current user.
+             */
+            lowestResalePrice?: number;
+            /** @description The localized string item status if the item's price should not be displayed. */
+            priceStatus?: string;
+            /**
+             * Format: int64
+             * @description The number of items in stock, only if the item is resellable and is limitedEdition.
+             */
+            unitsAvailableForConsumption?: number;
+            /**
+             * Format: int64
+             * @description The number of times the item has been favorited.
+             */
+            favoriteCount?: number;
+            /**
+             * Format: date-time
+             * @description When the item will go off sale, if the item has an off deadline.
+             */
+            offSaleDeadline?: string;
+            /**
+             * @description The item's collectible item id.
+             *     It is an UUID if a item is collectible type. Otherwise, it is null.
+             */
+            collectibleItemId?: string;
+            /**
+             * Format: int64
+             * @description The collectible or limited-unique item's total quantity of unique instances.
+             */
+            totalQuantity?: number;
+            /**
+             * Format: int32
+             * @description The sale location type of the item. ['NotApplicable' = 0, 'ShopOnly' = 1, 'MyExperiencesOnly' = 2, 'ShopAndMyExperiences' = 3, 'ExperiencesById' = 4, 'ShopAndAllExperiences' = 5, 'ExperiencesDevApiOnly' = 6, 'ShopAndExperiencesById' = 7]
+             * @enum {integer}
+             */
+            saleLocationType?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+            /** @description An indicator if the item has resellers or not (null if not resellable). */
+            hasResellers?: boolean;
+            /** @description An indicator if the item is off sale or not. */
+            isOffSale?: boolean;
+            /**
+             * Format: int32
+             * @description Quantity limit for how many instances a user can buy.
+             */
+            quantityLimitPerUser?: number;
+            /** @description Whether the item supports head shapes. */
+            supportsHeadShapes?: boolean;
+            /** @description The timed options for the item. */
+            timedOptions?: components['schemas']['Roblox.Catalog.Api.TimedOption'][];
+        };
         CategoryResponse: {
             /**
              * @description The event category type of an event.
@@ -53609,7 +53824,7 @@ export interface components {
             elasticsearchDebugInfo?: components['schemas']['Roblox.Catalog.Api.ElasticsearchDebugInfo'];
             previousPageCursor?: string;
             nextPageCursor?: string;
-            data?: components['schemas']['Roblox.Catalog.Api.CatalogSearchDetailedResponseItemV2'][];
+            data?: components['schemas']['CatalogApi.Roblox.Catalog.Api.CatalogSearchDetailedResponseItemV2'][];
         };
         /** @description Response model for category. */
         'Roblox.Catalog.Api.CategoryModel': {

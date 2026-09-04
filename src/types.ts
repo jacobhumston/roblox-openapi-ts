@@ -3502,37 +3502,8 @@ export interface paths {
         /**
          * Get User
          * @description Gets a user's basic and advanced information.
-         *
-         *     To access a user's public information, no additional scopes are required.
-         *
-         *     To access a user's verification status, you need the following scopes:
-         *     * user.advanced:read
-         *
-         *     To access a user's social account information, you need the following
-         *     scopes:
-         *     * user.social:read
          */
         get: operations['Cloud_GetUser'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/cloud/v2/users/{user_id}#OpenCloudUsers': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get User
-         * @description Gets a user's basic and advanced information.
-         */
-        get: operations['OpenCloudUsers.Cloud_GetUser'];
         put?: never;
         post?: never;
         delete?: never;
@@ -3622,26 +3593,6 @@ export interface paths {
         };
         /**
          * Get User Thumbnail Generation Operation
-         * @description Retrieves the status of the operation to [generate a user thumbnail](https://create.roblox.com/docs/cloud/reference/features/users#Cloud_GenerateUserThumbnail).
-         */
-        get: operations['Cloud_GetUserThumbnailGenerationOperation'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/cloud/v2/users/{user_id}/operations/{operation_id}#OpenCloudUsers': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get User Thumbnail Generation Operation
          * @description Gets the status and result of a
          *     [Generate User Thumbnail](https://create.roblox.com/docs/cloud/reference/features/users#Cloud_GenerateUserThumbnail)
          *     long-running operation.
@@ -3650,7 +3601,7 @@ export interface paths {
          *     polling until `done` is `true`. Once complete, `response.imageUri` contains
          *     the generated thumbnail URL.
          */
-        get: operations['OpenCloudUsers.Cloud_GetUserThumbnailGenerationOperation'];
+        get: operations['Cloud_GetUserThumbnailGenerationOperation'];
         put?: never;
         post?: never;
         delete?: never;
@@ -3669,33 +3620,13 @@ export interface paths {
         /**
          * Generate User Thumbnail
          * @description Generates and returns the URL for the user's avatar thumbnail.
-         */
-        get: operations['Cloud_GenerateUserThumbnail'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/cloud/v2/users/{user_id}:generateThumbnail#OpenCloudUsers': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Generate User Thumbnail
-         * @description Generates and returns the URL for the user's avatar thumbnail.
          *
          *     This is a long-running operation: the response is an `Operation` object.
          *     Poll the operation using its returned `path` until `done` is `true`, at
          *     which point `response.imageUri` contains the thumbnail URL. See
          *     [Get User Thumbnail Generation Operation](https://create.roblox.com/docs/cloud/reference/features/users#Cloud_GetUserThumbnailGenerationOperation).
          */
-        get: operations['OpenCloudUsers.Cloud_GenerateUserThumbnail'];
+        get: operations['Cloud_GenerateUserThumbnail'];
         put?: never;
         post?: never;
         delete?: never;
@@ -52317,8 +52248,15 @@ export interface components {
         GenerateUserThumbnailMetadata: Record<string, never>;
         /** @description Returns the URL for the user's avatar thumbnail. */
         GenerateUserThumbnailResponse: {
+            /**
+             * @description The fully-qualified type of the packed operation response. Mirrors the
+             *     `@type` field the legacy transcoder emitted via `Any.Pack`, kept so clients
+             *     reading `response["@type"]` continue to work. Declared first so it
+             *     serializes before the payload fields.
+             */
+            readonly '@type'?: string | null;
             /** @description URI for the generated thumbnail. */
-            imageUri?: string;
+            imageUri?: string | null;
         };
         GenericCurrencyResponse: {
             /** Format: int64 */
@@ -54744,26 +54682,6 @@ export interface components {
             vertices?: number;
         } | null;
         /**
-         * @description Represents metadata about the long-running operation corresponding to a
-         *     GenerateUserThumbnail request.
-         *
-         *     This is the type of the `Operation.metadata` field in the response to
-         *     `GetOperation` requests for GenerateUserThumbnail operations.
-         */
-        'OpenCloudUsers.GenerateUserThumbnailMetadata': Record<string, never>;
-        /** @description Returns the URL for the user's avatar thumbnail. */
-        'OpenCloudUsers.GenerateUserThumbnailResponse': {
-            /**
-             * @description The fully-qualified type of the packed operation response. Mirrors the
-             *     `@type` field the legacy transcoder emitted via `Any.Pack`, kept so clients
-             *     reading `response["@type"]` continue to work. Declared first so it
-             *     serializes before the payload fields.
-             */
-            readonly '@type'?: string | null;
-            /** @description URI for the generated thumbnail. */
-            imageUri?: string | null;
-        };
-        /**
          * @description This resource represents a long-running operation that is the result of a
          *     network API call.
          */
@@ -54780,7 +54698,7 @@ export interface components {
              *     Some services might not provide such metadata.  Any method that returns a
              *     long-running operation should document the metadata type, if any.
              */
-            metadata?: components['schemas']['OpenCloudUsers.GenerateUserThumbnailMetadata'] | null;
+            metadata?: components['schemas']['GenerateUserThumbnailMetadata'] | null;
             /**
              * @description If the value is `false`, it means the operation is still in progress.
              *     If `true`, the operation is completed, and either `error` or `response` is
@@ -54799,7 +54717,7 @@ export interface components {
              *     is `TakeSnapshot()`, the inferred response type is
              *     `TakeSnapshotResponse`.
              */
-            response?: components['schemas']['OpenCloudUsers.GenerateUserThumbnailResponse'] | null;
+            response?: components['schemas']['GenerateUserThumbnailResponse'] | null;
         };
         /** @description The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
         'OpenCloudUsers.Status': {
@@ -67317,63 +67235,6 @@ export interface components {
                 [key: string]: components['schemas']['UploadThumbnailStatus'];
             };
         };
-        /** @description Represents any registered user of Roblox. */
-        User: {
-            /**
-             * @description The resource path of the user.
-             *
-             *     Format: `users/{user_id}`
-             * @example users/123
-             */
-            path?: string;
-            /**
-             * Format: date-time
-             * @description The timestamp at which the user was created.
-             * @example 2023-07-05T12:34:56Z
-             */
-            readonly createTime?: string;
-            /**
-             * @description Unique ID that identifies a user in Roblox.
-             * @example 123456
-             */
-            readonly id?: string;
-            /**
-             * @description Unique username for a user in Roblox.
-             * @example exampleUser
-             */
-            name?: string;
-            /**
-             * @description Display name for the user.
-             * @example userDefinedName
-             */
-            displayName?: string;
-            /**
-             * @description User-defined information about themselves.
-             * @example Example User's bio
-             */
-            about?: string;
-            /**
-             * @description Current locale selected by the user. Returns IETF language code.
-             * @example en-US
-             */
-            locale?: string;
-            /**
-             * @description Whether the user is a premium user.
-             * @example true
-             */
-            readonly premium?: boolean;
-            /**
-             * @description Specifies if the user is identity-verified. Verification includes, but
-             *     isn't limited to, non-VoIP phone numbers or government IDs.
-             *
-             *     To access this data, you need an API key / OAuth token with the following
-             *     scope: user.advanced:read
-             * @example true
-             */
-            readonly idVerified?: boolean;
-            /** @description User's social network profiles and visibility. */
-            socialNetworkProfiles?: components['schemas']['User_SocialNetworkProfiles'];
-        };
         UserGameVoteRequest: {
             vote?: boolean | null;
         };
@@ -67679,46 +67540,6 @@ export interface components {
              * @example true
              */
             readonly inherited?: boolean;
-        };
-        /** @description Social network profiles of a user. */
-        User_SocialNetworkProfiles: {
-            /** @description Facebook profile URI. */
-            facebook?: string;
-            /** @description Twitter profile URI. */
-            twitter?: string;
-            /** @description YouTube profile URI. */
-            youtube?: string;
-            /** @description Twitch profile URI. */
-            twitch?: string;
-            /** @description Guilded profile URI. */
-            guilded?: string;
-            /**
-             * Format: enum
-             * @description Visibility of the social network profiles.
-             *
-             *     To access this data, you need an API key / OAuth token with the following
-             *     scope: user.social:read
-             *
-             *     Possible values:
-             *
-             *       | Value | Description |
-             *       | --- | --- |
-             *       | SOCIAL_NETWORK_VISIBILITY_UNSPECIFIED | Default SocialNetworkVisibility. |
-             *       | NO_ONE | No one |
-             *       | FRIENDS | Friends only |
-             *       | FRIENDS_AND_FOLLOWING | Friends and other users the user follows |
-             *       | FRIENDS_FOLLOWING_AND_FOLLOWERS | Friends, other users the user follows, and other users who follow the user |
-             *       | EVERYONE | Everyone |
-             * @example SOCIAL_NETWORK_VISIBILITY_UNSPECIFIED
-             * @enum {string}
-             */
-            visibility?:
-                | 'SOCIAL_NETWORK_VISIBILITY_UNSPECIFIED'
-                | 'NO_ONE'
-                | 'FRIENDS'
-                | 'FRIENDS_AND_FOLLOWING'
-                | 'FRIENDS_FOLLOWING_AND_FOLLOWERS'
-                | 'EVERYONE';
         };
         /** @description Metadata shared by every experiment variant. */
         VariantMeta: {
@@ -71622,29 +71443,6 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['User'];
-                };
-            };
-        };
-    };
-    'OpenCloudUsers.Cloud_GetUser': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The user ID. */
-                user_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
             /** @description Success */
             200: {
                 headers: {
@@ -71783,31 +71581,6 @@ export interface operations {
             path: {
                 /** @description The user ID. */
                 user_id: string;
-                /** @description The operation ID. */
-                operation_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['OCV2.Operations.Operation'];
-                };
-            };
-        };
-    };
-    'OpenCloudUsers.Cloud_GetUserThumbnailGenerationOperation': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The user ID. */
-                user_id: string;
                 /** @description The operation ID returned by Generate User Thumbnail. */
                 operation_id: string;
             };
@@ -71827,63 +71600,6 @@ export interface operations {
         };
     };
     Cloud_GenerateUserThumbnail: {
-        parameters: {
-            query?: {
-                /**
-                 * @description Size of the generated thumbnail. The generated thumbnail will have `size *
-                 *     size` dimension.
-                 *
-                 *     Currently supported values:
-                 *     48, 50, 60, 75, 100, 110, 150, 180, 352, 420, 720
-                 *     Default is 420.
-                 */
-                size?: number;
-                /**
-                 * @description Specify the format of the generated thumbnail. Default is `PNG`.
-                 *
-                 *     Possible values:
-                 *
-                 *       | Value | Description |
-                 *       | --- | --- |
-                 *       | FORMAT_UNSPECIFIED | Default UserThumbnail Format -- set to png |
-                 *       | PNG | Generate thumbnail in `.png` format |
-                 *       | JPEG | Generate thumbnail in `.jpg` format |
-                 */
-                format?: 'FORMAT_UNSPECIFIED' | 'PNG' | 'JPEG';
-                /**
-                 * @description Specify the shape of the thumbnail. Default is `ROUND` (circular).
-                 *
-                 *     Possible values:
-                 *
-                 *       | Value | Description |
-                 *       | --- | --- |
-                 *       | SHAPE_UNSPECIFIED | Default UserThumbnail Shape -- set to round |
-                 *       | ROUND | Generate thumbnail as a circle. |
-                 *       | SQUARE | Generate thumbnail as a rectangle. |
-                 */
-                shape?: 'SHAPE_UNSPECIFIED' | 'ROUND' | 'SQUARE';
-            };
-            header?: never;
-            path: {
-                /** @description The user ID. */
-                user_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['Operation'];
-                };
-            };
-        };
-    };
-    'OpenCloudUsers.Cloud_GenerateUserThumbnail': {
         parameters: {
             query?: {
                 /**

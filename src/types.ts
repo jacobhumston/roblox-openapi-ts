@@ -1844,9 +1844,8 @@ export interface paths {
          * Update Group Membership
          * @description **Deprecated.** Use AssignGroupRole and UnassignGroupRole instead.
          *     Updates the group membership for a particular group member. This action
-         *     requires the requester to be able to manage lower ranked members. Guest or
-         *     Owner ranks cannot be assigned, and a requester cannot change their own
-         *     rank.
+         *     requires the requester to be able to assign or remove roles below their
+         *     highest role. The requester cannot change their own roles.
          */
         patch: operations['Cloud_UpdateGroupMembership'];
         trace?: never;
@@ -1903,6 +1902,10 @@ export interface paths {
         /**
          * List Group Roles
          * @description List roles in a group.
+         *
+         *     Roles can be public or private. The response includes private roles and
+         *     their fields only when the acting user is permitted to view them. The
+         *     endpoint does not provide a public-roles-only view.
          *
          *     The permissions field for roles is viewable based on the requester's access
          *     and scopes.
@@ -38163,7 +38166,8 @@ export interface paths {
                         | 92
                         | 93
                         | 94
-                        | 95;
+                        | 95
+                        | 96;
                     /** @description The number of results per request. */
                     limit?: 10 | 25 | 50 | 100;
                     /** @description The paging cursor for the previous or next page. */
@@ -48582,6 +48586,7 @@ export interface paths {
                         | 93
                         | 94
                         | 95
+                        | 96
                     )[];
                     /** @description Filters moderated assets when enabled. */
                     filterDisapprovedAssets?: boolean;
@@ -61582,7 +61587,7 @@ export interface components {
         'Roblox.Games.Api.Models.Response.PlayabilityStatusResponse': {
             /**
              * Format: int32
-             * @description The actual playability status of the universe including the reason if unplayable ['UnplayableOtherReason' = 0, 'Playable' = 1, 'GuestProhibited' = 2, 'GameUnapproved' = 3, 'IncorrectConfiguration' = 4, 'UniverseRootPlaceIsPrivate' = 5, 'InsufficientPermissionFriendsOnly' = 6, 'InsufficientPermissionGroupOnly' = 7, 'DeviceRestricted' = 8, 'UnderReview' = 9, 'PurchaseRequired' = 10, 'AccountRestricted' = 11, 'TemporarilyUnavailable' = 12, 'PlaceHasNoPublishedVersion' = 13, 'ComplianceBlocked' = 14, 'ContextualPlayabilityRegionalAvailability' = 15, 'ContextualPlayabilityRegionalCompliance' = 16, 'ContextualPlayabilityAgeRecommendationParentalControls' = 17, 'ContextualPlayabilityExperienceBlockedParentalControls' = 18, 'ContextualPlayabilityAgeGated' = 19, 'ContextualPlayabilityUnverifiedSeventeenPlusUser' = 20, 'FiatPurchaseRequired' = 21, 'FiatPurchaseDeviceRestricted' = 22, 'ContextualPlayabilityUnrated' = 23, 'ContextualPlayabilityAgeGatedByDescriptor' = 24, 'ContextualPlayabilityGeneral' = 25, 'ContextualPlayabilityAgeCheckRequired' = 26, 'ContextualPlayabilityRequireParentApproval' = 27, 'ContextualPlayabilityCoreGated' = 28]
+             * @description The actual playability status of the universe including the reason if unplayable ['UnplayableOtherReason' = 0, 'Playable' = 1, 'GuestProhibited' = 2, 'GameUnapproved' = 3, 'IncorrectConfiguration' = 4, 'UniverseRootPlaceIsPrivate' = 5, 'InsufficientPermissionFriendsOnly' = 6, 'InsufficientPermissionGroupOnly' = 7, 'DeviceRestricted' = 8, 'UnderReview' = 9, 'PurchaseRequired' = 10, 'AccountRestricted' = 11, 'TemporarilyUnavailable' = 12, 'PlaceHasNoPublishedVersion' = 13, 'ComplianceBlocked' = 14, 'ContextualPlayabilityRegionalAvailability' = 15, 'ContextualPlayabilityRegionalCompliance' = 16, 'ContextualPlayabilityAgeRecommendationParentalControls' = 17, 'ContextualPlayabilityExperienceBlockedParentalControls' = 18, 'ContextualPlayabilityAgeGated' = 19, 'ContextualPlayabilityUnverifiedSeventeenPlusUser' = 20, 'FiatPurchaseRequired' = 21, 'FiatPurchaseDeviceRestricted' = 22, 'ContextualPlayabilityUnrated' = 23, 'ContextualPlayabilityAgeGatedByDescriptor' = 24, 'ContextualPlayabilityGeneral' = 25, 'ContextualPlayabilityAgeCheckRequired' = 26, 'ContextualPlayabilityRequireParentApproval' = 27, 'ContextualPlayabilityCoreGated' = 28, 'ContextualPlayabilityTrustedFriendRequired' = 29]
              * @enum {integer}
              */
             playabilityStatus?:
@@ -61614,7 +61619,8 @@ export interface components {
                 | 25
                 | 26
                 | 27
-                | 28;
+                | 28
+                | 29;
             /** @description Whether or not the universe is playable for the user */
             isPlayable?: boolean;
             /**
@@ -61631,6 +61637,7 @@ export interface components {
              *     Only set when PlayabilityStatus is PurchaseRequired or FiatPurchaseRequired.
              */
             demoModeAvailable?: boolean;
+            privatePlaytestInfo?: components['schemas']['Roblox.Games.Api.Models.Response.PrivatePlaytestInfoResponse'];
         };
         'Roblox.Games.Api.Models.Response.PlayableUxTreatment': {
             treatment?: string;
@@ -61641,6 +61648,47 @@ export interface components {
             bodyText?: string;
             primaryActionText?: string;
             secondaryActionText?: string;
+        };
+        /** @description Private playtest eligibility for the authenticated user. */
+        'Roblox.Games.Api.Models.Response.PrivatePlaytestInfoResponse': {
+            /** @description Whether the user is eligible to play as a private playtester. */
+            isPlayable?: boolean;
+            /**
+             * Format: int32
+             * @description The private playtest eligibility status. ['UnplayableOtherReason' = 0, 'Playable' = 1, 'GuestProhibited' = 2, 'GameUnapproved' = 3, 'IncorrectConfiguration' = 4, 'UniverseRootPlaceIsPrivate' = 5, 'InsufficientPermissionFriendsOnly' = 6, 'InsufficientPermissionGroupOnly' = 7, 'DeviceRestricted' = 8, 'UnderReview' = 9, 'PurchaseRequired' = 10, 'AccountRestricted' = 11, 'TemporarilyUnavailable' = 12, 'PlaceHasNoPublishedVersion' = 13, 'ComplianceBlocked' = 14, 'ContextualPlayabilityRegionalAvailability' = 15, 'ContextualPlayabilityRegionalCompliance' = 16, 'ContextualPlayabilityAgeRecommendationParentalControls' = 17, 'ContextualPlayabilityExperienceBlockedParentalControls' = 18, 'ContextualPlayabilityAgeGated' = 19, 'ContextualPlayabilityUnverifiedSeventeenPlusUser' = 20, 'FiatPurchaseRequired' = 21, 'FiatPurchaseDeviceRestricted' = 22, 'ContextualPlayabilityUnrated' = 23, 'ContextualPlayabilityAgeGatedByDescriptor' = 24, 'ContextualPlayabilityGeneral' = 25, 'ContextualPlayabilityAgeCheckRequired' = 26, 'ContextualPlayabilityRequireParentApproval' = 27, 'ContextualPlayabilityCoreGated' = 28, 'ContextualPlayabilityTrustedFriendRequired' = 29]
+             * @enum {integer}
+             */
+            playabilityStatus?:
+                | 0
+                | 1
+                | 2
+                | 3
+                | 4
+                | 5
+                | 6
+                | 7
+                | 8
+                | 9
+                | 10
+                | 11
+                | 12
+                | 13
+                | 14
+                | 15
+                | 16
+                | 17
+                | 18
+                | 19
+                | 20
+                | 21
+                | 22
+                | 23
+                | 24
+                | 25
+                | 26
+                | 27
+                | 28
+                | 29;
         };
         'Roblox.Games.Api.Models.Response.PurchaseData': {
             /** @description Fiat purchase price in a localized string for display on client. */
@@ -63046,7 +63094,7 @@ export interface components {
             name?: string;
             /**
              * Format: int32
-             * @description The asset type id of asset with id Roblox.Inventory.Api.V2.UserAssetItemModelV2.AssetId. ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95]
+             * @description The asset type id of asset with id Roblox.Inventory.Api.V2.UserAssetItemModelV2.AssetId. ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95, 'ComputeFunction' = 96]
              * @enum {integer}
              */
             assetType?:
@@ -63137,7 +63185,8 @@ export interface components {
                 | 92
                 | 93
                 | 94
-                | 95;
+                | 95
+                | 96;
             /**
              * Format: date-time
              * @description The created date time of the user asset.
@@ -63647,6 +63696,8 @@ export interface components {
         'Roblox.LocalizationTables.Api.GetTableEntriesTranslationHistoryRequest': {
             locale?: string;
             entries?: components['schemas']['Roblox.LocalizationTables.Api.CursorEntryIdentifier'][];
+            /** @enum {string} */
+            sourceType?: 'Invalid' | 'Text' | 'AssetImage';
         };
         /** @description A response model for GetTableEntriesTranslationHistory. */
         'Roblox.LocalizationTables.Api.GetTableEntriesTranslationHistoryResponse': {
@@ -64119,7 +64170,7 @@ export interface components {
             /** @description Whether the user can trade or not. */
             canTrade?: boolean;
             /**
-             * @description The trade eligibility status of the user. ['Unknown' = 0, 'Eligible' = 1, 'IneligibleTradeSystemDisabled' = 2, 'IneligibleCannotTradeWithRoblox' = 3, 'IneligibleUserNotFound' = 4, 'IneligibleMissingPremiumMembership' = 5, 'IneligibleLegalOrRegulatoryRestrictions' = 6, 'IneligibleFreeTradesLimitReached' = 7]
+             * @description The trade eligibility status of the user. ['Unknown' = 0, 'Eligible' = 1, 'IneligibleTradeSystemDisabled' = 2, 'IneligibleCannotTradeWithRoblox' = 3, 'IneligibleUserNotFound' = 4, 'IneligibleMissingPremiumMembership' = 5, 'IneligibleLegalOrRegulatoryRestrictions' = 6, 'IneligibleFreeTradesLimitReached' = 7, 'IneligibleAgeCheckRequired' = 8]
              * @enum {string}
              */
             tradeEligibility?:
@@ -64130,7 +64181,8 @@ export interface components {
                 | 'IneligibleUserNotFound'
                 | 'IneligibleMissingPremiumMembership'
                 | 'IneligibleLegalOrRegulatoryRestrictions'
-                | 'IneligibleFreeTradesLimitReached';
+                | 'IneligibleFreeTradesLimitReached'
+                | 'IneligibleAgeCheckRequired';
             freeTradesAllowance?: components['schemas']['Roblox.Trades.Api.Models.V2.FreeTradesAllowanceResponse'];
             currencyTransferEligibility?: components['schemas']['Roblox.Trades.Api.Models.V2.CurrencyTransferEligibilityResponse'];
         };

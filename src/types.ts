@@ -1222,159 +1222,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/asset-delivery-api/v1/assetId/{assetId}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Retrieves an asset by its ID with OpenCloud auth.
-         * @description Returns an object containing a `location` property which is a temporary CDN URL for the asset content. All asset types are supported.
-         *     You should request that URL with the `Accept-Encoding: gzip` header and decompress the result if the response is gzipped. If you are using cURL, the `--compressed` flag will automate these steps for you.
-         *     This endpoint is expected to be called with API key authentication through `apis.roblox.com/asset-delivery-api/v1/assetId/{assetId}`.
-         *     While you are able to make requests to this endpoint with Cookie authentication via `assetdelivery.roblox.com/v1/openCloud/assetId/{assetId}`, we highly discourage use this way.
-         *     Expect unannounced removal of this second route in the future.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Whether to skip script signing for the returned asset. Used for script assets that don't require signing. */
-                    skipSigningScripts?: boolean;
-                    /** @description Set to 1 to indicate this is a client insert request. */
-                    clientInsert?: number;
-                    /** @description Set to 1 to indicate this is a script insert request. */
-                    scriptinsert?: number;
-                    /** @description The place ID of the module making the request. */
-                    modulePlaceId?: number;
-                    /** @description The server place ID making the request. */
-                    serverplaceid?: number;
-                    /** @description The expected asset type as a fallback when assetType header is not provided. */
-                    expectedAssetType?: string;
-                    /** @description Whether to prevent fallback to baseline representation when specific content representations are not available. */
-                    doNotFallbackToBaselineRepresentation?: boolean;
-                    /** @description Base64URL-encoded JSON string specifying the priority list of desired content representations (format, version, fidelity). */
-                    contentRepresentationPriorityList?: string;
-                    accessContext?: string;
-                    usageContext?: number;
-                };
-                header?: {
-                    /** @description The Accept-Encoding header value specifying compression formats (e.g., "gzip, deflate"). Defaults to "gzip, deflate" if not provided. */
-                    'Accept-Encoding'?: string;
-                    /** @description The Roblox-Place-Id header value identifying the place making the request. */
-                    'Roblox-Place-Id'?: number;
-                    /** @description The AssetType header value specifying the expected asset type. */
-                    AssetType?: string;
-                    /** @description The Accept header value specifying the preferred response content type. */
-                    Accept?: string;
-                    /** @description The AssetFormat header value specifying the desired asset format. Overridden by robloxAssetFormat if both are provided. */
-                    AssetFormat?: string;
-                    /** @description The Roblox-AssetFormat header value specifying the preferred Roblox-specific asset format. Takes precedence over assetFormat. */
-                    'Roblox-AssetFormat'?: string;
-                };
-                path: {
-                    /** @description The ID of the asset to retrieve. */
-                    assetId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/asset-delivery-api/v1/assetId/{assetId}/version/{versionNumber}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Retrieves an asset by its ID and version number with OpenCloud auth.
-         * @description Refer to the assetId endpoint for details on usage.
-         *     This endpoint is expected to be called with API key authentication through `apis.roblox.com/asset-delivery-api/v1/assetId/{assetId}/version/{versionNumber}`.
-         *     While you are able to make requests to this endpoint with Cookie authentication via `assetdelivery.roblox.com/v1/openCloud/assetId/{assetId}/version/{versionNumber}`, we highly discourage use this way.
-         *     Expect unannounced removal of this second route in the future.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    skipSigningScripts?: boolean;
-                    clientInsert?: number;
-                    scriptinsert?: number;
-                    modulePlaceId?: number;
-                    serverplaceid?: number;
-                    expectedAssetType?: string;
-                    doNotFallbackToBaselineRepresentation?: boolean;
-                    contentRepresentationPriorityList?: string;
-                    accessContext?: string;
-                    usageContext?: number;
-                };
-                header?: {
-                    'Accept-Encoding'?: string;
-                    'Roblox-Place-Id'?: number;
-                    AssetType?: string;
-                    Accept?: string;
-                    AssetFormat?: string;
-                    'Roblox-AssetFormat'?: string;
-                };
-                path: {
-                    /** @description The ID of the asset to retrieve. */
-                    assetId: number;
-                    /** @description The version number of the asset to retrieve. */
-                    versionNumber: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/asset-permissions-api/v1/assets/permissions': {
         parameters: {
             query?: never;
@@ -12133,10 +11980,9 @@ export interface paths {
                     'Accept-Encoding': string;
                     'Roblox-Place-Id': number;
                     AssetType: string;
-                    Accept: string;
                     AssetFormat: string;
                     'Roblox-AssetFormat': string;
-                    usageContext?: number;
+                    'Roblox-Usage-Context'?: string;
                 };
                 path?: never;
                 cookie?: never;
@@ -12145,74 +11991,6 @@ export interface paths {
             responses: {
                 /** @description OK */
                 200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/asset-quotas': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List asset quotas of the given resource type and asset type. */
-        get: {
-            parameters: {
-                query: {
-                    /** @description Resource type of the asset quota */
-                    resourceType: string;
-                    /** @description Asset type of the asset quota */
-                    assetType: string;
-                    /** @description Use dummy data for testing. This is for internal use only */
-                    useDummyData?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Publish.Api.AssetQuotasResponse'];
-                        'text/json': components['schemas']['Roblox.Publish.Api.AssetQuotasResponse'];
-                    };
-                };
-                /**
-                 * @description 7: The asset type is not appropriate for this request.
-                 *     8: The resource type is not appropriate for this request.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Reserved for base level errors. Do not use in your endpoint directly, do not document. */
-                500: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -12275,88 +12053,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/asset-to-category': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Lists a mapping for assets to category IDs to convert from inventory ID to catalog ID. Creates a mapping to link 'Get More' button in inventory page to the relevant catalog page. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': {
-                            [key: string]: number;
-                        };
-                        'text/json': {
-                            [key: string]: number;
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/asset-to-subcategory': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Lists a mapping for assets to subcategory IDs to convert from inventory ID to catalog ID. Creates a mapping to link 'Get More' button in inventory page to the relevant catalog page. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': {
-                            [key: string]: number;
-                        };
-                        'text/json': {
-                            [key: string]: number;
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v1/assetId/{assetId}': {
         parameters: {
             query?: never;
@@ -12377,15 +12073,14 @@ export interface paths {
                     doNotFallbackToBaselineRepresentation?: boolean;
                     contentRepresentationPriorityList?: string;
                     accessContext?: string;
-                    usageContext?: number;
                 };
                 header: {
                     'Accept-Encoding': string;
                     'Roblox-Place-Id': number;
                     AssetType: string;
-                    Accept: string;
                     AssetFormat: string;
                     'Roblox-AssetFormat': string;
+                    'Roblox-Usage-Context'?: string;
                 };
                 path: {
                     /** @description The ID of the asset to retrieve. */
@@ -12432,15 +12127,14 @@ export interface paths {
                     doNotFallbackToBaselineRepresentation?: boolean;
                     contentRepresentationPriorityList?: string;
                     accessContext?: string;
-                    usageContext?: number;
                 };
                 header: {
                     'Accept-Encoding': string;
                     'Roblox-Place-Id': number;
                     AssetType: string;
-                    Accept: string;
                     AssetFormat: string;
                     'Roblox-AssetFormat': string;
+                    'Roblox-Usage-Context'?: string;
                 };
                 path: {
                     /** @description The ID of the asset to retrieve. */
@@ -12631,7 +12325,6 @@ export interface paths {
                 query?: never;
                 header: {
                     'Roblox-Place-Id': number;
-                    Accept: string;
                     'Roblox-Browser-Asset-Request': string;
                 };
                 path?: never;
@@ -12653,50 +12346,6 @@ export interface paths {
                 };
             };
         };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/assets/voting': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Gets the voting information of the given assets
-         * @deprecated
-         * @description Please use toolbox service to get asset voting information.
-         */
-        get: {
-            parameters: {
-                query: {
-                    /** @description The ids of the Roblox.Platform.Assets.IAsset. */
-                    assetIds: number[];
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Api.Develop.Models.Response.AssetVotingModel_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Api.Develop.Models.Response.AssetVotingModel_'];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -12753,172 +12402,6 @@ export interface paths {
         };
         put?: never;
         post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/audio': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Published an audio file and returns the new asset info. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description The file upload request body. Roblox.Publish.Api.UploadAudioRequest */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Publish.Api.UploadAudioRequest'];
-                    'text/json': components['schemas']['Roblox.Publish.Api.UploadAudioRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Publish.Api.PublishAudioResponse'];
-                        'text/json': components['schemas']['Roblox.Publish.Api.PublishAudioResponse'];
-                    };
-                };
-                /**
-                 * @description 3: The request did not contain a file to be uploaded.
-                 *     4: The file in the request is too large.
-                 *     5: The duration of the audio file is too long.
-                 *     7: Failed to parse the file.
-                 *     8: The file type is not supported.
-                 *     9: The file is corrupted
-                 *     11: Missing permissions to spend group funds.
-                 *     14: The user/group does not have suffiecient funds to publish.
-                 *     14: The user/group does not have suffiecient funds to publish.
-                 *     15: The audio file has already been reviewed and rejected.
-                 *     18: Too many requests. Try again later.
-                 *     20: Error while trying to purchase the product.
-                 *     22: The file size estimation error was greater than the acceptable margin of error.
-                 *     23: The duration estimation error was greater than the acceptable margin of error.
-                 *     24: Asset privacy is invalid.
-                 *     29: Invalid argument in the request.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Authorization has been denied for this request.
-                 *     1: The request did not include an authorization.
-                 */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Token Validation Failed */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 19: Asset creation was unavailable. Please try again. */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/audio/verify': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Verifies an audio file and returns a product that you can purchase to publish the audio file. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description The verify audio request body. Roblox.Publish.Api.VerifyAudioRequest */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Publish.Api.VerifyAudioRequest'];
-                    'text/json': components['schemas']['Roblox.Publish.Api.VerifyAudioRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Publish.Api.VerifyAudioResponse'];
-                        'text/json': components['schemas']['Roblox.Publish.Api.VerifyAudioResponse'];
-                    };
-                };
-                /**
-                 * @description 3: The request did not contain a file to be uploaded.
-                 *     4: The file in the request is too large.
-                 *     5: The duration of the audio file is too long.
-                 *     7: Failed to parse the file.
-                 *     8: The file type is not supported.
-                 *     9: The file is corrupted
-                 *     18: Too many requests. Try again later.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Authorization has been denied for this request.
-                 *     1: The request did not include an authorization.
-                 */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Token Validation Failed */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
         delete?: never;
         options?: never;
         head?: never;
@@ -15278,63 +14761,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/bundles/{bundleId}/recommendations': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Gets recommendations for a given bundle, bundleId of 0 returns randomized bundles
-         *     - Accepts both public and authenticated users.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The number of recommended items to return. */
-                    numItems?: number;
-                };
-                header?: never;
-                path: {
-                    bundleId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Catalog.Api.BundleDetailsModel_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Catalog.Api.BundleDetailsModel_'];
-                    };
-                };
-                /**
-                 * @description 1: Invalid bundle
-                 *     2: Error retrieving bundles
-                 *     3: Error getting bundle recommendations
-                 *     4: NumItems exceed maximum
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v1/catalog/items/details': {
         parameters: {
             query?: never;
@@ -15399,43 +14825,6 @@ export interface paths {
                 };
             };
         };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/categories': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Lists Category Names and their Ids. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Catalog.Api.CategoryModel'][];
-                        'text/json': components['schemas']['Roblox.Catalog.Api.CategoryModel'][];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -15692,179 +15081,6 @@ export interface paths {
                 };
                 /** @description 7: Feature is disabled */
                 403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/creations/get-asset-details': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Gets the asset status and other configuration details for the given assetIds list. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.ItemConfiguration.Api.AssetCreationsDetailsRequest'];
-                    'text/json': components['schemas']['Roblox.ItemConfiguration.Api.AssetCreationsDetailsRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.AssetCreationsDetailsResponse'][];
-                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.AssetCreationsDetailsResponse'][];
-                    };
-                };
-                /**
-                 * @description 1: Missing AssetIds parameters
-                 *     2: Invalid asset Ids
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Token Validation Failed */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 3: Too many asset Ids */
-                414: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 9: Flood Limit Exceeded */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 6: Service Unavailable */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/creations/get-assets': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets the user created asset information filtered by the given asset type. */
-        get: {
-            parameters: {
-                query: {
-                    assetType: string;
-                    isArchived?: boolean;
-                    groupId?: number;
-                    /** @description The number of results per request. */
-                    limit?: 10 | 25 | 50 | 100;
-                    /** @description The paging cursor for the previous or next page. */
-                    cursor?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.ItemConfiguration.Api.AssetCreationsResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.ItemConfiguration.Api.AssetCreationsResponse_'];
-                    };
-                };
-                /**
-                 * @description 5: Invalid assetType
-                 *     10: Invalid Asset Category
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 7: User does not have necessary permissions for group
-                 *     8: Asset type does not have necessary permissions for group
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 9: Flood Limit Exceeded */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 6: Service Unavailable */
-                503: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -17808,380 +17024,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/favorites/users/{userId}/assets/{assetId}/favorite': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets the favorite model for the asset and user. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: number;
-                    assetId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Catalog.Api.AssetFavoriteModel'];
-                        'text/json': components['schemas']['Roblox.Catalog.Api.AssetFavoriteModel'];
-                    };
-                };
-                /**
-                 * @description 1: Invalid user Id.
-                 *     2: Invalid asset Id.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        /** Create a favorite for an asset by the authenticated user. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: number;
-                    assetId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: Invalid user Id.
-                 *     2: Invalid asset Id.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     6: You are not authorized to perform this action.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 3: Asset is already favorited. */
-                409: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 5: This action was floodchecked. Please try again later. */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        /** Delete a favorite for an asset by the authenticated user. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: number;
-                    assetId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: Invalid user Id.
-                 *     2: Invalid asset Id.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     6: You are not authorized to perform this action.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 4: Asset is already not favorited. */
-                409: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 5: This action was floodchecked. Please try again later. */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/favorites/users/{userId}/bundles/{bundleId}/favorite': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets the favorite model for the bundle and user. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: number;
-                    bundleId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Catalog.Api.BundleFavoriteModel'];
-                        'text/json': components['schemas']['Roblox.Catalog.Api.BundleFavoriteModel'];
-                    };
-                };
-                /**
-                 * @description 1: Invalid user Id.
-                 *     2: Invalid bundle Id.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        /** Create a favorite for the bundle by the authenticated user. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: number;
-                    bundleId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: Invalid user Id.
-                 *     2: Invalid bundle Id.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     6: You are not authorized to perform this action.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 3: Bundle is already favorited. */
-                409: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 5: This action was floodchecked. Please try again later. */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        /** Delete favorite for the bundle by the authenticated user. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: number;
-                    bundleId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: Invalid user Id.
-                 *     2: Invalid bundle Id.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     6: You are not authorized to perform this action.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 4: Bundle is already not favorited. */
-                409: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 5: This action was floodchecked. Please try again later. */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v1/favorites/users/{userId}/favorites/{assetTypeId}/assets': {
         parameters: {
             query?: never;
@@ -18231,82 +17073,6 @@ export interface paths {
                     content?: never;
                 };
                 /** @description 99: Internal server error. */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/favorites/users/{userId}/favorites/{subtypeId}/bundles': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Lists the bundles favorited by a given user with the given bundle subtypeId.Switched to EAAS style pagination cursors since July 2024. */
-        get: {
-            parameters: {
-                query?: {
-                    itemsPerPage?: number;
-                    cursor?: string;
-                    isPrevious?: boolean;
-                };
-                header?: never;
-                path: {
-                    userId: number;
-                    subtypeId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Catalog.Api.FavoriteBundlesResponse'];
-                        'text/json': components['schemas']['Roblox.Catalog.Api.FavoriteBundlesResponse'];
-                    };
-                };
-                /**
-                 * @description 1: Invalid user Id.
-                 *     3: Cannot request so many bundles at once.
-                 *     10: Invalid previous pagination request. Please provide a cursor when isPrevious is true
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 6: You are not authorized to perform this action. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 11: Internal server error. Please check if you have provided correct pagination cursor */
                 500: {
                     headers: {
                         [name: string]: unknown;
@@ -20652,22 +19418,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/games/vip-servers/{universeId}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations['PrivateServers_CreatePrivateServer'];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v1/games/votes': {
         parameters: {
             query?: never;
@@ -20678,87 +19428,6 @@ export interface paths {
         get: operations['Voting_MultiGetGameVoteStatus'];
         put?: never;
         post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/games/{gameId}/thumbnail/image': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Uploads a game thumbnail. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The universe Id. */
-                    gameId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: components['requestBodies']['postV1Badges_badgeid_icon'];
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Publish.Api.UploadResponse'];
-                        'text/json': components['schemas']['Roblox.Publish.Api.UploadResponse'];
-                    };
-                };
-                /**
-                 * @description 1: File uploaded does not match known image format. Try converting to png.
-                 *     2: File not present in request.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     5: You do not have permission to manage this item.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 4: Target item is invalid or does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 3: You're uploading too much, please wait and try again later. */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
         delete?: never;
         options?: never;
         head?: never;
@@ -25359,6 +24028,7 @@ export interface paths {
                  *     15: This role does not exist.
                  *     19: Cannot update Guest role.
                  *     20: Cannot update Owner role rank.
+                 *     30: Invalid role color.
                  */
                 400: {
                     headers: {
@@ -27835,7 +26505,6 @@ export interface paths {
                     'Accept-Encoding': string;
                     'Roblox-Place-Id': number;
                     AssetType: string;
-                    Accept: string;
                     AssetFormat: string;
                     'Roblox-AssetFormat': string;
                 };
@@ -28603,6 +27272,7 @@ export interface paths {
                 /**
                  * @description 1: The target user is invalid or does not exist.
                  *     6: Invalid parameters.
+                 *     34: Invalid pagination cursor.
                  */
                 400: {
                     headers: {
@@ -30876,84 +29546,6 @@ export interface paths {
         };
         trace?: never;
     };
-    '/v1/plugins/{pluginId}/icon': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Overwrites a plugin icon with a new one. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The plugin Id. */
-                    pluginId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: components['requestBodies']['postV1Badges_badgeid_icon'];
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Publish.Api.UploadResponse'];
-                        'text/json': components['schemas']['Roblox.Publish.Api.UploadResponse'];
-                    };
-                };
-                /** @description 2: File not present in request. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     5: You do not have permission to manage this item.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 4: Target item is invalid or does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 3: You're uploading too much, please wait and try again later. */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v1/preferences/publishing': {
         parameters: {
             query?: never;
@@ -31120,38 +29712,6 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations['Presence_GetUserPresences'];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/private-servers/enabled-in-universe/{universeId}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations['PrivateServers_PrivateServersEnabledInUniverse'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/private-servers/my-private-servers': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations['PrivateServers_GetMyPrivateServers'];
-        put?: never;
-        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -32179,47 +30739,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/subcategories': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Lists Subcategory Names and their Ids. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': {
-                            [key: string]: number;
-                        };
-                        'text/json': {
-                            [key: string]: number;
-                        };
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v1/supported-languages/games/{gameId}': {
         parameters: {
             query?: never;
@@ -32979,58 +31498,6 @@ export interface paths {
                 };
             };
         };
-        trace?: never;
-    };
-    '/v1/topic/get-topics': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Gets topics for a populated request, or trending queries when the request has no topic inputs.
-         *     Topics and queries are mutually exclusive in the response.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Catalog.Api.TopicRequestModel'];
-                    'text/json': components['schemas']['Roblox.Catalog.Api.TopicRequestModel'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Catalog.Api.TopicResponse'];
-                        'text/json': components['schemas']['Roblox.Catalog.Api.TopicResponse'];
-                    };
-                };
-                /** @description 0: Token Validation Failed */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
         trace?: never;
     };
     '/v1/trade-privacy': {
@@ -38272,56 +36739,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/users/{userId}/bundles': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Lists the bundles owned by a given user. */
-        get: {
-            parameters: {
-                query?: {
-                    cursor?: string;
-                    limit?: number;
-                    sortOrder?: 1 | 2;
-                };
-                header?: never;
-                path: {
-                    userId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Catalog.Api.OwnedBundleModel_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Catalog.Api.OwnedBundleModel_'];
-                    };
-                };
-                /** @description 1: Invalid bundle */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v1/users/{userId}/bundles/{bundleType}': {
         parameters: {
             query?: never;
@@ -42341,86 +40758,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/vip-server/can-invite/{userId}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations['PrivateServers_CanInviteUser'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/vip-servers/my-private-servers': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations['PrivateServersApi.PrivateServers_GetMyPrivateServers'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/vip-servers/{id}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations['PrivateServers_GetPrivateServer'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations['PrivateServers_UpdatePrivateServer'];
-        trace?: never;
-    };
-    '/v1/vip-servers/{id}/permissions': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations['PrivateServers_UpdatePrivateServerPermissions'];
-        trace?: never;
-    };
-    '/v1/vip-servers/{id}/subscription': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations['PrivateServers_UpdatePrivateServerSubscription'];
-        trace?: never;
-    };
     '/v1/xbox/connection': {
         parameters: {
             query?: never;
@@ -42712,15 +41049,14 @@ export interface paths {
                     doNotFallbackToBaselineRepresentation?: boolean;
                     contentRepresentationPriorityList?: string;
                     accessContext?: string;
-                    usageContext?: number;
                 };
                 header: {
                     'Accept-Encoding': string;
                     'Roblox-Place-Id': number;
                     AssetType: string;
-                    Accept: string;
                     AssetFormat: string;
                     'Roblox-AssetFormat': string;
+                    'Roblox-Usage-Context'?: string;
                 };
                 path?: never;
                 cookie?: never;
@@ -42763,15 +41099,14 @@ export interface paths {
                     doNotFallbackToBaselineRepresentation?: boolean;
                     contentRepresentationPriorityList?: string;
                     accessContext?: string;
-                    usageContext?: number;
                 };
                 header: {
                     'Accept-Encoding': string;
                     'Roblox-Place-Id': number;
                     AssetType: string;
-                    Accept: string;
                     AssetFormat: string;
                     'Roblox-AssetFormat': string;
+                    'Roblox-Usage-Context'?: string;
                 };
                 path: {
                     assetId: number;
@@ -42816,15 +41151,14 @@ export interface paths {
                     doNotFallbackToBaselineRepresentation?: boolean;
                     contentRepresentationPriorityList?: string;
                     accessContext?: string;
-                    usageContext?: number;
                 };
                 header: {
                     'Accept-Encoding': string;
                     'Roblox-Place-Id': number;
                     AssetType: string;
-                    Accept: string;
                     AssetFormat: string;
                     'Roblox-AssetFormat': string;
+                    'Roblox-Usage-Context'?: string;
                 };
                 path: {
                     assetId: number;
@@ -42865,7 +41199,6 @@ export interface paths {
                 query?: never;
                 header: {
                     'Roblox-Place-Id': number;
-                    Accept: string;
                     'Roblox-Browser-Asset-Request': string;
                 };
                 path?: never;
@@ -42943,61 +41276,6 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v2/assets/{id}/versions': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Retrieves asset information for the specified asset ID. The authenticated user must be able to manage the asset
-         *     or granted by package permission.
-         * @deprecated
-         * @description Use OpenCloud Assets API instead.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The number of results per request. */
-                    limit?: 10 | 25 | 50 | 100;
-                    /** @description The paging cursor for the previous or next page. */
-                    cursor?: string;
-                    /** @description Sort by version number, default is desc. */
-                    sortOrder?: 'Asc' | 'Desc';
-                };
-                header: {
-                    /** @description The ID of the place.Roblox.Platform.Assets.IPlace */
-                    'Roblox-Place-Id': number;
-                };
-                path: {
-                    /** @description The ID of the asset.Roblox.Platform.Assets.IAsset */
-                    id: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Api.Develop.AssetVersion_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Api.Develop.AssetVersion_'];
-                    };
                 };
             };
         };
@@ -44357,7 +42635,6 @@ export interface paths {
                     'Accept-Encoding': string;
                     'Roblox-Place-Id': number;
                     AssetType: string;
-                    Accept: string;
                     AssetFormat: string;
                     'Roblox-AssetFormat': string;
                 };
@@ -44479,6 +42756,13 @@ export interface paths {
                 };
                 /** @description 5: Not authorized to perform this action. */
                 401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 9: The requested tag is not implemented. */
+                501: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -47721,6 +46005,7 @@ export interface paths {
                  *     28: OptIn/Out Regions Not Supported.
                  *     41: You cannot change the private server price again so soon after the previous change. Please try again later.
                  *     44: The provided audience configuration is invalid. Ensure the audience list contains only supported audience values.
+                 *     52: Promotional text has been rejected.
                  */
                 400: {
                     headers: {
@@ -47758,6 +46043,13 @@ export interface paths {
                 };
                 /** @description 43: Failed to update the audience configuration. The change was not applied. Please try again. */
                 500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 53: Promotional text safety validation is temporarily unavailable. */
+                503: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -50449,11 +48741,6 @@ export interface components {
             /** @description The MDE async operation. */
             operation?: components['schemas']['MdeOperation'] | null;
         };
-        CanInviteUserResponse: {
-            canInvite?: boolean;
-            doesOwnerPrivacyRestrictJoins?: boolean;
-            inviteResponseType?: components['schemas']['PrivateServerInviteResponseType'];
-        };
         CategoryResponse: {
             /**
              * @description The event category type of an event.
@@ -50845,13 +49132,6 @@ export interface components {
         /** @description The response for creating a matchmaking server attribute definition. */
         CreateMatchmakingServerAttributeDefinitionResponse: {
             playerAttributeDefinition?: components['schemas']['MatchmakingServerAttributeDefinition'];
-        };
-        CreatePrivateServerRequest: {
-            name?: string | null;
-            /** Format: int64 */
-            expectedPrice?: number;
-            isPurchaseConfirmed?: boolean | null;
-            idempotencyKey?: string | null;
         };
         /** @description Request model for creating a save */
         CreateSaveRequest: {
@@ -52118,12 +50398,6 @@ export interface components {
          * @enum {string}
          */
         'GamePasses.PricingFeature': 'Invalid' | 'PriceOptimization' | 'UserFixedPrice' | 'RegionalPricing';
-        GameResponse: {
-            /** Format: int64 */
-            id?: number;
-            name?: string | null;
-            rootPlace?: components['schemas']['PlaceResponse'] | null;
-        };
         /** @description Response model for listing a game server log */
         GameServerLog: {
             /**
@@ -52162,6 +50436,11 @@ export interface components {
              * @description How many more messages were present in the time window beyond our overall rate limits
              */
             rateLimitedCount?: number;
+            /**
+             * @description A list of ServerManagementService.V2.Models.StructuredStackFrame metadata, identifying the script that errored when combined
+             *     with the ServerManagementService.V2.Models.GameServerLog.PlaceVersion
+             */
+            structuredStackTrace?: components['schemas']['StructuredStackFrame'][] | null;
         };
         GameUpdateStatus: {
             /** Format: uuid */
@@ -52978,6 +51257,17 @@ export interface components {
                 | 95;
             name?: string;
         };
+        'GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Core.CreatorType_': {
+            /** Format: int64 */
+            id?: number;
+            /**
+             * Format: int32
+             * @description ['User' = 0, 'Group' = 1, 'Experience' = 2]
+             * @enum {integer}
+             */
+            type?: 0 | 1 | 2;
+            name?: string;
+        };
         /** @description A homepage thumbnail associated with a universe. */
         HomepageThumbnail: {
             /** @description The unique identifier of the homepage thumbnail. */
@@ -53190,7 +51480,6 @@ export interface components {
              * @description The resource path of the inventory item.
              *
              *     Format: `users/{user_id}/inventory-items/{inventory_item_id}`
-             * @example users/123/inventory-items/some-inventory-item-id
              */
             path?: string;
             /** @description Populated if this item is an asset. */
@@ -53207,79 +51496,15 @@ export interface components {
              *     time when the user purchased a private server or was awarded a badge.
              *
              *     This field is currently not populated for passes.
-             * @example 2023-07-05T12:34:56Z
              */
-            readonly addTime?: string;
+            addTime?: string | null;
         };
         /** @description Specific fields only applicable to assets */
         InventoryItem_AssetDetails: {
-            /**
-             * @description A unique ID that identifies an asset.
-             * @example 12928981934
-             */
+            /** @description A unique ID that identifies an asset. */
             assetId?: string;
             /**
-             * Format: enum
              * @description The specific asset type of this item.
-             *
-             *     Possible values:
-             *
-             *       | Value | Description |
-             *       | --- | --- |
-             *       | INVENTORY_ITEM_ASSET_TYPE_UNSPECIFIED | Default InventoryItemAssetType |
-             *       | CLASSIC_TSHIRT | Classic Tshirt |
-             *       | AUDIO | Audio |
-             *       | HAT | Hat |
-             *       | MODEL | Model |
-             *       | CLASSIC_SHIRT | Classic Shirt |
-             *       | CLASSIC_PANTS | Classic Pants |
-             *       | DECAL | Decal |
-             *       | CLASSIC_HEAD | Classic Head |
-             *       | FACE | Face |
-             *       | GEAR | Gear |
-             *       | ANIMATION | Animation |
-             *       | TORSO | Torso |
-             *       | RIGHT_ARM | Right Arm |
-             *       | LEFT_ARM | Left Arm |
-             *       | LEFT_LEG | Left Leg |
-             *       | RIGHT_LEG | Right Leg |
-             *       | PACKAGE | Package |
-             *       | PLUGIN | Plugin |
-             *       | MESH_PART | Mesh Part |
-             *       | HAIR_ACCESSORY | Hair Accessory |
-             *       | FACE_ACCESSORY | Face Accessory |
-             *       | NECK_ACCESSORY | Neck Accessory |
-             *       | SHOULDER_ACCESSORY | Shoulder Accessory |
-             *       | FRONT_ACCESSORY | Front Accessory |
-             *       | BACK_ACCESSORY | Back Accessory |
-             *       | WAIST_ACCESSORY | Waist Accessory |
-             *       | CLIMB_ANIMATION | Climb Animation |
-             *       | DEATH_ANIMATION | Death Animation |
-             *       | FALL_ANIMATION | Fall Animation |
-             *       | IDLE_ANIMATION | Idle Animation |
-             *       | JUMP_ANIMATION | Jump Animation |
-             *       | RUN_ANIMATION | Run Animation |
-             *       | SWIM_ANIMATION | Swim Animation |
-             *       | WALK_ANIMATION | Walk Animation |
-             *       | POSE_ANIMATION | Pose Animation |
-             *       | EMOTE_ANIMATION | Emote Animation |
-             *       | VIDEO | Video |
-             *       | TSHIRT_ACCESSORY | Tshirt Accessory |
-             *       | SHIRT_ACCESSORY | Shirt Accessory |
-             *       | PANTS_ACCESSORY | Pants Accessory |
-             *       | JACKET_ACCESSORY | Jacket Accessory |
-             *       | SWEATER_ACCESSORY | Sweater Accessory |
-             *       | SHORTS_ACCESSORY | Shorts Accessory |
-             *       | LEFT_SHOE_ACCESSORY | Left Shoe Accessory |
-             *       | RIGHT_SHOE_ACCESSORY | Right Shoe Accessory |
-             *       | DRESS_SKIRT_ACCESSORY | Dress Skirt Accessory |
-             *       | EYEBROW_ACCESSORY | Eyebrow Accessory |
-             *       | EYELASH_ACCESSORY | Eyelash Accessory |
-             *       | MOOD_ANIMATION | Mood Animation |
-             *       | DYNAMIC_HEAD | Dynamic Head |
-             *       | CREATED_PLACE | Created Place |
-             *       | PURCHASED_PLACE | Purchased Place |
-             * @example INVENTORY_ITEM_ASSET_TYPE_UNSPECIFIED
              * @enum {string}
              */
             inventoryItemAssetType?:
@@ -53339,7 +51564,6 @@ export interface components {
             /**
              * @description A unique ID that identifies an instance or "copy" of the asset that's
              *     owned by a user.
-             * @example 173413781720
              */
             instanceId?: string;
             /**
@@ -53350,63 +51574,39 @@ export interface components {
         };
         /** @description Specific fields that are applicable to a badge. */
         InventoryItem_BadgeDetails: {
-            /**
-             * @description A unique ID that identifies a badge.
-             * @example 119925991
-             */
+            /** @description A unique ID that identifies a badge. */
             badgeId?: string;
         };
         /** @description Specific fields that are applicable to a collectible. */
         InventoryItem_CollectibleDetails: {
-            /**
-             * @description A unique ID of a Roblox item that is a collectible.
-             * @example 521cca19-75bb-4e05-a0af-633b1532c24d
-             */
+            /** @description A unique ID of a Roblox item that is a collectible. */
             itemId?: string;
             /**
              * @description A unique ID of an individual copy of a collectible with ownership tied
              *     to a group or user.
-             * @example a8a27d38-ee51-4cf4-8b0a-485d0dfd8607
              */
             instanceId?: string;
             /**
-             * Format: enum
              * @description The instance state of this specific Collectible Item Instance which
              *     affects whether it can be resold or traded.
-             *
-             *     Possible values:
-             *
-             *       | Value | Description |
-             *       | --- | --- |
-             *       | COLLECTIBLE_ITEM_INSTANCE_STATE_UNSPECIFIED | Default CollectibleItemInstanceState |
-             *       | AVAILABLE | Collectible item is available for all actions |
-             *       | HOLD | Collectible item is on hold (can't be resold or traded) |
-             * @example COLLECTIBLE_ITEM_INSTANCE_STATE_UNSPECIFIED
-             * @enum {string}
+             * @enum {string|null}
              */
-            instanceState?: 'COLLECTIBLE_ITEM_INSTANCE_STATE_UNSPECIFIED' | 'AVAILABLE' | 'HOLD';
+            instanceState?: 'COLLECTIBLE_ITEM_INSTANCE_STATE_UNSPECIFIED' | 'AVAILABLE' | 'HOLD' | null;
             /**
              * Format: int64
              * @description If the asset is a Limited, a user-visible number that shows this item is
              *     the nth replica of the asset. Otherwise, this attribute will be omitted.
-             * @example 160
              */
-            serialNumber?: number;
+            serialNumber?: number | null;
         };
         /** @description Specific fields that are applicable to a game pass. */
         InventoryItem_GamePassDetails: {
-            /**
-             * @description A unique ID that identifies a game pass.
-             * @example 83167572
-             */
+            /** @description A unique ID that identifies a game pass. */
             gamePassId?: string;
         };
         /** @description Specific fields that are applicable to a private server. */
         InventoryItem_PrivateServerDetails: {
-            /**
-             * @description A unique ID that identifies a private server.
-             * @example 175156
-             */
+            /** @description A unique ID that identifies a private server. */
             privateServerId?: string;
         };
         /** @enum {string} */
@@ -54571,35 +52771,6 @@ export interface components {
          * @enum {string}
          */
         MusicChartType: 'None' | 'Current' | 'Week' | 'Month' | 'Year';
-        MyPrivateServersData: {
-            active?: boolean;
-            /** Format: int64 */
-            universeId?: number;
-            /** Format: int64 */
-            placeId?: number | null;
-            name?: string | null;
-            /** Format: int64 */
-            ownerId?: number;
-            ownerName?: string | null;
-            /** Format: int64 */
-            priceInRobux?: number | null;
-            /** Format: int64 */
-            privateServerId?: number;
-            /** Format: date-time */
-            expirationDate?: string;
-            willRenew?: boolean;
-            universeName?: string | null;
-            /** Format: int64 */
-            purchaseScheduleId?: number | null;
-            /** Format: int64 */
-            totalDiscountAmountInRobux?: number | null;
-            metadata?: components['schemas']['PrivateServerSubscriptionMetadata'] | null;
-        };
-        MyPrivateServersResponse: {
-            nextPageCursor?: string | null;
-            previousPageCursor?: string | null;
-            data?: components['schemas']['MyPrivateServersData'][] | null;
-        };
         /** @enum {string} */
         O18EligibilityTag: 'None' | 'O18Eligible' | 'O18EligibleAndPlus';
         /** @description This resource represents a long-running operation that is the result of a network API call. */
@@ -55019,11 +53190,6 @@ export interface components {
              */
             excludeCurrentVersion?: boolean | null;
         };
-        PlaceResponse: {
-            /** Format: int64 */
-            id?: number;
-            name?: string | null;
-        };
         /** @description Per-place restart status. */
         PlaceRestartStatus: {
             /** @description Current state of the place restart. */
@@ -55306,81 +53472,12 @@ export interface components {
         };
         /** @enum {string} */
         PricingFeature: 'Invalid' | 'PriceOptimization' | 'UserFixedPrice' | 'RegionalPricing';
-        /** @enum {string} */
-        PrivateServerInviteResponseType:
-            | 'Invalid'
-            | 'CanInvite'
-            | 'UnableToAddAnyUser'
-            | 'UnableToAddNonFriends'
-            | 'UnableToAddSpecificUser';
-        PrivateServerPermissionsResponse: {
-            clanAllowed?: boolean;
-            /** Format: int64 */
-            enemyClanId?: number | null;
-            friendsAllowed?: boolean;
-            users?: components['schemas']['SkinnyUserResponse'][] | null;
-        };
         PrivateServerPlayerResponse: {
             /** Format: int64 */
             id?: number;
             name?: string | null;
             displayName?: string | null;
             playerToken?: string | null;
-        };
-        PrivateServerResponse: {
-            /** Format: int64 */
-            id?: number;
-            name?: string | null;
-            game?: components['schemas']['GameResponse'] | null;
-            joinCode?: string | null;
-            active?: boolean;
-            subscription?: components['schemas']['PrivateServerSubscriptionResponse'] | null;
-            permissions?: components['schemas']['PrivateServerPermissionsResponse'] | null;
-            voiceSettings?: components['schemas']['PrivateServerVoiceSettingsResponse'] | null;
-            link?: string | null;
-        };
-        PrivateServerSubscriptionMetadata: {
-            privateServerSubscriptionTags?: components['schemas']['PrivateServerSubscriptionTag'][] | null;
-        };
-        PrivateServerSubscriptionResponse: {
-            active?: boolean;
-            expired?: boolean;
-            /** Format: date-time */
-            expirationDate?: string;
-            /** Format: int64 */
-            price?: number | null;
-            canRenew?: boolean;
-            hasInsufficientFunds?: boolean;
-            hasRecurringProfile?: boolean;
-            hasPriceChanged?: boolean;
-            /** Format: int64 */
-            purchaseScheduleId?: number | null;
-            /** Format: int64 */
-            totalDiscountAmountInRobux?: number | null;
-            metadata?: components['schemas']['PrivateServerSubscriptionMetadata'] | null;
-        };
-        /** @enum {string} */
-        PrivateServerSubscriptionTag: 'Invalid' | 'RobloxSubscription' | 'RobloxSubscriptionActiveBenefit';
-        PrivateServerUpdatePermissionsRequest: {
-            clanAllowed?: boolean | null;
-            /** Format: int64 */
-            enemyClanId?: number | null;
-            friendsAllowed?: boolean | null;
-            usersToAdd?: number[] | null;
-            usersToRemove?: number[] | null;
-        };
-        PrivateServerUpdateRequest: {
-            name?: string | null;
-            newJoinCode?: boolean | null;
-            active?: boolean | null;
-        };
-        PrivateServerUpdateSubscriptionRequest: {
-            active?: boolean | null;
-            /** Format: int64 */
-            price?: number | null;
-        };
-        PrivateServerVoiceSettingsResponse: {
-            enabled?: boolean;
         };
         'PrivateServersApi.GameServerResponse': {
             /** Format: uuid */
@@ -55404,11 +53501,6 @@ export interface components {
         };
         /** @enum {string} */
         'PrivateServersApi.SortOrder': 'Asc' | 'Desc';
-        PrivateServersEnabledInUniverseResponse: {
-            privateServersEnabled?: boolean;
-        };
-        /** @enum {string} */
-        PrivateServersTab: 'MyPrivateServers' | 'OtherPrivateServers';
         ProblemDetails:
             | ({
                   type?: string | null;
@@ -57535,52 +55627,6 @@ export interface components {
             /** @description Whether or not all the outfit contents were successfully worn */
             success?: boolean;
         };
-        /** @description Model of an asset version. */
-        'Roblox.Api.Develop.AssetVersion': {
-            /**
-             * Format: int64
-             * @description The VersionID of the asset version.
-             */
-            Id?: number;
-            /**
-             * Format: int64
-             * @description The ID of the asset.
-             */
-            assetId?: number;
-            /**
-             * Format: int32
-             * @description The version number.
-             */
-            assetVersionNumber?: number;
-            /** @description Type of the asset version creator. */
-            creatorType?: string;
-            /**
-             * Format: int64
-             * @description ID of the asset version creator.
-             */
-            creatorTargetId?: number;
-            /**
-             * Format: int64
-             * @description ID of the universe this asset version was created in.
-             */
-            creatingUniverseId?: number;
-            /**
-             * Format: date-time
-             * @description The created date of this asset version.
-             */
-            created?: string;
-            /**
-             * @description Indicates if this version is same to current published version.
-             *     This property is available on /v1/{assetId}/published-versions and /v1/{assetId}/version/{versionNumber}.
-             */
-            isEqualToCurrentPublishedVersion?: boolean;
-            /**
-             * @description Indicates if this version is / was published.
-             *     This property is available on /v1/{assetId}/saved-versions.
-             *     This should be true for all assets coming from GetAssetPublishedVersionsByAssetId
-             */
-            isPublished?: boolean;
-        };
         /** @description The result of various checks for a user's eligibility to activate a given universe from private to public. */
         'Roblox.Api.Develop.Models.ActivationEligibilityResponse': {
             /**
@@ -57882,32 +55928,6 @@ export interface components {
              */
             activeSubscriptionsCount?: number;
         };
-        /** @description Asset voting information */
-        'Roblox.Api.Develop.Models.Response.AssetVotingModel': {
-            /**
-             * Format: int64
-             * @description The !:IAsset's id.
-             */
-            assetId?: number;
-            /** @description Whether the user has voted on this !:IAsset. */
-            hasUserVoted?: boolean;
-            /** @description Whether the user can vote on this !:IAsset. */
-            canUserVote?: boolean;
-            /** @description Whether votes should be shown. */
-            shouldShowVotes?: boolean;
-            /**
-             * Format: int64
-             * @description The number of up votes.
-             */
-            upVotes?: number;
-            /**
-             * Format: int64
-             * @description The number of down votes.
-             */
-            downVotes?: number;
-            /** @description The reason this !:IAsset cannot be voted on. */
-            reasonForNotAbleToVote?: string;
-        };
         /** @description Team create settings */
         'Roblox.Api.Develop.Models.Response.TeamCreateSettingsResponse': {
             /** @description Whether or not the universe should be enabled for team create */
@@ -58092,6 +56112,8 @@ export interface components {
             name?: string;
             /** @description The description of the universe. */
             description?: string;
+            /** @description Promotional text for the universe. Empty stores an empty value. */
+            promotionalText?: string;
             /**
              * Format: int32
              * @description Which avatar types are allowed in the universe.
@@ -58193,6 +56215,8 @@ export interface components {
             id?: number;
             /** @description The universe name. */
             name?: string;
+            /** @description Promotional Text for the universe. */
+            promotionalText?: string;
             /**
              * Format: int32
              * @description Which avatar types are allowed in the universe. ['MorphToR6' = 1, 'PlayerChoice' = 2, 'MorphToR15' = 3]
@@ -58300,6 +56324,8 @@ export interface components {
             name?: string;
             /** @description The universe description. */
             description?: string;
+            /** @description Promotional Text for the universe. */
+            promotionalText?: string;
             /**
              * Format: int32
              * @description Which avatar types are allowed in the universe. ['MorphToR6' = 1, 'PlayerChoice' = 2, 'MorphToR15' = 3]
@@ -59343,24 +57369,6 @@ export interface components {
             /** @description The new enabled state of the badge. */
             enabled?: boolean;
         };
-        /** @description A model to represent asset favorites. */
-        'Roblox.Catalog.Api.AssetFavoriteModel': {
-            /**
-             * Format: int64
-             * @description The Id of the asset being favorited.
-             */
-            assetId?: number;
-            /**
-             * Format: int64
-             * @description The Id of the user favoriting the asset.
-             */
-            userId?: number;
-            /**
-             * Format: date-time
-             * @description The time at which the user favorited the asset.
-             */
-            created?: string;
-        };
         'Roblox.Catalog.Api.BundleCreatorModel': {
             /** Format: int64 */
             id?: number;
@@ -59386,24 +57394,6 @@ export interface components {
             itemRestrictions?: (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9)[];
             collectibleItemDetail?: components['schemas']['Roblox.Catalog.Api.CollectibleItemDetail'];
             discountInformation?: components['schemas']['Roblox.Catalog.Api.DiscountInformation'];
-        };
-        /** @description A model to represent bundle favorites. */
-        'Roblox.Catalog.Api.BundleFavoriteModel': {
-            /**
-             * Format: int64
-             * @description The Id of the bundle being favorited.
-             */
-            bundleId?: number;
-            /**
-             * Format: int64
-             * @description The Id of the user favoriting the bundle.
-             */
-            userId?: number;
-            /**
-             * Format: date-time
-             * @description The time at which the user favorited the bundle.
-             */
-            created?: string;
         };
         'Roblox.Catalog.Api.BundleItemDetailModel': {
             owned?: boolean;
@@ -59668,6 +57658,7 @@ export interface components {
              */
             itemCreatedUtc?: string;
             discountInformation?: components['schemas']['Roblox.Catalog.Api.DiscountInformation'];
+            license?: components['schemas']['Roblox.Catalog.Api.CollectibleLicense'];
             /**
              * Format: int64
              * @description The Item Id.
@@ -59880,37 +57871,6 @@ export interface components {
             nextPageCursor?: string;
             data?: components['schemas']['Roblox.Catalog.Api.CatalogSearchDetailedResponseItemV2'][];
         };
-        /** @description Response model for category. */
-        'Roblox.Catalog.Api.CategoryModel': {
-            /**
-             * Format: int32
-             * @description Category type.
-             * @enum {integer}
-             */
-            category?: 0 | 1 | 2 | 3 | 4 | 5 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18;
-            /** @description The associated public facing web_stable_id corresponding to internal taxonomy uuid for this category. */
-            taxonomy?: string;
-            /** @description List of AssetTypeIds corresponding to AssetType enum that this category returns. */
-            assetTypeIds?: number[];
-            /** @description List of bundleTypeIds corresponding to BundleType enum that this category returns. */
-            bundleTypeIds?: number[];
-            /**
-             * Format: int32
-             * @description Category id.
-             */
-            categoryId?: number;
-            /** @description Category name. */
-            name?: string;
-            /**
-             * Format: int32
-             * @description Category order index.
-             */
-            orderIndex?: number;
-            /** @description Subcategories under this category. */
-            subcategories?: components['schemas']['Roblox.Catalog.Api.SubcategoryModel'][];
-            /** @description Gets or sets whether the category is searchable in search bar. */
-            isSearchable?: boolean;
-        };
         'Roblox.Catalog.Api.CollectibleItemDetail': {
             collectibleItemId?: string;
             collectibleProductId?: string;
@@ -59951,6 +57911,16 @@ export interface components {
              */
             resaleRestriction?: 0 | 1 | 2;
         };
+        /** @description A model representing the license attached to a collectible, linked via the collectibleItemId. */
+        'Roblox.Catalog.Api.CollectibleLicense': {
+            id?: string;
+            /**
+             * Format: int32
+             * @description The type of license attached to a collectible. ['Invalid' = 0, 'ThirdParty' = 1, 'FirstParty' = 2]
+             * @enum {integer}
+             */
+            licenseType?: 0 | 1 | 2;
+        };
         'Roblox.Catalog.Api.Discount': {
             /** Format: int64 */
             robuxDiscountAmount?: number;
@@ -59985,17 +57955,6 @@ export interface components {
             searchResultRelevanceScore?: string;
             /** @description Gets or sets the search result engagement score. */
             searchResultEngagementScore?: string;
-        };
-        /** @description A response containing favorited bundles and whether there are more. */
-        'Roblox.Catalog.Api.FavoriteBundlesResponse': {
-            /** @description Collection of favorited bundles and associated details. */
-            favorites?: components['schemas']['Roblox.Catalog.Api.BundleDetailsModel'][];
-            /** @description True if there exists a next page of favorited bundles. */
-            moreFavorites?: boolean;
-            /** @description Pagination cursor for the next page. */
-            nextCursor?: string;
-            /** @description Pagination cursor for the previous page. */
-            previousCursor?: string;
         };
         'Roblox.Catalog.Api.MultigetItemDetailsRequestItem': {
             /**
@@ -60045,82 +58004,6 @@ export interface components {
             universeIds?: number[];
             enabledUniverseIds?: number[];
         };
-        /** @description Response model for subcategory. */
-        'Roblox.Catalog.Api.SubcategoryModel': {
-            /**
-             * Format: int32
-             * @description Subcategory type.
-             * @enum {integer}
-             */
-            subcategory?:
-                | 0
-                | 1
-                | 2
-                | 3
-                | 4
-                | 5
-                | 9
-                | 10
-                | 12
-                | 13
-                | 14
-                | 15
-                | 19
-                | 20
-                | 21
-                | 22
-                | 23
-                | 24
-                | 25
-                | 26
-                | 27
-                | 37
-                | 38
-                | 39
-                | 40
-                | 41
-                | 42
-                | 43
-                | 44
-                | 45
-                | 46
-                | 47
-                | 48
-                | 49
-                | 50
-                | 51
-                | 52
-                | 53
-                | 54
-                | 55
-                | 56
-                | 57
-                | 58
-                | 59
-                | 60
-                | 61
-                | 62
-                | 63
-                | 64
-                | 65
-                | 66
-                | 67;
-            /** @description The taxonomy UUID associated with this node. */
-            taxonomy?: string;
-            /** @description List of AssetTypeIds corresponding to AssetType enum that this category returns. */
-            assetTypeIds?: number[];
-            /** @description List of bundleTypeIds corresponding to BundleType enum that this category returns. */
-            bundleTypeIds?: number[];
-            /**
-             * Format: int32
-             * @description Subcategory id.
-             */
-            subcategoryId?: number;
-            /** @description Subcategory name. */
-            name?: string;
-            /** @description Subcategory short name. */
-            shortName?: string;
-        };
         /** @description public api model coaslescing taxonomy information for a single item. */
         'Roblox.Catalog.Api.TaxonomyModel': {
             /** @description The id value to pass into taxonomy field in SearchV2 catalog-api. */
@@ -60143,34 +58026,6 @@ export interface components {
             discountInformation?: components['schemas']['Roblox.Catalog.Api.DiscountInformation'];
             /** @description To indicate if this option is selected by the client. */
             selected?: boolean;
-        };
-        /** @description Response model for avatar topics. */
-        'Roblox.Catalog.Api.TopicModel': {
-            /** @description The display topic name. */
-            displayName?: string;
-            /** @description The original topic name stored in the table. */
-            originalTopicName?: string;
-        };
-        'Roblox.Catalog.Api.TopicRequestModel': {
-            items?: components['schemas']['Roblox.MarketplaceTopicDiscovery.TopicDiscoveryService.V1Beta1.AvatarItem'][];
-            selectTopics?: string[];
-            inputQuery?: string;
-            /**
-             * Format: int32
-             * @description Maximum number of topic results returned from the server.
-             */
-            maxResult?: number;
-            /**
-             * Format: int32
-             * @description ['Unknown' = 1, 'Male' = 2, 'Female' = 3]
-             * @enum {integer}
-             */
-            genderType?: 1 | 2 | 3;
-        };
-        'Roblox.Catalog.Api.TopicResponse': {
-            topics?: components['schemas']['Roblox.Catalog.Api.TopicModel'][];
-            queries?: string[];
-            error?: components['schemas']['Roblox.MarketplaceTopicDiscovery.TopicDiscoveryService.V1Beta1.Error'];
         };
         /** @description Contains the names of the libraries in an Android Binary Module. */
         'Roblox.ClientSettings.Api.Models.Response.AndroidBinaryLibraryNames': {
@@ -61587,7 +59442,7 @@ export interface components {
         'Roblox.Games.Api.Models.Response.PlayabilityStatusResponse': {
             /**
              * Format: int32
-             * @description The actual playability status of the universe including the reason if unplayable ['UnplayableOtherReason' = 0, 'Playable' = 1, 'GuestProhibited' = 2, 'GameUnapproved' = 3, 'IncorrectConfiguration' = 4, 'UniverseRootPlaceIsPrivate' = 5, 'InsufficientPermissionFriendsOnly' = 6, 'InsufficientPermissionGroupOnly' = 7, 'DeviceRestricted' = 8, 'UnderReview' = 9, 'PurchaseRequired' = 10, 'AccountRestricted' = 11, 'TemporarilyUnavailable' = 12, 'PlaceHasNoPublishedVersion' = 13, 'ComplianceBlocked' = 14, 'ContextualPlayabilityRegionalAvailability' = 15, 'ContextualPlayabilityRegionalCompliance' = 16, 'ContextualPlayabilityAgeRecommendationParentalControls' = 17, 'ContextualPlayabilityExperienceBlockedParentalControls' = 18, 'ContextualPlayabilityAgeGated' = 19, 'ContextualPlayabilityUnverifiedSeventeenPlusUser' = 20, 'FiatPurchaseRequired' = 21, 'FiatPurchaseDeviceRestricted' = 22, 'ContextualPlayabilityUnrated' = 23, 'ContextualPlayabilityAgeGatedByDescriptor' = 24, 'ContextualPlayabilityGeneral' = 25, 'ContextualPlayabilityAgeCheckRequired' = 26, 'ContextualPlayabilityRequireParentApproval' = 27, 'ContextualPlayabilityCoreGated' = 28, 'ContextualPlayabilityTrustedFriendRequired' = 29]
+             * @description The actual playability status of the universe including the reason if unplayable ['UnplayableOtherReason' = 0, 'Playable' = 1, 'GuestProhibited' = 2, 'GameUnapproved' = 3, 'IncorrectConfiguration' = 4, 'UniverseRootPlaceIsPrivate' = 5, 'InsufficientPermissionFriendsOnly' = 6, 'InsufficientPermissionGroupOnly' = 7, 'DeviceRestricted' = 8, 'UnderReview' = 9, 'PurchaseRequired' = 10, 'AccountRestricted' = 11, 'TemporarilyUnavailable' = 12, 'PlaceHasNoPublishedVersion' = 13, 'ComplianceBlocked' = 14, 'ContextualPlayabilityRegionalAvailability' = 15, 'ContextualPlayabilityRegionalCompliance' = 16, 'ContextualPlayabilityAgeRecommendationParentalControls' = 17, 'ContextualPlayabilityExperienceBlockedParentalControls' = 18, 'ContextualPlayabilityAgeGated' = 19, 'ContextualPlayabilityUnverifiedSeventeenPlusUser' = 20, 'FiatPurchaseRequired' = 21, 'FiatPurchaseDeviceRestricted' = 22, 'ContextualPlayabilityUnrated' = 23, 'ContextualPlayabilityAgeGatedByDescriptor' = 24, 'ContextualPlayabilityGeneral' = 25, 'ContextualPlayabilityAgeCheckRequired' = 26, 'ContextualPlayabilityRequireParentApproval' = 27, 'ContextualPlayabilityCoreGated' = 28, 'ContextualPlayabilityTrustedFriendRequired' = 29, 'PlusSubscriptionRequired' = 30, 'ContextualPlayabilityPlaytestDisabled' = 31]
              * @enum {integer}
              */
             playabilityStatus?:
@@ -61620,7 +59475,9 @@ export interface components {
                 | 26
                 | 27
                 | 28
-                | 29;
+                | 29
+                | 30
+                | 31;
             /** @description Whether or not the universe is playable for the user */
             isPlayable?: boolean;
             /**
@@ -61655,7 +59512,7 @@ export interface components {
             isPlayable?: boolean;
             /**
              * Format: int32
-             * @description The private playtest eligibility status. ['UnplayableOtherReason' = 0, 'Playable' = 1, 'GuestProhibited' = 2, 'GameUnapproved' = 3, 'IncorrectConfiguration' = 4, 'UniverseRootPlaceIsPrivate' = 5, 'InsufficientPermissionFriendsOnly' = 6, 'InsufficientPermissionGroupOnly' = 7, 'DeviceRestricted' = 8, 'UnderReview' = 9, 'PurchaseRequired' = 10, 'AccountRestricted' = 11, 'TemporarilyUnavailable' = 12, 'PlaceHasNoPublishedVersion' = 13, 'ComplianceBlocked' = 14, 'ContextualPlayabilityRegionalAvailability' = 15, 'ContextualPlayabilityRegionalCompliance' = 16, 'ContextualPlayabilityAgeRecommendationParentalControls' = 17, 'ContextualPlayabilityExperienceBlockedParentalControls' = 18, 'ContextualPlayabilityAgeGated' = 19, 'ContextualPlayabilityUnverifiedSeventeenPlusUser' = 20, 'FiatPurchaseRequired' = 21, 'FiatPurchaseDeviceRestricted' = 22, 'ContextualPlayabilityUnrated' = 23, 'ContextualPlayabilityAgeGatedByDescriptor' = 24, 'ContextualPlayabilityGeneral' = 25, 'ContextualPlayabilityAgeCheckRequired' = 26, 'ContextualPlayabilityRequireParentApproval' = 27, 'ContextualPlayabilityCoreGated' = 28, 'ContextualPlayabilityTrustedFriendRequired' = 29]
+             * @description The private playtest eligibility status. ['UnplayableOtherReason' = 0, 'Playable' = 1, 'GuestProhibited' = 2, 'GameUnapproved' = 3, 'IncorrectConfiguration' = 4, 'UniverseRootPlaceIsPrivate' = 5, 'InsufficientPermissionFriendsOnly' = 6, 'InsufficientPermissionGroupOnly' = 7, 'DeviceRestricted' = 8, 'UnderReview' = 9, 'PurchaseRequired' = 10, 'AccountRestricted' = 11, 'TemporarilyUnavailable' = 12, 'PlaceHasNoPublishedVersion' = 13, 'ComplianceBlocked' = 14, 'ContextualPlayabilityRegionalAvailability' = 15, 'ContextualPlayabilityRegionalCompliance' = 16, 'ContextualPlayabilityAgeRecommendationParentalControls' = 17, 'ContextualPlayabilityExperienceBlockedParentalControls' = 18, 'ContextualPlayabilityAgeGated' = 19, 'ContextualPlayabilityUnverifiedSeventeenPlusUser' = 20, 'FiatPurchaseRequired' = 21, 'FiatPurchaseDeviceRestricted' = 22, 'ContextualPlayabilityUnrated' = 23, 'ContextualPlayabilityAgeGatedByDescriptor' = 24, 'ContextualPlayabilityGeneral' = 25, 'ContextualPlayabilityAgeCheckRequired' = 26, 'ContextualPlayabilityRequireParentApproval' = 27, 'ContextualPlayabilityCoreGated' = 28, 'ContextualPlayabilityTrustedFriendRequired' = 29, 'PlusSubscriptionRequired' = 30, 'ContextualPlayabilityPlaytestDisabled' = 31]
              * @enum {integer}
              */
             playabilityStatus?:
@@ -61688,7 +59545,9 @@ export interface components {
                 | 26
                 | 27
                 | 28
-                | 29;
+                | 29
+                | 30
+                | 31;
         };
         'Roblox.Games.Api.Models.Response.PurchaseData': {
             /** @description Fiat purchase price in a localized string for display on client. */
@@ -62468,7 +60327,7 @@ export interface components {
             name?: string;
             /** @description The game description. */
             description?: string;
-            creator?: components['schemas']['Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Core.CreatorType_'];
+            creator?: components['schemas']['GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Core.CreatorType_'];
             rootPlace?: components['schemas']['GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_'];
             /**
              * Format: date-time
@@ -62835,9 +60694,9 @@ export interface components {
         };
         'Roblox.Groups.Client.CommunityTierInfoResponse': {
             /** Format: int64 */
-            groupId?: number;
+            groupId: number;
             /** Format: int32 */
-            currentTier?: number;
+            currentTier: number;
             /** Format: int32 */
             previousTier?: number;
             /** Format: date-time */
@@ -62871,11 +60730,11 @@ export interface components {
             contentId?: string;
         };
         'Roblox.Groups.Client.TierCapabilities': {
-            isEligibleForUnrestrictedMessages?: boolean;
+            isEligibleForUnrestrictedMessages: boolean;
         };
         'Roblox.Groups.Client.TierEvaluationResultResponse': {
-            tierInfo?: components['schemas']['Roblox.Groups.Client.CommunityTierInfoResponse'];
-            passedSignals?: string[];
+            tierInfo: components['schemas']['Roblox.Groups.Client.CommunityTierInfoResponse'];
+            passedSignals: string[];
             requirements?: components['schemas']['Roblox.Groups.Client.TierRequirement'][];
         };
         'Roblox.Groups.Client.TierRequirement': {
@@ -62884,8 +60743,8 @@ export interface components {
              * @description ['OwnerModerationStatusOk' = 1, 'OwnerAgeEstimationVerified' = 2, 'OwnerIdVerified' = 3, 'OwnerTwoStepVerified' = 4, 'CommunityMeetsPlayerRequirement' = 5]
              * @enum {integer}
              */
-            key?: 1 | 2 | 3 | 4 | 5;
-            satisfied?: boolean;
+            key: 1 | 2 | 3 | 4 | 5;
+            satisfied: boolean;
         };
         'Roblox.InGameContentTables.Client.GameLocation': {
             path?: string;
@@ -63192,67 +61051,6 @@ export interface components {
              * @description The created date time of the user asset.
              */
             created?: string;
-        };
-        'Roblox.ItemConfiguration.Api.AssetCreationsDetailsRequest': {
-            AssetIds?: number[];
-        };
-        'Roblox.ItemConfiguration.Api.AssetCreationsDetailsResponse': {
-            /**
-             * Format: int64
-             * @description The asset Id.
-             */
-            assetId?: number;
-            /** @description The asset name. */
-            name?: string;
-            /**
-             * @description The asset status. ['Unknown' = 0, 'ReviewPending' = 1, 'Moderated' = 2, 'ReviewApproved' = 3, 'OnSale' = 4, 'OffSale' = 5, 'DelayedRelease' = 6, 'Free' = 7]
-             * @enum {string}
-             */
-            status?:
-                | 'Unknown'
-                | 'ReviewPending'
-                | 'Moderated'
-                | 'ReviewApproved'
-                | 'OnSale'
-                | 'OffSale'
-                | 'DelayedRelease'
-                | 'Free';
-            /** @description The asset description. */
-            description?: string;
-            /**
-             * @description The creator type. ['Unknown' = 0, 'User' = 1, 'Group' = 2]
-             * @enum {string}
-             */
-            creatorType?: 'Unknown' | 'User' | 'Group';
-            /**
-             * Format: int64
-             * @description The creator target Id.
-             */
-            creatorTargetId?: number;
-            /** @description Is the asset archived. */
-            isArchived?: boolean;
-            /** @description Type of the asset. */
-            assetType?: string;
-            /**
-             * Format: date-time
-             * @description Date asset was created.
-             */
-            created?: string;
-            /**
-             * Format: date-time
-             * @description Date asset was created.
-             */
-            updated?: string;
-        };
-        /** @description Asset Status response model. */
-        'Roblox.ItemConfiguration.Api.AssetCreationsResponse': {
-            /**
-             * Format: int64
-             * @description The asset Id.
-             */
-            assetId?: number;
-            /** @description The asset name. */
-            name?: string;
         };
         'Roblox.ItemConfiguration.Api.Models.Request.PublishingPreferences.CreatePublishingPreferencesRequest': {
             /** Format: int64 */
@@ -63838,21 +61636,6 @@ export interface components {
              */
             readonly OptionalIdCase?: 'None' | 'Id';
         };
-        'Roblox.MarketplaceTopicDiscovery.TopicDiscoveryService.V1Beta1.AvatarItem': {
-            /** Format: int64 */
-            TargetId?: number;
-            /**
-             * Format: int32
-             * @description ['Invalid' = 0, 'Asset' = 1, 'Bundle' = 2]
-             * @enum {integer}
-             */
-            ItemType?: 0 | 1 | 2;
-        };
-        'Roblox.MarketplaceTopicDiscovery.TopicDiscoveryService.V1Beta1.Error': {
-            Message?: string;
-            /** Format: int32 */
-            Code?: number;
-        };
         'Roblox.Paging.CursoredPagedResult_Roblox.Friends.Api.Models.Response.FriendResponse_': {
             PreviousCursor?: string;
             PageItems?: components['schemas']['Roblox.Friends.Api.Models.Response.FriendResponse'][];
@@ -63977,73 +61760,6 @@ export interface components {
             name?: string;
             displayName?: string;
         };
-        /** @description Model for asset quota. */
-        'Roblox.Publish.Api.AssetQuota': {
-            /** @description Duration type of the quota. */
-            duration?: string;
-            /**
-             * Format: int64
-             * @description Current usage of the quota.
-             */
-            usage?: number;
-            /**
-             * Format: int64
-             * @description Capacity of the quota.
-             */
-            capacity?: number;
-            /** @description Expiration time of current usage limit. */
-            expirationTime?: string;
-        };
-        /** @description Response model for asset quotas. */
-        'Roblox.Publish.Api.AssetQuotasResponse': {
-            /** @description A list of quotas. */
-            quotas?: components['schemas']['Roblox.Publish.Api.AssetQuota'][];
-        };
-        /** @description Response model for publish audio. */
-        'Roblox.Publish.Api.PublishAudioResponse': {
-            /**
-             * Format: int64
-             * @description Id of the published asset.
-             */
-            Id?: number;
-            /** @description Name of the published asset. */
-            Name?: string;
-        };
-        /** @description A request model for uploading an audio file. */
-        'Roblox.Publish.Api.UploadAudioRequest': {
-            /** @description Name for the audio file. */
-            name?: string;
-            /** @description File to be uploaded. Formatted as a base64 string. */
-            file?: string;
-            /**
-             * Format: int64
-             * @description Id of the group you are publishing the audio asset for. Null if not publishing under a group.
-             */
-            groupId?: number;
-            /**
-             * @description The source of funds for payment.
-             *       User: Use personal funds of authenticated user.
-             *       Group: Use group funds from Roblox.Publish.Api.UploadAudioRequest.GroupId.
-             *       Null/Empty: Will default to authenticated user funds.
-             */
-            paymentSource?: string;
-            /**
-             * Format: int64
-             * @description Estimated file size of the audio file in bytes.
-             */
-            estimatedFileSize?: number;
-            /**
-             * Format: double
-             * @description Estimated duration of the audio file in seconds.
-             */
-            estimatedDuration?: number;
-            /**
-             * Format: int32
-             * @description The asset privacy of the audio asset.
-             * @enum {integer}
-             */
-            assetPrivacy?: 1 | 2;
-        };
         /** @description A response used when an upload has completed. */
         'Roblox.Publish.Api.UploadResponse': {
             /**
@@ -64051,47 +61767,6 @@ export interface components {
              * @description The target Id of the uploaded item.
              */
             targetId?: number;
-        };
-        /** @description Request model to publish an audio asset. */
-        'Roblox.Publish.Api.VerifyAudioRequest': {
-            /** @description Gets or sets the name of the audio asset. */
-            name?: string;
-            /** @description File to be uploaded. Formatted as a base64 string. */
-            file?: string;
-            /**
-             * Format: int64
-             * @description Gets or sets the ID of the group if applicable. Optional.
-             */
-            groupId?: number;
-            /** @description Gets or sets the payment source. 'User' or 'Group'. Required if Group ID is set. */
-            paymentSource?: string;
-            /**
-             * Format: int64
-             * @description Gets or sets the size of the audio file in bytes.
-             */
-            fileSize?: number;
-            /**
-             * Format: double
-             * @description Gets or sets the duration of the audio in seconds.
-             */
-            duration?: number;
-        };
-        /** @description Response model for verify audio endpoint. */
-        'Roblox.Publish.Api.VerifyAudioResponse': {
-            /** @description Name of the audio file. */
-            name?: string;
-            /**
-             * Format: int64
-             * @description Price in robux to publish the audio file.
-             */
-            price?: number;
-            /**
-             * Format: int64
-             * @description User's current Robux balance.
-             */
-            balance?: number;
-            /** @description Boolean, true if the user can afford to purchase the publishing of the audio file. */
-            canAfford?: boolean;
         };
         'Roblox.Thumbnails.Apis.Models.ThumbnailBatchRequest': {
             /** @description The request id. (Generated client side, used to represent the items in the request) */
@@ -64155,10 +61830,10 @@ export interface components {
             canTrade?: boolean;
             /**
              * Format: int32
-             * @description If you can't trade with a user, status explains why you can't trade with them. ['Unknown' = 0, 'CanTrade' = 1, 'CannotTradeWithSelf' = 2, 'SenderCannotTrade' = 3, 'ReceiverCannotTrade' = 4, 'SenderPrivacyTooStrict' = 5, 'UsersCannotTrade' = 6, 'TradeAccepterNeedsFriction' = 7]
+             * @description If you can't trade with a user, status explains why you can't trade with them. ['Unknown' = 0, 'CanTrade' = 1, 'CannotTradeWithSelf' = 2, 'SenderCannotTrade' = 3, 'ReceiverCannotTrade' = 4, 'SenderPrivacyTooStrict' = 5, 'UsersCannotTrade' = 6, 'TradeAccepterNeedsFriction' = 7, 'SenderAgeCheckRequired' = 8]
              * @enum {integer}
              */
-            status?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+            status?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
         };
         /** @description The response for the CanTrade endpoint. */
         'Roblox.Trades.Api.Models.V2.CanTradeResponse': {
@@ -64201,7 +61876,7 @@ export interface components {
             /** @description Whether the user can trade with the target user or not. */
             canTrade?: boolean;
             /**
-             * @description The mutual trade eligibility status between the two users. ['Unknown' = 0, 'Eligible' = 1, 'CallingUserIneligible' = 2, 'TargetUserIneligible' = 3, 'CannotTradeWithSelf' = 4, 'CallingUserPrivacySettingsRestricted' = 5]
+             * @description The mutual trade eligibility status between the two users. ['Unknown' = 0, 'Eligible' = 1, 'CallingUserIneligible' = 2, 'TargetUserIneligible' = 3, 'CannotTradeWithSelf' = 4, 'CallingUserPrivacySettingsRestricted' = 5, 'CallingUserAgeCheckRequired' = 6]
              * @enum {string}
              */
             mutualTradeEligibility?:
@@ -64210,7 +61885,8 @@ export interface components {
                 | 'CallingUserIneligible'
                 | 'TargetUserIneligible'
                 | 'CannotTradeWithSelf'
-                | 'CallingUserPrivacySettingsRestricted';
+                | 'CallingUserPrivacySettingsRestricted'
+                | 'CallingUserAgeCheckRequired';
             currencyTransferEligibility?: components['schemas']['Roblox.Trades.Api.Models.V2.CurrencyTransferEligibilityResponse'];
         };
         'Roblox.Trades.Api.Models.V2.CurrencyTransferEligibilityResponse': {
@@ -65077,8 +62753,7 @@ export interface components {
             'roblox-assetFormat'?: string;
             assetResolutionMode?: string;
             accessContext?: string;
-            /** Format: int32 */
-            usageContext?: number;
+            usageContext?: string;
             contentRepresentationPriorityList?: string;
             doNotFallbackToBaselineRepresentation?: boolean;
             /** Format: int64 */
@@ -65443,9 +63118,6 @@ export interface components {
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Api.Develop.Models.GroupModel_': {
             data?: components['schemas']['Roblox.Api.Develop.Models.GroupModel'][];
         };
-        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Api.Develop.Models.Response.AssetVotingModel_': {
-            data?: components['schemas']['Roblox.Api.Develop.Models.Response.AssetVotingModel'][];
-        };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Api.Develop.Models.UniverseIdPermissionsModel_': {
             data?: components['schemas']['Roblox.Api.Develop.Models.UniverseIdPermissionsModel'][];
         };
@@ -65454,9 +63126,6 @@ export interface components {
         };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Api.Develop.Models.UniverseTeamCreateSettingsModel_': {
             data?: components['schemas']['Roblox.Api.Develop.Models.UniverseTeamCreateSettingsModel'][];
-        };
-        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Catalog.Api.BundleDetailsModel_': {
-            data?: components['schemas']['Roblox.Catalog.Api.BundleDetailsModel'][];
         };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Catalog.Api.CatalogSearchDetailedResponseItemV2_': {
             data?: components['schemas']['Roblox.Catalog.Api.CatalogSearchDetailedResponseItemV2'][];
@@ -65559,11 +63228,6 @@ export interface components {
         };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_System.String_': {
             data?: string[];
-        };
-        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Api.Develop.AssetVersion_': {
-            previousPageCursor?: string;
-            nextPageCursor?: string;
-            data?: components['schemas']['Roblox.Api.Develop.AssetVersion'][];
         };
         'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Api.Develop.Models.IPlaceModel_': {
             previousPageCursor?: string;
@@ -65674,11 +63338,6 @@ export interface components {
             previousPageCursor?: string;
             nextPageCursor?: string;
             data?: components['schemas']['Roblox.Inventory.Api.V2.UserAssetItemModelV2'][];
-        };
-        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.ItemConfiguration.Api.AssetCreationsResponse_': {
-            previousPageCursor?: string;
-            nextPageCursor?: string;
-            data?: components['schemas']['Roblox.ItemConfiguration.Api.AssetCreationsResponse'][];
         };
         'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Trades.Api.TradeResponse_': {
             previousPageCursor?: string;
@@ -66152,12 +63811,6 @@ export interface components {
             /** @description The config entry value for this variant. Required for non-`IsBaseline` variants. */
             configEntry?: components['schemas']['ExperimentConfigEntry'] | null;
         };
-        SkinnyUserResponse: {
-            /** Format: int64 */
-            id?: number;
-            name?: string | null;
-            displayName?: string | null;
-        };
         /** @description Takes a new snapshot for the given experience. */
         SnapshotDataStoresRequest: Record<string, never>;
         /**
@@ -66252,6 +63905,33 @@ export interface components {
         StringStringIEnumerableKeyValuePair: {
             key?: string | null;
             value?: string[] | null;
+        };
+        /**
+         * @description Part of the ServerManagementService.V2.Models.GameServerLog and ServerManagementService.V2.Models.ClientLog response objects.
+         *     Representing the metadata for a single frame in a structured stack trace.
+         */
+        StructuredStackFrame: {
+            /**
+             * Format: int32
+             * @description The line number where the error occurred.
+             */
+            line?: number;
+            /** @description The name of the function in which the error occurred. */
+            function?: string | null;
+            /** @description The data model path to the script where the error occurred. */
+            scriptPath?: string | null;
+            /**
+             * @description The unique id for the script where the error occurred.
+             *     Will be null for frames where the code was from ```loadScript``` or ```require(assetId)```.
+             *     If ServerManagementService.V2.Models.StructuredStackFrame.IsDynamic is true, this will be a dynamic id that does not refer to a script in the studio Data Model.
+             */
+            scriptUniqueId?: string | null;
+            /**
+             * @description Identifies whether the ServerManagementService.V2.Models.StructuredStackFrame.ScriptUniqueId refers to a script that exists in the Studio Data Model.
+             *     If this is true, then the script that generated the error was copied at runtime.
+             *     This includes Starter scripts (e.g. StarterGui, StarterPack, StarterPlayerScripts, StarterCharacterScripts).
+             */
+            isDynamic?: boolean | null;
         };
         /** @enum {string} */
         SubjectType: 'Invalid' | 'User' | 'Group' | 'GroupRoleset' | 'All' | 'Universe';
@@ -71559,23 +69239,23 @@ export interface operations {
             query?: {
                 /**
                  * @description The maximum number of inventory items to return. The service might return
-                 *     fewer than this value. If unspecified, at most 10 inventory items are
-                 *     returned. The maximum value is 100 and higher values are set to 100.
+                 *                  fewer than this value. If unspecified, at most 10 inventory items are
+                 *                  returned. The maximum value is 100 and higher values are set to 100.
                  */
                 maxPageSize?: number;
                 /**
                  * @description A page token, received from a previous call, to retrieve a subsequent page.
                  *
-                 *     When paginating, all other parameters provided to the subsequent call must
-                 *     match the call that provided the page token.
+                 *                  When paginating, all other parameters provided to the subsequent call must
+                 *                  match the call that provided the page token.
                  */
                 pageToken?: string;
                 /**
                  * @description This field may be set in order to filter the resources returned.
                  *
-                 *     See the
-                 *     [filtering](/cloud/reference/patterns#list-inventory-items)
-                 *     documentation for more information.
+                 *                  See the
+                 *                  [filtering](/cloud/reference/patterns#list-inventory-items)
+                 *                  documentation for more information.
                  */
                 filter?: string;
             };
@@ -71588,7 +69268,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Success */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -75890,34 +73570,6 @@ export interface operations {
             };
         };
     };
-    PrivateServers_CreatePrivateServer: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                'application/json': components['schemas']['CreatePrivateServerRequest'];
-                'text/json': components['schemas']['CreatePrivateServerRequest'];
-                'application/*+json': components['schemas']['CreatePrivateServerRequest'];
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['PrivateServersApi.GameServerResponse'];
-                };
-            };
-        };
-    };
     Voting_MultiGetGameVoteStatus: {
         parameters: {
             query?: {
@@ -76108,204 +73760,6 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['PresenceApi.ErrorResponse'];
-                };
-            };
-        };
-    };
-    PrivateServers_PrivateServersEnabledInUniverse: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['PrivateServersEnabledInUniverseResponse'];
-                };
-            };
-        };
-    };
-    PrivateServers_GetMyPrivateServers: {
-        parameters: {
-            query?: {
-                privateServersTab?: components['schemas']['PrivateServersTab'];
-                itemsPerPage?: number;
-                cursor?: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['MyPrivateServersResponse'];
-                };
-            };
-        };
-    };
-    PrivateServers_CanInviteUser: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                userId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['CanInviteUserResponse'];
-                };
-            };
-        };
-    };
-    'PrivateServersApi.PrivateServers_GetMyPrivateServers': {
-        parameters: {
-            query?: {
-                privateServersTab?: components['schemas']['PrivateServersTab'];
-                itemsPerPage?: number;
-                cursor?: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['MyPrivateServersResponse'];
-                };
-            };
-        };
-    };
-    PrivateServers_GetPrivateServer: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['PrivateServerResponse'];
-                };
-            };
-        };
-    };
-    PrivateServers_UpdatePrivateServer: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                'application/json': components['schemas']['PrivateServerUpdateRequest'];
-                'text/json': components['schemas']['PrivateServerUpdateRequest'];
-                'application/*+json': components['schemas']['PrivateServerUpdateRequest'];
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['PrivateServerResponse'];
-                };
-            };
-        };
-    };
-    PrivateServers_UpdatePrivateServerPermissions: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                'application/json': components['schemas']['PrivateServerUpdatePermissionsRequest'];
-                'text/json': components['schemas']['PrivateServerUpdatePermissionsRequest'];
-                'application/*+json': components['schemas']['PrivateServerUpdatePermissionsRequest'];
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['PrivateServerPermissionsResponse'];
-                };
-            };
-        };
-    };
-    PrivateServers_UpdatePrivateServerSubscription: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                'application/json': components['schemas']['PrivateServerUpdateSubscriptionRequest'];
-                'text/json': components['schemas']['PrivateServerUpdateSubscriptionRequest'];
-                'application/*+json': components['schemas']['PrivateServerUpdateSubscriptionRequest'];
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['PrivateServerSubscriptionResponse'];
                 };
             };
         };

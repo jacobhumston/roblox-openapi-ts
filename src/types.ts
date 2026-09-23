@@ -16075,7 +16075,10 @@ export interface paths {
                     };
                     content?: never;
                 };
-                /** @description 0: Token Validation Failed */
+                /**
+                 * @description 0: Token Validation Failed
+                 *     44: Login is unavailable in your country.
+                 */
                 403: {
                     headers: {
                         [name: string]: unknown;
@@ -16140,7 +16143,10 @@ export interface paths {
                         'application/json': components['schemas']['Roblox.Authentication.Api.Models.LoginResponse'];
                     };
                 };
-                /** @description 0: Token Validation Failed */
+                /**
+                 * @description 0: Token Validation Failed
+                 *     44: Login is unavailable in your country.
+                 */
                 403: {
                     headers: {
                         [name: string]: unknown;
@@ -18663,7 +18669,7 @@ export interface paths {
                     /** @description The thumbnail size, formatted widthxheight */
                     size?: '50x50' | '128x128' | '150x150' | '256x256' | '420x420' | '512x512';
                     /** @description The thumbnail format */
-                    format?: 'Png' | 'Jpeg' | 'Webp';
+                    format?: 'Png' | 'Jpeg' | 'Webp' | 'Ico' | 'Icns';
                     /** @description The circle thumbnail output parameter, true or false */
                     isCircular?: 'true' | 'false';
                 };
@@ -19128,64 +19134,6 @@ export interface paths {
                     content: {
                         'application/json': components['schemas']['Roblox.Games.Api.Models.Response.GameFavoritesCountResponse'];
                         'text/json': components['schemas']['Roblox.Games.Api.Models.Response.GameFavoritesCountResponse'];
-                    };
-                };
-                /** @description 3: The universe's root place is invalid. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 2: The requested universe does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/games/{universeId}/media': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get the game media data
-         * @deprecated
-         * @description Use https://games.roblox.com/v2/games/{universeId}/media instead
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id of the universe we get media data from. */
-                    universeId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Games.Api.Models.Response.GameMediaItem_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Games.Api.Models.Response.GameMediaItem_'];
                     };
                 };
                 /** @description 3: The universe's root place is invalid. */
@@ -24468,6 +24416,7 @@ export interface paths {
                  *     2: Invalid result token.
                  *     3: Invalid user.
                  *     4: Authentication failure.
+                 *     44: Login is unavailable in your country.
                  */
                 403: {
                     headers: {
@@ -25776,6 +25725,7 @@ export interface paths {
                  *     14: The account is unable to log in. Please log in to the LuoBu app.
                  *     15: Too many attempts. Please wait a bit.
                  *     27: The account is unable to login. Please log in with the VNG app.
+                 *     44: Login is unavailable in your country.
                  */
                 403: {
                     headers: {
@@ -25868,6 +25818,7 @@ export interface paths {
                  *     15: Too many attempts. Please wait a bit.
                  *     27: The account is unable to login. Please log in with the VNG app.
                  *     43: This account is not eligible for this platform.
+                 *     44: Login is unavailable in your country.
                  */
                 403: {
                     headers: {
@@ -28549,7 +28500,7 @@ export interface paths {
                     /** @description The thumbnail size, formatted widthxheight */
                     size?: '50x50' | '128x128' | '150x150' | '256x256' | '420x420' | '512x512';
                     /** @description The thumbnail format */
-                    format?: 'Png' | 'Jpeg' | 'Webp';
+                    format?: 'Png' | 'Jpeg' | 'Webp' | 'Ico' | 'Icns';
                     /** @description The circle thumbnail output parameter, true or false */
                     isCircular?: 'true' | 'false';
                 };
@@ -29698,6 +29649,7 @@ export interface paths {
                  *     12: Too many attempts. Please wait a bit.
                  *     17: One time Passcode session was not valid
                  *     22: Maximum logged in accounts limit reached.
+                 *     44: Login is unavailable in your country.
                  */
                 403: {
                     headers: {
@@ -29794,6 +29746,7 @@ export interface paths {
                  *     22: Maximum logged in accounts limit reached.
                  *     29: Account Linking already exists on this account
                  *     30: Account Linking required but failed
+                 *     44: Login is unavailable in your country.
                  */
                 403: {
                     headers: {
@@ -40337,6 +40290,7 @@ export interface paths {
                  *     2: Invalid result token.
                  *     3: Invalid user.
                  *     4: Authentication failure.
+                 *     44: Login is unavailable in your country.
                  */
                 403: {
                     headers: {
@@ -40490,6 +40444,7 @@ export interface paths {
                  *     14: The account is unable to log in. Please log in to the LuoBu app.
                  *     15: Too many attempts. Please wait a bit.
                  *     27: The account is unable to login. Please log in with the VNG app.
+                 *     44: Login is unavailable in your country.
                  */
                 403: {
                     headers: {
@@ -40582,6 +40537,7 @@ export interface paths {
                  *     15: Too many attempts. Please wait a bit.
                  *     27: The account is unable to login. Please log in with the VNG app.
                  *     43: This account is not eligible for this platform.
+                 *     44: Login is unavailable in your country.
                  */
                 403: {
                     headers: {
@@ -41236,6 +41192,7 @@ export interface paths {
                  * @description 0: Token Validation Failed
                  *     16: The ticket is expired.
                  *     17: The nonce is expired.
+                 *     44: Login is unavailable in your country.
                  */
                 403: {
                     headers: {
@@ -42595,6 +42552,7 @@ export interface paths {
                  *     12: Too many attempts. Please wait a bit.
                  *     17: One time Passcode session was not valid
                  *     22: Maximum logged in accounts limit reached.
+                 *     44: Login is unavailable in your country.
                  */
                 403: {
                     headers: {
@@ -42691,6 +42649,7 @@ export interface paths {
                  *     22: Maximum logged in accounts limit reached.
                  *     29: Account Linking already exists on this account
                  *     30: Account Linking required but failed
+                 *     44: Login is unavailable in your country.
                  */
                 403: {
                     headers: {
@@ -45688,6 +45647,7 @@ export interface paths {
                 /**
                  * @description 0: Token Validation Failed
                  *     11: Maxium logged in accounts limit reached.
+                 *     44: Login is unavailable in your country.
                  */
                 403: {
                     headers: {
@@ -56027,16 +55987,16 @@ export interface components {
         'Roblox.ClientSettings.Api.Models.Response.AndroidBinaryResponse': {
             /** @description The name of the Android Binary Module. */
             moduleName?: string;
-            libraryNames?: components['schemas']['Roblox.ClientSettings.Api.Models.Response.AndroidBinaryLibraryNames'];
+            libraryNames: components['schemas']['Roblox.ClientSettings.Api.Models.Response.AndroidBinaryLibraryNames'];
             /** @description True if the channel supports android binaries. False otherwise. */
             supportsAndroidBinaries?: boolean;
         };
         /** @description Beta program information included in the user channel response. */
         'Roblox.ClientSettings.Api.Models.Response.BetaProgramInfo': {
             /** @description The display name of the beta program. */
-            name?: string;
+            name: string;
             /** @description The ID of the beta program. */
-            id?: string;
+            id: string;
         };
         'Roblox.ClientSettings.Api.Models.Response.ClientVersionResponse': {
             version?: string;
@@ -56058,11 +56018,11 @@ export interface components {
         /** @description Response for endpoints returning ota information. */
         'Roblox.ClientSettings.Api.Models.Response.OtaVersionResponse': {
             /** @description Ota library/plugin name */
-            name?: string;
+            name: string;
             /** @description Version number of asset */
-            version?: string;
+            version: string;
             /** @description URL to download the ota asset */
-            downloadUrl?: string;
+            downloadUrl: string;
             /** @description Refers to whether the plugin is core to Studio functions, and is used to determine when it is loaded. */
             isStandalone?: boolean;
             /** @description The asset ID of the LuaApp OTA. */
@@ -57069,34 +57029,6 @@ export interface components {
              * @description Favorites count.
              */
             favoritesCount?: number;
-        };
-        /** @description Response model for getting the game media item */
-        'Roblox.Games.Api.Models.Response.GameMediaItem': {
-            /**
-             * Format: int64
-             * @description The media item id.
-             */
-            id?: number;
-            /**
-             * Format: int64
-             * @description The media item type id
-             */
-            assetTypeId?: number;
-            /** @description The media item type, Image or YouTubeVideo */
-            assetType?: string;
-            /**
-             * Format: int64
-             * @description The media item image id
-             */
-            imageId?: number;
-            /** @description The media item video hash */
-            videoHash?: string;
-            /** @description The video title for video items. */
-            videoTitle?: string;
-            /** @description The media item is approved or not */
-            approved?: boolean;
-            /** @description The media item's alt text */
-            altText?: string;
         };
         /** @description Response model for getting the game product information */
         'Roblox.Games.Api.Models.Response.GameProductResponse': {
@@ -59715,9 +59647,10 @@ export interface components {
             remaining?: number;
             /**
              * @description ['Day' = 1, 'Week' = 2, 'Month' = 3, 'Year' = 4, 'Lifetime' = 5]
+             * @default month
              * @enum {string}
              */
-            window?: 'day' | 'week' | 'month' | 'year' | 'lifetime';
+            window: 'day' | 'week' | 'month' | 'year' | 'lifetime';
         };
         /** @description The response for the GetUserTradableItems endpoint. */
         'Roblox.Trades.Api.Models.V2.GetUserTradableItemsResponse': {
@@ -60974,9 +60907,6 @@ export interface components {
         };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Games.Api.Models.Response.GameDetailResponse_': {
             data?: components['schemas']['Roblox.Games.Api.Models.Response.GameDetailResponse'][];
-        };
-        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Games.Api.Models.Response.GameMediaItem_': {
-            data?: components['schemas']['Roblox.Games.Api.Models.Response.GameMediaItem'][];
         };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Games.Api.Models.Response.GameProductResponse_': {
             data?: components['schemas']['Roblox.Games.Api.Models.Response.GameProductResponse'][];

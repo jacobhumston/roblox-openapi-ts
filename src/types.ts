@@ -10362,6 +10362,95 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/matchmaking-api/v1/matchmaking/universe/{universeId}/start-place': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the start place override for a universe. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['GetStartPlaceOverrideResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Sets (creates or updates) the start place override for a universe. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    'application/json-patch+json': components['schemas']['SetStartPlaceOverrideRequestBody'];
+                    'application/json': components['schemas']['SetStartPlaceOverrideRequestBody'];
+                    'text/json': components['schemas']['SetStartPlaceOverrideRequestBody'];
+                    'application/*+json': components['schemas']['SetStartPlaceOverrideRequestBody'];
+                };
+            };
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['SetStartPlaceOverrideResponse'];
+                    };
+                };
+            };
+        };
+        /** Deletes the start place override for a universe. */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['DeleteStartPlaceOverrideResponse'];
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/messaging-service/v1/universes/{universeId}/topics/{topic}': {
         parameters: {
             query?: never;
@@ -19227,22 +19316,6 @@ export interface paths {
                 };
             };
         };
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/revenue/summary/{timeFrame}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations['RevenueSummary_GetGroupRevenueSummary'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
         trace?: never;
     };
     '/v1/groups/{groupId}/universes': {
@@ -34719,22 +34792,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v2/groups/{groupId}/transactions': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations['TransactionHistory_GetGroupTransactions'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v2/identity-verification/login': {
         parameters: {
             query?: never;
@@ -36799,22 +36856,6 @@ export interface paths {
                 };
             };
         };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v2/sales/sales-report-download': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations['TransactionRecordsApi.SalesReportDownload_PublishSalesReportDownloadMessage'];
         delete?: never;
         options?: never;
         head?: never;
@@ -39616,54 +39657,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v2/users/{userId}/transaction-totals': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations['TransactionRecords_GetUserRevenueSummary'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v2/users/{userId}/transaction-types': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations['TransactionRecords_GetUsedTransactionTypes'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v2/users/{userId}/transactions': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations['TransactionRecordsApi.TransactionRecords_GetUserTransactions'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v2/users/{userId}/universes': {
         parameters: {
             query?: never;
@@ -40592,14 +40585,6 @@ export interface components {
         /** @description A join request ID. */
         AcceptGroupJoinRequestRequest: Record<string, never>;
         ActionResult: Record<string, never>;
-        AgentResponse: {
-            /** Format: int64 */
-            id?: number;
-            type?: components['schemas']['AgentType'];
-            name?: string | null;
-        };
-        /** @enum {string} */
-        AgentType: 'User' | 'Group';
         /** @description A breakdown dimension value in a query result. */
         'AnalyticsQueryPublicApi.BreakdownValue': {
             /** @description The dimension name. */
@@ -41870,8 +41855,6 @@ export interface components {
             fontFamilyAssetId?: string;
         };
         /** @enum {string} */
-        CurrencyHolderType: 'Undefined' | 'User' | 'Group' | 'UserKey';
-        /** @enum {string} */
         CursorPagingDirection: 'Forward' | 'Backward';
         /** @description The custom signal configuration using a developer created attribute. */
         CustomSignalConfiguration: {
@@ -42110,6 +42093,8 @@ export interface components {
              */
             collectionName?: string | null;
         } | null;
+        /** @description Response for deleting the start place override for a universe. */
+        DeleteStartPlaceOverrideResponse: Record<string, never>;
         /**
          * @description Deployment strategy for publishing configurations.
          *
@@ -43052,11 +43037,6 @@ export interface components {
             /** @description URI for the generated thumbnail. */
             imageUri?: string | null;
         };
-        GenericCurrencyResponse: {
-            /** Format: int64 */
-            amount?: number;
-            type?: components['schemas']['TransactionRecordsApi.CurrencyType'];
-        };
         /**
          * @description Response body for
          *     `GET /v1/experimentation/universes/{universeId}/operations/{operationId}`.
@@ -43146,6 +43126,10 @@ export interface components {
             /** @description Gets or sets the saves. */
             saves: components['schemas']['HydratedSave'][] | null;
         } | null;
+        /** @description Response for getting the start place override for a universe. */
+        GetStartPlaceOverrideResponse: {
+            dataStoreLocation?: components['schemas']['DataStoreLocation'];
+        };
         /** @description Get Update Status response. */
         GetUpdateStatusResponse: {
             /** @description The status of the game update. */
@@ -43703,38 +43687,6 @@ export interface components {
          * @enum {string}
          */
         HostType: 'user' | 'group';
-        HttpContent: {
-            readonly headers?: components['schemas']['StringStringIEnumerableKeyValuePair'][] | null;
-        };
-        HttpMethod: {
-            method?: string | null;
-        };
-        HttpRequestMessage: {
-            version?: string | null;
-            versionPolicy?: components['schemas']['HttpVersionPolicy'];
-            content?: components['schemas']['HttpContent'] | null;
-            method?: components['schemas']['HttpMethod'] | null;
-            /** Format: uri */
-            requestUri?: string | null;
-            readonly headers?: components['schemas']['StringStringIEnumerableKeyValuePair'][] | null;
-            /** @deprecated */
-            readonly properties?: {
-                [key: string]: unknown;
-            } | null;
-            readonly options?: {
-                [key: string]: unknown;
-            } | null;
-        };
-        HttpResponseMessage: {
-            version?: string | null;
-            content?: components['schemas']['HttpContent'] | null;
-            statusCode?: components['schemas']['TransactionRecordsApi.HttpStatusCode'];
-            reasonPhrase?: string | null;
-            readonly headers?: components['schemas']['StringStringIEnumerableKeyValuePair'][] | null;
-            readonly trailingHeaders?: components['schemas']['StringStringIEnumerableKeyValuePair'][] | null;
-            requestMessage?: components['schemas']['HttpRequestMessage'] | null;
-            readonly isSuccessStatusCode?: boolean;
-        };
         HttpValidationProblemDetails:
             | (({
                   errors?: {
@@ -43745,8 +43697,6 @@ export interface components {
               }) &
                   components['schemas']['ProblemDetails'])
             | null;
-        /** @enum {string} */
-        HttpVersionPolicy: 'RequestVersionOrLower' | 'RequestVersionOrHigher' | 'RequestVersionExact';
         /** @description A save record, hydrated with the asset details. */
         HydratedSave: {
             /** @description Whether the asset is owned by the user. */
@@ -43863,17 +43813,6 @@ export interface components {
              */
             tool?: number;
         } | null;
-        Int64ExclusiveStartKeyCursor: {
-            /** Format: int64 */
-            key?: number;
-            sortOrder?: components['schemas']['TransactionRecordsApi.SortOrder'];
-            pagingDirection?: components['schemas']['CursorPagingDirection'];
-            /** Format: int32 */
-            pageNumber?: number;
-            discriminator?: string | null;
-            /** Format: int32 */
-            count?: number;
-        };
         /** @description Represents an item in a user's inventory. */
         InventoryItem: {
             /**
@@ -44009,8 +43948,6 @@ export interface components {
             /** @description A unique ID that identifies a private server. */
             privateServerId?: string;
         };
-        /** @enum {string} */
-        ItemPricingType: 'Undefined' | 'All' | 'PaidAndLimited';
         /** @description Request model for launching a game restart. */
         LaunchRestartRequest: {
             /**
@@ -45171,8 +45108,6 @@ export interface components {
          * @enum {string}
          */
         MusicChartType: 'None' | 'Current' | 'Week' | 'Month' | 'Year';
-        /** @enum {string} */
-        O18EligibilityTag: 'None' | 'O18Eligible' | 'O18EligibleAndPlus';
         /** @description This resource represents a long-running operation that is the result of a network API call. */
         'OCV1.Assets.Operation': {
             /** @description The server-assigned resource path. The default format is `operations/{operation_id}`. */
@@ -46164,45 +46099,6 @@ export interface components {
         };
         /** @description Empty response. May later contain a status. */
         RestartUniverseServersResponse: Record<string, never>;
-        RevenueSummaryResponse: {
-            /** Format: int64 */
-            recurringRobuxStipend?: number;
-            /** Format: int64 */
-            itemSaleRobux?: number;
-            /** Format: int64 */
-            purchasedRobux?: number;
-            /** Format: int64 */
-            tradeSystemRobux?: number;
-            /** Format: int64 */
-            pendingRobux?: number;
-            /** Format: int64 */
-            groupPayoutRobux?: number;
-            /** Format: int64 */
-            individualToGroupRobux?: number;
-            /** Format: int64 */
-            premiumPayouts?: number;
-            /** Format: int64 */
-            groupPremiumPayouts?: number;
-            /** Format: int64 */
-            adjustmentRobux?: number;
-            /** Format: int64 */
-            immersiveAdPayouts?: number;
-            /** Format: int64 */
-            subscriptionPayouts?: number;
-            /** Format: int64 */
-            subscriptionClawbacks?: number;
-            isShowImmersiveAdPayoutSummaryOnZeroEnabled?: boolean;
-            /** Format: int64 */
-            commissionRobux?: number;
-            /** Format: int64 */
-            publishingAdvanceRebates?: number;
-            /** Format: int64 */
-            groupAffiliatePayoutRobux?: number;
-            /** Format: int64 */
-            creatorRewardsPayoutRobux?: number;
-        };
-        /** @enum {string} */
-        RevenueSummaryTimeFrame: 'Day' | 'Week' | 'Month' | 'Year';
         /** @description Represents a change in a revision, showing before and after values. */
         RevisionChange: {
             /** @description The value before the change. Null if the key was added. */
@@ -54311,12 +54207,6 @@ export interface components {
         'Roblox.Web.WebAPI.Models.ApiSuccessResponse': {
             success?: boolean;
         };
-        RobuxRateBreakdown: {
-            /** Format: double */
-            o18?: number | null;
-            /** Format: double */
-            standard?: number | null;
-        };
         /** @description RPN operand: attribute reference or literal value. */
         RpnOperandDto: {
             attributeReference?: string | null;
@@ -54341,14 +54231,6 @@ export interface components {
         RulesOrderDeltaPayload: {
             before?: string[] | null;
             after?: string[] | null;
-        };
-        SalesReportDownloadRequest: {
-            /** Format: int64 */
-            targetId: number;
-            targetType: components['schemas']['CurrencyHolderType'];
-            startDate: string | null;
-            endDate: string | null;
-            transactionType?: components['schemas']['TransactionType'];
         };
         /**
          * Format: int32
@@ -54702,6 +54584,15 @@ export interface components {
             /** @description The ID of the scoring configuration. */
             scoringConfigurationId?: string | null;
         };
+        /**
+         * @description Request body for setting the start place override for a universe. The universe is
+         *     identified by the route, so it is not part of the body.
+         */
+        SetStartPlaceOverrideRequestBody: {
+            dataStoreLocation?: components['schemas']['DataStoreLocation'];
+        };
+        /** @description Response for setting the start place override for a universe. */
+        SetStartPlaceOverrideResponse: Record<string, never>;
         /** @description Shutdown All Game Instances response. */
         ShutdownAllGameInstancesResponse: {
             /**
@@ -54845,10 +54736,6 @@ export interface components {
             pagingDirection?: components['schemas']['CursorPagingDirection'];
             /** Format: int32 */
             pageNumber?: number;
-        };
-        StringStringIEnumerableKeyValuePair: {
-            key?: string | null;
-            value?: string[] | null;
         };
         /**
          * @description Part of the ServerManagementService.V2.Models.GameServerLog and ServerManagementService.V2.Models.ClientLog response objects.
@@ -55130,246 +55017,6 @@ export interface components {
             currencyCode?: string | null;
             quantity?: components['schemas']['ToolboxService.Decimal'] | null;
         } | null;
-        TransactionDetailsResponse: Record<string, never>;
-        TransactionRecordResponse: {
-            /** Format: int64 */
-            id?: number;
-            idHash?: string | null;
-            transactionType?: string | null;
-            /** Format: date-time */
-            created?: string;
-            isPending?: boolean;
-            agent?: components['schemas']['AgentResponse'] | null;
-            details?: components['schemas']['TransactionDetailsResponse'] | null;
-            currency?: components['schemas']['GenericCurrencyResponse'] | null;
-            purchaseToken?: string | null;
-            transactionSubtype?: string | null;
-            o18EligibilityTag?: components['schemas']['O18EligibilityTag'] | null;
-            robuxRateBreakdown?: components['schemas']['RobuxRateBreakdown'] | null;
-        };
-        TransactionRecordResponseApiPageResponse: {
-            previousPageCursor?: string | null;
-            nextPageCursor?: string | null;
-            data?: components['schemas']['TransactionRecordResponse'][] | null;
-        };
-        /** @enum {string} */
-        'TransactionRecordsApi.CurrencyType': 'Robux' | 'Tickets';
-        /** @enum {string} */
-        'TransactionRecordsApi.HttpStatusCode':
-            | 'Continue'
-            | 'SwitchingProtocols'
-            | 'Processing'
-            | 'EarlyHints'
-            | 'OK'
-            | 'Created'
-            | 'Accepted'
-            | 'NonAuthoritativeInformation'
-            | 'NoContent'
-            | 'ResetContent'
-            | 'PartialContent'
-            | 'MultiStatus'
-            | 'AlreadyReported'
-            | 'IMUsed'
-            | 'MultipleChoices'
-            | 'MovedPermanently'
-            | 'Found'
-            | 'SeeOther'
-            | 'NotModified'
-            | 'UseProxy'
-            | 'Unused'
-            | 'RedirectKeepVerb'
-            | 'PermanentRedirect'
-            | 'BadRequest'
-            | 'Unauthorized'
-            | 'PaymentRequired'
-            | 'Forbidden'
-            | 'NotFound'
-            | 'MethodNotAllowed'
-            | 'NotAcceptable'
-            | 'ProxyAuthenticationRequired'
-            | 'RequestTimeout'
-            | 'Conflict'
-            | 'Gone'
-            | 'LengthRequired'
-            | 'PreconditionFailed'
-            | 'RequestEntityTooLarge'
-            | 'RequestUriTooLong'
-            | 'UnsupportedMediaType'
-            | 'RequestedRangeNotSatisfiable'
-            | 'ExpectationFailed'
-            | 'MisdirectedRequest'
-            | 'UnprocessableEntity'
-            | 'Locked'
-            | 'FailedDependency'
-            | 'UpgradeRequired'
-            | 'PreconditionRequired'
-            | 'TooManyRequests'
-            | 'RequestHeaderFieldsTooLarge'
-            | 'UnavailableForLegalReasons'
-            | 'InternalServerError'
-            | 'NotImplemented'
-            | 'BadGateway'
-            | 'ServiceUnavailable'
-            | 'GatewayTimeout'
-            | 'HttpVersionNotSupported'
-            | 'VariantAlsoNegotiates'
-            | 'InsufficientStorage'
-            | 'LoopDetected'
-            | 'NotExtended'
-            | 'NetworkAuthenticationRequired';
-        /** @enum {string} */
-        'TransactionRecordsApi.SortOrder': 'Asc' | 'Desc';
-        TransactionResponse: {
-            /** Format: int64 */
-            id?: number;
-            idHash?: string | null;
-            /** Format: date-time */
-            created?: string;
-            isPending?: boolean;
-            agent?: components['schemas']['AgentResponse'] | null;
-            details?: components['schemas']['TransactionDetailsResponse'] | null;
-            currency?: components['schemas']['GenericCurrencyResponse'] | null;
-            purchaseToken?: string | null;
-            o18EligibilityTag?: components['schemas']['O18EligibilityTag'] | null;
-        };
-        TransactionResponseApiPageResponse: {
-            previousPageCursor?: string | null;
-            nextPageCursor?: string | null;
-            data?: components['schemas']['TransactionResponse'][] | null;
-        };
-        TransactionTotalsResponse: {
-            /** Format: int64 */
-            salesTotal?: number;
-            /** Format: int64 */
-            purchasesTotal?: number;
-            /** Format: int64 */
-            affiliateSalesTotal?: number;
-            /** Format: int64 */
-            groupPayoutsTotal?: number;
-            /** Format: int64 */
-            currencyPurchasesTotal?: number;
-            /** Format: int64 */
-            premiumStipendsTotal?: number;
-            /** Format: int64 */
-            tradeSystemEarningsTotal?: number;
-            /** Format: int64 */
-            tradeSystemCostsTotal?: number;
-            /** Format: int64 */
-            premiumPayoutsTotal?: number;
-            /** Format: int64 */
-            groupPremiumPayoutsTotal?: number;
-            /** Format: int64 */
-            adSpendTotal?: number;
-            /** Format: int64 */
-            developerExchangeTotal?: number;
-            /** Format: int64 */
-            pendingRobuxTotal?: number;
-            /** Format: int64 */
-            incomingRobuxTotal?: number;
-            /** Format: int64 */
-            outgoingRobuxTotal?: number;
-            /** Format: int64 */
-            individualToGroupTotal?: number;
-            /** Format: int64 */
-            csAdjustmentTotal?: number;
-            /** Format: int64 */
-            adsRevsharePayoutsTotal?: number;
-            /** Format: int64 */
-            groupAdsRevsharePayoutsTotal?: number;
-            /** Format: int64 */
-            subscriptionsRevshareTotal?: number;
-            /** Format: int64 */
-            groupSubscriptionsRevshareTotal?: number;
-            /** Format: int64 */
-            subscriptionsRevshareOutgoingTotal?: number;
-            /** Format: int64 */
-            groupSubscriptionsRevshareOutgoingTotal?: number;
-            /** Format: int64 */
-            publishingAdvanceRebatesTotal?: number;
-            /** Format: int64 */
-            affiliatePayoutTotal?: number;
-            /** Format: int64 */
-            licensingPaymentTotal?: number;
-            /** Format: int64 */
-            licensingPaymentClawbackOutgoingTotal?: number;
-            /** Format: int64 */
-            incomingRobuxTransferTotal?: number;
-            /** Format: int64 */
-            outgoingRobuxTransferTotal?: number;
-            /** Format: int64 */
-            robloxSelectIncomingTotal?: number;
-            /** Format: int64 */
-            robloxSelectOutgoingTotal?: number;
-            /** Format: int64 */
-            privateServerEngagementPayoutsTotal?: number;
-            /** Format: int64 */
-            creatorRewardsPayoutsTotal?: number;
-            /** Format: int64 */
-            subscriptionReferralPayoutsTotal?: number;
-        };
-        /** @enum {string} */
-        TransactionType:
-            | 'Undefined'
-            | 'Sale'
-            | 'Purchase'
-            | 'AffiliateSale'
-            | 'DevEx'
-            | 'GroupPayout'
-            | 'AdImpressionPayout'
-            | 'CurrencyPurchase'
-            | 'TradeRobux'
-            | 'PremiumStipend'
-            | 'PendingRobux'
-            | 'EngagementPayout'
-            | 'GroupEngagementPayout'
-            | 'AdSpend'
-            | 'Summary'
-            | 'IndividualToGroup'
-            | 'CSAdjustment'
-            | 'AdsRevsharePayout'
-            | 'GroupAdsRevsharePayout'
-            | 'SubscriptionsRevsharePayout'
-            | 'GroupSubscriptionsRevsharePayout'
-            | 'SubscriptionsRevshareClawback'
-            | 'GroupSubscriptionsRevshareClawback'
-            | 'PublishingAdvanceRebates'
-            | 'AffiliatePayout'
-            | 'LicensingPayment'
-            | 'LicensingPaymentClawback'
-            | 'CurrencyTransfer'
-            | 'RobloxSelectTransfer'
-            | 'PrivateServerEngagementPayout'
-            | 'CurrencySubscriptionStipend'
-            | 'SubscriptionReferralPayout'
-            | 'CreatorRewardsPayout';
-        TransactionUsedTypesResponse: {
-            HasPurchase?: boolean;
-            HasSale?: boolean;
-            HasAffiliatePayout?: boolean;
-            HasAffiliateSale?: boolean;
-            HasGroupPayout?: boolean;
-            HasCurrencyPurchase?: boolean;
-            HasTradeRobux?: boolean;
-            HasPremiumStipend?: boolean;
-            HasEngagementPayout?: boolean;
-            HasGroupEngagementPayout?: boolean;
-            HasAdSpend?: boolean;
-            HasDevEx?: boolean;
-            HasPendingRobux?: boolean;
-            HasIndividualToGroup?: boolean;
-            HasCSAdjustment?: boolean;
-            HasAdsRevsharePayout?: boolean;
-            HasGroupAdsRevsharePayout?: boolean;
-            HasSubscriptionsRevsharePayout?: boolean;
-            HasGroupSubscriptionsRevsharePayout?: boolean;
-            HasPublishingAdvanceRebates?: boolean;
-            HasLicensingPayment?: boolean;
-            HasTransfer?: boolean;
-            HasRobloxSelectTransfer?: boolean;
-            HasPrivateServerEngagementPayout?: boolean;
-            HasCreatorRewardsPayout?: boolean;
-            HasSubscriptionReferralPayout?: boolean;
-        };
         /**
          * @description Contains the text to be translated, the source language (optional), and a
          *     list of target languages for translation.
@@ -64508,7 +64155,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -64562,7 +64209,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -64584,7 +64231,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -64606,36 +64253,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'text/plain': components['schemas']['UserGameVoteResponse'];
-                };
-            };
-        };
-    };
-    RevenueSummary_GetGroupRevenueSummary: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                groupId: number;
-                timeFrame: components['schemas']['RevenueSummaryTimeFrame'];
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
             /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['RevenueSummaryResponse'];
+                    'text/plain': components['schemas']['UserGameVoteResponse'];
                 };
             };
         };
@@ -64687,133 +64311,6 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['PresenceApi.ErrorResponse'];
-                };
-            };
-        };
-    };
-    TransactionHistory_GetGroupTransactions: {
-        parameters: {
-            query?: {
-                exclusiveStartRequest?: components['schemas']['Int64ExclusiveStartKeyCursor'];
-                transactionType?: components['schemas']['TransactionType'];
-            };
-            header?: never;
-            path: {
-                groupId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['TransactionResponseApiPageResponse'];
-                };
-            };
-        };
-    };
-    'TransactionRecordsApi.SalesReportDownload_PublishSalesReportDownloadMessage': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                'application/json-patch+json': components['schemas']['SalesReportDownloadRequest'];
-                'application/json': components['schemas']['SalesReportDownloadRequest'];
-                'text/json': components['schemas']['SalesReportDownloadRequest'];
-                'application/*+json': components['schemas']['SalesReportDownloadRequest'];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['HttpResponseMessage'];
-                };
-            };
-        };
-    };
-    TransactionRecords_GetUserRevenueSummary: {
-        parameters: {
-            query?: {
-                usedTypes?: number;
-                timeFrame?: components['schemas']['RevenueSummaryTimeFrame'];
-                transactionType?: components['schemas']['TransactionType'];
-                exclusiveStartCursor?: components['schemas']['Int64ExclusiveStartKeyCursor'];
-            };
-            header?: never;
-            path: {
-                userId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['TransactionTotalsResponse'];
-                };
-            };
-        };
-    };
-    TransactionRecords_GetUsedTransactionTypes: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                userId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['TransactionUsedTypesResponse'];
-                };
-            };
-        };
-    };
-    'TransactionRecordsApi.TransactionRecords_GetUserTransactions': {
-        parameters: {
-            query?: {
-                exclusiveStartCursor?: components['schemas']['Int64ExclusiveStartKeyCursor'];
-                transactionType?: components['schemas']['TransactionType'];
-                itemPricingType?: components['schemas']['ItemPricingType'];
-            };
-            header?: never;
-            path: {
-                userId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['TransactionRecordResponseApiPageResponse'];
                 };
             };
         };

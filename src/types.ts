@@ -19318,6 +19318,197 @@ export interface paths {
         };
         trace?: never;
     };
+    '/v1/groups/{groupId}/payouts/latest': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the latest one-time payout for each requested user. */
+        get: {
+            parameters: {
+                query?: {
+                    userIds?: string[];
+                };
+                header?: never;
+                path: {
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['PublicAllOneTimePayoutsResponseModel'];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/payouts/suggested': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets suggested one-time payouts for eligible collaborators. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['PublicAllOneTimePayoutsResponseModel'];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/payouts/universes': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets payout-visible universes for a group. */
+        get: {
+            parameters: {
+                query?: {
+                    limit?: number;
+                    cursor?: string;
+                };
+                header?: never;
+                path: {
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['PublicGroupUniversePayoutPageResponseModel'];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/groups/{groupId}/universes': {
         parameters: {
             query?: never;
@@ -27623,6 +27814,71 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/universes/{universeId}/payouts': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets recurring payouts for a group-owned universe. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['PublicAllGroupUniversePayoutsResponseModel'];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/universes/{universeId}/permissions': {
         parameters: {
             query?: never;
@@ -34792,6 +35048,556 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v2/groups/{groupId}/invitations': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List open invitations to a group */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Cursor returned by a previous page. Omit for the first page. */
+                    Cursor?: string;
+                    /** @description Page size: 10, 25, 50, or 100. Defaults to 10. */
+                    Limit?: number;
+                    /** @description Sort order. Only `Asc` is currently supported; defaults to `Asc`. */
+                    SortOrder?: components['schemas']['OrganizationsServiceApi.SortOrder'];
+                };
+                header?: never;
+                path: {
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['GroupInvitationCursorPageResponse'];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Invite a user to a group */
+        post: {
+            parameters: {
+                query?: {
+                    isSecure?: boolean;
+                };
+                header?: never;
+                path: {
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json-patch+json': components['schemas']['CreateGroupInvitationRequestModel'];
+                    'application/json': components['schemas']['CreateGroupInvitationRequestModel'];
+                    'text/json': components['schemas']['CreateGroupInvitationRequestModel'];
+                    'application/*+json': components['schemas']['CreateGroupInvitationRequestModel'];
+                };
+            };
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['GroupInvitation'];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Too Many Requests */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v2/groups/{groupId}/invitations/{invitationId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get an invitation to a group */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    groupId: number;
+                    invitationId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['GroupInvitation'];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        /** Revoke an invitation to a group (member manager) */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    groupId: number;
+                    invitationId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['SuccessResponse'];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        /** Accept or decline an invitation to a group (recipient) */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    groupId: number;
+                    invitationId: number;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json-patch+json': components['schemas']['UpdateGroupInvitationRequestModel'];
+                    'application/json': components['schemas']['UpdateGroupInvitationRequestModel'];
+                    'text/json': components['schemas']['UpdateGroupInvitationRequestModel'];
+                    'application/*+json': components['schemas']['UpdateGroupInvitationRequestModel'];
+                };
+            };
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['SuccessResponse'];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/v2/groups/{groupId}/roles/{roleId}/invitations': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List open invitations to a group that grant a role */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Cursor returned by a previous page. Omit for the first page. */
+                    Cursor?: string;
+                    /** @description Page size: 10, 25, 50, or 100. Defaults to 10. */
+                    Limit?: number;
+                    /** @description Sort order. Only `Asc` is currently supported; defaults to `Asc`. */
+                    SortOrder?: components['schemas']['OrganizationsServiceApi.SortOrder'];
+                };
+                header?: never;
+                path: {
+                    groupId: number;
+                    roleId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['GroupInvitationCursorPageResponse'];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v2/groups/{groupId}/users/{userId}/invitation': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get the open invitation to a group for a user */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    groupId: number;
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['GroupInvitation'];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v2/identity-verification/login': {
         parameters: {
             query?: never;
@@ -41548,6 +42354,16 @@ export interface components {
             /** @description Optional tagline. Length and content are validated server-side. */
             tagline?: string | null;
         };
+        /** @description Request for inviting a user to a group. */
+        CreateGroupInvitationRequestModel: {
+            /**
+             * Format: int64
+             * @description The user to invite.
+             */
+            recipientUserId: number;
+            /** @description Group role ids to grant when the invitation is accepted. */
+            roleIds?: number[] | null;
+        };
         /** @description Request to create a new MatchmakingPlayerAttributeDefinition. */
         CreateMatchmakingPlayerAttributeDefinitionRequest: {
             /**
@@ -41674,7 +42490,7 @@ export interface components {
              * @description Deprecated: Please refer to the 'userId' and 'groupId' properties instead.
              *     The creator type and ID. E.g. user/123 or group/456.
              */
-            creator?: string | null;
+            creator: string | null;
             /**
              * Format: int64
              * @description The User ID of the creator. Required if the asset is individual-user-owned.
@@ -41706,7 +42522,7 @@ export interface components {
             /** @description The asset's product details. */
             creatorStoreProduct?: components['schemas']['ToolboxService.CreatorStoreProduct'] | null;
             /** @description The asset information. */
-            asset?:
+            asset:
                 | (
                       | components['schemas']['ToolboxService.Asset']
                       | components['schemas']['Audio']
@@ -42691,6 +43507,11 @@ export interface components {
          */
         FeaturingStatus: 'invalid' | 'enabled' | 'disabled';
         /**
+         * @description Describes whether a fetch operation failed or succeeded.
+         * @enum {string}
+         */
+        FetchStatus: 'Failure' | 'Success';
+        /**
          * @description Enum describing the different available filter fields.
          * @enum {string}
          */
@@ -43352,6 +44173,48 @@ export interface components {
              */
             commentCount?: number;
         };
+        /** @description An invitation to join a group. */
+        GroupInvitation: {
+            /** @description The invitation id. Stringified because it can exceed the 2^53-1 JSON number limit. */
+            id: string;
+            /**
+             * Format: int64
+             * @description The group the invitation is for.
+             */
+            groupId: number;
+            /**
+             * Format: int64
+             * @description The invited user.
+             */
+            recipientUserId: number;
+            /**
+             * Format: int64
+             * @description The user who sent the invitation.
+             */
+            senderUserId: number;
+            status: components['schemas']['GroupInvitationStatus'];
+            /** @description Every group role id attached to the invitation. */
+            roleIds: number[];
+            /**
+             * Format: date-time
+             * @description When the invitation was last updated (UTC).
+             */
+            updatedAt: string;
+        };
+        /** @description A page of results using groups-api opaque cursor pagination. */
+        GroupInvitationCursorPageResponse: {
+            /** @description The items in this page. */
+            data: components['schemas']['GroupInvitation'][];
+            /** @description Cursor for the next page, if any. */
+            nextPageCursor?: string | null;
+            /** @description Cursor for the previous page, if any. */
+            previousPageCursor?: string | null;
+        };
+        /**
+         * @description Status of a group invitation, serialized as its name.
+         * @enum {string}
+         */
+        GroupInvitationStatus: 'Open' | 'Accepted' | 'Declined' | 'Deleted';
         /**
          * @description A request to join a group.
          *
@@ -43690,7 +44553,7 @@ export interface components {
         HttpValidationProblemDetails:
             | (({
                   errors?: {
-                      [key: string]: string[] | null;
+                      [key: string]: string[];
                   } | null;
               } & {
                   [key: string]: unknown;
@@ -43700,14 +44563,14 @@ export interface components {
         /** @description A save record, hydrated with the asset details. */
         HydratedSave: {
             /** @description Whether the asset is owned by the user. */
-            owned?: boolean;
+            owned: boolean;
             /**
              * Format: date-time
              * @description Date the save was added.
              */
-            dateSaved?: string;
+            dateSaved: string;
             /** @description The asset that was saved. */
-            creatorStoreAsset?: components['schemas']['CreatorStoreAsset'] | null;
+            creatorStoreAsset: components['schemas']['CreatorStoreAsset'] | null;
         } | null;
         /** @description Configuration for an in-game-config experiment. */
         InGameConfigExperimentConfiguration: {
@@ -45425,6 +46288,49 @@ export interface components {
             /** @description The name of the entry. */
             readonly id?: string;
         };
+        /**
+         * @description Error code for OrganizationsServiceApi.Models.Response.ErrorResponse.
+         * @enum {string}
+         */
+        'OrganizationsServiceApi.ErrorCode':
+            | 'InternalError'
+            | 'InvalidGroupId'
+            | 'InvalidUniverseId'
+            | 'InsufficientPermission'
+            | 'PermissionNotSupported'
+            | 'TooManyRequests'
+            | 'FeatureNotEnabled'
+            | 'RoleNameReserved'
+            | 'RoleNotFound'
+            | 'InvitationNotFound'
+            | 'UserNotInGroup'
+            | 'TooManyRoles'
+            | 'FeatureNotSupportedForRole'
+            | 'UserInMaxGroups'
+            | 'NeedsSecureEndpoint'
+            | 'InsufficientGroupPermission'
+            | 'TooManyUsers'
+            | 'GroupFeatureFrozen'
+            | 'GroupMigrated'
+            | 'RoleIdMigrationInProgress'
+            | 'UnificationInProgress'
+            | 'InvalidPageLimit'
+            | 'InvalidSortOrder'
+            | 'InvalidInvitationStatus'
+            | 'InvalidRequestBody';
+        /** @description Standard error response model. */
+        'OrganizationsServiceApi.ErrorResponse': {
+            code: components['schemas']['OrganizationsServiceApi.ErrorCode'];
+            /** @description The error message. */
+            message?: string | null;
+            /** @description Field on which model validation failed. */
+            field?: string | null;
+        };
+        /**
+         * @description Sort order for groups-api style paginated requests.
+         * @enum {string}
+         */
+        'OrganizationsServiceApi.SortOrder': 'Asc' | 'Desc';
         /** @description Paginated response for v3 LIST. Page tokens are null at the collection boundaries. */
         PaginatedGameEventsResponse: {
             gameEvents?: components['schemas']['GameEventResponse'][] | null;
@@ -45930,6 +46836,48 @@ export interface components {
             durationSeconds?: number;
             /** @description Metric configuration (goal + learning metrics). */
             universeMetricConfiguration?: components['schemas']['UniverseMetricConfiguration'] | null;
+        };
+        /** @description Public response for recurring payouts. */
+        PublicAllGroupUniversePayoutsResponseModel: {
+            payouts?: components['schemas']['PublicGroupUniversePayout'][] | null;
+        };
+        /** @description Public response for one-time payouts. */
+        PublicAllOneTimePayoutsResponseModel: {
+            payouts?: components['schemas']['PublicOneTimePayoutResponseModel'][] | null;
+        };
+        /** @description A recurring payout in the public groups API contract. */
+        PublicGroupUniversePayout: {
+            /** Format: int64 */
+            userId?: number;
+            /** Format: int64 */
+            percentage?: number;
+        };
+        /** @description Public groups-style payout page. */
+        PublicGroupUniversePayoutPageResponseModel: {
+            data?: components['schemas']['PublicUserUniversePayout'][] | null;
+            nextPageCursor?: string | null;
+            previousPageCursor?: string | null;
+        };
+        /** @description One-time payout details in the public groups API contract. */
+        PublicOneTimePayout: {
+            /** Format: int64 */
+            amount?: number;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        /** @description A one-time payout result in the public groups API contract. */
+        PublicOneTimePayoutResponseModel: {
+            /** Format: int64 */
+            recipientUserId?: number;
+            status?: components['schemas']['FetchStatus'];
+            oneTimePayout?: components['schemas']['PublicOneTimePayout'];
+        };
+        /** @description A payout-visible universe in the public groups API contract. */
+        PublicUserUniversePayout: {
+            /** Format: int64 */
+            universeId?: number;
+            /** Format: int64 */
+            percentage?: number;
         };
         /** @description Request model for publishing a draft. */
         PublishDraftRequest: {
@@ -54343,12 +55291,12 @@ export interface components {
             /** @description The applied and available facets of a query. */
             queryFacets?: components['schemas']['QueryFacets'] | null;
             /** @description The list of creator store assets returned by the search query. */
-            creatorStoreAssets?: components['schemas']['CreatorStoreAsset'][] | null;
+            creatorStoreAssets: components['schemas']['CreatorStoreAsset'][] | null;
             /**
              * Format: int64
              * @description The total number of results for the given search query.
              */
-            totalResults?: number;
+            totalResults: number;
             /** @description Query correction information, if a correction was available for the search query. */
             queryCorrection?: components['schemas']['QueryCorrection'] | null;
             /** @description The filtered keyword that was used to search for assets, if applicable. */
@@ -54921,6 +55869,11 @@ export interface components {
                 | 'SUBSCRIBER_REFUNDED'
                 | 'LAPSED';
         };
+        /** @description Standard success response model. */
+        SuccessResponse: {
+            /** @description Whether or not the request was successfully executed. */
+            success: boolean;
+        };
         /** @description Eligibility criteria scoping which users an experiment can apply to. */
         TargetingCriteria: {
             /**
@@ -55003,9 +55956,9 @@ export interface components {
         /** @description The asset's creator store product information. */
         'ToolboxService.CreatorStoreProduct': {
             /** @description The price of the asset, including the currency code. */
-            purchasePrice?: components['schemas']['ToolboxService.Money'] | null;
+            purchasePrice: components['schemas']['ToolboxService.Money'] | null;
             /** @description Whether or not the asset can be purchased in the Creator Store. */
-            purchasable?: boolean;
+            purchasable: boolean;
         } | null;
         'ToolboxService.Decimal': {
             /** Format: int64 */
@@ -55442,6 +56395,10 @@ export interface components {
             config?: components['schemas']['UpdateGameEventConfigRequest'] | null;
             featuringStatus?: components['schemas']['FeaturingStatus'] | null;
             tagline?: string | null;
+        };
+        /** @description Request for accepting or declining a group invitation. */
+        UpdateGroupInvitationRequestModel: {
+            status: components['schemas']['GroupInvitationStatus'];
         };
         /**
          * @description Represents metadata about the long-running operation corresponding to a
@@ -63634,7 +64591,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -63795,7 +64752,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -63846,7 +64803,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -63962,7 +64919,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -63999,7 +64956,7 @@ export interface operations {
                         | null;
                 };
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -64024,7 +64981,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -64061,7 +65018,7 @@ export interface operations {
                         | null;
                 };
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;

@@ -239,7 +239,7 @@ export interface paths {
                 query?: {
                     /** @description Universe ID to check eligibility for */
                     universeId?: string;
-                    /** @description Objective filter (PLAYS or the deprecated ENGAGEMENT) */
+                    /** @description Objective filter (PLAYS or ENGAGEMENT) */
                     objective?: 'PLAYS' | 'ENGAGEMENT';
                 };
                 header?: never;
@@ -5027,272 +5027,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/legacy-followings/v1/users/{userId}/universes': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets all the followings between a user with userId and universes */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'][];
-                        'text/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'][];
-                    };
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description User is not authorized for this action. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/legacy-followings/v1/users/{userId}/universes/{universeId}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Creates the following between a user with userId and universe with universeId */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: number;
-                    universeId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'];
-                        'text/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'];
-                    };
-                };
-                /** @description The user has reached the limit of number of followed universes. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description User is not authorized for this action.
-                 *     0: Token Validation Failed
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        /** Deletes the following between a user with userId and universe with universeId */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: number;
-                    universeId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'];
-                        'text/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'];
-                    };
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description User is not authorized for this action.
-                 *     0: Token Validation Failed
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/legacy-followings/v1/users/{userId}/universes/{universeId}/status': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets the status of a following relationship between a user and a universe. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: number;
-                    universeId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseStatusResponse'];
-                        'text/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseStatusResponse'];
-                    };
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description User is not authorized for this action. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/legacy-followings/v2/users/{userId}/universes': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets all universes followed by a user. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The user ID. */
-                    userId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Followings.Api.Models.FollowsByTypeResponse'];
-                        'text/json': components['schemas']['Roblox.Followings.Api.Models.FollowsByTypeResponse'];
-                    };
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description User is not authorized for this action. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/legacy-game-internationalization/v1/badges/{badgeId}/description/language-codes/{languageCode}': {
         parameters: {
             query?: never;
@@ -9266,289 +9000,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/matchmaking-api/v1/client-status': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get the client-status */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description ClientStatusGetRequest */
-            requestBody?: {
-                content: {
-                    'application/json-patch+json': components['schemas']['ClientStatusGetRequest'];
-                    'application/json': components['schemas']['ClientStatusGetRequest'];
-                    'text/json': components['schemas']['ClientStatusGetRequest'];
-                    'application/*+json': components['schemas']['ClientStatusGetRequest'];
-                };
-            };
-            responses: {
-                /** @description Success */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        /** Set the client-status */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description ClientStatusSetRequest */
-            requestBody?: {
-                content: {
-                    'application/json-patch+json': components['schemas']['ClientStatusSetRequest'];
-                    'application/json': components['schemas']['ClientStatusSetRequest'];
-                    'text/json': components['schemas']['ClientStatusSetRequest'];
-                    'application/*+json': components['schemas']['ClientStatusSetRequest'];
-                };
-            };
-            responses: {
-                /** @description Success */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/matchmaking-api/v1/game-instances/forecast-update': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Forecast the outcome of launching an update */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    'application/json-patch+json': components['schemas']['ForecastUpdateRequest'];
-                    'application/json': components['schemas']['ForecastUpdateRequest'];
-                    'text/json': components['schemas']['ForecastUpdateRequest'];
-                    'application/*+json': components['schemas']['ForecastUpdateRequest'];
-                };
-            };
-            responses: {
-                /** @description Success */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['ForecastUpdateResponse'];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/matchmaking-api/v1/game-instances/get-update-status': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get the rollout status of an update */
-        get: {
-            parameters: {
-                query?: {
-                    universeId?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Success */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['GetUpdateStatusResponse'];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/matchmaking-api/v1/game-instances/launch-update': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Launch a game update */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    'application/json-patch+json': components['schemas']['LaunchUpdateRequest'];
-                    'application/json': components['schemas']['LaunchUpdateRequest'];
-                    'text/json': components['schemas']['LaunchUpdateRequest'];
-                    'application/*+json': components['schemas']['LaunchUpdateRequest'];
-                };
-            };
-            responses: {
-                /** @description Success */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['LaunchUpdateResponse'];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/matchmaking-api/v1/game-instances/shutdown': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Shutdown game instances. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    'application/json-patch+json': components['schemas']['ShutdownGameInstancesRequest'];
-                    'application/json': components['schemas']['ShutdownGameInstancesRequest'];
-                    'text/json': components['schemas']['ShutdownGameInstancesRequest'];
-                    'application/*+json': components['schemas']['ShutdownGameInstancesRequest'];
-                };
-            };
-            responses: {
-                /** @description Success */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['ShutdownGameInstancesResponse'];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/matchmaking-api/v1/game-instances/shutdown-all': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Shutdown all game instances. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    'multipart/form-data': {
-                        /**
-                         * Format: int64
-                         * @description The place ID to shut down.
-                         */
-                        PlaceId?: number;
-                        /** @description Whether to replace instances or not. */
-                        ReplaceInstances?: boolean;
-                    };
-                };
-            };
-            responses: {
-                /** @description Success */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['ShutdownAllGameInstancesResponse'];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/matchmaking-api/v1/matchmaking/player-attribute': {
         parameters: {
             query?: never;
@@ -9734,82 +9185,6 @@ export interface paths {
                 };
             };
         };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/matchmaking-api/v1/matchmaking/scoring-configuration/default-weights': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Success */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['GetMatchmakingScoringDefaultWeightsResponse'];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/matchmaking-api/v1/matchmaking/scoring-configuration/generate-mock-servers': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    count?: number;
-                    capacity?: number;
-                    playerAge?: number;
-                    playerPlayHistory?: number;
-                    isPlayerVoiceChatEnabled?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Success */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['GenerateMockServerSignalValuesResponse'];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -10357,95 +9732,6 @@ export interface paths {
         put?: never;
         post?: never;
         delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/matchmaking-api/v1/matchmaking/universe/{universeId}/start-place': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets the start place override for a universe. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    universeId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Success */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['GetStartPlaceOverrideResponse'];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /** Sets (creates or updates) the start place override for a universe. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    universeId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    'application/json-patch+json': components['schemas']['SetStartPlaceOverrideRequestBody'];
-                    'application/json': components['schemas']['SetStartPlaceOverrideRequestBody'];
-                    'text/json': components['schemas']['SetStartPlaceOverrideRequestBody'];
-                    'application/*+json': components['schemas']['SetStartPlaceOverrideRequestBody'];
-                };
-            };
-            responses: {
-                /** @description Success */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['SetStartPlaceOverrideResponse'];
-                    };
-                };
-            };
-        };
-        /** Deletes the start place override for a universe. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    universeId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Success */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['DeleteStartPlaceOverrideResponse'];
-                    };
-                };
-            };
-        };
         options?: never;
         head?: never;
         patch?: never;
@@ -11241,6 +10527,8 @@ export interface paths {
                  *     13: Invalid password.
                  *     14: Invalid email address.
                  *     15: Too many accounts use this email address.
+                 *     17: Password is not complex enough.
+                 *     18: Password is too similar to username.
                  */
                 400: {
                     headers: {
@@ -12668,7 +11956,11 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Sets the authenticated user's body colors. */
+        /**
+         * Sets the authenticated user's body colors.
+         * @deprecated
+         * @description Please use PATCH v4/avatar
+         */
         post: {
             parameters: {
                 query?: never;
@@ -12728,7 +12020,10 @@ export interface paths {
         put?: never;
         /**
          * Sets the authenticated user's player avatar type (e.g. R6 or R15).
+         * @deprecated
          * @description This is the avatar type chosen on the Avatar page. Some games can override this and force your character to be R6 or R15.
+         *
+         *     Please use PATCH v4/avatar
          */
         post: {
             parameters: {
@@ -12798,7 +12093,11 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Sets the authenticated user's scales. */
+        /**
+         * Sets the authenticated user's scales.
+         * @deprecated
+         * @description Please use PATCH v4/avatar
+         */
         post: {
             parameters: {
                 query?: never;
@@ -14231,13 +13530,7 @@ export interface paths {
                 path?: never;
                 cookie?: never;
             };
-            /** @description Roblox.Catalog.Api.MultigetItemDetailsRequestModel. */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Catalog.Api.MultigetItemDetailsRequestModel'];
-                    'text/json': components['schemas']['Roblox.Catalog.Api.MultigetItemDetailsRequestModel'];
-                };
-            };
+            requestBody: components['requestBodies']['Roblox.Catalog.Api.MultigetItemDetailsRequestModel'];
             responses: {
                 /** @description OK */
                 200: {
@@ -15808,7 +15101,11 @@ export interface paths {
                     };
                     content?: never;
                 };
-                /** @description 0: Token Validation Failed */
+                /**
+                 * @description 0: Token Validation Failed
+                 *     36: Password is not complex enough.
+                 *     37: Password is too similar to username.
+                 */
                 403: {
                     headers: {
                         [name: string]: unknown;
@@ -20017,6 +19314,52 @@ export interface paths {
                         'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Locale.Api.SupportedLocaleLocus_'];
                         'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Locale.Api.SupportedLocaleLocus_'];
                     };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/locales/supported-locales-for-feature': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get list of Supported locales for a specific feature. */
+        get: {
+            parameters: {
+                query: {
+                    featureName: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Locale.Api.SupportedLocalesResponse'];
+                        'text/json': components['schemas']['Roblox.Locale.Api.SupportedLocalesResponse'];
+                    };
+                };
+                /** @description Internal server error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
                 };
             };
         };
@@ -24539,6 +23882,8 @@ export interface paths {
                  *     4: Passwords do not match
                  *     5: Password cannot be used
                  *     8: The account security ticket is expired.
+                 *     14: Password is not complex enough
+                 *     15: Password is too similar to username
                  */
                 400: {
                     headers: {
@@ -24787,6 +24132,8 @@ export interface paths {
                  *     12: Too many attempts. Please wait a bit.
                  *     17: One time Passcode session was not valid
                  *     22: Maximum logged in accounts limit reached.
+                 *     36: Password is not complex enough.
+                 *     37: Password is too similar to username.
                  *     44: Login is unavailable in your country.
                  */
                 403: {
@@ -24884,6 +24231,8 @@ export interface paths {
                  *     22: Maximum logged in accounts limit reached.
                  *     29: Account Linking already exists on this account
                  *     30: Account Linking required but failed
+                 *     36: Password is not complex enough.
+                 *     37: Password is too similar to username.
                  *     44: Login is unavailable in your country.
                  */
                 403: {
@@ -28774,6 +28123,10 @@ export interface paths {
                  * @description Roblox.Web.Authentication.Passwords.PasswordResponseCodes.InvalidCurrentPassword
                  *                 OR
                  *                 Roblox.Web.Authentication.Passwords.PasswordResponseCodes.InvalidPassword
+                 *                 OR
+                 *                 Roblox.Web.Authentication.Passwords.PasswordResponseCodes.PasswordLowComplexity
+                 *                 OR
+                 *                 Roblox.Web.Authentication.Passwords.PasswordResponseCodes.PasswordTooSimilarToUsername
                  */
                 400: {
                     headers: {
@@ -30308,7 +29661,10 @@ export interface paths {
         };
         /**
          * Returns details about a specified user's avatar.
+         * @deprecated
          * @description Includes assets, bodycolors, and playerAvatarType.
+         *
+         *     Please use GET v4/avatar/users/{userId}
          */
         get: {
             parameters: {
@@ -32892,6 +32248,8 @@ export interface paths {
         /**
          * Deprecated, user v2.
          *     Gets a list of outfits for the specified user.
+         * @deprecated
+         * @description Please use GET v2/avatar/users/{userId}/outfits
          */
         get: {
             parameters: {
@@ -33326,218 +32684,6 @@ export interface paths {
                         'application/json': components['schemas']['Roblox.AccountInformation.Api.RobloxBadgeResponse'][];
                         'text/json': components['schemas']['Roblox.AccountInformation.Api.RobloxBadgeResponse'][];
                     };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/users/{userId}/universes': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets all the followings between a user with userId and universes */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'][];
-                        'text/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'][];
-                    };
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description User is not authorized for this action. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/users/{userId}/universes/{universeId}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Creates the following between a user with userId and universe with universeId */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: number;
-                    universeId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'];
-                        'text/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'];
-                    };
-                };
-                /** @description The user has reached the limit of number of followed universes. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description User is not authorized for this action.
-                 *     0: Token Validation Failed
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        /** Deletes the following between a user with userId and universe with universeId */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: number;
-                    universeId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'];
-                        'text/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'];
-                    };
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description User is not authorized for this action.
-                 *     0: Token Validation Failed
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/users/{userId}/universes/{universeId}/status': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets the status of a following relationship between a user and a universe. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    userId: number;
-                    universeId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseStatusResponse'];
-                        'text/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseStatusResponse'];
-                    };
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description User is not authorized for this action. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
                 };
             };
         };
@@ -36529,6 +35675,8 @@ export interface paths {
                  *     12: The user is invalid.
                  *     20: The password is invalid.
                  *     21: Passwords do not match.
+                 *     27: The password is not complex enough.
+                 *     28: The password is too similar to the username.
                  */
                 400: {
                     headers: {
@@ -37575,6 +36723,8 @@ export interface paths {
                  *     4: Passwords do not match
                  *     5: Password cannot be used
                  *     8: The account security ticket is expired.
+                 *     14: Password is not complex enough
+                 *     15: Password is too similar to username
                  */
                 400: {
                     headers: {
@@ -37884,6 +37034,8 @@ export interface paths {
                  *     12: Too many attempts. Please wait a bit.
                  *     17: One time Passcode session was not valid
                  *     22: Maximum logged in accounts limit reached.
+                 *     36: Password is not complex enough.
+                 *     37: Password is too similar to username.
                  *     44: Login is unavailable in your country.
                  */
                 403: {
@@ -37981,6 +37133,8 @@ export interface paths {
                  *     22: Maximum logged in accounts limit reached.
                  *     29: Account Linking already exists on this account
                  *     30: Account Linking required but failed
+                 *     36: Password is not complex enough.
+                 *     37: Password is too similar to username.
                  *     44: Login is unavailable in your country.
                  */
                 403: {
@@ -39542,6 +38696,10 @@ export interface paths {
                  * @description Roblox.Web.Authentication.Passwords.PasswordResponseCodes.InvalidCurrentPassword
                  *                 OR
                  *                 Roblox.Web.Authentication.Passwords.PasswordResponseCodes.InvalidPassword
+                 *                 OR
+                 *                 Roblox.Web.Authentication.Passwords.PasswordResponseCodes.PasswordLowComplexity
+                 *                 OR
+                 *                 Roblox.Web.Authentication.Passwords.PasswordResponseCodes.PasswordTooSimilarToUsername
                  */
                 400: {
                     headers: {
@@ -40463,60 +39621,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v2/users/{userId}/universes': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets all universes followed by a user. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The user ID. */
-                    userId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Followings.Api.Models.FollowsByTypeResponse'];
-                        'text/json': components['schemas']['Roblox.Followings.Api.Models.FollowsByTypeResponse'];
-                    };
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description User is not authorized for this action. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v3/logout': {
         parameters: {
             query?: never;
@@ -40793,8 +39897,8 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['Roblox.Api.Avatar.Models.OutfitDetailsModelV2'];
-                        'text/json': components['schemas']['Roblox.Api.Avatar.Models.OutfitDetailsModelV2'];
+                        'application/json': components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.OutfitDetailsModelV2'];
+                        'text/json': components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.OutfitDetailsModelV2'];
                     };
                 };
                 /** @description 2: The outfit for the specified userOutfit is invalid. */
@@ -41949,6 +41053,162 @@ export interface components {
             /** @description Indicates which music charts to filter from. */
             musicChartType?: components['schemas']['MusicChartType'];
         } | null;
+        /** @description Exhaustive model denoting all possible metadata fields of an asset */
+        'AvatarPublicApi.Roblox.Api.Avatar.Models.AssetMetaModelV1': {
+            /**
+             * Format: int32
+             * @description Layered-clothing order
+             */
+            order?: number;
+            /**
+             * Format: float
+             * @description Layered-clothing puffiness
+             */
+            puffiness?: number;
+            position?: components['schemas']['Roblox.Api.Avatar.Models.AssetPosition'];
+            rotation?: components['schemas']['Roblox.Api.Avatar.Models.AssetRotation'];
+            scale?: components['schemas']['Roblox.Api.Avatar.Models.AssetScale'];
+            /**
+             * Format: int32
+             * @description Head Shape selected for the asset id.
+             *     Applicable for dynamic head assets.
+             * @enum {integer}
+             */
+            headShape?:
+                | 0
+                | 1
+                | 2
+                | 3
+                | 4
+                | 5
+                | 6
+                | 7
+                | 8
+                | 9
+                | 10
+                | 11
+                | 12
+                | 13
+                | 14
+                | 15
+                | 16
+                | 17
+                | 18
+                | 19
+                | 20
+                | 21
+                | 22
+                | 23
+                | 24
+                | 25
+                | 26
+                | 27
+                | 28
+                | 29;
+            /**
+             * @description Indicates user choice for facial animation.
+             *     staticFacialAnimation=false, implies the toggle as on and face will animate.
+             *     Applicable for dynamic head assets.
+             */
+            staticFacialAnimation?: boolean;
+            /**
+             * Format: int32
+             * @description Client-authoritative meta model format version
+             *     - default is always 1
+             */
+            version?: number;
+        };
+        /**
+         * @description A model containing details about an asset
+         *     - V2: adds CurrentVersionId, AssetMetaModel
+         */
+        'AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2': {
+            /**
+             * Format: int64
+             * @description The id
+             */
+            id?: number;
+            /** @description The name */
+            name?: string;
+            assetType?: components['schemas']['Roblox.Api.Avatar.Models.AssetTypeModel'];
+            /**
+             * Format: int64
+             * @description Id of the current version of asset
+             */
+            currentVersionId?: number;
+            meta?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetMetaModelV1'];
+            /** @description Asset availability status. */
+            availabilityStatus?: string;
+            /**
+             * Format: date-time
+             * @description For rental assets only. (Future) ownership expiration time of the asset.
+             */
+            expirationTime?: string;
+            /** @description If the "Id" is swappable, applicable for DH assets. */
+            supportsHeadShapes?: boolean;
+        };
+        /**
+         * @description A model which contains
+         *     - an asset id
+         *     - AssetMetaModel
+         */
+        'AvatarPublicApi.Roblox.Api.Avatar.Models.AssetWearModel': {
+            /**
+             * Format: int64
+             * @description An asset id
+             */
+            id?: number;
+            meta?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetMetaModelV1'];
+        };
+        /** @description A model containing details about a user outfit */
+        'AvatarPublicApi.Roblox.Api.Avatar.Models.OutfitDetailsModelV2': {
+            /**
+             * Format: int64
+             * @description The id
+             */
+            id?: number;
+            /** @description The name */
+            name?: string;
+            /** @description A list of assetIds */
+            assets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'][];
+            bodyColor3s?: components['schemas']['Roblox.Api.Avatar.Models.BodyColors3Model'];
+            scale?: components['schemas']['Roblox.Web.Responses.Avatar.ScaleModel'];
+            /** @description The player avatar type - this can be R6 or R15. */
+            playerAvatarType?: string;
+            /** @description The outfit type of the outfit */
+            outfitType?: string;
+            /** @description Whether the outfit can be edited by the user */
+            isEditable?: boolean;
+            /**
+             * Format: int64
+             * @description The universe id of the outfit, null when outfit is not created in-experience
+             */
+            universeId?: number;
+            /** @description The moderation status of the outfit, not applicable when outfit is created outside experience */
+            moderationStatus?: string;
+            /**
+             * Format: int64
+             * @description The bundle ID, currently only returned for in-experience created outfits.
+             */
+            bundleId?: number;
+            /** @description The inventory type of the outfit. */
+            inventoryType?: string;
+        };
+        /** @description A model containing avatar background data. */
+        'AvatarPublicApi.Roblox.Api.Avatar.Models.V4.AvatarBackgroundModel': {
+            backgroundAsset?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'];
+        };
+        /**
+         * @description A model which contains the asset id of the background. This can be
+         *     extended to have more attributes in the future.
+         */
+        'AvatarPublicApi.Roblox.Api.Avatar.Models.V4.AvatarBackgroundRequestModel': {
+            /**
+             * Format: int64
+             * @description An asset id.
+             */
+            id?: number;
+        };
         /** @description Request object to grant one permission to multiple assets. */
         BatchGrantPermissionsRequest: {
             subjectType?: components['schemas']['SubjectType'];
@@ -42047,24 +41307,6 @@ export interface components {
             category?: components['schemas']['EventCategory'];
             /** Format: int32 */
             rank?: number;
-        };
-        /** @description Get Client Status request. */
-        ClientStatusGetRequest: {
-            /**
-             * Format: int64
-             * @description The client's browser tracker id.
-             */
-            browserTrackerId?: number | null;
-        };
-        /** @description Set Client Status request. */
-        ClientStatusSetRequest: {
-            /** @description The client's status to send. */
-            status?: string | null;
-            /**
-             * Format: int64
-             * @description The client's browser tracker id.
-             */
-            browserTrackerId?: number | null;
         };
         /**
          * @description Request body for
@@ -42909,8 +42151,6 @@ export interface components {
              */
             collectionName?: string | null;
         } | null;
-        /** @description Response for deleting the start place override for a universe. */
-        DeleteStartPlaceOverrideResponse: Record<string, never>;
         /**
          * @description Deployment strategy for publishing configurations.
          *
@@ -43571,18 +42811,6 @@ export interface components {
                 [key: string]: components['schemas']['PlaceSummaryForGameRestart'];
             } | null;
         };
-        /** @description ForecastUpdateRequest is used to request an update to the forecast of a Place in a Universe. */
-        ForecastUpdateRequest: {
-            /**
-             * Format: int64
-             * @description The Universe ID to update.
-             */
-            universeId?: number;
-        };
-        /** @description ForecastUpdateResponse is used to return information about the forecasted update of a place. */
-        ForecastUpdateResponse: {
-            placeSummaries?: components['schemas']['PlaceSummaryForGameUpdate'][] | null;
-        };
         /** @description v3 game event response. All fields except VirtualEventsApi.Models.V3.Response.GameEventResponse.Id are gated by the `?fields=` mask. */
         GameEventResponse: {
             /**
@@ -43758,21 +42986,6 @@ export interface components {
              */
             structuredStackTrace?: components['schemas']['StructuredStackFrame'][] | null;
         };
-        GameUpdateStatus: {
-            /** Format: uuid */
-            id?: string;
-            /** Format: int64 */
-            universeId?: number;
-            /** Format: date-time */
-            startTime?: string;
-            closeOldVersionsOnly?: boolean;
-            /** Format: date-time */
-            bleedOffEndTime?: string;
-            placeUpdateStatuses?: {
-                [key: string]: components['schemas']['PlaceUpdateStatus'];
-            } | null;
-            bleedOffServers?: boolean;
-        };
         GameVoteResponse: {
             /** Format: int64 */
             id?: number;
@@ -43783,11 +42996,6 @@ export interface components {
         };
         GameVoteResponseApiArrayResponse: {
             data?: components['schemas']['GameVoteResponse'][] | null;
-        };
-        /** @description Response for generating mock server signal values. */
-        GenerateMockServerSignalValuesResponse: {
-            /** @description The mock server signal values. */
-            exampleGameSignalValues?: components['schemas']['MockServerSignalValues'][] | null;
         };
         /**
          * @description Represents metadata about the long-running operation corresponding to a
@@ -43895,32 +43103,6 @@ export interface components {
         GetMatchmakingScoringConfigurationResponse: {
             scoringConfiguration?: components['schemas']['MatchmakingScoringConfiguration'];
         };
-        /** @description Response containing the weights of the current default matchmaking scoring weights */
-        GetMatchmakingScoringDefaultWeightsResponse: {
-            /** @description The weights of the current default matchmaking scoring weights. */
-            weights?: {
-                /** Format: double */
-                Invalid?: number;
-                /** Format: double */
-                Occupancy?: number;
-                /** Format: double */
-                Age?: number;
-                /** Format: double */
-                Language?: number;
-                /** Format: double */
-                Latency?: number;
-                /** Format: double */
-                PreferredPlayers?: number;
-                /** Format: double */
-                VoiceChat?: number;
-                /** Format: double */
-                DeviceType?: number;
-                /** Format: double */
-                PlayHistory?: number;
-                /** Format: double */
-                TextChat?: number;
-            } | null;
-        };
         GetPlaceContributorsResponse: {
             nextCursor?: string | null;
             hasMore?: boolean;
@@ -43947,15 +43129,6 @@ export interface components {
             /** @description Gets or sets the saves. */
             saves: components['schemas']['HydratedSave'][] | null;
         } | null;
-        /** @description Response for getting the start place override for a universe. */
-        GetStartPlaceOverrideResponse: {
-            dataStoreLocation?: components['schemas']['DataStoreLocation'];
-        };
-        /** @description Get Update Status response. */
-        GetUpdateStatusResponse: {
-            /** @description The status of the game update. */
-            updateStatusList?: components['schemas']['GameUpdateStatus'][] | null;
-        };
         /** @description Contains an arbitrary serialized message along with a @type that describes the type of the serialized message. */
         GoogleProtobufAny: {
             /** @description The type of the serialized message. */
@@ -44848,61 +44021,6 @@ export interface components {
              * @description Number of game instances that will be closed.
              */
             instancesImpacted?: number;
-        };
-        /** @description Launch Update Request. Contains specification for how update should roll out */
-        LaunchUpdateRequest: {
-            /**
-             * Format: int64
-             * @description The Universe ID to update.
-             */
-            universeId?: number;
-            /** @description The place IDs to update. If none are specified, we will update all active Places in the Universe */
-            placeIds?: number[] | null;
-            /**
-             * @description If true (default in UI), we will only migrate players from servers running old PlaceVersions.
-             *     If false, we will migrate all players
-             */
-            closeOldVersionsOnly?: boolean;
-            /**
-             * @description If true (default in UI), we will stop matchmaking to servers but keep them up before shutting them down, allowing
-             *      players to naturally migrate to the newer version.
-             *     If false, we will immediately start shutting down servers
-             */
-            bleedOffServers?: boolean;
-            /**
-             * Format: int32
-             * @description If BleedOffServers=true, how long will we allow old servers to stay up before shutting them down.
-             *     Valid values: 1 - 60 minutes
-             */
-            bleedOffDurationMinutes?: number;
-            /**
-             * @description Optional. A mapping of PlaceId to the specific versions to restart/bleed off for that place.
-             *     When set for a place, only servers running those exact versions will be affected.
-             *     If a place is not in this dictionary or has an empty set, behavior falls back to CloseOldVersionsOnly logic.
-             */
-            placeIdToVersions?: {
-                [key: string]: number[] | null;
-            } | null;
-            /** @description Optional. Attributes string to include in the ServerLifecycleChanged CSM payload published to game servers. */
-            attributes?: string | null;
-        };
-        /** @description Launch Update response. */
-        LaunchUpdateResponse: {
-            /**
-             * Format: uuid
-             * @description An ID for UI to query status of this update
-             */
-            updateId?: string;
-            /**
-             * Format: int32
-             * @description How many players are playing in servers that will be shut down according to the update configuration
-             */
-            numPlayersToBeKicked?: number;
-            /**
-             * Format: int32
-             * @description How many game instances will be closed according to the update configuration
-             */
-            instancesToBeClosed?: number;
         };
         /**
          * Format: int32
@@ -45826,66 +44944,6 @@ export interface components {
              */
             readonly count?: number;
         };
-        /** @description Mock server signal values. */
-        MockServerSignalValues: {
-            /**
-             * Format: int32
-             * @description The capacity of the mock server.
-             */
-            capacity?: number;
-            /**
-             * Format: int32
-             * @description The occupancy of the mock server.
-             */
-            occupancy?: number;
-            /** @description If the game has preferred players. */
-            hasPreferredPlayers?: boolean;
-            /**
-             * Format: int32
-             * @description The joining player's age.
-             */
-            playerAge?: number;
-            /**
-             * Format: int32
-             * @description The server's age for the mock server.
-             */
-            serverAveragePlayerAge?: number;
-            /**
-             * Format: int32
-             * @description The number of player's in the mock server that have a common language.
-             */
-            commonLanguagePlayers?: number;
-            /**
-             * Format: int32
-             * @description The latency of the mock server.
-             */
-            latency?: number;
-            /**
-             * Format: int32
-             * @description The number of player's in the mock server that have a common device.
-             */
-            commonDevicePlayers?: number;
-            /**
-             * Format: double
-             * @description The joining player's play history. The value is a log10 transformation of the player's playtime in minutes during last 28 days.
-             */
-            playerPlayHistory?: number;
-            /**
-             * Format: double
-             * @description The server's play history for the mock server.
-             */
-            serverAveragePlayHistory?: number;
-            /**
-             * Format: int32
-             * @description The number of player's in the mock server that have voice chat enabled.
-             */
-            commonVoicePlayers?: number | null;
-            /**
-             * Format: int32
-             * @description The number of player's in the mock server that can commonly text chat with the joining player.
-             */
-            commonTextChatPlayers?: number;
-        };
         /** @description Representation of a model asset. */
         Model:
             | ({
@@ -46527,110 +45585,6 @@ export interface components {
             instancesPerVersion?: {
                 [key: string]: number;
             } | null;
-        };
-        /** @description Summary of a place for a game update. */
-        PlaceSummaryForGameUpdate: {
-            /**
-             * Format: int64
-             * @description Place ID of the place to be updated.
-             */
-            placeId?: number;
-            /**
-             * Format: int32
-             * @description Number of players to be kicked from the place during the game update.
-             */
-            playersToBeKicked?: number;
-            /**
-             * Format: int32
-             * @description Total number of players in the place.
-             */
-            totalPlayers?: number;
-            /**
-             * Format: int32
-             * @description Number of instances to be closed for the place during the game update.
-             */
-            instancesToBeClosed?: number;
-            /**
-             * Format: int32
-             * @description Total number of instances for the place.
-             */
-            totalInstances?: number;
-            /**
-             * Format: int32
-             * @description Lastest version of the place to be updated.
-             */
-            placeVersion?: number;
-            /**
-             * Format: date-time
-             * @description The timestamp of the last update to the place summary.
-             */
-            lastUpdated?: string;
-            /**
-             * @description Indicates whether the place is still part of the universe.
-             *     A place may have active games but is no longer in the universe if it has been removed from the universe.
-             */
-            isInUniverse?: boolean;
-            /**
-             * @description Player counts broken down by place version.
-             *     Key is the place version, value is the number of players on that version.
-             */
-            versionToPlayerCounts?: {
-                [key: string]: number;
-            } | null;
-            /**
-             * @description Instance counts broken down by place version.
-             *     Key is the place version, value is the number of instances on that version.
-             */
-            versionToInstanceCounts?: {
-                [key: string]: number;
-            } | null;
-        };
-        /** @description Container for the status of a game update. */
-        PlaceUpdateStatus: {
-            /**
-             * Format: int64
-             * @description The placeId of the game update
-             */
-            placeId?: number;
-            /** @description Which phase is the update in: BleedOff, Migrate, or Done */
-            phase?: string | null;
-            /**
-             * Format: date-time
-             * @description When the update started
-             */
-            startTime?: string;
-            /**
-             * Format: date-time
-             * @description When the update is expected to end, or null if it has not ended yet
-             */
-            endTime?: string | null;
-            /**
-             * Format: int32
-             * @description Number of players in the game update initially, before any players are kicked
-             */
-            startPlayersToBeKicked?: number;
-            /**
-             * Format: int32
-             * @description Number of instances that will be closed during the game update
-             */
-            startInstancesToBeClosed?: number;
-            /**
-             * Format: int32
-             * @description How many players are remaining in instances that will be shut down according to the update configuration
-             */
-            numPlayersToBeKicked?: number;
-            /**
-             * Format: int32
-             * @description Number of places that will be updated
-             */
-            instancesToBeClosed?: number;
-            /**
-             * Format: int32
-             * @description The version of the place that is being updated
-             */
-            placeVersion?: number;
-            /** @description The versions of the place that will be closed during the update */
-            placeVersionsToBeClosed?: number[] | null;
         };
         PlaceVersion: {
             version?: string | null;
@@ -47955,19 +46909,6 @@ export interface components {
             /** @description The name */
             name?: string;
         };
-        /**
-         * @description A model which contains
-         *     - an asset id
-         *     - AssetMetaModel
-         */
-        'Roblox.Api.Avatar.Models.AssetWearModel': {
-            /**
-             * Format: int64
-             * @description An asset id
-             */
-            id?: number;
-            meta?: components['schemas']['Roblox.Api.Avatar.Models.AssetMetaModelV1'];
-        };
         /** @description Success response class */
         'Roblox.Api.Avatar.Models.AvatarApiSuccessResponse': {
             /** @description Gets or sets a value indicating whether the request was a success. */
@@ -48070,7 +47011,7 @@ export interface components {
             playerAvatarType?: 1 | 3;
             bodyColor3s?: components['schemas']['Roblox.Api.Avatar.Models.BodyColors3Model'];
             /** @description The assets worn on the character */
-            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
+            assets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'][];
             /** @description Whether default clothing has been applied to this avatar. */
             defaultShirtApplied?: boolean;
             /** @description Whether default clothing has been applied to this avatar. */
@@ -48348,40 +47289,6 @@ export interface components {
             /** @description The moderation status of the outfit, not applicable when outfit is created outside experience */
             moderationStatus?: string;
         };
-        /** @description A model containing details about a user outfit */
-        'Roblox.Api.Avatar.Models.OutfitDetailsModelV2': {
-            /**
-             * Format: int64
-             * @description The id
-             */
-            id?: number;
-            /** @description The name */
-            name?: string;
-            /** @description A list of assetIds */
-            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
-            bodyColor3s?: components['schemas']['Roblox.Api.Avatar.Models.BodyColors3Model'];
-            scale?: components['schemas']['Roblox.Web.Responses.Avatar.ScaleModel'];
-            /** @description The player avatar type - this can be R6 or R15. */
-            playerAvatarType?: string;
-            /** @description The outfit type of the outfit */
-            outfitType?: string;
-            /** @description Whether the outfit can be edited by the user */
-            isEditable?: boolean;
-            /**
-             * Format: int64
-             * @description The universe id of the outfit, null when outfit is not created in-experience
-             */
-            universeId?: number;
-            /** @description The moderation status of the outfit, not applicable when outfit is created outside experience */
-            moderationStatus?: string;
-            /**
-             * Format: int64
-             * @description The bundle ID, currently only returned for in-experience created outfits.
-             */
-            bundleId?: number;
-            /** @description The inventory type of the outfit. */
-            inventoryType?: string;
-        };
         /** @description A slim model for user outfits. */
         'Roblox.Api.Avatar.Models.OutfitModel': {
             /**
@@ -48402,7 +47309,7 @@ export interface components {
             name?: string;
             bodyColors?: components['schemas']['Roblox.Api.Avatar.Models.BodyColorsModel'];
             /** @description Array of assets */
-            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetWearModel'][];
+            assets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetWearModel'][];
             scale?: components['schemas']['Roblox.Web.Responses.Avatar.ScaleModel'];
             /** @description The avatar scale */
             playerAvatarType?: string;
@@ -48419,7 +47326,7 @@ export interface components {
             name?: string;
             bodyColor3s?: components['schemas']['Roblox.Api.Avatar.Models.BodyColors3Model'];
             /** @description Array of assets. */
-            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetWearModel'][];
+            assets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetWearModel'][];
             scale?: components['schemas']['Roblox.Web.Responses.Avatar.ScaleModel'];
             /** @description The avatar scale. */
             playerAvatarType?: string;
@@ -48475,7 +47382,7 @@ export interface components {
             playerAvatarType?: 1 | 3;
             bodyColors?: components['schemas']['Roblox.Api.Avatar.Models.BodyColors3Model'];
             /** @description The assets worn on the character. */
-            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetWearModel'][];
+            assets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetWearModel'][];
         };
         /** @description A model containing details about an avatar update request. */
         'Roblox.Api.Avatar.Models.UpdateAvatarRequestModel': {
@@ -48496,30 +47403,15 @@ export interface components {
              * @description The assets that could not be worn
              *     Unlike invalidAssetIds, only contains assets that are wearable types.
              */
-            invalidAssets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
+            invalidAssets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'][];
             /** @description Whether or not all the outfit contents were successfully worn. */
             success?: boolean;
-        };
-        /** @description A model containing avatar background data. */
-        'Roblox.Api.Avatar.Models.V4.AvatarBackgroundModel': {
-            backgroundAsset?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'];
-        };
-        /**
-         * @description A model which contains the asset id of the background. This can be
-         *     extended to have more attributes in the future.
-         */
-        'Roblox.Api.Avatar.Models.V4.AvatarBackgroundRequestModel': {
-            /**
-             * Format: int64
-             * @description An asset id.
-             */
-            id?: number;
         };
         /** @description Avatar config details. */
         'Roblox.Api.Avatar.Models.V4.AvatarConfigurations': {
             /** @description The emotes on the character. */
             emotes?: components['schemas']['Roblox.Api.Avatar.Models.EmoteResponseModel'][];
-            background?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarBackgroundModel'];
+            background?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.V4.AvatarBackgroundModel'];
             /** @description List of customizations set for this avatar. At most one per thumbnail type (Closeup, FullBody). */
             thumbnailCustomizations?: components['schemas']['Roblox.Api.Avatar.Models.AvatarThumbnailCustomizationModel'][];
             profileFrame?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarProfileFrameModel'];
@@ -48540,11 +47432,11 @@ export interface components {
             playerAvatarType?: 1 | 3;
             bodyColors?: components['schemas']['Roblox.Api.Avatar.Models.BodyColorsModelV4'];
             /** @description The assets worn on the character. */
-            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
+            assets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'][];
         };
         /** @description A model containing avatar profile frame data. */
         'Roblox.Api.Avatar.Models.V4.AvatarProfileFrameModel': {
-            frameAsset?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'];
+            frameAsset?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'];
         };
         /** @description A model which contains the asset id of the profile frame. */
         'Roblox.Api.Avatar.Models.V4.AvatarProfileFrameRequestModel': {
@@ -48556,7 +47448,7 @@ export interface components {
         };
         /** @description Background configuration for an outfit. */
         'Roblox.Api.Avatar.Models.V4.OutfitConfigurations': {
-            background?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarBackgroundModel'];
+            background?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.V4.AvatarBackgroundModel'];
         };
         /** @description Details about an outfit. */
         'Roblox.Api.Avatar.Models.V4.OutfitDefinition': {
@@ -48592,7 +47484,7 @@ export interface components {
              */
             outfitType?: 0 | 1 | 2 | 4 | 5;
             /** @description The assets on the outfit. */
-            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
+            assets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'][];
             bodyColors?: components['schemas']['Roblox.Api.Avatar.Models.BodyColorsModelV4'];
             scale?: components['schemas']['Roblox.Web.Responses.Avatar.ScaleModel'];
             /**
@@ -48621,7 +47513,7 @@ export interface components {
         /** @description Validation details for avatar mutation responses when one or more inputs could not be applied. */
         'Roblox.Api.Avatar.Models.V4.Response.AvatarValidationResultV4': {
             /** @description Assets that could not be worn. */
-            invalidAssets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
+            invalidAssets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'][];
             /** @description Background assets that could not be applied. */
             invalidBackground?: components['schemas']['Roblox.Api.Avatar.Models.InvalidBackgroundResponse'][];
             /** @description Profile frame assets that could not be applied. */
@@ -48645,7 +47537,7 @@ export interface components {
         /** @description Validation details for outfit mutation responses when one or more inputs could not be applied. */
         'Roblox.Api.Avatar.Models.V4.Response.OutfitValidationResultV4': {
             /** @description Assets that could not be worn. */
-            unwornAssets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
+            unwornAssets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'][];
             /** @description Background assets that could not be applied. */
             invalidBackground?: components['schemas']['Roblox.Api.Avatar.Models.InvalidBackgroundResponse'][];
         };
@@ -48659,7 +47551,7 @@ export interface components {
              *     Prefer Roblox.Api.Avatar.Models.V4.Response.UpdateAvatarDefinitionResponseV4.Validation.Roblox.Api.Avatar.Models.V4.Response.AvatarValidationResultV4.InvalidAssets.
              *     Will be reverted once the engine fix is fully deployed.
              */
-            invalidAssets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
+            invalidAssets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'][];
             validation?: components['schemas']['Roblox.Api.Avatar.Models.V4.Response.AvatarValidationResultV4'];
         };
         /** @description Response model for update outfit (V4). */
@@ -48674,7 +47566,7 @@ export interface components {
             emoteRequestModels?: components['schemas']['Roblox.Api.Avatar.Models.EmoteRequestModel'][];
             /** @description The avatar's thumbnail customizations. */
             thumbnailCustomizationModels?: components['schemas']['Roblox.Api.Avatar.Models.AvatarThumbnailCustomizationModel'][];
-            backgroundRequestModel?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarBackgroundRequestModel'];
+            backgroundRequestModel?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.V4.AvatarBackgroundRequestModel'];
             profileFrameRequestModel?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarProfileFrameRequestModel'];
         };
         /** @description A model containing details about an avatar update. */
@@ -48693,11 +47585,11 @@ export interface components {
             playerAvatarType?: 1 | 3;
             bodyColors?: components['schemas']['Roblox.Api.Avatar.Models.BodyColorsModelV4'];
             /** @description The assets worn on the character. */
-            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetWearModel'][];
+            assets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetWearModel'][];
         };
         /** @description A model containing outfit config fields to update. */
         'Roblox.Api.Avatar.Models.V4.UpdateOutfitConfig': {
-            backgroundRequestModel?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarBackgroundRequestModel'];
+            backgroundRequestModel?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.V4.AvatarBackgroundRequestModel'];
         };
         /** @description A model containing outfit fields to create or update. */
         'Roblox.Api.Avatar.Models.V4.UpdateOutfitDefinition': {
@@ -48710,7 +47602,7 @@ export interface components {
             name?: string;
             bodyColors?: components['schemas']['Roblox.Api.Avatar.Models.BodyColorsModelV4'];
             /** @description The assets on the outfit. */
-            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetWearModel'][];
+            assets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetWearModel'][];
             scale?: components['schemas']['Roblox.Web.Responses.Avatar.ScaleModel'];
             /**
              * Format: int32
@@ -48728,7 +47620,7 @@ export interface components {
         /** @description A model that contains a list of AssetWear models */
         'Roblox.Api.Avatar.Models.WearRequestModel': {
             /** @description The asset ids */
-            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetWearModel'][];
+            assets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetWearModel'][];
         };
         /** @description A model for wear outfit responses */
         'Roblox.Api.Avatar.Models.WearResponseModel': {
@@ -48736,7 +47628,7 @@ export interface components {
              * @description The assets that could not be worn
              *     Unlike invalidAssetIds, only contains assets that are wearable types
              */
-            invalidAssets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
+            invalidAssets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'][];
             /** @description The asset ids that could not be worn */
             invalidAssetIds?: number[];
             /** @description Whether or not all the outfit contents were successfully worn */
@@ -49834,10 +48726,10 @@ export interface components {
         'Roblox.Authentication.Api.Models.AccountUpgradeRequest': {
             /**
              * Format: int32
-             * @description ['Unknown' = 0, 'Pioneer' = 1, 'OAuth' = 2, 'Guest' = 3]
+             * @description ['Unknown' = 0, 'Pioneer' = 1, 'OAuth' = 2, 'Guest' = 3, 'PioneerU13' = 4]
              * @enum {integer}
              */
-            upgradeType?: 0 | 1 | 2 | 3;
+            upgradeType?: 0 | 1 | 2 | 3 | 4;
             username?: string;
             password?: string;
             /** Format: date-time */
@@ -49977,10 +48869,10 @@ export interface components {
         'Roblox.Authentication.Api.Models.PasswordValidationResponse': {
             /**
              * Format: int32
-             * @description ['ValidPassword' = 0, 'WeakPasswordError' = 1, 'PasswordLengthError' = 2, 'PasswordSameAsUsernameError' = 3, 'ForbiddenPasswordError' = 4, 'DumbStringsError' = 5]
+             * @description ['ValidPassword' = 0, 'WeakPasswordError' = 1, 'PasswordLengthError' = 2, 'PasswordSameAsUsernameError' = 3, 'ForbiddenPasswordError' = 4, 'DumbStringsError' = 5, 'PasswordLowComplexityError' = 6, 'PasswordTooSimilarToUsernameError' = 7]
              * @enum {integer}
              */
-            code?: 0 | 1 | 2 | 3 | 4 | 5;
+            code?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
             message?: string;
         };
         'Roblox.Authentication.Api.Models.ProviderInfoModel': {
@@ -51334,70 +50226,6 @@ export interface components {
                 [key: string]: number[][];
             };
         };
-        /** @description Data model containing collection of all followed sources of a specific type. */
-        'Roblox.Followings.Api.Models.FollowsByTypeResponse': {
-            /**
-             * Format: int32
-             * @description Type of the follower entity. ['Invalid' = 0, 'User' = 1]
-             * @enum {integer}
-             */
-            followerType?: 0 | 1;
-            /**
-             * Format: int64
-             * @description ID of the follower entity.
-             */
-            followerId?: number;
-            /**
-             * Format: int32
-             * @description Type of the source entity. ['Invalid' = 0, 'Universe' = 1]
-             * @enum {integer}
-             */
-            sourceType?: 0 | 1;
-            /** @description Followed sources: map of (source ID => follow date) */
-            followedSources?: {
-                [key: string]: string;
-            };
-        };
-        /** @description Model for a user following a universe controller responses */
-        'Roblox.Followings.Api.Models.UserFollowingUniverseResponse': {
-            /**
-             * Format: int64
-             * @description The id of the universe being followed
-             */
-            universeId?: number;
-            /**
-             * Format: int64
-             * @description The id of the user that is following
-             */
-            userId?: number;
-        };
-        /** @description Model for a user following a universe  state controller responses */
-        'Roblox.Followings.Api.Models.UserFollowingUniverseStatusResponse': {
-            /**
-             * Format: int64
-             * @description The id of the universe.
-             */
-            UniverseId?: number;
-            /**
-             * Format: int64
-             * @description The id of the user.
-             */
-            UserId?: number;
-            /** @description If the user can follow the universe. */
-            CanFollow?: boolean;
-            /** @description If the user is currently following the universe. */
-            IsFollowing?: boolean;
-            /**
-             * Format: int32
-             * @description The number of followings between this user and a universe.
-             */
-            FollowingCountByType?: number;
-            /**
-             * Format: int32
-             * @description The limit to the number of followings between a user and a universe for a specific user.
-             */
-            FollowingLimitByType?: number;
-        };
         /** @description A response model representing a friend request. */
         'Roblox.Friends.Api.FriendRequest': {
             /**
@@ -51417,10 +50245,10 @@ export interface components {
             sourceUniverseId?: number;
             /**
              * Format: int32
-             * @description The origin source type associated with the friend request. ['Unknown' = 0, 'PlayerSearch' = 1, 'QrCode' = 2, 'InGame' = 3, 'UserProfile' = 4, 'QqContactImporter' = 5, 'WeChatContactImporter' = 6, 'ProfileShare' = 7, 'PhoneContactImporter' = 8, 'FriendRecommendations' = 9, 'UserCommunities' = 10, 'TrustedFriend' = 11, 'SchoolMemberList' = 12]
+             * @description The origin source type associated with the friend request. ['Unknown' = 0, 'PlayerSearch' = 1, 'QrCode' = 2, 'InGame' = 3, 'UserProfile' = 4, 'QqContactImporter' = 5, 'WeChatContactImporter' = 6, 'ProfileShare' = 7, 'PhoneContactImporter' = 8, 'FriendRecommendations' = 9, 'UserCommunities' = 10, 'TrustedFriend' = 11, 'SchoolMemberList' = 12, 'SocialTabsPage' = 13]
              * @enum {integer}
              */
-            originSourceType?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+            originSourceType?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13;
             /** @description The contact name associated with the friend request. */
             contactName?: string;
             /** @description The nickname associated with the friend request. */
@@ -55532,61 +54360,6 @@ export interface components {
             /** @description The ID of the scoring configuration. */
             scoringConfigurationId?: string | null;
         };
-        /**
-         * @description Request body for setting the start place override for a universe. The universe is
-         *     identified by the route, so it is not part of the body.
-         */
-        SetStartPlaceOverrideRequestBody: {
-            dataStoreLocation?: components['schemas']['DataStoreLocation'];
-        };
-        /** @description Response for setting the start place override for a universe. */
-        SetStartPlaceOverrideResponse: Record<string, never>;
-        /** @description Shutdown All Game Instances response. */
-        ShutdownAllGameInstancesResponse: {
-            /**
-             * Format: int64
-             * @description The place ID to shut down.
-             */
-            placeId?: number;
-            /** @description Whether to replace instances or not. */
-            replaceInstances?: boolean;
-        };
-        /** @description Shutdown Game Instance request. */
-        ShutdownGameInstancesRequest: {
-            /**
-             * Format: int64
-             * @description The place ID to shut down.
-             */
-            placeId?: number;
-            /**
-             * Format: int64
-             * @description The private server ID.
-             */
-            privateServerId?: number | null;
-            /**
-             * Format: uuid
-             * @description The game ID.
-             */
-            gameId?: string | null;
-        };
-        /** @description Shutdown Game Instance response. */
-        ShutdownGameInstancesResponse: {
-            /**
-             * Format: int64
-             * @description The place ID to shut down.
-             */
-            placeId?: number;
-            /**
-             * Format: int64
-             * @description The private server ID.
-             */
-            privateServerId?: number | null;
-            /**
-             * Format: uuid
-             * @description The game ID.
-             */
-            gameId?: string | null;
-        };
         /** @description Variant definition for an in-game-config experiment (CreatorConfigsPublicApi.Models.Experimentation.InGameConfigExperimentConfiguration). */
         SingleConfigExperimentVariant: {
             /** @description Metadata common to all variants. */
@@ -57017,10 +55790,10 @@ export interface components {
             /** @description The display name of the campaign. */
             name?: string;
             /**
-             * @description The advertising goal of the campaign. `PLAYS` for campaigns created via this API; campaigns from other surfaces may report `AWARENESS`, `REACH`, `ENGAGED_PLAYS`, `VIDEO_VIEWS`, or `ROBUX_SPEND`.
+             * @description The advertising goal of the campaign. `PLAYS` or `ENGAGEMENT` for campaigns created via this API; campaigns from other surfaces may report `AWARENESS`, `REACH`, `VIDEO_VIEWS`, or `ROBUX_SPEND`.
              * @enum {string}
              */
-            objective?: 'PLAYS' | 'AWARENESS' | 'REACH' | 'ENGAGED_PLAYS' | 'VIDEO_VIEWS' | 'ROBUX_SPEND';
+            objective?: 'PLAYS' | 'ENGAGEMENT' | 'AWARENESS' | 'REACH' | 'VIDEO_VIEWS' | 'ROBUX_SPEND';
             /**
              * @description How the campaign is paid for. Fixed when the campaign is created. Can be
              *     `CREDIT_CARD`, `ADS_CREDIT`, or `INVOICE`.
@@ -57057,11 +55830,8 @@ export interface components {
              * @description The eligibility result for the requested experience. Present only when
              *     universeId was supplied in the request.
              */
-            eligibility?: components['schemas']['internal_public_v1.UniverseEligibility'];
-            /**
-             * @description The campaign objectives you can create. Values can be `PLAYS` or the
-             *     deprecated `ENGAGEMENT` (both create the same campaign).
-             */
+            eligibility?: components['schemas']['internal_public_v1.PublicUniverseEligibility'];
+            /** @description The campaign objectives you can create. Values can be `PLAYS` or `ENGAGEMENT`. */
             objectives?: ('PLAYS' | 'ENGAGEMENT')[];
             /**
              * @description The payment types available for the caller's account. Values can be
@@ -57112,8 +55882,8 @@ export interface components {
             /** @description The display name of the campaign. Required. */
             name: string;
             /**
-             * @description The advertising goal. Required. Can be `PLAYS` (the deprecated `ENGAGEMENT`
-             *     is also accepted during the transition; both create the same campaign).
+             * @description The advertising goal. Required. Can be `PLAYS` or `ENGAGEMENT`. `ENGAGEMENT`
+             *     does not support targeting and is not available for every experience.
              * @enum {string}
              */
             objective: 'PLAYS' | 'ENGAGEMENT';
@@ -57220,6 +55990,17 @@ export interface components {
             /** @description A human-readable description of the error. */
             message?: string;
         };
+        'internal_public_v1.PublicUniverseEligibility': {
+            /** @description Whether the experience can currently be advertised. */
+            eligible?: boolean;
+            /**
+             * @description The reasons the experience is not eligible. Omitted when eligible. Values can be
+             *     `NO_PERMISSION` or `BLOCKED`.
+             */
+            reasons?: ('NO_PERMISSION' | 'BLOCKED')[];
+            /** @description The identifier of the experience that was checked. */
+            universeId?: string;
+        };
         'internal_public_v1.Schedule': {
             /**
              * @description How long the campaign runs from startTime, in days. Must not exceed 3650 (about
@@ -57261,17 +56042,6 @@ export interface components {
             countries?: string[];
             /** @description The selectable device types. Values can be `PHONE`, `TABLET`, `DESKTOP`, or `CONSOLE`. */
             devices?: ('PHONE' | 'TABLET' | 'DESKTOP' | 'CONSOLE')[];
-        };
-        'internal_public_v1.UniverseEligibility': {
-            /** @description Whether the experience can currently be advertised. */
-            eligible?: boolean;
-            /**
-             * @description The reasons the experience is not eligible. Omitted when eligible. Values can be
-             *     `NO_PERMISSION` or `BLOCKED`.
-             */
-            reasons?: ('NO_PERMISSION' | 'BLOCKED')[];
-            /** @description The identifier of the experience that was checked. */
-            universeId?: string;
         };
         'internal_public_v1.UpdateBudget': {
             /**
@@ -57429,6 +56199,13 @@ export interface components {
             content: {
                 'application/json': components['schemas']['Roblox.Authentication.Api.Models.SignupRequest'];
                 'text/json': components['schemas']['Roblox.Authentication.Api.Models.SignupRequest'];
+            };
+        };
+        /** @description Roblox.Catalog.Api.MultigetItemDetailsRequestModel. */
+        'Roblox.Catalog.Api.MultigetItemDetailsRequestModel': {
+            content: {
+                'application/json': components['schemas']['Roblox.Catalog.Api.MultigetItemDetailsRequestModel'];
+                'text/json': components['schemas']['Roblox.Catalog.Api.MultigetItemDetailsRequestModel'];
             };
         };
         'Roblox.PrivateMessages.Api.Models.BatchMessagesRequest': {

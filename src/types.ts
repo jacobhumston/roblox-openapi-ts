@@ -784,6 +784,505 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/analytics-alert-control-plane/v1/resource/{resourceType}/id/{resourceId}/alerts': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Returns the alert configurations for a resource. Optionally filter by alert IDs, firing
+         *     status, severity, or metric name.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /**
+                     * @description Optional list of alert IDs to restrict results to. Repeat the parameter for multiple
+                     *     values: `?ids=1&ids=2`. IDs are string-encoded 64-bit integers.
+                     */
+                    ids?: string[];
+                    /**
+                     * @description Optional firing-status filter (`OK` or `Firing`).
+                     *
+                     *     OK
+                     *
+                     *     Firing
+                     */
+                    firingStatus?: components['schemas']['AlertStorage.FiringStatus'];
+                    /**
+                     * @description Optional list of severity levels to filter by. Repeat the parameter for multiple
+                     *     values: `?severities=SEV_0&severities=SEV_1`.
+                     */
+                    severities?: components['schemas']['AlertStorage.Severity'][];
+                    /**
+                     * @description Optional list of metric names to filter by (exact match, case-sensitive). Repeat the
+                     *     parameter for multiple values: `?metrics=dau&metrics=mau`.
+                     */
+                    metrics?: string[];
+                };
+                header?: never;
+                path: {
+                    /**
+                     * @description The type of resource to query. Currently only `Universe` is supported.
+                     *
+                     *     Universe
+                     */
+                    resourceType: components['schemas']['AlertStorage.ResourceType'];
+                    /** @description The numeric ID of the resource (e.g. the universe ID). */
+                    resourceId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.AlertDetailResponse'][];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+                /** @description Service Unavailable */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        /**
+         * Creates a new alert configuration for a resource.
+         * @description See the <a href="https://create.roblox.com/docs/cloud/guides/alerts/metrics">alerts guide</a> for supported metrics and dimensions.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /**
+                     * @description The type of resource to create the alert on. Currently only `Universe` is supported.
+                     *
+                     *     Universe
+                     */
+                    resourceType: components['schemas']['AlertStorage.ResourceType'];
+                    /** @description The numeric ID of the resource (e.g. the universe ID). */
+                    resourceId: string;
+                };
+                cookie?: never;
+            };
+            /** @description The alert configuration to create. */
+            requestBody?: {
+                content: {
+                    'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.CreateAlertConfigRequest'];
+                    'text/json': components['schemas']['AnalyticsAlertControlPlane.Models.CreateAlertConfigRequest'];
+                    'application/*+json': components['schemas']['AnalyticsAlertControlPlane.Models.CreateAlertConfigRequest'];
+                };
+            };
+            responses: {
+                /** @description Created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.AlertDetailResponse'];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+                /**
+                 * @description Conflict. Possible error codes:
+                 *
+                 *     - `ALERT_NAME_EXISTED`: An alert with this name already exists for the resource.
+                 *       Alert names must be unique per resource.
+                 *
+                 *     - `MAX_ALERT_REACHED`: The resource has reached the maximum number of allowed alerts.
+                 */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+                /** @description Service Unavailable */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/analytics-alert-control-plane/v1/resource/{resourceType}/id/{resourceId}/alerts/incidents': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Returns alert incidents for a resource whose active window overlaps the specified time
+         *     range. An incident is included if it was open at any point between `startTime` and
+         *     `endTime`.
+         */
+        get: {
+            parameters: {
+                query: {
+                    /**
+                     * @description Start of the time range to query (ISO 8601, UTC). Must be within the last 30 days
+                     *     (see AnalyticsAlertControlPlane.Operations.GetAlertIncidentsOperation.MaxQueryDays).
+                     */
+                    startTime: string;
+                    /**
+                     * @description End of the time range to query (ISO 8601, UTC). Must be greater than or equal to
+                     *     `startTime`.
+                     */
+                    endTime: string;
+                    /**
+                     * @description Optional metric name to restrict results to incidents from alerts on that metric (exact
+                     *     match, case-sensitive).
+                     */
+                    metric?: string;
+                    /**
+                     * @description Optional list of alert IDs to restrict results to. Repeat the parameter for multiple
+                     *     values: `?alertIds=1&alertIds=2`. IDs are string-encoded 64-bit integers.
+                     */
+                    alertIds?: string[];
+                    /**
+                     * @description Optional list of severity levels to restrict results to. Repeat the parameter for
+                     *     multiple values: `?severities=SEV_0&severities=SEV_1`.
+                     */
+                    severities?: components['schemas']['AlertStorage.Severity'][];
+                };
+                header?: never;
+                path: {
+                    /**
+                     * @description The type of resource to query. Currently only `Universe` is supported.
+                     *
+                     *     Universe
+                     */
+                    resourceType: components['schemas']['AlertStorage.ResourceType'];
+                    /** @description The numeric ID of the resource (e.g. the universe ID). */
+                    resourceId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.IncidentDetailResponse'][];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+                /** @description Service Unavailable */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/analytics-alert-control-plane/v1/resource/{resourceType}/id/{resourceId}/alerts/{alertId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Deletes an alert configuration. This action is irreversible. */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /**
+                     * @description The type of resource the alert belongs to. Currently only `Universe` is supported.
+                     *
+                     *     Universe
+                     */
+                    resourceType: components['schemas']['AlertStorage.ResourceType'];
+                    /** @description The numeric ID of the resource (e.g. the universe ID). */
+                    resourceId: string;
+                    /** @description The ID of the alert to delete. */
+                    alertId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description No Content */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+                /** @description Service Unavailable */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        /**
+         * Updates an existing alert configuration. Only the fields included in the request body are
+         *     changed; omitted fields retain their current values.
+         * @description See the <a href="https://create.roblox.com/docs/cloud/guides/alerts/metrics">alerts guide</a> for supported metrics and dimensions.
+         */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /**
+                     * @description The type of resource the alert belongs to. Currently only `Universe` is supported.
+                     *
+                     *     Universe
+                     */
+                    resourceType: components['schemas']['AlertStorage.ResourceType'];
+                    /** @description The numeric ID of the resource (e.g. the universe ID). */
+                    resourceId: string;
+                    /** @description The ID of the alert to update. */
+                    alertId: string;
+                };
+                cookie?: never;
+            };
+            /** @description The fields to update on the alert configuration. */
+            requestBody?: {
+                content: {
+                    'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.UpdateAlertConfigRequest'];
+                    'text/json': components['schemas']['AnalyticsAlertControlPlane.Models.UpdateAlertConfigRequest'];
+                    'application/*+json': components['schemas']['AnalyticsAlertControlPlane.Models.UpdateAlertConfigRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.AlertDetailResponse'];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+                /**
+                 * @description Conflict (`ALERT_NAME_EXISTED`): the new name collides with an existing alert on the
+                 *     same resource. Alert names must be unique per resource.
+                 */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+                /** @description Service Unavailable */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
     '/analytics-query-api/v1/universes/{universeId}/dimension-values': {
         parameters: {
             query?: never;
@@ -27341,6 +27840,7 @@ export interface paths {
         get: {
             parameters: {
                 query: {
+                    /** @description The type of a statistics dataset. ['PremiumUpsells' = 0, 'PremiumVisits' = 1] */
                     Type: 'PremiumUpsells' | 'PremiumVisits';
                     StartTime: string;
                     EndTime: string;
@@ -33597,7 +34097,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Returns details about the authenticated user's avatar. */
+        /**
+         * Returns details about the authenticated user's avatar.
+         * @deprecated
+         * @description Please use GET v4/avatar
+         */
         get: {
             parameters: {
                 query?: {
@@ -33794,7 +34298,10 @@ export interface paths {
         };
         /**
          * Returns details about a specified user's avatar.
+         * @deprecated
          * @description Includes assets, bodycolors, and playerAvatarType.
+         *
+         *     Please use GET v4/avatar/users/{userId}
          */
         get: {
             parameters: {
@@ -38558,6 +39065,7 @@ export interface paths {
                  *     22: Invalid asset type.
                  *     23: Invalid value, the min must be less than or equal to the max
                  *     24: Invalid scale value
+                 *     26: Invalid private server price
                  *     28: OptIn/Out Regions Not Supported.
                  *     41: You cannot change the private server price again so soon after the previous change. Please try again later.
                  *     44: The provided audience configuration is invalid. Ensure the audience list contains only supported audience values.
@@ -38580,6 +39088,7 @@ export interface paths {
                  * @description 0: Token Validation Failed
                  *     2: You are not authorized to configure this universe.
                  *     14: You are not authorized to sell games.
+                 *     25: Not authorized to update private server settings
                  *     29: Luobu app terms of service user agreement is missing.
                  *     30: Unknown error while updating Opt in out region.
                  *     45: The creator of this experience is not eligible to set this audience.
@@ -38597,7 +39106,10 @@ export interface paths {
                     };
                     content?: never;
                 };
-                /** @description 43: Failed to update the audience configuration. The change was not applied. Please try again. */
+                /**
+                 * @description 27: Unknown error while updating private server settings
+                 *     43: Failed to update the audience configuration. The change was not applied. Please try again.
+                 */
                 500: {
                     headers: {
                         [name: string]: unknown;
@@ -39873,7 +40385,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Gets details about the contents of an outfit. */
+        /**
+         * Gets details about the contents of an outfit.
+         * @deprecated
+         * @description Please use GET v4/outfits/{outfitId}/details
+         */
         get: {
             parameters: {
                 query?: {
@@ -39897,8 +40413,8 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.OutfitDetailsModelV2'];
-                        'text/json': components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.OutfitDetailsModelV2'];
+                        'application/json': components['schemas']['Roblox.Api.Avatar.Models.OutfitDetailsModelV2'];
+                        'text/json': components['schemas']['Roblox.Api.Avatar.Models.OutfitDetailsModelV2'];
                     };
                 };
                 /** @description 2: The outfit for the specified userOutfit is invalid. */
@@ -40495,6 +41011,395 @@ export interface components {
         /** @description A join request ID. */
         AcceptGroupJoinRequestRequest: Record<string, never>;
         ActionResult: Record<string, never>;
+        /** @description The threshold condition that determines when an alert fires. */
+        'AlertStorage.AlertCondition': {
+            operator: components['schemas']['AlertStorage.ConditionOperator'];
+            /**
+             * Format: double
+             * @description Numeric threshold the metric value is compared against.
+             */
+            threshold: number;
+            evaluationMode: components['schemas']['AlertStorage.EvaluationMode'];
+            /**
+             * Format: int32
+             * @description How many intervals back the comparison period is placed for `PeriodOverPeriod`
+             *     evaluation. A value of `1` compares against the immediately preceding interval;
+             *     a value of `7` with a `OneDay` interval compares against the same day last
+             *     week. `null` for `Absolute` conditions.
+             */
+            periodOffsetMultiplier?: number | null;
+        };
+        /**
+         * @description The current lifecycle state of an alert configuration.
+         *
+         *     Enabled
+         *
+         *     Disabled
+         *
+         *     PausedByRoblox
+         *
+         *     Syncing
+         *
+         *     Error
+         * @enum {string}
+         */
+        'AlertStorage.AlertConfigState': 'Enabled' | 'Disabled' | 'PausedByRoblox' | 'Syncing' | 'Error';
+        /**
+         * @description How frequently an alert condition is evaluated.
+         *
+         *     OneMinute
+         *
+         *     HalfHour
+         *
+         *     OneHour
+         *
+         *     OneDay
+         * @enum {string}
+         */
+        'AlertStorage.AlertInterval': 'OneMinute' | 'HalfHour' | 'OneHour' | 'OneDay';
+        /**
+         * @description Comparison operator used to evaluate whether a metric value breaches a threshold.
+         *
+         *     Gt
+         *
+         *     Gte
+         *
+         *     Lt
+         *
+         *     Lte
+         * @enum {string}
+         */
+        'AlertStorage.ConditionOperator': 'Gt' | 'Gte' | 'Lt' | 'Lte';
+        /**
+         * @description Determines how the metric value is derived before being compared against the threshold.
+         *
+         *     Absolute
+         *
+         *     PeriodOverPeriod
+         * @enum {string}
+         */
+        'AlertStorage.EvaluationMode': 'Absolute' | 'PeriodOverPeriod';
+        /**
+         * @description Whether an alert is currently in a firing or resolved state.
+         *
+         *     OK
+         *
+         *     Firing
+         * @enum {string}
+         */
+        'AlertStorage.FiringStatus': 'OK' | 'Firing';
+        /**
+         * @description The type of resource an alert is attached to.
+         *
+         *     Universe
+         * @enum {string}
+         */
+        'AlertStorage.ResourceType': 'Universe';
+        /**
+         * @description Severity level assigned to an alert configuration.
+         *
+         *     SEV_0
+         *
+         *     SEV_1
+         *
+         *     SEV_2
+         * @enum {string}
+         */
+        'AlertStorage.Severity': 'SEV_0' | 'SEV_1' | 'SEV_2';
+        /** @description A single webhook notification destination linked to an alert configuration. */
+        'AlertStorage.WebhookReceiver': {
+            /**
+             * @description The ID of the webhook configuration in the Webhook Delivery System. Must be a valid
+             *     UUID and unique within the list on this alert configuration.
+             */
+            webhookConfigurationId: string;
+        };
+        /**
+         * @description Webhook notification settings for an alert. When set, each webhook in the
+         *     `receivers` list will be called whenever the alert fires or resolves.
+         *     Set to `null` to disable webhook notifications for the alert.
+         */
+        'AlertStorage.WebhookReceiverConfig': {
+            /**
+             * @description List of webhook destinations to notify when the alert fires or resolves. Each entry
+             *     references a webhook configuration you have created in the Webhook Delivery System.
+             *     The list must contain unique entries with no duplicates.
+             */
+            receivers?: components['schemas']['AlertStorage.WebhookReceiver'][] | null;
+        };
+        /**
+         * @description The threshold condition for an alert. Specifies the comparison operator, threshold value,
+         *     and how the metric value is derived before comparison.
+         *
+         *     On create, `operator`, `threshold`, and `evaluationMode` are all required.
+         *     On update (PATCH), the entire `condition` object is optional; when included, any
+         *     sub-field can be omitted to keep its current value.
+         *
+         *     `periodOffsetMultiplier` only applies when `evaluationMode` is
+         *     `PeriodOverPeriod`. It is ignored for `Absolute` conditions.
+         */
+        'AnalyticsAlertControlPlane.Models.AlertConditionInput': {
+            operator?: components['schemas']['AlertStorage.ConditionOperator'];
+            /**
+             * Format: double
+             * @description Numeric threshold the metric value is compared against.
+             *     Required on create; optional on update.
+             */
+            threshold?: number | null;
+            evaluationMode?: components['schemas']['AlertStorage.EvaluationMode'];
+            /**
+             * Format: int32
+             * @description How many intervals back the comparison period is placed for
+             *     `PeriodOverPeriod` evaluation. For example, a value of `1` (the default)
+             *     compares the current interval against the immediately preceding interval.
+             *     A value of `7` with a `OneDay` interval compares today against the same
+             *     day last week. Only valid when `evaluationMode` is `PeriodOverPeriod`;
+             *     omit or leave `null` for `Absolute` conditions.
+             */
+            periodOffsetMultiplier?: number | null;
+        };
+        /** @description Key fields of the alert configuration that triggered an incident. */
+        'AnalyticsAlertControlPlane.Models.AlertConfigSummary': {
+            /** @description Unique identifier of the alert configuration (string-encoded 64-bit integer). */
+            id: string;
+            /** @description Display name of the alert configuration. */
+            name: string;
+            /** @description Name of the metric this alert evaluates. */
+            metric: string;
+            severity: components['schemas']['AlertStorage.Severity'];
+            /** @description Optional free-text description of the alert's purpose. */
+            description?: string | null;
+            interval: components['schemas']['AlertStorage.AlertInterval'];
+            /** @description Dimension filters applied to the metric query, if any. */
+            filter?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertQueryFilter'][] | null;
+            /** @description Grouping dimensions for the metric query, if any. */
+            breakdown?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertQueryBreakdown'][] | null;
+            condition: components['schemas']['AlertStorage.AlertCondition'];
+        };
+        /** @description Full details of a saved alert configuration. */
+        'AnalyticsAlertControlPlane.Models.AlertDetailResponse': {
+            /** @description Unique identifier of the alert configuration (string-encoded 64-bit integer). */
+            alertId: string;
+            resourceType: components['schemas']['AlertStorage.ResourceType'];
+            /** @description Numeric ID of the resource this alert monitors (e.g. the universe ID). */
+            resourceId: string;
+            /** @description Display name of the alert. Must be unique within the resource. */
+            name: string;
+            /** @description Name of the metric this alert evaluates. */
+            metric: string;
+            /** @description Optional free-text description of the alert's purpose. */
+            description?: string | null;
+            severity: components['schemas']['AlertStorage.Severity'];
+            interval: components['schemas']['AlertStorage.AlertInterval'];
+            /**
+             * Format: int32
+             * @description Number of consecutive evaluation periods the condition must be met before the alert fires.
+             *     Must be at least 1. For example, a value of 3 with a 1-minute interval means the condition
+             *     must hold for 3 consecutive minutes before an incident is opened.
+             */
+            consecutiveOccurrences: number;
+            /**
+             * @description Optional dimension filters applied to the metric query. Each entry restricts the metric
+             *     to rows where the specified dimension matches one of the given values.
+             */
+            filter?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertQueryFilter'][] | null;
+            /**
+             * @description Optional grouping dimensions for the metric query. When set, the alert evaluates
+             *     the metric independently for each combination of dimension values and fires if any
+             *     group breaches the condition.
+             */
+            breakdown?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertQueryBreakdown'][] | null;
+            condition: components['schemas']['AlertStorage.AlertCondition'];
+            configState: components['schemas']['AlertStorage.AlertConfigState'];
+            webhookReceiverConfig?: components['schemas']['AlertStorage.WebhookReceiverConfig'];
+            firingStatus: components['schemas']['AlertStorage.FiringStatus'];
+            /**
+             * Format: date-time
+             * @description Timestamp of the most recent firing event. `null` if the alert has never fired.
+             */
+            lastFiredAt?: string | null;
+            /**
+             * Format: date-time
+             * @description Timestamp when this alert configuration was created (UTC).
+             */
+            createdAt: string;
+            /**
+             * Format: date-time
+             * @description Timestamp of the most recent modification to this alert configuration (UTC).
+             */
+            lastModifiedAt: string;
+            /**
+             * @description ID of the user who last modified this alert configuration.
+             *     `null` if the last modification was made by the system.
+             */
+            lastModifiedBy?: string | null;
+        };
+        /**
+         * @description A set of dimensions used to group the metric query. When a breakdown is specified, the
+         *     alert evaluates each unique combination of dimension values independently and fires if any
+         *     group breaches the condition.
+         */
+        'AnalyticsAlertControlPlane.Models.AlertQueryBreakdown': {
+            /** @description Names of the dimensions to group by (e.g. `["platform", "age_bracket"]`). */
+            dimensions: string[];
+        };
+        /**
+         * @description A dimension filter applied to the metric query. Restricts the metric to rows where the
+         *     specified dimension matches one of the given values.
+         */
+        'AnalyticsAlertControlPlane.Models.AlertQueryFilter': {
+            /** @description Name of the dimension to filter on (e.g. `platform`). */
+            dimension: string;
+            /**
+             * @description The allowed values for this dimension. A metric data point is included only if its
+             *     dimension value is in this list.
+             */
+            values: string[];
+        };
+        /** @description Request body for creating a new alert configuration. */
+        'AnalyticsAlertControlPlane.Models.CreateAlertConfigRequest': {
+            /**
+             * @description Display name of the alert. Must be unique within the resource. Maximum length is 128
+             *     characters and the value is subject to Roblox text-moderation policies.
+             */
+            name: string;
+            /** @description Name of the metric this alert should evaluate. */
+            metric: string;
+            /** @description Optional free-text description of the alert's purpose. */
+            description?: string | null;
+            severity: components['schemas']['AlertStorage.Severity'];
+            interval: components['schemas']['AlertStorage.AlertInterval'];
+            /**
+             * Format: int32
+             * @description Number of consecutive evaluation periods the condition must be met before the alert
+             *     fires. Must be at least 1. For example, a value of 3 with a 1-minute interval means
+             *     the condition must hold for 3 consecutive minutes before an incident is opened.
+             */
+            consecutiveOccurrences: number;
+            /**
+             * @description Optional grouping dimensions for the metric query. When set, the alert evaluates
+             *     the metric independently for each combination of dimension values and fires if any
+             *     group breaches the condition.
+             */
+            breakdown?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertQueryBreakdown'][] | null;
+            /**
+             * @description Optional dimension filters applied to the metric query. Each entry restricts the metric
+             *     to rows where the specified dimension matches one of the given values.
+             */
+            filter?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertQueryFilter'][] | null;
+            condition: components['schemas']['AnalyticsAlertControlPlane.Models.AlertConditionInput'];
+            webhookReceiverConfig?: components['schemas']['AlertStorage.WebhookReceiverConfig'];
+        };
+        /** @description Standard error response body for the Alerts API. */
+        'AnalyticsAlertControlPlane.Models.ErrorResponse': {
+            /** @description Machine-readable error code (e.g. PERMISSION_DENIED). */
+            errorCode?: string | null;
+            /** @description Human-readable error description. */
+            message?: string | null;
+        };
+        /**
+         * @description A single metric value that breached the alert threshold, optionally scoped to a specific
+         *     dimension value when the alert uses a breakdown.
+         */
+        'AnalyticsAlertControlPlane.Models.FiringConditionResponse': {
+            /**
+             * Format: double
+             * @description The metric value that exceeded the threshold at the time of evaluation.
+             */
+            firingValue: number;
+            firingDimension?: components['schemas']['AnalyticsAlertControlPlane.Models.FiringDimensionResponse'];
+        };
+        /** @description A dimension name/value pair that identifies which slice of the metric was firing. */
+        'AnalyticsAlertControlPlane.Models.FiringDimensionResponse': {
+            /** @description Name of the dimension (e.g. `platform`). */
+            dimension: string;
+            /** @description Value of the dimension for the slice that was firing (e.g. `Mobile`). */
+            value: string;
+        };
+        /**
+         * @description A snapshot of the alert condition at a specific evaluation, capturing the metric values
+         *     that were firing and any dimension breakdowns involved.
+         */
+        'AnalyticsAlertControlPlane.Models.FiringMetadataResponse': {
+            /** @description Dimension filters that were active at this evaluation, if any. */
+            filter?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertQueryFilter'][] | null;
+            /** @description Grouping dimensions that were active at this evaluation, if any. */
+            breakdown?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertQueryBreakdown'][] | null;
+            condition: components['schemas']['AlertStorage.AlertCondition'];
+            /** @description The specific metric values and dimension combinations that caused the condition to fire. */
+            firingCondition: components['schemas']['AnalyticsAlertControlPlane.Models.FiringConditionResponse'][];
+        };
+        /** @description Details of a single alert incident. */
+        'AnalyticsAlertControlPlane.Models.IncidentDetailResponse': {
+            /** @description Unique identifier of this incident. */
+            id: string;
+            resourceType: components['schemas']['AlertStorage.ResourceType'];
+            /** @description Numeric ID of the resource this incident belongs to (e.g. the universe ID). */
+            resourceId: string;
+            status: components['schemas']['AlertStorage.FiringStatus'];
+            /**
+             * Format: date-time
+             * @description Timestamp when this incident was first opened (UTC).
+             */
+            openedAt: string;
+            /**
+             * Format: date-time
+             * @description Start of the evaluation window that first satisfied the alert condition and opened this
+             *     incident (UTC).
+             */
+            openedWindowStartAt: string;
+            /**
+             * Format: date-time
+             * @description Timestamp when this incident was resolved (UTC). `null` if the incident is still
+             *     active.
+             */
+            resolvedAt?: string | null;
+            /**
+             * Format: date-time
+             * @description Start of the evaluation window in which the alert condition was no longer satisfied,
+             *     causing the incident to be resolved (UTC). `null` if the incident is still active.
+             */
+            resolvedWindowStartAt?: string | null;
+            firstFiringMetadata: components['schemas']['AnalyticsAlertControlPlane.Models.FiringMetadataResponse'];
+            latestFiringMetadata: components['schemas']['AnalyticsAlertControlPlane.Models.FiringMetadataResponse'];
+            alertConfig: components['schemas']['AnalyticsAlertControlPlane.Models.AlertConfigSummary'];
+        };
+        /**
+         * @description Request body for partially updating an alert configuration (PATCH semantics). All fields
+         *     are optional; only the fields present in the request body are updated.
+         */
+        'AnalyticsAlertControlPlane.Models.UpdateAlertConfigRequest': {
+            /**
+             * @description New display name for the alert. Must be unique within the resource. Subject to
+             *     Roblox text-moderation policies.
+             */
+            name?: string | null;
+            /** @description New metric name this alert should evaluate. */
+            metric?: string | null;
+            /** @description New free-text description of the alert's purpose. */
+            description?: string | null;
+            severity?: components['schemas']['AlertStorage.Severity'];
+            interval?: components['schemas']['AlertStorage.AlertInterval'];
+            /**
+             * Format: int32
+             * @description New consecutive-occurrences count. When set, the alert will require the condition to
+             *     hold for this many consecutive evaluation periods before firing. Must be at least 1.
+             */
+            consecutiveOccurrences?: number | null;
+            /**
+             * @description New grouping dimensions for the metric query. Replaces the existing breakdown entirely
+             *     when provided.
+             */
+            breakdown?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertQueryBreakdown'][] | null;
+            /**
+             * @description New dimension filters for the metric query. Replaces the existing filter list entirely
+             *     when provided.
+             */
+            filter?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertQueryFilter'][] | null;
+            condition?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertConditionInput'];
+            webhookReceiverConfig?: components['schemas']['AlertStorage.WebhookReceiverConfig'];
+            configState?: components['schemas']['AlertStorage.AlertConfigState'];
+        };
         /** @description A breakdown dimension value in a query result. */
         'AnalyticsQueryPublicApi.BreakdownValue': {
             /** @description The dimension name. */
@@ -41053,162 +41958,6 @@ export interface components {
             /** @description Indicates which music charts to filter from. */
             musicChartType?: components['schemas']['MusicChartType'];
         } | null;
-        /** @description Exhaustive model denoting all possible metadata fields of an asset */
-        'AvatarPublicApi.Roblox.Api.Avatar.Models.AssetMetaModelV1': {
-            /**
-             * Format: int32
-             * @description Layered-clothing order
-             */
-            order?: number;
-            /**
-             * Format: float
-             * @description Layered-clothing puffiness
-             */
-            puffiness?: number;
-            position?: components['schemas']['Roblox.Api.Avatar.Models.AssetPosition'];
-            rotation?: components['schemas']['Roblox.Api.Avatar.Models.AssetRotation'];
-            scale?: components['schemas']['Roblox.Api.Avatar.Models.AssetScale'];
-            /**
-             * Format: int32
-             * @description Head Shape selected for the asset id.
-             *     Applicable for dynamic head assets.
-             * @enum {integer}
-             */
-            headShape?:
-                | 0
-                | 1
-                | 2
-                | 3
-                | 4
-                | 5
-                | 6
-                | 7
-                | 8
-                | 9
-                | 10
-                | 11
-                | 12
-                | 13
-                | 14
-                | 15
-                | 16
-                | 17
-                | 18
-                | 19
-                | 20
-                | 21
-                | 22
-                | 23
-                | 24
-                | 25
-                | 26
-                | 27
-                | 28
-                | 29;
-            /**
-             * @description Indicates user choice for facial animation.
-             *     staticFacialAnimation=false, implies the toggle as on and face will animate.
-             *     Applicable for dynamic head assets.
-             */
-            staticFacialAnimation?: boolean;
-            /**
-             * Format: int32
-             * @description Client-authoritative meta model format version
-             *     - default is always 1
-             */
-            version?: number;
-        };
-        /**
-         * @description A model containing details about an asset
-         *     - V2: adds CurrentVersionId, AssetMetaModel
-         */
-        'AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2': {
-            /**
-             * Format: int64
-             * @description The id
-             */
-            id?: number;
-            /** @description The name */
-            name?: string;
-            assetType?: components['schemas']['Roblox.Api.Avatar.Models.AssetTypeModel'];
-            /**
-             * Format: int64
-             * @description Id of the current version of asset
-             */
-            currentVersionId?: number;
-            meta?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetMetaModelV1'];
-            /** @description Asset availability status. */
-            availabilityStatus?: string;
-            /**
-             * Format: date-time
-             * @description For rental assets only. (Future) ownership expiration time of the asset.
-             */
-            expirationTime?: string;
-            /** @description If the "Id" is swappable, applicable for DH assets. */
-            supportsHeadShapes?: boolean;
-        };
-        /**
-         * @description A model which contains
-         *     - an asset id
-         *     - AssetMetaModel
-         */
-        'AvatarPublicApi.Roblox.Api.Avatar.Models.AssetWearModel': {
-            /**
-             * Format: int64
-             * @description An asset id
-             */
-            id?: number;
-            meta?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetMetaModelV1'];
-        };
-        /** @description A model containing details about a user outfit */
-        'AvatarPublicApi.Roblox.Api.Avatar.Models.OutfitDetailsModelV2': {
-            /**
-             * Format: int64
-             * @description The id
-             */
-            id?: number;
-            /** @description The name */
-            name?: string;
-            /** @description A list of assetIds */
-            assets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'][];
-            bodyColor3s?: components['schemas']['Roblox.Api.Avatar.Models.BodyColors3Model'];
-            scale?: components['schemas']['Roblox.Web.Responses.Avatar.ScaleModel'];
-            /** @description The player avatar type - this can be R6 or R15. */
-            playerAvatarType?: string;
-            /** @description The outfit type of the outfit */
-            outfitType?: string;
-            /** @description Whether the outfit can be edited by the user */
-            isEditable?: boolean;
-            /**
-             * Format: int64
-             * @description The universe id of the outfit, null when outfit is not created in-experience
-             */
-            universeId?: number;
-            /** @description The moderation status of the outfit, not applicable when outfit is created outside experience */
-            moderationStatus?: string;
-            /**
-             * Format: int64
-             * @description The bundle ID, currently only returned for in-experience created outfits.
-             */
-            bundleId?: number;
-            /** @description The inventory type of the outfit. */
-            inventoryType?: string;
-        };
-        /** @description A model containing avatar background data. */
-        'AvatarPublicApi.Roblox.Api.Avatar.Models.V4.AvatarBackgroundModel': {
-            backgroundAsset?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'];
-        };
-        /**
-         * @description A model which contains the asset id of the background. This can be
-         *     extended to have more attributes in the future.
-         */
-        'AvatarPublicApi.Roblox.Api.Avatar.Models.V4.AvatarBackgroundRequestModel': {
-            /**
-             * Format: int64
-             * @description An asset id.
-             */
-            id?: number;
-        };
         /** @description Request object to grant one permission to multiple assets. */
         BatchGrantPermissionsRequest: {
             subjectType?: components['schemas']['SubjectType'];
@@ -46909,6 +47658,19 @@ export interface components {
             /** @description The name */
             name?: string;
         };
+        /**
+         * @description A model which contains
+         *     - an asset id
+         *     - AssetMetaModel
+         */
+        'Roblox.Api.Avatar.Models.AssetWearModel': {
+            /**
+             * Format: int64
+             * @description An asset id
+             */
+            id?: number;
+            meta?: components['schemas']['Roblox.Api.Avatar.Models.AssetMetaModelV1'];
+        };
         /** @description Success response class */
         'Roblox.Api.Avatar.Models.AvatarApiSuccessResponse': {
             /** @description Gets or sets a value indicating whether the request was a success. */
@@ -47011,7 +47773,7 @@ export interface components {
             playerAvatarType?: 1 | 3;
             bodyColor3s?: components['schemas']['Roblox.Api.Avatar.Models.BodyColors3Model'];
             /** @description The assets worn on the character */
-            assets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'][];
+            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
             /** @description Whether default clothing has been applied to this avatar. */
             defaultShirtApplied?: boolean;
             /** @description Whether default clothing has been applied to this avatar. */
@@ -47289,6 +48051,40 @@ export interface components {
             /** @description The moderation status of the outfit, not applicable when outfit is created outside experience */
             moderationStatus?: string;
         };
+        /** @description A model containing details about a user outfit */
+        'Roblox.Api.Avatar.Models.OutfitDetailsModelV2': {
+            /**
+             * Format: int64
+             * @description The id
+             */
+            id?: number;
+            /** @description The name */
+            name?: string;
+            /** @description A list of assetIds */
+            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
+            bodyColor3s?: components['schemas']['Roblox.Api.Avatar.Models.BodyColors3Model'];
+            scale?: components['schemas']['Roblox.Web.Responses.Avatar.ScaleModel'];
+            /** @description The player avatar type - this can be R6 or R15. */
+            playerAvatarType?: string;
+            /** @description The outfit type of the outfit */
+            outfitType?: string;
+            /** @description Whether the outfit can be edited by the user */
+            isEditable?: boolean;
+            /**
+             * Format: int64
+             * @description The universe id of the outfit, null when outfit is not created in-experience
+             */
+            universeId?: number;
+            /** @description The moderation status of the outfit, not applicable when outfit is created outside experience */
+            moderationStatus?: string;
+            /**
+             * Format: int64
+             * @description The bundle ID, currently only returned for in-experience created outfits.
+             */
+            bundleId?: number;
+            /** @description The inventory type of the outfit. */
+            inventoryType?: string;
+        };
         /** @description A slim model for user outfits. */
         'Roblox.Api.Avatar.Models.OutfitModel': {
             /**
@@ -47309,7 +48105,7 @@ export interface components {
             name?: string;
             bodyColors?: components['schemas']['Roblox.Api.Avatar.Models.BodyColorsModel'];
             /** @description Array of assets */
-            assets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetWearModel'][];
+            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetWearModel'][];
             scale?: components['schemas']['Roblox.Web.Responses.Avatar.ScaleModel'];
             /** @description The avatar scale */
             playerAvatarType?: string;
@@ -47318,7 +48114,7 @@ export interface components {
              * @description The type of outfit
              * @enum {integer}
              */
-            outfitType?: 0 | 1 | 2 | 4 | 5;
+            outfitType?: 0 | 1 | 2 | 4 | 5 | 6;
         };
         /** @description A model containing details needed to update or create an outfit. */
         'Roblox.Api.Avatar.Models.OutfitUpdateModelV3': {
@@ -47326,7 +48122,7 @@ export interface components {
             name?: string;
             bodyColor3s?: components['schemas']['Roblox.Api.Avatar.Models.BodyColors3Model'];
             /** @description Array of assets. */
-            assets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetWearModel'][];
+            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetWearModel'][];
             scale?: components['schemas']['Roblox.Web.Responses.Avatar.ScaleModel'];
             /** @description The avatar scale. */
             playerAvatarType?: string;
@@ -47335,7 +48131,7 @@ export interface components {
              * @description The type of outfit.
              * @enum {integer}
              */
-            outfitType?: 0 | 1 | 2 | 4 | 5;
+            outfitType?: 0 | 1 | 2 | 4 | 5 | 6;
         };
         /** @description A model that contains a playerAvatarType */
         'Roblox.Api.Avatar.Models.PlayerAvatarTypeModel': {
@@ -47382,7 +48178,7 @@ export interface components {
             playerAvatarType?: 1 | 3;
             bodyColors?: components['schemas']['Roblox.Api.Avatar.Models.BodyColors3Model'];
             /** @description The assets worn on the character. */
-            assets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetWearModel'][];
+            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetWearModel'][];
         };
         /** @description A model containing details about an avatar update request. */
         'Roblox.Api.Avatar.Models.UpdateAvatarRequestModel': {
@@ -47403,15 +48199,30 @@ export interface components {
              * @description The assets that could not be worn
              *     Unlike invalidAssetIds, only contains assets that are wearable types.
              */
-            invalidAssets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'][];
+            invalidAssets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
             /** @description Whether or not all the outfit contents were successfully worn. */
             success?: boolean;
+        };
+        /** @description A model containing avatar background data. */
+        'Roblox.Api.Avatar.Models.V4.AvatarBackgroundModel': {
+            backgroundAsset?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'];
+        };
+        /**
+         * @description A model which contains the asset id of the background. This can be
+         *     extended to have more attributes in the future.
+         */
+        'Roblox.Api.Avatar.Models.V4.AvatarBackgroundRequestModel': {
+            /**
+             * Format: int64
+             * @description An asset id.
+             */
+            id?: number;
         };
         /** @description Avatar config details. */
         'Roblox.Api.Avatar.Models.V4.AvatarConfigurations': {
             /** @description The emotes on the character. */
             emotes?: components['schemas']['Roblox.Api.Avatar.Models.EmoteResponseModel'][];
-            background?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.V4.AvatarBackgroundModel'];
+            background?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarBackgroundModel'];
             /** @description List of customizations set for this avatar. At most one per thumbnail type (Closeup, FullBody). */
             thumbnailCustomizations?: components['schemas']['Roblox.Api.Avatar.Models.AvatarThumbnailCustomizationModel'][];
             profileFrame?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarProfileFrameModel'];
@@ -47432,11 +48243,11 @@ export interface components {
             playerAvatarType?: 1 | 3;
             bodyColors?: components['schemas']['Roblox.Api.Avatar.Models.BodyColorsModelV4'];
             /** @description The assets worn on the character. */
-            assets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'][];
+            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
         };
         /** @description A model containing avatar profile frame data. */
         'Roblox.Api.Avatar.Models.V4.AvatarProfileFrameModel': {
-            frameAsset?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'];
+            frameAsset?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'];
         };
         /** @description A model which contains the asset id of the profile frame. */
         'Roblox.Api.Avatar.Models.V4.AvatarProfileFrameRequestModel': {
@@ -47448,7 +48259,7 @@ export interface components {
         };
         /** @description Background configuration for an outfit. */
         'Roblox.Api.Avatar.Models.V4.OutfitConfigurations': {
-            background?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.V4.AvatarBackgroundModel'];
+            background?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarBackgroundModel'];
         };
         /** @description Details about an outfit. */
         'Roblox.Api.Avatar.Models.V4.OutfitDefinition': {
@@ -47482,9 +48293,9 @@ export interface components {
              * @description The type of the outfit.
              * @enum {integer}
              */
-            outfitType?: 0 | 1 | 2 | 4 | 5;
+            outfitType?: 0 | 1 | 2 | 4 | 5 | 6;
             /** @description The assets on the outfit. */
-            assets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'][];
+            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
             bodyColors?: components['schemas']['Roblox.Api.Avatar.Models.BodyColorsModelV4'];
             scale?: components['schemas']['Roblox.Web.Responses.Avatar.ScaleModel'];
             /**
@@ -47513,7 +48324,7 @@ export interface components {
         /** @description Validation details for avatar mutation responses when one or more inputs could not be applied. */
         'Roblox.Api.Avatar.Models.V4.Response.AvatarValidationResultV4': {
             /** @description Assets that could not be worn. */
-            invalidAssets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'][];
+            invalidAssets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
             /** @description Background assets that could not be applied. */
             invalidBackground?: components['schemas']['Roblox.Api.Avatar.Models.InvalidBackgroundResponse'][];
             /** @description Profile frame assets that could not be applied. */
@@ -47537,7 +48348,7 @@ export interface components {
         /** @description Validation details for outfit mutation responses when one or more inputs could not be applied. */
         'Roblox.Api.Avatar.Models.V4.Response.OutfitValidationResultV4': {
             /** @description Assets that could not be worn. */
-            unwornAssets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'][];
+            unwornAssets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
             /** @description Background assets that could not be applied. */
             invalidBackground?: components['schemas']['Roblox.Api.Avatar.Models.InvalidBackgroundResponse'][];
         };
@@ -47551,7 +48362,7 @@ export interface components {
              *     Prefer Roblox.Api.Avatar.Models.V4.Response.UpdateAvatarDefinitionResponseV4.Validation.Roblox.Api.Avatar.Models.V4.Response.AvatarValidationResultV4.InvalidAssets.
              *     Will be reverted once the engine fix is fully deployed.
              */
-            invalidAssets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'][];
+            invalidAssets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
             validation?: components['schemas']['Roblox.Api.Avatar.Models.V4.Response.AvatarValidationResultV4'];
         };
         /** @description Response model for update outfit (V4). */
@@ -47566,7 +48377,7 @@ export interface components {
             emoteRequestModels?: components['schemas']['Roblox.Api.Avatar.Models.EmoteRequestModel'][];
             /** @description The avatar's thumbnail customizations. */
             thumbnailCustomizationModels?: components['schemas']['Roblox.Api.Avatar.Models.AvatarThumbnailCustomizationModel'][];
-            backgroundRequestModel?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.V4.AvatarBackgroundRequestModel'];
+            backgroundRequestModel?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarBackgroundRequestModel'];
             profileFrameRequestModel?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarProfileFrameRequestModel'];
         };
         /** @description A model containing details about an avatar update. */
@@ -47585,11 +48396,11 @@ export interface components {
             playerAvatarType?: 1 | 3;
             bodyColors?: components['schemas']['Roblox.Api.Avatar.Models.BodyColorsModelV4'];
             /** @description The assets worn on the character. */
-            assets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetWearModel'][];
+            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetWearModel'][];
         };
         /** @description A model containing outfit config fields to update. */
         'Roblox.Api.Avatar.Models.V4.UpdateOutfitConfig': {
-            backgroundRequestModel?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.V4.AvatarBackgroundRequestModel'];
+            backgroundRequestModel?: components['schemas']['Roblox.Api.Avatar.Models.V4.AvatarBackgroundRequestModel'];
         };
         /** @description A model containing outfit fields to create or update. */
         'Roblox.Api.Avatar.Models.V4.UpdateOutfitDefinition': {
@@ -47602,7 +48413,7 @@ export interface components {
             name?: string;
             bodyColors?: components['schemas']['Roblox.Api.Avatar.Models.BodyColorsModelV4'];
             /** @description The assets on the outfit. */
-            assets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetWearModel'][];
+            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetWearModel'][];
             scale?: components['schemas']['Roblox.Web.Responses.Avatar.ScaleModel'];
             /**
              * Format: int32
@@ -47615,12 +48426,12 @@ export interface components {
              * @description The type of outfit (for example Avatar or Makeup). Defaults to Avatar when omitted.
              * @enum {integer}
              */
-            outfitType?: 0 | 1 | 2 | 4 | 5;
+            outfitType?: 0 | 1 | 2 | 4 | 5 | 6;
         };
         /** @description A model that contains a list of AssetWear models */
         'Roblox.Api.Avatar.Models.WearRequestModel': {
             /** @description The asset ids */
-            assets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetWearModel'][];
+            assets?: components['schemas']['Roblox.Api.Avatar.Models.AssetWearModel'][];
         };
         /** @description A model for wear outfit responses */
         'Roblox.Api.Avatar.Models.WearResponseModel': {
@@ -47628,7 +48439,7 @@ export interface components {
              * @description The assets that could not be worn
              *     Unlike invalidAssetIds, only contains assets that are wearable types
              */
-            invalidAssets?: components['schemas']['AvatarPublicApi.Roblox.Api.Avatar.Models.AssetModelV2'][];
+            invalidAssets?: components['schemas']['Roblox.Api.Avatar.Models.AssetModelV2'][];
             /** @description The asset ids that could not be worn */
             invalidAssetIds?: number[];
             /** @description Whether or not all the outfit contents were successfully worn */

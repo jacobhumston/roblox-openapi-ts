@@ -1721,6 +1721,156 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/asset-delivery-api/v1/assetId/{assetId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves an asset by its ID with OpenCloud auth.
+         * @description Returns an object containing a `location` property which is a temporary CDN URL for the asset content. All asset types are supported.
+         *     You should request that URL with the `Accept-Encoding: gzip` header and decompress the result if the response is gzipped. If you are using cURL, the `--compressed` flag will automate these steps for you.
+         *     This endpoint is expected to be called with API key authentication through `apis.roblox.com/asset-delivery-api/v1/assetId/{assetId}`.
+         *     While you are able to make requests to this endpoint with Cookie authentication via `assetdelivery.roblox.com/v1/openCloud/assetId/{assetId}`, we highly discourage use this way.
+         *     Expect unannounced removal of this second route in the future.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Whether to skip script signing for the returned asset. Used for script assets that don't require signing. */
+                    skipSigningScripts?: boolean;
+                    /** @description Set to 1 to indicate this is a client insert request. */
+                    clientInsert?: number;
+                    /** @description Set to 1 to indicate this is a script insert request. */
+                    scriptinsert?: number;
+                    /** @description The place ID of the module making the request. */
+                    modulePlaceId?: number;
+                    /** @description The server place ID making the request. */
+                    serverplaceid?: number;
+                    /** @description The expected asset type as a fallback when assetType header is not provided. */
+                    expectedAssetType?: string;
+                    /** @description Whether to prevent fallback to baseline representation when specific content representations are not available. */
+                    doNotFallbackToBaselineRepresentation?: boolean;
+                    /** @description Base64URL-encoded JSON string specifying the priority list of desired content representations (format, version, fidelity). */
+                    contentRepresentationPriorityList?: string;
+                    accessContext?: string;
+                };
+                header?: {
+                    /** @description The Accept-Encoding header value specifying compression formats (e.g., "gzip, deflate"). Defaults to "gzip, deflate" if not provided. */
+                    'Accept-Encoding'?: string;
+                    /** @description The Roblox-Place-Id header value identifying the place making the request. */
+                    'Roblox-Place-Id'?: number;
+                    /** @description The AssetType header value specifying the expected asset type. */
+                    AssetType?: string;
+                    /** @description The AssetFormat header value specifying the desired asset format. Overridden by robloxAssetFormat if both are provided. */
+                    AssetFormat?: string;
+                    /** @description The Roblox-AssetFormat header value specifying the preferred Roblox-specific asset format. Takes precedence over assetFormat. */
+                    'Roblox-AssetFormat'?: string;
+                    'Roblox-Usage-Context'?: string;
+                };
+                path: {
+                    /** @description The ID of the asset to retrieve. */
+                    assetId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/asset-delivery-api/v1/assetId/{assetId}/version/{versionNumber}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves an asset by its ID and version number with OpenCloud auth.
+         * @description Refer to the assetId endpoint for details on usage.
+         *     This endpoint is expected to be called with API key authentication through `apis.roblox.com/asset-delivery-api/v1/assetId/{assetId}/version/{versionNumber}`.
+         *     While you are able to make requests to this endpoint with Cookie authentication via `assetdelivery.roblox.com/v1/openCloud/assetId/{assetId}/version/{versionNumber}`, we highly discourage use this way.
+         *     Expect unannounced removal of this second route in the future.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    skipSigningScripts?: boolean;
+                    clientInsert?: number;
+                    scriptinsert?: number;
+                    modulePlaceId?: number;
+                    serverplaceid?: number;
+                    expectedAssetType?: string;
+                    doNotFallbackToBaselineRepresentation?: boolean;
+                    contentRepresentationPriorityList?: string;
+                    accessContext?: string;
+                };
+                header?: {
+                    'Accept-Encoding'?: string;
+                    'Roblox-Place-Id'?: number;
+                    AssetType?: string;
+                    AssetFormat?: string;
+                    'Roblox-AssetFormat'?: string;
+                    'Roblox-Usage-Context'?: string;
+                };
+                path: {
+                    /** @description The ID of the asset to retrieve. */
+                    assetId: number;
+                    /** @description The version number of the asset to retrieve. */
+                    versionNumber: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/asset-permissions-api/v1/assets/permissions': {
         parameters: {
             query?: never;
@@ -5526,6 +5676,266 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/legacy-followings/v1/users/{userId}/universes': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets all the followings between a user with userId and universes */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description A list of user to game followings. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'][];
+                        'text/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'][];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description User is not authorized for this action. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/legacy-followings/v1/users/{userId}/universes/{universeId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Creates the following between a user with userId and universe with universeId */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: number;
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description The created following. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'];
+                        'text/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'];
+                    };
+                };
+                /** @description The user has reached the limit of number of followed universes. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description User is not authorized for this action. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        /** Deletes the following between a user with userId and universe with universeId */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: number;
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description The deleted following. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'];
+                        'text/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description User is not authorized for this action. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/legacy-followings/v1/users/{userId}/universes/{universeId}/status': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the status of a following relationship between a user and a universe. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: number;
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description The status of the following relationship. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseStatusResponse'];
+                        'text/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseStatusResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description User is not authorized for this action. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/legacy-followings/v2/users/{userId}/universes': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets all universes followed by a user. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The user ID. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Data model containing map of (universe ID => follow date). */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Followings.Api.Models.FollowsByTypeResponse'];
+                        'text/json': components['schemas']['Roblox.Followings.Api.Models.FollowsByTypeResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description User is not authorized for this action. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/legacy-game-internationalization/v1/badges/{badgeId}/description/language-codes/{languageCode}': {
         parameters: {
             query?: never;
@@ -8774,6 +9184,608 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/legacy-groups/v1/groups/policies': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Gets group policy info used for compliance. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Groups.Api.GroupPolicyRequest'];
+                    'text/json': components['schemas']['Roblox.Groups.Api.GroupPolicyRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupPoliciesResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupPoliciesResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Too many ids in request.
+                 *     2: Ids could not be parsed from request.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/legacy-groups/v1/groups/{groupId}/audit-log': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the Group's audit log */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Filter for specific type of action performed */
+                    actionType?:
+                        | 'DeletePost'
+                        | 'RemoveMember'
+                        | 'AcceptJoinRequest'
+                        | 'DeclineJoinRequest'
+                        | 'PostStatus'
+                        | 'ChangeRank'
+                        | 'BuyAd'
+                        | 'SendAllyRequest'
+                        | 'CreateEnemy'
+                        | 'AcceptAllyRequest'
+                        | 'DeclineAllyRequest'
+                        | 'DeleteAlly'
+                        | 'DeleteEnemy'
+                        | 'AddGroupPlace'
+                        | 'RemoveGroupPlace'
+                        | 'CreateItems'
+                        | 'ConfigureItems'
+                        | 'SpendGroupFunds'
+                        | 'ChangeOwner'
+                        | 'Delete'
+                        | 'AdjustCurrencyAmounts'
+                        | 'Abandon'
+                        | 'Claim'
+                        | 'Rename'
+                        | 'ChangeDescription'
+                        | 'InviteToClan'
+                        | 'KickFromClan'
+                        | 'CancelClanInvite'
+                        | 'BuyClan'
+                        | 'CreateGroupAsset'
+                        | 'UpdateGroupAsset'
+                        | 'ConfigureGroupAsset'
+                        | 'RevertGroupAsset'
+                        | 'CreateGroupDeveloperProduct'
+                        | 'ConfigureGroupGame'
+                        | 'CreateGroupDeveloperSubscriptionProduct'
+                        | 'Lock'
+                        | 'Unlock'
+                        | 'CreateGamePass'
+                        | 'CreateBadge'
+                        | 'ConfigureBadge'
+                        | 'SavePlace'
+                        | 'PublishPlace'
+                        | 'UpdateRolesetRank'
+                        | 'UpdateRolesetData'
+                        | 'UpdateRoleSetPosition'
+                        | 'BanMember'
+                        | 'UnbanMember'
+                        | 'CreateForumCategory'
+                        | 'UpdateForumCategory'
+                        | 'ArchiveForumCategory'
+                        | 'DeleteForumCategory'
+                        | 'DeleteForumPost'
+                        | 'DeleteForumComment'
+                        | 'PinForumPost'
+                        | 'UnpinForumPost'
+                        | 'LockForumPost'
+                        | 'UnlockForumPost'
+                        | 'CreateRoleset'
+                        | 'DeleteRoleset'
+                        | 'CreateCommerceProduct'
+                        | 'SetCommerceProductActive'
+                        | 'ArchiveCommerceProduct'
+                        | 'AcceptCommerceProductBundlingFee'
+                        | 'SetCommerceProductInactive'
+                        | 'ConnectMerchant'
+                        | 'DisconnectMerchant'
+                        | 'JoinGroup'
+                        | 'LeaveGroup'
+                        | 'UpdateGroupIcon'
+                        | 'UpdateGroupCoverPhoto'
+                        | 'AssignRole'
+                        | 'UnassignRole'
+                        | 'PublishAnnouncement'
+                        | 'DeleteAnnouncement'
+                        | 'UpdateRoleSetPermissions'
+                        | 'UpdateGroupSecuritySettings'
+                        | 'GrantEnterpriseTier'
+                        | 'RevokeEnterpriseTier'
+                        | 'DeactivateGroup';
+                    /** @description Filter for specific user id */
+                    userId?: number;
+                    /** @description The number of results per request. */
+                    limit?: 10 | 25 | 50 | 100;
+                    /** @description The paging cursor for the previous or next page. */
+                    cursor?: string;
+                    /** @description The order the results are sorted in. */
+                    sortOrder?: 'Asc' | 'Desc';
+                };
+                header?: never;
+                path: {
+                    /** @description The id of the group the user is in. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupAuditLogPageResponse_Roblox.Groups.Api.Models.Response.GroupAuditLogResponseItem_'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupAuditLogPageResponse_Roblox.Groups.Api.Models.Response.GroupAuditLogResponseItem_'];
+                    };
+                };
+                /**
+                 * @description 1: Group is invalid or does not exist.
+                 *     8: Invalid or missing pagination parameters
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 23: Insufficient permissions to complete the request. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/legacy-groups/v1/groups/{groupId}/description': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Updates the groups description */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id of the group the user is in. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            /** @description The Roblox.Groups.Api.UpdateGroupDescriptionRequest. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Groups.Api.UpdateGroupDescriptionRequest'];
+                    'text/json': components['schemas']['Roblox.Groups.Api.UpdateGroupDescriptionRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupDescriptionResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupDescriptionResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Group is invalid or does not exist.
+                 *     29: Your group description was empty.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     18: The description is too long.
+                 *     23: Insufficient permissions to complete the request.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/legacy-groups/v1/groups/{groupId}/notification-preference': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Updates the group's settings */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id of the group the user is in. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            /** @description Roblox.Groups.Api.UpdateGroupSettingsRequest */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Groups.Api.UpdateGroupNotificationPreferenceRequest'];
+                    'text/json': components['schemas']['Roblox.Groups.Api.UpdateGroupNotificationPreferenceRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': 0 | 1 | 2 | 3;
+                        'text/json': 0 | 1 | 2 | 3;
+                    };
+                };
+                /** @description 1: Group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/legacy-groups/v1/groups/{groupId}/settings': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the Group's settings */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id of the group the user is in. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupSettingsResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupSettingsResponse'];
+                    };
+                };
+                /** @description 1: Group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 23: Insufficient permissions to complete the request. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Updates the group's settings */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id of the group the user is in. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            /** @description Roblox.Groups.Api.UpdateGroupSettingsRequest */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Groups.Api.UpdateGroupSettingsRequest'];
+                    'text/json': components['schemas']['Roblox.Groups.Api.UpdateGroupSettingsRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /** @description 1: Group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     23: Insufficient permissions to complete the request.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 31: Service is currently unavailable. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/legacy-groups/v1/groups/{groupId}/status': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Sets group status */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            /** @description The Roblox.Groups.Api.PostGroupStatusRequest. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Groups.Api.PostGroupStatusRequest'];
+                    'text/json': components['schemas']['Roblox.Groups.Api.PostGroupStatusRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.ShoutResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.ShoutResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Group is invalid or does not exist.
+                 *     7: Missing group status content.
+                 *     32: Description was filtered.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     6: You are not authorized to set the status of this group
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/legacy-groups/v1/user/groups/pending': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets groups that the authenticated user has requested to join */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupDetailResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupDetailResponse_'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/legacy-localization-tables/v1/autolocalization/games/{gameId}/autolocalizationtable': {
         parameters: {
             query?: never;
@@ -9499,6 +10511,289 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/matchmaking-api/v1/client-status': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get the client-status */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description ClientStatusGetRequest */
+            requestBody?: {
+                content: {
+                    'application/json-patch+json': components['schemas']['ClientStatusGetRequest'];
+                    'application/json': components['schemas']['ClientStatusGetRequest'];
+                    'text/json': components['schemas']['ClientStatusGetRequest'];
+                    'application/*+json': components['schemas']['ClientStatusGetRequest'];
+                };
+            };
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /** Set the client-status */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description ClientStatusSetRequest */
+            requestBody?: {
+                content: {
+                    'application/json-patch+json': components['schemas']['ClientStatusSetRequest'];
+                    'application/json': components['schemas']['ClientStatusSetRequest'];
+                    'text/json': components['schemas']['ClientStatusSetRequest'];
+                    'application/*+json': components['schemas']['ClientStatusSetRequest'];
+                };
+            };
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/matchmaking-api/v1/game-instances/forecast-update': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Forecast the outcome of launching an update */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    'application/json-patch+json': components['schemas']['ForecastUpdateRequest'];
+                    'application/json': components['schemas']['ForecastUpdateRequest'];
+                    'text/json': components['schemas']['ForecastUpdateRequest'];
+                    'application/*+json': components['schemas']['ForecastUpdateRequest'];
+                };
+            };
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['ForecastUpdateResponse'];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/matchmaking-api/v1/game-instances/get-update-status': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get the rollout status of an update */
+        get: {
+            parameters: {
+                query?: {
+                    universeId?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['GetUpdateStatusResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/matchmaking-api/v1/game-instances/launch-update': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Launch a game update */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    'application/json-patch+json': components['schemas']['LaunchUpdateRequest'];
+                    'application/json': components['schemas']['LaunchUpdateRequest'];
+                    'text/json': components['schemas']['LaunchUpdateRequest'];
+                    'application/*+json': components['schemas']['LaunchUpdateRequest'];
+                };
+            };
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['LaunchUpdateResponse'];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/matchmaking-api/v1/game-instances/shutdown': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Shutdown game instances. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    'application/json-patch+json': components['schemas']['ShutdownGameInstancesRequest'];
+                    'application/json': components['schemas']['ShutdownGameInstancesRequest'];
+                    'text/json': components['schemas']['ShutdownGameInstancesRequest'];
+                    'application/*+json': components['schemas']['ShutdownGameInstancesRequest'];
+                };
+            };
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['ShutdownGameInstancesResponse'];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/matchmaking-api/v1/game-instances/shutdown-all': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Shutdown all game instances. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    'multipart/form-data': {
+                        /**
+                         * Format: int64
+                         * @description The place ID to shut down.
+                         */
+                        PlaceId?: number;
+                        /** @description Whether to replace instances or not. */
+                        ReplaceInstances?: boolean;
+                    };
+                };
+            };
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['ShutdownAllGameInstancesResponse'];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/matchmaking-api/v1/matchmaking/player-attribute': {
         parameters: {
             query?: never;
@@ -9684,6 +10979,82 @@ export interface paths {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/matchmaking-api/v1/matchmaking/scoring-configuration/default-weights': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['GetMatchmakingScoringDefaultWeightsResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/matchmaking-api/v1/matchmaking/scoring-configuration/generate-mock-servers': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    count?: number;
+                    capacity?: number;
+                    playerAge?: number;
+                    playerPlayHistory?: number;
+                    isPlayerVoiceChatEnabled?: boolean;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['GenerateMockServerSignalValuesResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -10224,6 +11595,135 @@ export interface paths {
                     };
                     content: {
                         'application/json': components['schemas']['GetMatchmakingCustomizationFeatureFlagsResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/matchmaking-api/v1/matchmaking/universe/{universeId}/start-place': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the start place override for a universe. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['GetStartPlaceOverrideResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Sets (creates or updates) the start place override for a universe. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    'application/json-patch+json': components['schemas']['SetStartPlaceOverrideRequestBody'];
+                    'application/json': components['schemas']['SetStartPlaceOverrideRequestBody'];
+                    'text/json': components['schemas']['SetStartPlaceOverrideRequestBody'];
+                    'application/*+json': components['schemas']['SetStartPlaceOverrideRequestBody'];
+                };
+            };
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['SetStartPlaceOverrideResponse'];
+                    };
+                };
+            };
+        };
+        /** Deletes the start place override for a universe. */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['DeleteStartPlaceOverrideResponse'];
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/matchmaking-api/v1/matchmaking/universe/{universeId}/start-place/test': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Tests a user's saved start place in a universe against the place checks gamejoin makes. */
+        get: {
+            parameters: {
+                query?: {
+                    userId?: number;
+                };
+                header?: never;
+                path: {
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['TestStartPlaceOverrideResponse'];
                     };
                 };
             };
@@ -10971,6 +12471,158 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/account/settings/account-country': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a user's current account country setting. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.AccountSettings.Api.Models.Response.AccountCountrySettingsResponse'];
+                        'text/json': components['schemas']['Roblox.AccountSettings.Api.Models.Response.AccountCountrySettingsResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /** Updates the user's account country. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.AccountSettings.Api.UpdateAccountCountryRequest'];
+                    'text/json': components['schemas']['Roblox.AccountSettings.Api.UpdateAccountCountryRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.AccountSettings.Api.Models.Response.UpdateAccountCountryResponse'];
+                        'text/json': components['schemas']['Roblox.AccountSettings.Api.Models.Response.UpdateAccountCountryResponse'];
+                    };
+                };
+                /** @description 1: InvalidRequest */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     2: OperationNotPermitted
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 2: OperationNotPermitted */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Unknown */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/account/settings/metadata': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Returns metadata used by the account settings page */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.AccountSettings.Api.Models.AccountsSettingsMetadataModel'];
+                        'text/json': components['schemas']['Roblox.AccountSettings.Api.Models.AccountsSettingsMetadataModel'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/account/upgrade': {
         parameters: {
             query?: never;
@@ -11075,6 +12727,63 @@ export interface paths {
                 };
                 /** @description 2: Account upgrade is disabled. */
                 503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/ads-tracking/click': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Records an ad click. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description A click request */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Ads.Api.RecordClickRequest'];
+                    'text/json': components['schemas']['Roblox.Ads.Api.RecordClickRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -11243,6 +12952,74 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/asset-quotas': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List asset quotas of the given resource type and asset type. */
+        get: {
+            parameters: {
+                query: {
+                    /** @description Resource type of the asset quota */
+                    resourceType: string;
+                    /** @description Asset type of the asset quota */
+                    assetType: string;
+                    /** @description Use dummy data for testing. This is for internal use only */
+                    useDummyData?: boolean;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Publish.Api.AssetQuotasResponse'];
+                        'text/json': components['schemas']['Roblox.Publish.Api.AssetQuotasResponse'];
+                    };
+                };
+                /**
+                 * @description 7: The asset type is not appropriate for this request.
+                 *     8: The resource type is not appropriate for this request.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Reserved for base level errors. Do not use in your endpoint directly, do not document. */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/asset-thumbnail-animated': {
         parameters: {
             query?: never;
@@ -11279,6 +13056,88 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/asset-to-category': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Lists a mapping for assets to category IDs to convert from inventory ID to catalog ID. Creates a mapping to link 'Get More' button in inventory page to the relevant catalog page. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': {
+                            [key: string]: number;
+                        };
+                        'text/json': {
+                            [key: string]: number;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/asset-to-subcategory': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Lists a mapping for assets to subcategory IDs to convert from inventory ID to catalog ID. Creates a mapping to link 'Get More' button in inventory page to the relevant catalog page. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': {
+                            [key: string]: number;
+                        };
+                        'text/json': {
+                            [key: string]: number;
+                        };
+                    };
                 };
             };
         };
@@ -11589,6 +13448,50 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/assets/voting': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Gets the voting information of the given assets
+         * @deprecated
+         * @description Please use toolbox service to get asset voting information.
+         */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The ids of the Roblox.Platform.Assets.IAsset. */
+                    assetIds: number[];
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Api.Develop.Models.Response.AssetVotingModel_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Api.Develop.Models.Response.AssetVotingModel_'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/assets/{assetId}/bundles': {
         parameters: {
             query?: never;
@@ -11639,6 +13542,172 @@ export interface paths {
         };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/audio': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Published an audio file and returns the new asset info. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description The file upload request body. Roblox.Publish.Api.UploadAudioRequest */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Publish.Api.UploadAudioRequest'];
+                    'text/json': components['schemas']['Roblox.Publish.Api.UploadAudioRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Publish.Api.PublishAudioResponse'];
+                        'text/json': components['schemas']['Roblox.Publish.Api.PublishAudioResponse'];
+                    };
+                };
+                /**
+                 * @description 3: The request did not contain a file to be uploaded.
+                 *     4: The file in the request is too large.
+                 *     5: The duration of the audio file is too long.
+                 *     7: Failed to parse the file.
+                 *     8: The file type is not supported.
+                 *     9: The file is corrupted
+                 *     11: Missing permissions to spend group funds.
+                 *     14: The user/group does not have suffiecient funds to publish.
+                 *     14: The user/group does not have suffiecient funds to publish.
+                 *     15: The audio file has already been reviewed and rejected.
+                 *     18: Too many requests. Try again later.
+                 *     20: Error while trying to purchase the product.
+                 *     22: The file size estimation error was greater than the acceptable margin of error.
+                 *     23: The duration estimation error was greater than the acceptable margin of error.
+                 *     24: Asset privacy is invalid.
+                 *     29: Invalid argument in the request.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Authorization has been denied for this request.
+                 *     1: The request did not include an authorization.
+                 */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 19: Asset creation was unavailable. Please try again. */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/audio/verify': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Verifies an audio file and returns a product that you can purchase to publish the audio file. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description The verify audio request body. Roblox.Publish.Api.VerifyAudioRequest */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Publish.Api.VerifyAudioRequest'];
+                    'text/json': components['schemas']['Roblox.Publish.Api.VerifyAudioRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Publish.Api.VerifyAudioResponse'];
+                        'text/json': components['schemas']['Roblox.Publish.Api.VerifyAudioResponse'];
+                    };
+                };
+                /**
+                 * @description 3: The request did not contain a file to be uploaded.
+                 *     4: The file in the request is too large.
+                 *     5: The duration of the audio file is too long.
+                 *     7: Failed to parse the file.
+                 *     8: The file type is not supported.
+                 *     9: The file is corrupted
+                 *     18: Too many requests. Try again later.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Authorization has been denied for this request.
+                 *     1: The request did not include an authorization.
+                 */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
@@ -11834,6 +13903,180 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/auto-localization-table/games/{gameId}/ingestion': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Ingests entries for auto localization. Needs to be an authorized user. */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The game id. */
+                    gameId: number;
+                };
+                cookie?: never;
+            };
+            requestBody: components['requestBodies']['Roblox.LocalizationTables.Api.IngestAutoScrapedContentForGameRequest'];
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': Record<string, never>;
+                        'text/json': Record<string, never>;
+                    };
+                };
+                /**
+                 * @description 10: Maximum entries exceeded. Please keep the number of entries per request below the maximum.
+                 *     13: Request body can't be null
+                 *     16: Entries can't be null or empty
+                 *     34: Actor provided is invalid
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 17: Feature is disabled */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/v1/autolocalization/games/{gameId}/autolocalizationtable': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * @deprecated
+         * @description Use the Autolocalization controller in LocalizationTables API
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    gameId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.GameInternationalization.Api.GameAutolocalizationInformationResponse'];
+                        'text/json': components['schemas']['Roblox.GameInternationalization.Api.GameAutolocalizationInformationResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * @deprecated
+         * @description Use the Autolocalization controller in LocalizationTables API
+         */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    gameId: number;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.GameInternationalization.Api.SetAutolocalizationTableForGameRequest'];
+                    'text/json': components['schemas']['Roblox.GameInternationalization.Api.SetAutolocalizationTableForGameRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
     '/v1/autolocalization/games/{gameId}/autolocalizationtable#localizationtables.roblox.com': {
         parameters: {
             query?: never;
@@ -11927,6 +14170,87 @@ export interface paths {
         };
         trace?: never;
     };
+    '/v1/autolocalization/games/{gameId}/settings': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Sets a game's auto-localization related settings
+         * @deprecated
+         * @description Use the Autolocalization controller in LocalizationTables API
+         */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id of the game. */
+                    gameId: number;
+                };
+                cookie?: never;
+            };
+            /** @description The request body. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.GameInternationalization.Api.SetAutolocalizationSettingsForGameRequest'];
+                    'text/json': components['schemas']['Roblox.GameInternationalization.Api.SetAutolocalizationSettingsForGameRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /** @description 14: Invalid game id */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     18: You do not have permission to manage this game
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 17: Feature is disabled */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
     '/v1/autolocalization/games/{gameId}/settings#localizationtables.roblox.com': {
         parameters: {
             query?: never;
@@ -12005,6 +14329,54 @@ export interface paths {
                 };
             };
         };
+        trace?: never;
+    };
+    '/v1/autolocalization/metadata': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Metadata for AutoLocalization Configuration
+         * @deprecated
+         * @description Use the Autolocalization controller in LocalizationTables API
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.GameInternationalization.Api.AutoLocalizationMetadataResponse'];
+                        'text/json': components['schemas']['Roblox.GameInternationalization.Api.AutoLocalizationMetadataResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     '/v1/autolocalization/metadata#localizationtables.roblox.com': {
@@ -12967,6 +15339,97 @@ export interface paths {
                 };
             };
         };
+        trace?: never;
+    };
+    '/v1/badges/{badgeId}/icon': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Overwrites a badge icon with a new one.
+         * @description Accepts a moderated image upload and updates the badge's icon asset.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The badge Id. */
+                    badgeId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    'multipart/form-data': {
+                        /** Format: binary */
+                        Files?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Badges.Api.IconUploadResponse'];
+                        'text/json': components['schemas']['Roblox.Badges.Api.IconUploadResponse'];
+                    };
+                };
+                /**
+                 * @description 6: Text moderated.
+                 *     22: Icon file is not present in the request.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     2: You do not have permission to manage this badge.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: Badge is invalid or does not exist. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 13: Too many requests, try again later. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     '/v1/badges/{badgeId}/icon#publish.roblox.com': {
@@ -14009,6 +16472,63 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/bundles/{bundleId}/recommendations': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Gets recommendations for a given bundle, bundleId of 0 returns randomized bundles
+         *     - Accepts both public and authenticated users.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description The number of recommended items to return. */
+                    numItems?: number;
+                };
+                header?: never;
+                path: {
+                    bundleId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Catalog.Api.BundleDetailsModel_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Catalog.Api.BundleDetailsModel_'];
+                    };
+                };
+                /**
+                 * @description 1: Invalid bundle
+                 *     2: Error retrieving bundles
+                 *     3: Error getting bundle recommendations
+                 *     4: NumItems exceed maximum
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/catalog/items/details': {
         parameters: {
             query?: never;
@@ -14067,6 +16587,111 @@ export interface paths {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/catalog/items/details/complete': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Returns list of item details complete with user ownership and economy information.
+         *     Batch version of GetItemDetailsComplete. Items with critical errors are returned in ItemErrors
+         *     with their corresponding HTTP status code (404 for not-found, 500 for other errors).
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header: {
+                    'Roblox-Place-Id': number;
+                    'Roblox-Game-Id': string;
+                };
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: components['requestBodies']['Roblox.Catalog.Api.MultigetItemDetailsRequestModel'];
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Catalog.Api.BatchItemDetailsCompleteResponse'];
+                        'text/json': components['schemas']['Roblox.Catalog.Api.BatchItemDetailsCompleteResponse'];
+                    };
+                };
+                /** @description 2: Invalid count */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     7: User is unauthorized.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 8: The flood limit has been exceeded. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/categories': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Lists Category Names and their Ids. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Catalog.Api.CategoryModel'][];
+                        'text/json': components['schemas']['Roblox.Catalog.Api.CategoryModel'][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -14323,6 +16948,179 @@ export interface paths {
                 };
                 /** @description 7: Feature is disabled */
                 403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/creations/get-asset-details': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Gets the asset status and other configuration details for the given assetIds list. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.ItemConfiguration.Api.AssetCreationsDetailsRequest'];
+                    'text/json': components['schemas']['Roblox.ItemConfiguration.Api.AssetCreationsDetailsRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.AssetCreationsDetailsResponse'][];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.AssetCreationsDetailsResponse'][];
+                    };
+                };
+                /**
+                 * @description 1: Missing AssetIds parameters
+                 *     2: Invalid asset Ids
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: Too many asset Ids */
+                414: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 9: Flood Limit Exceeded */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 6: Service Unavailable */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/creations/get-assets': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the user created asset information filtered by the given asset type. */
+        get: {
+            parameters: {
+                query: {
+                    assetType: string;
+                    isArchived?: boolean;
+                    groupId?: number;
+                    /** @description The number of results per request. */
+                    limit?: 10 | 25 | 50 | 100;
+                    /** @description The paging cursor for the previous or next page. */
+                    cursor?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.ItemConfiguration.Api.AssetCreationsResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.ItemConfiguration.Api.AssetCreationsResponse_'];
+                    };
+                };
+                /**
+                 * @description 5: Invalid assetType
+                 *     10: Invalid Asset Category
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 7: User does not have necessary permissions for group
+                 *     8: Asset type does not have necessary permissions for group
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 9: Flood Limit Exceeded */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 6: Service Unavailable */
+                503: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -15345,6 +18143,198 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/email': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the authenticated user's email address and verified status */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.AccountSettings.Api.EmailResponse'];
+                        'text/json': components['schemas']['Roblox.AccountSettings.Api.EmailResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /** Updates the authenticated user's email address */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: components['requestBodies']['Roblox.AccountSettings.Api.UpdateEmailRequest'];
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 8: Password is incorrect.
+                 *     9: Invalid email address.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     2: This feature is currently disabled. Please try again later.
+                 *     3: There are too many accounts associated with this email address.
+                 *     11: You must be on the Corporate network to log in.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 4: This is already the current email. */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 6: Too many attempts to update email. Please try again later.
+                 *     7: Too many attempts to send verification email. Please try again later.
+                 */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 2: This feature is currently disabled. Please try again later. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Updates the authenticated user's email address */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: components['requestBodies']['Roblox.AccountSettings.Api.UpdateEmailRequest'];
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 8: Password is incorrect.
+                 *     9: Invalid email address.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     2: This feature is currently disabled. Please try again later.
+                 *     3: There are too many accounts associated with this email address.
+                 *     11: You must be on the Corporate network to log in.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 4: This is already the current email. */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 6: Too many attempts to update email. Please try again later.
+                 *     7: Too many attempts to send verification email. Please try again later.
+                 */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 2: This feature is currently disabled. Please try again later. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
     '/v1/email/verify': {
         parameters: {
             query?: never;
@@ -15389,6 +18379,139 @@ export interface paths {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/email/verify#accountsettings.roblox.com': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Send verify email to the authenticated user's email address */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description The request body. */
+            requestBody?: {
+                content: {
+                    'application/json': components['schemas']['Roblox.AccountSettings.Api.SendVerifyEmailRequest'];
+                    'text/json': components['schemas']['Roblox.AccountSettings.Api.SendVerifyEmailRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /** @description 10: No email address is associated with the account. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     2: This feature is currently disabled. Please try again later.
+                 *     11: You must be on the Corporate network to log in.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 5: The email is already verified. */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 7: Too many attempts to send verification email. Please try again later. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 2: This feature is currently disabled. Please try again later. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/emails': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the authenticated user's verified email and pending (unverified) email if one exists */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.AccountSettings.Api.CurrentEmailsResponse'];
+                        'text/json': components['schemas']['Roblox.AccountSettings.Api.CurrentEmailsResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -15469,7 +18592,10 @@ export interface paths {
                         'application/json': components['schemas']['Roblox.Authentication.Api.Models.Response.ExternalIdentityGateway.ExternalLoginResponse'];
                     };
                 };
-                /** @description 30: Platform is not supported for SSO login. */
+                /**
+                 * @description 30: Platform is not supported for SSO login.
+                 *     47: A platform identity proof is required for SSO login.
+                 */
                 400: {
                     headers: {
                         [name: string]: unknown;
@@ -15959,6 +19085,380 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/favorites/users/{userId}/assets/{assetId}/favorite': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the favorite model for the asset and user. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: number;
+                    assetId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Catalog.Api.AssetFavoriteModel'];
+                        'text/json': components['schemas']['Roblox.Catalog.Api.AssetFavoriteModel'];
+                    };
+                };
+                /**
+                 * @description 1: Invalid user Id.
+                 *     2: Invalid asset Id.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /** Create a favorite for an asset by the authenticated user. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: number;
+                    assetId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: Invalid user Id.
+                 *     2: Invalid asset Id.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     6: You are not authorized to perform this action.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: Asset is already favorited. */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 5: This action was floodchecked. Please try again later. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        /** Delete a favorite for an asset by the authenticated user. */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: number;
+                    assetId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: Invalid user Id.
+                 *     2: Invalid asset Id.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     6: You are not authorized to perform this action.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 4: Asset is already not favorited. */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 5: This action was floodchecked. Please try again later. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/favorites/users/{userId}/bundles/{bundleId}/favorite': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the favorite model for the bundle and user. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: number;
+                    bundleId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Catalog.Api.BundleFavoriteModel'];
+                        'text/json': components['schemas']['Roblox.Catalog.Api.BundleFavoriteModel'];
+                    };
+                };
+                /**
+                 * @description 1: Invalid user Id.
+                 *     2: Invalid bundle Id.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /** Create a favorite for the bundle by the authenticated user. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: number;
+                    bundleId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: Invalid user Id.
+                 *     2: Invalid bundle Id.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     6: You are not authorized to perform this action.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: Bundle is already favorited. */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 5: This action was floodchecked. Please try again later. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        /** Delete favorite for the bundle by the authenticated user. */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: number;
+                    bundleId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: Invalid user Id.
+                 *     2: Invalid bundle Id.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     6: You are not authorized to perform this action.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 4: Bundle is already not favorited. */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 5: This action was floodchecked. Please try again later. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/favorites/users/{userId}/favorites/{assetTypeId}/assets': {
         parameters: {
             query?: never;
@@ -16019,6 +19519,191 @@ export interface paths {
         put?: never;
         post?: never;
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/favorites/users/{userId}/favorites/{subtypeId}/bundles': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Lists the bundles favorited by a given user with the given bundle subtypeId.Switched to EAAS style pagination cursors since July 2024. */
+        get: {
+            parameters: {
+                query?: {
+                    itemsPerPage?: number;
+                    cursor?: string;
+                    isPrevious?: boolean;
+                };
+                header?: never;
+                path: {
+                    userId: number;
+                    subtypeId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Catalog.Api.FavoriteBundlesResponse'];
+                        'text/json': components['schemas']['Roblox.Catalog.Api.FavoriteBundlesResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Invalid user Id.
+                 *     3: Cannot request so many bundles at once.
+                 *     10: Invalid previous pagination request. Please provide a cursor when isPrevious is true
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 6: You are not authorized to perform this action. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 11: Internal server error. Please check if you have provided correct pagination cursor */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/featured-content/event': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the featured event for a group */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The group Id. */
+                    groupId: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Client.GroupFeaturedContentResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Client.GroupFeaturedContentResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Sets the featured event for a group */
+        post: {
+            parameters: {
+                query: {
+                    /** @description The group Id. */
+                    groupId: number;
+                    /** @description The event Id. */
+                    eventId: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Client.GroupFeaturedContentResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Client.GroupFeaturedContentResponse'];
+                    };
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     3: User is not authorized to set featured content for this group.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        /** Deletes the featured event for a group */
+        delete: {
+            parameters: {
+                query: {
+                    /** @description The group Id. */
+                    groupId: number;
+                    /** @description The event Id. */
+                    eventId: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     3: User is not authorized to set featured content for this group.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         options?: never;
         head?: never;
         patch?: never;
@@ -18244,6 +21929,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/games/vip-servers/{universeId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations['PrivateServers_CreatePrivateServer'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/games/votes': {
         parameters: {
             query?: never;
@@ -18260,6 +21961,87 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/games/{gameId}/thumbnail/image': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Uploads a game thumbnail. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The universe Id. */
+                    gameId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: components['requestBodies']['postV1Badges_badgeid_icon'];
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Publish.Api.UploadResponse'];
+                        'text/json': components['schemas']['Roblox.Publish.Api.UploadResponse'];
+                    };
+                };
+                /**
+                 * @description 1: File uploaded does not match known image format. Try converting to png.
+                 *     2: File not present in request.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     5: You do not have permission to manage this item.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 4: Target item is invalid or does not exist. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: You're uploading too much, please wait and try again later. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/games/{placeId}/private-servers': {
         parameters: {
             query?: never;
@@ -18268,6 +22050,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations['PrivateServers_GetPrivateServerList'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/games/{placeId}/servers/{serverType}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations['PublicServerBrowserService.GameInstances_GetServerList'];
         put?: never;
         post?: never;
         delete?: never;
@@ -18433,6 +22231,64 @@ export interface paths {
                     content: {
                         'application/json': components['schemas']['Roblox.Games.Api.Models.Response.GameFavoritesCountResponse'];
                         'text/json': components['schemas']['Roblox.Games.Api.Models.Response.GameFavoritesCountResponse'];
+                    };
+                };
+                /** @description 3: The universe's root place is invalid. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 2: The requested universe does not exist. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/games/{universeId}/media': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get the game media data
+         * @deprecated
+         * @description Use https://games.roblox.com/v2/games/{universeId}/media instead
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id of the universe we get media data from. */
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Games.Api.Models.Response.GameMediaItem_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Games.Api.Models.Response.GameMediaItem_'];
                     };
                 };
                 /** @description 3: The universe's root place is invalid. */
@@ -18841,6 +22697,246 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/groups/configuration/metadata': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets Group configuration contextual information */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupConfigurationDisplayOptionsResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupConfigurationDisplayOptionsResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/create': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Creates a new group.
+         * @description This endpoint will charge Robux for the group purchase.
+         *     Accepts "icon" and "coverPhoto" in Files object. Defaults to first file if "icon" is not present.
+         *     Http status code 413 is thrown when the group icon file size is too large.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    'multipart/form-data': {
+                        /** @description The name of the group. */
+                        name?: string;
+                        /** @description The group description. */
+                        description?: string;
+                        /** @description Whether or not the group is open for anyone to join. */
+                        publicGroup?: boolean;
+                        /** @description Whether or not the group is only open to join for builders club members. */
+                        buildersClubMembersOnly?: boolean;
+                        /** Format: binary */
+                        Files?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.Responses.Groups.GroupResponseV2'];
+                        'text/json': components['schemas']['Roblox.Web.Responses.Groups.GroupResponseV2'];
+                    };
+                };
+                /**
+                 * @description 13: The name is invalid.
+                 *     15: The group icon is invalid.
+                 *     16: The group icon is missing from the request.
+                 *     18: The description is too long.
+                 *     19: The name is too long.
+                 *     20: The name has been taken.
+                 *     46: Invalid file format or dimensions for group cover photo.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     10: User must have builders club membership.
+                 *     11: User is in maximum number of groups.
+                 *     12: Insufficient Robux funds.
+                 *     14: The name is moderated.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 37: The name was in use too recently. */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Unknown error. */
+                413: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 17: Too many requests. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 21: Group creation is currently disabled. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/icon': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Updates the group icon. */
+        patch: {
+            parameters: {
+                query: {
+                    /** @description The group Id. */
+                    groupId: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    'multipart/form-data': {
+                        /** Format: binary */
+                        Files?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: Group is invalid or does not exist.
+                 *     16: The group icon is missing from the request.
+                 *     17: Too many requests.
+                 *     30: Invalid file type for group icon.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     23: Insufficient permissions to complete the request.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Unknown error. */
+                413: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
     '/v1/groups/icons': {
         parameters: {
             query?: never;
@@ -18890,6 +22986,1218 @@ export interface paths {
         };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/metadata': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Gets Groups contextual information:
+         *     Max number of groups a user can be part of.
+         *     Current number of groups a user is a member of.
+         *     Whether to show/hide certain features based on device type.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupsDisplayOptionsResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupsDisplayOptionsResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/policies': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Gets group policy info used for compliance. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Groups.Api.GroupPolicyRequest'];
+                    'text/json': components['schemas']['Roblox.Groups.Api.GroupPolicyRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupPoliciesResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupPoliciesResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Too many ids in request.
+                 *     2: Ids could not be parsed from request.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/search': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Search for groups by keyword. */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The keyword or phrase to use as the search parameter. */
+                    keyword: string;
+                    /** @description Whether or not to prioritize the exact match for the keyword (optional, defaults to false). */
+                    prioritizeExactMatch?: boolean;
+                    /** @description The number of results per request. */
+                    limit?: 10 | 25 | 50 | 100;
+                    /** @description The paging cursor for the previous or next page. */
+                    cursor?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupSearchPageResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupSearchPageResponse'];
+                    };
+                };
+                /**
+                 * @description 2: Search term not appropriate for Roblox.
+                 *     3: Search term was left empty.
+                 *     4: Search terms can be 2 to 50 characters long.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/search/lookup': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Looks up groups by a name. Prioritizes an exact match as the first result.
+         * @description Should only be used for direct lookups where a user is inputting a group name, shouldn't be used for search pages.
+         */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The group name. */
+                    groupName: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Groups.GroupBasicResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Groups.GroupBasicResponse_'];
+                    };
+                };
+                /** @description 1: Name is missing or has invalid characters. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/search/metadata': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get suggested groups and other miscellaneous information needed for the group/join page like flags
+         * @description Although there is no reason for this to require an authenticated user right now, in the future,
+         *     we will use coco to return different suggested groups based upon that user's request context
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupSearchMetadataResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupSearchMetadataResponse'];
+                    };
+                };
+                /** @description 5: No Localized Version of group search category exists */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets group information */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupDetailResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupDetailResponse'];
+                    };
+                };
+                /** @description 1: Group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/audit-log': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the Group's audit log */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Filter for specific type of action performed */
+                    actionType?:
+                        | 'DeletePost'
+                        | 'RemoveMember'
+                        | 'AcceptJoinRequest'
+                        | 'DeclineJoinRequest'
+                        | 'PostStatus'
+                        | 'ChangeRank'
+                        | 'BuyAd'
+                        | 'SendAllyRequest'
+                        | 'CreateEnemy'
+                        | 'AcceptAllyRequest'
+                        | 'DeclineAllyRequest'
+                        | 'DeleteAlly'
+                        | 'DeleteEnemy'
+                        | 'AddGroupPlace'
+                        | 'RemoveGroupPlace'
+                        | 'CreateItems'
+                        | 'ConfigureItems'
+                        | 'SpendGroupFunds'
+                        | 'ChangeOwner'
+                        | 'Delete'
+                        | 'AdjustCurrencyAmounts'
+                        | 'Abandon'
+                        | 'Claim'
+                        | 'Rename'
+                        | 'ChangeDescription'
+                        | 'InviteToClan'
+                        | 'KickFromClan'
+                        | 'CancelClanInvite'
+                        | 'BuyClan'
+                        | 'CreateGroupAsset'
+                        | 'UpdateGroupAsset'
+                        | 'ConfigureGroupAsset'
+                        | 'RevertGroupAsset'
+                        | 'CreateGroupDeveloperProduct'
+                        | 'ConfigureGroupGame'
+                        | 'CreateGroupDeveloperSubscriptionProduct'
+                        | 'Lock'
+                        | 'Unlock'
+                        | 'CreateGamePass'
+                        | 'CreateBadge'
+                        | 'ConfigureBadge'
+                        | 'SavePlace'
+                        | 'PublishPlace'
+                        | 'UpdateRolesetRank'
+                        | 'UpdateRolesetData'
+                        | 'UpdateRoleSetPosition'
+                        | 'BanMember'
+                        | 'UnbanMember'
+                        | 'CreateForumCategory'
+                        | 'UpdateForumCategory'
+                        | 'ArchiveForumCategory'
+                        | 'DeleteForumCategory'
+                        | 'DeleteForumPost'
+                        | 'DeleteForumComment'
+                        | 'PinForumPost'
+                        | 'UnpinForumPost'
+                        | 'LockForumPost'
+                        | 'UnlockForumPost'
+                        | 'CreateRoleset'
+                        | 'DeleteRoleset'
+                        | 'CreateCommerceProduct'
+                        | 'SetCommerceProductActive'
+                        | 'ArchiveCommerceProduct'
+                        | 'AcceptCommerceProductBundlingFee'
+                        | 'SetCommerceProductInactive'
+                        | 'ConnectMerchant'
+                        | 'DisconnectMerchant'
+                        | 'JoinGroup'
+                        | 'LeaveGroup'
+                        | 'UpdateGroupIcon'
+                        | 'UpdateGroupCoverPhoto'
+                        | 'AssignRole'
+                        | 'UnassignRole'
+                        | 'PublishAnnouncement'
+                        | 'DeleteAnnouncement'
+                        | 'UpdateRoleSetPermissions'
+                        | 'UpdateGroupSecuritySettings'
+                        | 'GrantEnterpriseTier'
+                        | 'RevokeEnterpriseTier'
+                        | 'DeactivateGroup';
+                    /** @description Filter for specific user id */
+                    userId?: number;
+                    /** @description The number of results per request. */
+                    limit?: 10 | 25 | 50 | 100;
+                    /** @description The paging cursor for the previous or next page. */
+                    cursor?: string;
+                    /** @description The order the results are sorted in. */
+                    sortOrder?: 'Asc' | 'Desc';
+                };
+                header?: never;
+                path: {
+                    /** @description The id of the group the user is in. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupAuditLogPageResponse_Roblox.Groups.Api.Models.Response.GroupAuditLogResponseItem_'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupAuditLogPageResponse_Roblox.Groups.Api.Models.Response.GroupAuditLogResponseItem_'];
+                    };
+                };
+                /**
+                 * @description 1: Group is invalid or does not exist.
+                 *     8: Invalid or missing pagination parameters
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 23: Insufficient permissions to complete the request. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/bans': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the bans for the group */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description The number of results per request. */
+                    limit?: 10 | 25 | 50 | 100;
+                    /** @description The paging cursor for the previous or next page. */
+                    cursor?: string;
+                    /** @description The order the results are sorted in. */
+                    sortOrder?: 'Asc' | 'Desc';
+                };
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.GroupBanMemberResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.GroupBanMemberResponse_'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 19: You have insufficient permissions for this request. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: The group is invalid or does not exist. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 18: The operation is temporarily unavailable. Please try again later. */
+                405: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/bans/{userId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Fetch the group ban of a user from a group */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                    /** @description The user Id. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupBanMemberResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupBanMemberResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 19: You have insufficient permissions for this request. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 1: The group is invalid or does not exist.
+                 *     3: The user is invalid or does not exist.
+                 */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 18: The operation is temporarily unavailable. Please try again later. */
+                405: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /** Bans a user from a group */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                    /** @description The Id of the user being banned. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupBanMemberResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupBanMemberResponse'];
+                    };
+                };
+                /**
+                 * @description 28: The user is already banned from the group.
+                 *     31: You cannot perform this action against the group owner.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     19: You have insufficient permissions for this request.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 1: The group is invalid or does not exist.
+                 *     3: The user is invalid or does not exist.
+                 *     3: The user is invalid or does not exist.
+                 *     15: User is not a member of the group.
+                 */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 18: The operation is temporarily unavailable. Please try again later. */
+                405: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        /** Unbans a user from a group */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                    /** @description The Id of the user being unbanned. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /** @description 29: The user is not banned from the group. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     19: You have insufficient permissions for this request.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: The group is invalid or does not exist. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 18: The operation is temporarily unavailable. Please try again later. */
+                405: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/blocked-keywords': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Retrieves a paginated list of blocked keywords for a specific Group. */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description The number of results per request. */
+                    limit?: 10 | 25 | 50 | 100;
+                    /** @description The paging cursor for the previous or next page. */
+                    cursor?: string;
+                    /** @description The order the results are sorted in. */
+                    sortOrder?: 'Asc' | 'Desc';
+                };
+                header?: never;
+                path: {
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.BlockedKeywordPageResponse_Roblox.Groups.Client.BlockedKeywordModel_'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.BlockedKeywordPageResponse_Roblox.Groups.Client.BlockedKeywordModel_'];
+                    };
+                };
+                /**
+                 * @description 1: Group is invalid or does not exist.
+                 *     6: Limit is invalid.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 9: User is invalid or does not exist.
+                 *     10: Insufficient permissions to complete the request.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 31: Service is currently unavailable. */
+                405: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /** Adds new blocked keyword(s) to the specified Group. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Groups.Api.CreateBlockedKeywordsRequest'];
+                    'text/json': components['schemas']['Roblox.Groups.Api.CreateBlockedKeywordsRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Client.CreateBlockedKeywordsResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Client.CreateBlockedKeywordsResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Group is invalid or does not exist.
+                 *     2: One or more keywords are invalid.
+                 *     4: Invalid request.
+                 *     12: The provided content was moderated.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     8: Insufficient permissions to complete the request.
+                 *     9: User is invalid or does not exist.
+                 *     10: Insufficient permissions to complete the request.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 31: Service is currently unavailable. */
+                405: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 11: There was a conflict in your request. */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/blocked-keywords/{keywordId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Deletes a specific blocked keyword from the specified Group. */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    groupId: number;
+                    keywordId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 1: Group is invalid or does not exist.
+                 *     3: KeywordId is invalid.
+                 *     4: Invalid request.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     9: User is invalid or does not exist.
+                 *     10: Insufficient permissions to complete the request.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 7: Not found. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 31: Service is currently unavailable. */
+                405: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        /** Updates an existing blocked keyword for the specified Group. */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    groupId: number;
+                    keywordId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Groups.Api.UpdateBlockedKeywordRequest'];
+                    'text/json': components['schemas']['Roblox.Groups.Api.UpdateBlockedKeywordRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Client.BlockedKeywordModel'];
+                        'text/json': components['schemas']['Roblox.Groups.Client.BlockedKeywordModel'];
+                    };
+                };
+                /**
+                 * @description 1: Group is invalid or does not exist.
+                 *     3: KeywordId is invalid.
+                 *     4: Invalid request.
+                 *     12: The provided content was moderated.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     8: Insufficient permissions to complete the request.
+                 *     9: User is invalid or does not exist.
+                 *     10: Insufficient permissions to complete the request.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 7: Not found. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 31: Service is currently unavailable. */
+                405: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 11: There was a conflict in your request. */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/change-owner': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Changes the group owner to another user. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            /** @description The request. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Groups.Api.ChangeOwnerRequest'];
+                    'text/json': components['schemas']['Roblox.Groups.Api.ChangeOwnerRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: The group is invalid or does not exist.
+                 *     3: The user is invalid or does not exist.
+                 *     15: User is not a member of the group.
+                 *     16: The user does not have the necessary level of premium membership.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     17: You are not authorized to change the owner of this group.
+                 *     25: 2-Step Verification is required to make further transactions. Go to Settings > Security to complete 2-Step Verification.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/claim-ownership': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Claims ownership of the group as the authenticated user */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /** @description 1: The group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     11: You are not authorized to claim this group
+                 *     12: This group already has an owner
+                 *     13: Too many attempts to claim groups. Please try again later.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 18: The operation is temporarily unavailable. Please try again later. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
@@ -18991,6 +24299,264 @@ export interface paths {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/configuration': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets group configuration information */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupConfigurationDetailsResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupConfigurationDetailsResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Group is invalid or does not exist.
+                 *     15: User is not a member of the group.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 1: Group is invalid or does not exist.
+                 *     23: Insufficient permissions to complete the request.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 31: Service is currently unavailable. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/deactivate': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Deactivates the group as its owner. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     19: You have insufficient permissions for this request.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: The group is invalid or does not exist. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 18: The operation is temporarily unavailable. Please try again later. */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Something went wrong. */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/description': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Updates the groups description */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id of the group the user is in. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            /** @description The Roblox.Groups.Api.UpdateGroupDescriptionRequest. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Groups.Api.UpdateGroupDescriptionRequest'];
+                    'text/json': components['schemas']['Roblox.Groups.Api.UpdateGroupDescriptionRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupDescriptionResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupDescriptionResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Group is invalid or does not exist.
+                 *     29: Your group description was empty.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     18: The description is too long.
+                 *     23: Insufficient permissions to complete the request.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/emotes': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets a groups emote sets. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Client.GetGroupEmoteSetsResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Client.GetGroupEmoteSetsResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -19114,6 +24680,904 @@ export interface paths {
         };
         trace?: never;
     };
+    '/v1/groups/{groupId}/features/status': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Checks whether a group has ANY feature disabled (includes feature freezes and group lock).
+         *     Used to display a banner on Creator Hub/Studio to inform group members that some features may not be available.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.HasGroupFeaturesBlockedResponse'];
+                    };
+                };
+                /** @description 1: Group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 23: Insufficient permissions to complete the request.
+                 *     49: User is invalid or does not exist
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/join-requests': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets a page of Group Join Requests for a group. */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description The number of results per request. */
+                    limit?: 10 | 25 | 50 | 100;
+                    /** @description The paging cursor for the previous or next page. */
+                    cursor?: string;
+                    /** @description The order the results are sorted in. */
+                    sortOrder?: 'Asc' | 'Desc';
+                };
+                header?: never;
+                path: {
+                    /** @description The group id. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.GroupJoinRequestResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.GroupJoinRequestResponse_'];
+                    };
+                };
+                /**
+                 * @description 1: The group is invalid or does not exist.
+                 *     36: The pagination cursor is invalid.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 19: You have insufficient permissions for this request. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /** Batch accepts group join requests */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group id. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody: components['requestBodies']['Roblox.Groups.Api.MembersRequest'];
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: The group is invalid or does not exist.
+                 *     3: The user is invalid or does not exist.
+                 *     20: The group join request is invalid.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     6: You are already in the maximum number of groups.
+                 *     19: You have insufficient permissions for this request.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Something went wrong. */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 18: The operation is temporarily unavailable. Please try again later. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        /** Batch declines group join requests */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group id. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody: components['requestBodies']['Roblox.Groups.Api.MembersRequest'];
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: The group is invalid or does not exist.
+                 *     3: The user is invalid or does not exist.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/join-requests/users/{userId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets a group join request by userId. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                    /** @description The user Id. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupJoinRequestResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupJoinRequestResponse'];
+                    };
+                };
+                /** @description 1: The group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 19: You have insufficient permissions for this request. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /** Accepts a group join request. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                    /** @description The user Id. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: The group is invalid or does not exist.
+                 *     3: The user is invalid or does not exist.
+                 *     20: The group join request is invalid.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     6: You are already in the maximum number of groups.
+                 *     19: You have insufficient permissions for this request.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 18: The operation is temporarily unavailable. Please try again later. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        /** Declines/cancels a group join request. */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                    /** @description The user Id. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: The group is invalid or does not exist.
+                 *     3: The user is invalid or does not exist.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     4: You do not have permission to manage this member.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/membership': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets group membership information in the context of the authenticated user */
+        get: {
+            parameters: {
+                query: {
+                    includeNotificationPreferences: boolean;
+                };
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupMembershipMetadataResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupMembershipMetadataResponse'];
+                    };
+                };
+                /** @description 1: The group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/name': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Updates the group's name.
+         * @description This endpoint will charge Robux for the group rename.
+         */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id of the group the user is in. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            /** @description The Roblox.Groups.Api.UpdateGroupNameRequest. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Groups.Api.UpdateGroupNameRequest'];
+                    'text/json': components['schemas']['Roblox.Groups.Api.UpdateGroupNameRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.UpdateGroupNameResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.UpdateGroupNameResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Group is invalid or does not exist.
+                 *     13: The name is invalid.
+                 *     19: The name is too long.
+                 *     20: The name has been taken.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     12: Insufficient Robux funds.
+                 *     14: The name is moderated.
+                 *     23: Insufficient permissions to complete the request.
+                 *     38: Your account must be verified in order to change your group's name.
+                 *     39: The group ownership was changed too recently.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 36: The name was changed too recently.
+                 *     37: The name was in use too recently.
+                 */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Unknown error. */
+                413: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 17: Too many requests. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/name-history': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the Group's name change history. */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description The number of results per request. */
+                    limit?: 10 | 25 | 50 | 100;
+                    /** @description The paging cursor for the previous or next page. */
+                    cursor?: string;
+                    /** @description The order the results are sorted in. */
+                    sortOrder?: 'Asc' | 'Desc';
+                };
+                header?: never;
+                path: {
+                    /** @description The id of the group. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.GroupNameHistoryResponseItem_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.GroupNameHistoryResponseItem_'];
+                    };
+                };
+                /** @description 1: Group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 23: Insufficient permissions to complete the request. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/notification-preference': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Updates the group's settings */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id of the group the user is in. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            /** @description Roblox.Groups.Api.UpdateGroupSettingsRequest */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Groups.Api.UpdateGroupNotificationPreferenceRequest'];
+                    'text/json': components['schemas']['Roblox.Groups.Api.UpdateGroupNotificationPreferenceRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': 0 | 1 | 2 | 3;
+                        'text/json': 0 | 1 | 2 | 3;
+                    };
+                };
+                /** @description 1: Group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/payout-restriction': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets a value indicating whether the group can use payout feature */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group id. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupPayoutRestrictionResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupPayoutRestrictionResponse'];
+                    };
+                };
+                /** @description 1: Group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 9: You don't have permission to view this group's payouts. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/payouts': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets a list of the group payout percentages */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group id. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupPayoutResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupPayoutResponse_'];
+                    };
+                };
+                /** @description 1: Group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 9: You don't have permission to view this group's payouts. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /** Pays out a user in Robux. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody: components['requestBodies']['Roblox.Groups.Api.PayoutRequest'];
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.OneTimePayoutResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.OneTimePayoutResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Group is invalid or does not exist.
+                 *     12: Insufficient Robux funds.
+                 *     24: Invalid payout type.
+                 *     25: The amount is invalid.
+                 *     26: Too many recipients.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     23: Insufficient permissions to complete the request.
+                 *     28: Group has paid out too recently. Please wait and try again.
+                 *     35: 2-Step Verification is required to make further transactions. Go to Settings > Security to complete 2-Step Verification.
+                 *     52: Group has paid out to this recipient too many times recently. Please try again later.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 22: The feature is disabled. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/groups/{groupId}/payouts/latest': {
         parameters: {
             query?: never;
@@ -19175,6 +25639,89 @@ export interface paths {
         };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/payouts/recurring': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Updates recurring payouts.
+         * @description This endpoint will remove any recipients not sent in the request.
+         *     If a recipient in the request is not a valid member in the group they will not be added to the recurring payouts.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody: components['requestBodies']['Roblox.Groups.Api.PayoutRequest'];
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: Group is invalid or does not exist.
+                 *     24: Invalid payout type.
+                 *     25: The amount is invalid.
+                 *     26: Too many recipients.
+                 *     27: The recipients are invalid.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     12: Insufficient Robux funds.
+                 *     28: Group has paid out too recently. Please wait and try again.
+                 *     35: 2-Step Verification is required to make further transactions. Go to Settings > Security to complete 2-Step Verification.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 22: The feature is disabled. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
@@ -19305,6 +25852,1537 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/groups/{groupId}/relationships/{groupRelationshipType}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets a group's relationships */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The start index of the page request */
+                    StartRowIndex: number;
+                    /** @description The maximum number of rows for the page request, should be at least 1. */
+                    MaxRows: number;
+                };
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                    /** @description The group relationship type, enemies or allies. */
+                    groupRelationshipType: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupRelationshipsResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupRelationshipsResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Group is invalid or does not exist.
+                 *     4: Group relationship type or request type is invalid.
+                 *     8: Invalid or missing pagination parameters
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/relationships/{groupRelationshipType}/requests': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets a group's relationship requests */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The start index of the page request */
+                    StartRowIndex: number;
+                    /** @description The maximum number of rows for the page request, should be at least 1. */
+                    MaxRows: number;
+                };
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                    /** @description The group relationship type of the request, only allies are supported. */
+                    groupRelationshipType: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupRelationshipsResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupRelationshipsResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Group is invalid or does not exist.
+                 *     4: Group relationship type or request type is invalid.
+                 *     8: Invalid or missing pagination parameters
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 5: You don't have permission to manage this group's relationships. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /** Create a group relationship. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group id. */
+                    groupId: number;
+                    /** @description The group relationship type, enemies or allies. */
+                    groupRelationshipType: string;
+                    /** @description The id of the group you want to create a relationship with. */
+                    relatedGroupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: Group relationship type or request type is invalid.
+                 *     2: Invalid group.
+                 *     3: Target group is invalid or does not exist.
+                 *     4: Your group cannot establish a relationship with itself.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     5: Your group does not allow enemy declarations.
+                 *     6: Other group does not allow enemy declarations.
+                 *     7: Your group already has a relationship with the target group.
+                 *     8: You are blocked from communicating with this user.
+                 *     9: Insufficient permissions.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        /** Deletes a group relationship. */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group id. */
+                    groupId: number;
+                    /** @description The group relationship type, enemies or allies. */
+                    groupRelationshipType: string;
+                    /** @description The id of the group you want to delete the relationship with. */
+                    relatedGroupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 2: Invalid group.
+                 *     3: Target group is invalid or does not exist.
+                 *     11: Relationship does not exist.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     8: You are blocked from communicating with this user.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/relationships/{groupRelationshipType}/requests/{relatedGroupId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Accepts a group relationship request. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group id. */
+                    groupId: number;
+                    /** @description The group relationship type, enemies or allies, only allies are supported. */
+                    groupRelationshipType: string;
+                    /** @description The id of the group you want to accept the relationship request with. */
+                    relatedGroupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: Group relationship type or request type is invalid.
+                 *     2: Invalid group.
+                 *     3: Target group is invalid or does not exist.
+                 *     10: Relationship request does not exist.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     9: Insufficient permissions.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        /** Declines a group relationship request. */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group id. */
+                    groupId: number;
+                    /** @description The group relationship type, enemies or allies. */
+                    groupRelationshipType: string;
+                    /** @description The id of the group you want to accept the relationship request with. */
+                    relatedGroupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: Group relationship type or request type is invalid.
+                 *     2: Invalid group.
+                 *     3: Target group is invalid or does not exist.
+                 *     10: Relationship request does not exist.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     9: Insufficient permissions.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/relationships/{groupRelationshipType}/{relatedGroupId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create a group relationship. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group id. */
+                    groupId: number;
+                    /** @description The group relationship type, enemies or allies. */
+                    groupRelationshipType: string;
+                    /** @description The id of the group you want to create a relationship with. */
+                    relatedGroupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: Group relationship type or request type is invalid.
+                 *     2: Invalid group.
+                 *     3: Target group is invalid or does not exist.
+                 *     4: Your group cannot establish a relationship with itself.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     5: Your group does not allow enemy declarations.
+                 *     6: Other group does not allow enemy declarations.
+                 *     7: Your group already has a relationship with the target group.
+                 *     8: You are blocked from communicating with this user.
+                 *     9: Insufficient permissions.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        /** Deletes a group relationship. */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group id. */
+                    groupId: number;
+                    /** @description The group relationship type, enemies or allies. */
+                    groupRelationshipType: string;
+                    /** @description The id of the group you want to delete the relationship with. */
+                    relatedGroupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 2: Invalid group.
+                 *     3: Target group is invalid or does not exist.
+                 *     11: Relationship does not exist.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     8: You are blocked from communicating with this user.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/revenue/summary/{timeFrame}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations['RevenueSummary_GetGroupRevenueSummary'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/roles': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets a list of the rolesets in a group. */
+        get: {
+            parameters: {
+                query: {
+                    includePrivate: boolean;
+                };
+                header?: never;
+                path: {
+                    /** @description The group id. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupAllRolesResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupAllRolesResponse'];
+                    };
+                };
+                /** @description 1: The group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/roles/guest/permissions': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the permissions for a group's guest roleset. These can be viewed by all (members and guests) users. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group id. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupPermissionsResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupPermissionsResponse'];
+                    };
+                };
+                /** @description 1: Group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/roles/permissions': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets all permissions for each role */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group id. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupPermissionsResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupPermissionsResponse_'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/roles/{roleSetId}/permissions': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the permissions for a group's roleset. The authorized user must either be the group owner or the roleset being requested, except for guest roles, which can be viewed by all (members and guests). */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group id. */
+                    groupId: number;
+                    /** @description The group's role set id. */
+                    roleSetId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupPermissionsResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupPermissionsResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Group is invalid or does not exist.
+                 *     2: The roleset is invalid or does not exist.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: You are not authorized to view/edit permissions for this role. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Updates the permissions for a group's roleset. The authorized user must be the group owner. */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group's id. */
+                    groupId: number;
+                    /** @description The roleset's id. */
+                    roleSetId: number;
+                };
+                cookie?: never;
+            };
+            /** @description The request. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Groups.Api.UpdatePermissionsRequest'];
+                    'text/json': components['schemas']['Roblox.Groups.Api.UpdatePermissionsRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: Group is invalid or does not exist.
+                 *     2: The roleset is invalid or does not exist.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     3: You are not authorized to view/edit permissions for this role.
+                 *     4: This role's permissions can not be modified.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/roles/{roleSetId}/users': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets a list of users in a group for a specific roleset. */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description The number of results per request. */
+                    limit?: 10 | 25 | 50 | 100;
+                    /** @description The paging cursor for the previous or next page. */
+                    cursor?: string;
+                    /** @description The order the results are sorted in. */
+                    sortOrder?: 'Asc' | 'Desc';
+                };
+                header?: never;
+                path: {
+                    /** @description The group id. */
+                    groupId: number;
+                    /** @description The group's role set id. */
+                    roleSetId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.UserModel_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.UserModel_'];
+                    };
+                };
+                /**
+                 * @description 1: The group is invalid or does not exist.
+                 *     36: The pagination cursor is invalid.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 2: The roleset is invalid or does not exist.
+                 *     35: You do not have permission to view this group's member list.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/rolesets/create': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Creates new group roleset. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            /** @description The Roblox.Groups.Api.Models.Request.CreateRoleSetRequest. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Groups.Api.Models.Request.CreateRoleSetRequest'];
+                    'text/json': components['schemas']['Roblox.Groups.Api.Models.Request.CreateRoleSetRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupRoleResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupRoleResponse'];
+                    };
+                };
+                /**
+                 * @description 0: Something went wrong.
+                 *     3: You do not have enough funds to purchase this role.
+                 *     5: Role name already exists.
+                 *     6: Rank value is out of bounds.
+                 *     7: The role name is too long.
+                 *     8: The role description is too long.
+                 *     10: This group does not exist.
+                 *     11: Failed to process payment to purchase role.
+                 *     12: Limit for roles have been reached on this group.
+                 *     14: Role name can not be empty.
+                 *     15: This role does not exist.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     9: You do not have permissions to perform this action.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 28: Migration in progress. Please try again in a moment. */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/rolesets/{rolesetId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Deletes existing group roleset. */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                    /** @description The roleset Id. */
+                    rolesetId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 10: This group does not exist.
+                 *     15: This role does not exist.
+                 *     17: Cannot remove any more roles
+                 *     18: Cannot delete this role.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     9: You do not have permissions to perform this action.
+                 *     16: There are users in this role.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 28: Migration in progress. Please try again in a moment. */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        /** Updates existing group roleset. */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                    /** @description The roleset Id. */
+                    rolesetId: number;
+                };
+                cookie?: never;
+            };
+            /** @description The Roblox.Groups.Api.Models.Request.UpdateRoleSetRequest. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Groups.Api.Models.Request.UpdateRoleSetRequest'];
+                    'text/json': components['schemas']['Roblox.Groups.Api.Models.Request.UpdateRoleSetRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupRoleResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupRoleResponse'];
+                    };
+                };
+                /**
+                 * @description 5: Role name already exists.
+                 *     6: Rank value is out of bounds.
+                 *     7: The role name is too long.
+                 *     8: The role description is too long.
+                 *     10: This group does not exist.
+                 *     14: Role name can not be empty.
+                 *     15: This role does not exist.
+                 *     19: Cannot update Guest role.
+                 *     20: Cannot update Owner role rank.
+                 *     30: Invalid role color.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     9: You do not have permissions to perform this action.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 28: Migration in progress. Please try again in a moment. */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/settings': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the Group's settings */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id of the group the user is in. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupSettingsResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupSettingsResponse'];
+                    };
+                };
+                /** @description 1: Group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 23: Insufficient permissions to complete the request. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Updates the group's settings */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id of the group the user is in. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            /** @description Roblox.Groups.Api.UpdateGroupSettingsRequest */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Groups.Api.UpdateGroupSettingsRequest'];
+                    'text/json': components['schemas']['Roblox.Groups.Api.UpdateGroupSettingsRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /** @description 1: Group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     23: Insufficient permissions to complete the request.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 31: Service is currently unavailable. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/social-links': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get social link data associated with a group */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The Id of the game */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GetSocialLinkResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GetSocialLinkResponse'];
+                    };
+                };
+                /** @description 1: Group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 13: Only users who are over thirteen years of age may edit social links. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 11: Social links cannot be processed as this time. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /** Posts a social links */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id of the group */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            /** @description The Roblox.Groups.Api.SocialLinkRequest */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Groups.Api.SocialLinkRequest'];
+                    'text/json': components['schemas']['Roblox.Groups.Api.SocialLinkRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.SocialLinkResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.SocialLinkResponse'];
+                    };
+                };
+                /**
+                 * @description 3: The social link title is too long.
+                 *     4: The social link title cannot be empty.
+                 *     5: The social link url cannot be empty.
+                 *     7: The request was null.
+                 *     9: The social link type is invalid.
+                 *     12: The social link title was moderated.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     2: You do not have permission to configure this social link.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 8: The requested group or social link was not found. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 11: Social links cannot be processed as this time. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/social-links/{socialLinkId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Deletes a social link */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id of the game you are editing, required for permissions checking */
+                    groupId: number;
+                    /** @description The id of the social link */
+                    socialLinkId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: Group is invalid or does not exist.
+                 *     10: The social link is not for a group.
+                 *     15: The social link id doesn't match the group id.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     2: You do not have permission to configure this social link.
+                 *     13: Only users who are over thirteen years of age may edit social links.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 11: Social links cannot be processed as this time. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        /** Updates a social link */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id of the universe */
+                    groupId: number;
+                    /** @description The id of the social link being updated */
+                    socialLinkId: number;
+                };
+                cookie?: never;
+            };
+            /** @description The Roblox.Groups.Api.SocialLinkRequest. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Groups.Api.SocialLinkRequest'];
+                    'text/json': components['schemas']['Roblox.Groups.Api.SocialLinkRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: Group is invalid or does not exist.
+                 *     3: The social link title is too long.
+                 *     4: The social link title cannot be empty.
+                 *     5: The social link url cannot be empty.
+                 *     6: The social link url was improperly formatted.
+                 *     7: The request was null.
+                 *     8: The requested group or social link was not found.
+                 *     9: The social link type is invalid.
+                 *     10: The social link is not for a group.
+                 *     12: The social link title was moderated.
+                 *     16: A social link with this type already exists on this group.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     2: You do not have permission to configure this social link.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 11: Social links cannot be processed as this time. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 11: Social links cannot be processed as this time. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
     '/v1/groups/{groupId}/universes': {
         parameters: {
             query?: never;
@@ -19346,6 +27424,368 @@ export interface paths {
                 };
                 /** @description Invalid groupId. */
                 400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/users': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets a list of users in a group. */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description The number of results per request. */
+                    limit?: 10 | 25 | 50 | 100;
+                    /** @description The paging cursor for the previous or next page. */
+                    cursor?: string;
+                    /** @description The order the results are sorted in. */
+                    sortOrder?: 'Asc' | 'Desc';
+                };
+                header?: never;
+                path: {
+                    /** @description The group id. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.UserGroupRoleResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.UserGroupRoleResponse_'];
+                    };
+                };
+                /**
+                 * @description 1: The group is invalid or does not exist.
+                 *     36: The pagination cursor is invalid.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 35: You do not have permission to view this group's member list. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /** Joins a group */
+        post: {
+            parameters: {
+                query?: never;
+                header?: {
+                    /** @description The place ID of the experience the player is in. */
+                    'Roblox-Place-Id'?: number;
+                    /** @description The player's current game Id. */
+                    'Roblox-Game-Id'?: string;
+                    /** @description The player's current session Id. */
+                    'Roblox-Session-Id'?: string;
+                };
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            /** @description Only supplied when captcha has been solved. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Groups.Api.JoinGroupRequest'];
+                    'text/json': components['schemas']['Roblox.Groups.Api.JoinGroupRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /** @description 1: The group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     6: You are already in the maximum number of groups.
+                 *     9: You do not have the builders club membership necessary to join this group.
+                 *     14: You cannot join a closed group.
+                 *     33: You do not have the required verification level to join this group.
+                 *     34: You do not have the required account tenure to join this group.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 7: You have already requested to join this group.
+                 *     8: You are already a member of this group.
+                 */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 10: Too many attempts to join the group. Please try again later. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 18: The operation is temporarily unavailable. Please try again later. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/users/{userId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Removes a user from a group */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group Id. */
+                    groupId: number;
+                    /** @description The Id of the user being removed. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: The group is invalid or does not exist.
+                 *     3: The user is invalid or does not exist.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     4: You do not have permission to manage this member.
+                 *     25: 2-Step Verification is required to make further transactions. Go to Settings > Security to complete 2-Step Verification.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 18: The operation is temporarily unavailable. Please try again later. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        /** Updates a users role in a group. */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The id of the group the user is in. */
+                    groupId: number;
+                    /** @description The id of the user being updated. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            /** @description The Roblox.Groups.Api.UpdateUserRoleRequest. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Groups.Api.UpdateUserRoleRequest'];
+                    'text/json': components['schemas']['Roblox.Groups.Api.UpdateUserRoleRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: The group is invalid or does not exist.
+                 *     2: The roleset is invalid or does not exist.
+                 *     3: The user is invalid or does not exist.
+                 *     23: You cannot change your own role.
+                 *     26: You cannot change the user's role to the same role.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     4: You do not have permission to manage this member.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 18: The operation is temporarily unavailable. Please try again later. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/users/{userId}/permissions': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the permissions a user has in a group. Only available to group owner and RCC */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The group id. */
+                    groupId: number;
+                    /** @description The user id. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupPermissionsResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupPermissionsResponse'];
+                    };
+                };
+                /** @description 1: Group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: You are not authorized to view/edit permissions for this role. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: The user is invalid or does not exist. */
+                404: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -20697,6 +29137,63 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/localizationtable/gametables/{gameId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    gameId: number;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.GameInternationalization.Api.AssociateLocalizationTablesToGameRequest'];
+                    'text/json': components['schemas']['Roblox.GameInternationalization.Api.AssociateLocalizationTablesToGameRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.GameInternationalization.Api.AssociateLocalizationTablesToGameResponse'];
+                        'text/json': components['schemas']['Roblox.GameInternationalization.Api.AssociateLocalizationTablesToGameResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
     '/v1/login': {
         parameters: {
             query?: never;
@@ -20722,7 +29219,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description OK */
+                /** @description Successfully logged in. */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -20814,7 +29311,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description OK */
+                /** @description Successful login */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -21506,6 +30003,44 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/metadata#friends.roblox.com': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    targetUserId?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Friends.Api.Models.Response.FriendsPageMetadataResponse'];
+                        'text/json': components['schemas']['Roblox.Friends.Api.Models.Response.FriendsPageMetadataResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/metadata#twostepverification.roblox.com': {
         parameters: {
             query?: never;
@@ -21647,6 +30182,56 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/my/friends/refresh-qr-session': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Friends.Api.Models.Response.RefreshQrSessionResponse'];
+                        'text/json': components['schemas']['Roblox.Friends.Api.Models.Response.RefreshQrSessionResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/my/friends/requests': {
         parameters: {
             query?: never;
@@ -21714,6 +30299,52 @@ export interface paths {
                 };
                 /** @description 9: The flood limit has been exceeded. */
                 429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/my/friends/{userId}/check-qr-session': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description user Id that shows the qr code */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': boolean;
+                        'text/json': boolean;
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -23081,7 +31712,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description OK */
+                /** @description Success */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -23117,7 +31748,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description OK */
+                /** @description Success */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -23915,6 +32546,84 @@ export interface paths {
         };
         trace?: never;
     };
+    '/v1/plugins/{pluginId}/icon': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Overwrites a plugin icon with a new one. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The plugin Id. */
+                    pluginId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: components['requestBodies']['postV1Badges_badgeid_icon'];
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Publish.Api.UploadResponse'];
+                        'text/json': components['schemas']['Roblox.Publish.Api.UploadResponse'];
+                    };
+                };
+                /** @description 2: File not present in request. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     5: You do not have permission to manage this item.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 4: Target item is invalid or does not exist. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: You're uploading too much, please wait and try again later. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/preferences/publishing': {
         parameters: {
             query?: never;
@@ -24087,6 +32796,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/private-servers/enabled-in-universe/{universeId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations['PrivateServers_PrivateServersEnabledInUniverse'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/private-servers/my-private-servers': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations['PrivateServers_GetMyPrivateServers'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/promotion-channels': {
         parameters: {
             query?: never;
@@ -24196,6 +32937,22 @@ export interface paths {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/public-server-browser-service/games/{placeId}/servers/{serverType}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations['GameInstances_GetServerList'];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -24437,7 +33194,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description OK */
+                /** @description Successfully invalidated all tickets. */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -24470,6 +33227,57 @@ export interface paths {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/roles': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the Roles by their ids. */
+        get: {
+            parameters: {
+                query: {
+                    /** @description A list of role ids */
+                    ids: number[];
+                    includePrivate: boolean;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupRoleDetailResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupRoleDetailResponse_'];
+                    };
+                };
+                /**
+                 * @description 1: Ids could not be parsed from request.
+                 *     2: Too many ids in request.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -24596,7 +33404,7 @@ export interface paths {
             };
             requestBody: components['requestBodies']['Roblox.Authentication.Api.Models.SignupRequest'];
             responses: {
-                /** @description OK */
+                /** @description Successful signup */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -24606,11 +33414,7 @@ export interface paths {
                         'text/json': components['schemas']['Roblox.Authentication.Api.Models.SignupResponse'];
                     };
                 };
-                /**
-                 * @description Bad request
-                 *     16: User agreement ids are null.
-                 *     21: Empty account switch blob required
-                 */
+                /** @description Bad request */
                 400: {
                     headers: {
                         [name: string]: unknown;
@@ -24648,11 +33452,7 @@ export interface paths {
                     };
                     content?: never;
                 };
-                /**
-                 * @description Internal server error
-                 *     15: Insert acceptances failed.
-                 *     27: Pre-auth passkey registration failed
-                 */
+                /** @description Internal server error */
                 500: {
                     headers: {
                         [name: string]: unknown;
@@ -24693,7 +33493,7 @@ export interface paths {
             };
             requestBody: components['requestBodies']['Roblox.Authentication.Api.Models.SignupRequest'];
             responses: {
-                /** @description OK */
+                /** @description Successful signup */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -24703,11 +33503,7 @@ export interface paths {
                         'text/json': components['schemas']['Roblox.Authentication.Api.Models.SignupResponse'];
                     };
                 };
-                /**
-                 * @description Bad request
-                 *     16: User agreement ids are null.
-                 *     21: Empty account switch blob required
-                 */
+                /** @description Bad request */
                 400: {
                     headers: {
                         [name: string]: unknown;
@@ -24747,12 +33543,7 @@ export interface paths {
                     };
                     content?: never;
                 };
-                /**
-                 * @description Internal server error
-                 *     15: Insert acceptances failed.
-                 *     27: Pre-auth passkey registration failed
-                 *     30: Account Linking required but failed
-                 */
+                /** @description Internal server error */
                 500: {
                     headers: {
                         [name: string]: unknown;
@@ -24846,7 +33637,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description OK */
+                /** @description Successfully disconnected the authentication provider, if it was connected */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -24856,10 +33647,7 @@ export interface paths {
                         'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
                     };
                 };
-                /**
-                 * @description Bad request
-                 *     2: Unsupported social provider type.
-                 */
+                /** @description Bad request */
                 400: {
                     headers: {
                         [name: string]: unknown;
@@ -24873,12 +33661,7 @@ export interface paths {
                     };
                     content?: never;
                 };
-                /**
-                 * @description Forbidden
-                 *     0: Token Validation Failed
-                 *     3: Cannot disconnect the only authentication method. Password on account is required.
-                 *     4: The password provided is invalid.
-                 */
+                /** @description Forbidden */
                 403: {
                     headers: {
                         [name: string]: unknown;
@@ -25061,6 +33844,195 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/sponsored-games/click': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Records clicks for sponsored games. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description Sponsored game identifier */
+            requestBody: {
+                content: {
+                    'application/json': string;
+                    'text/json': string;
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/sponsored-pages': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Retrieves sponsored pages to serve to a user on a specific device type in a specific country. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Ads.Api.Models.Response.SponsoredPageResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Ads.Api.Models.Response.SponsoredPageResponse_'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/sponsored/catalog-assets/{targetId}/create': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Returns the asset information for creating a new sponsored campaign. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The target of the campaign */
+                    targetId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Ads.Api.Models.Response.CreateSponsoredItemCampaignResponse'];
+                        'text/json': components['schemas']['Roblox.Ads.Api.Models.Response.CreateSponsoredItemCampaignResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/subcategories': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Lists Subcategory Names and their Ids. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': {
+                            [key: string]: number;
+                        };
+                        'text/json': {
+                            [key: string]: number;
+                        };
+                    };
                 };
             };
         };
@@ -25681,6 +34653,396 @@ export interface paths {
         };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/themes/types': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** returns all the enabled theme types. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_System.String_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_System.String_'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/themes/{consumerType}/{consumerId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** returns the theme type for a specific consumer. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The consumer type */
+                    consumerType: 1;
+                    /** @description The consumer's theme configuration to get. If the consumerType is User always return the AuthenticatedUser's theme type. */
+                    consumerId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.AccountSettings.Api.ThemeConfigurationResponse'];
+                        'text/json': components['schemas']['Roblox.AccountSettings.Api.ThemeConfigurationResponse'];
+                    };
+                };
+                /** @description 3: Invalid consumer type. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Modify the theme type for consumer. */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The consumer type */
+                    consumerType: 1;
+                    /** @description The consumer's theme configuration to modify. If the consumerType is User always modify the AuthenticatedUser's theme type. */
+                    consumerId: number;
+                };
+                cookie?: never;
+            };
+            /** @description An Roblox.AccountSettings.Api.ThemeConfigurationRequest. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.AccountSettings.Api.ThemeConfigurationRequest'];
+                    'text/json': components['schemas']['Roblox.AccountSettings.Api.ThemeConfigurationRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /** @description 2: Invalid theme type. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/v1/topic/get-topics': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Gets topics for a populated request, or trending queries when the request has no topic inputs.
+         *     Topics and queries are mutually exclusive in the response.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Catalog.Api.TopicRequestModel'];
+                    'text/json': components['schemas']['Roblox.Catalog.Api.TopicRequestModel'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Catalog.Api.TopicResponse'];
+                        'text/json': components['schemas']['Roblox.Catalog.Api.TopicResponse'];
+                    };
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/trade-privacy': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a user's trade privacy setting */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.AccountSettings.Api.TradePrivacyResponse'];
+                        'text/json': components['schemas']['Roblox.AccountSettings.Api.TradePrivacyResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /** Updates a user's trade privacy setting */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.AccountSettings.Api.UpdateTradePrivacyRequest'];
+                    'text/json': components['schemas']['Roblox.AccountSettings.Api.UpdateTradePrivacyRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.AccountSettings.Api.TradePrivacyUpdateResponse'];
+                        'text/json': components['schemas']['Roblox.AccountSettings.Api.TradePrivacyUpdateResponse'];
+                    };
+                };
+                /** @description Roblox.AccountSettings.Api.ResponseEnums.TradeSettingsErrors.InvalidTradePrivacy */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description Roblox.AccountSettings.Api.ResponseEnums.TradeSettingsErrors.AccountLocked
+                 *                 OR
+                 *                 Roblox.AccountSettings.Api.ResponseEnums.TradeSettingsErrors.UserCannotTrade
+                 *     0: Token Validation Failed
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/trade-value': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a user's trade quality filter setting */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.AccountSettings.Api.TradeValueResponse'];
+                        'text/json': components['schemas']['Roblox.AccountSettings.Api.TradeValueResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /** Updates a user's trade quality filter setting */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.AccountSettings.Api.TradeValueRequest'];
+                    'text/json': components['schemas']['Roblox.AccountSettings.Api.TradeValueRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /** @description Roblox.AccountSettings.Api.ResponseEnums.TradeSettingsErrors.InvalidTradeValue */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description Roblox.AccountSettings.Api.ResponseEnums.TradeSettingsErrors.AccountLocked
+                 *                 OR
+                 *                 Roblox.AccountSettings.Api.ResponseEnums.TradeSettingsErrors.UserCannotTrade
+                 *     0: Token Validation Failed
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
@@ -27724,7 +37086,72 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch?: never;
+        /** Updates recurring payouts for a group-owned universe. */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json-patch+json': components['schemas']['PublicUpdateUniverseRecurringPayoutsRequestModel'];
+                    'application/json': components['schemas']['PublicUpdateUniverseRecurringPayoutsRequestModel'];
+                    'text/json': components['schemas']['PublicUpdateUniverseRecurringPayoutsRequestModel'];
+                    'application/*+json': components['schemas']['PublicUpdateUniverseRecurringPayoutsRequestModel'];
+                };
+            };
+            responses: {
+                /** @description Success */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['PublicAllGroupUniversePayoutsResponseModel'];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
+                    };
+                };
+            };
+        };
         trace?: never;
     };
     '/v1/universes/{universeId}/permissions': {
@@ -28383,6 +37810,77 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/user/following-exists': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Returns whether or not the current user is following each userId in a list of userIds */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description The userIds potentially being followed */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Friends.Api.FollowingExistsRequestModel'];
+                    'text/json': components['schemas']['Roblox.Friends.Api.FollowingExistsRequestModel'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Friends.Api.Models.Response.FollowingExistsResponseModel'];
+                        'text/json': components['schemas']['Roblox.Friends.Api.Models.Response.FollowingExistsResponseModel'];
+                    };
+                };
+                /** @description 0: An invalid userId was passed in. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: Followers are disabled at this time. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/user/friend-requests/count': {
         parameters: {
             query?: never;
@@ -28581,6 +38079,152 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/user/groups/pending': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets groups that the authenticated user has requested to join */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupDetailResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupDetailResponse_'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/user/groups/primary': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Sets the authenticated user's primary group */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description The request body containing the group id. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Groups.Api.PrimaryGroupRequest'];
+                    'text/json': components['schemas']['Roblox.Groups.Api.PrimaryGroupRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /** @description 1: Group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     2: You aren't a member of the group specified.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        /** Removes the authenticated user's primary group */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/user/passwords/change': {
         parameters: {
             query?: never;
@@ -28609,7 +38253,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description OK */
+                /** @description Password successfully changed. */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -28641,10 +38285,7 @@ export interface paths {
                     };
                     content?: never;
                 };
-                /**
-                 * @description Roblox.Web.Authentication.Passwords.PasswordResponseCodes.PinLocked
-                 *     0: Token Validation Failed
-                 */
+                /** @description Roblox.Web.Authentication.Passwords.PasswordResponseCodes.PinLocked */
                 403: {
                     headers: {
                         [name: string]: unknown;
@@ -28903,6 +38544,66 @@ export interface paths {
         };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/user/{userId}/multiget-are-friends': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Check if the requesting user is friends with the specified users. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The requesting userId. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            /** @description The user ids to check against with the requesting user. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Friends.Api.MultigetAreFriendsRequestModel'];
+                    'text/json': components['schemas']['Roblox.Friends.Api.MultigetAreFriendsRequestModel'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Friends.Api.MultigetAreFriendsResponse'];
+                        'text/json': components['schemas']['Roblox.Friends.Api.MultigetAreFriendsResponse'];
+                    };
+                };
+                /** @description 1: The target user is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
@@ -29239,7 +38940,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description OK */
+                /** @description Success */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -29278,7 +38979,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description OK */
+                /** @description Success */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -29953,6 +39654,401 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/users/{targetUserId}/follow': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Creates the following between a user and user with targetUserId */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    targetUserId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Web.Captcha.Models.Request.CaptchaTokenRequest'];
+                    'text/json': components['schemas']['Roblox.Web.Captcha.Models.Request.CaptchaTokenRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Friends.Api.CaptchaStatusResponseModel'];
+                        'text/json': components['schemas']['Roblox.Friends.Api.CaptchaStatusResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: The target user is invalid or does not exist.
+                 *     6: Invalid parameters.
+                 *     8: The user cannot follow itself.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     2: The user is banned from performing operation.
+                 *     3: The user is blocked from performing this action.
+                 *     14: The user has not passed the captcha.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 9: The flood limit has been exceeded. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/users/{targetUserId}/followers': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get all users that follow user with targetUserId in page response format */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description The number of results per request. */
+                    limit?: 10 | 18 | 25 | 50 | 100;
+                    /** @description The paging cursor for the previous or next page. */
+                    cursor?: string;
+                    /** @description The order the results are sorted in. */
+                    sortOrder?: 'Asc' | 'Desc';
+                };
+                header?: never;
+                path: {
+                    targetUserId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Friends.Api.Models.Response.UserResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Friends.Api.Models.Response.UserResponse_'];
+                    };
+                };
+                /**
+                 * @description 1: The target user is invalid or does not exist.
+                 *     6: Invalid parameters.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 2: The user is banned from performing operation.
+                 *     3: The user is blocked from performing this action.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 9: The flood limit has been exceeded. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/users/{targetUserId}/followers/count': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get the number of following a user has */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    targetUserId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Friends.Api.FollowCountResponse'];
+                        'text/json': components['schemas']['Roblox.Friends.Api.FollowCountResponse'];
+                    };
+                };
+                /** @description 1: The target user is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/users/{targetUserId}/followings': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get all users that user with targetUserId is following in page response format */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description The number of results per request. */
+                    limit?: 10 | 18 | 25 | 50 | 100;
+                    /** @description The paging cursor for the previous or next page. */
+                    cursor?: string;
+                    /** @description The order the results are sorted in. */
+                    sortOrder?: 'Asc' | 'Desc';
+                };
+                header?: never;
+                path: {
+                    targetUserId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Friends.Api.Models.Response.UserResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Friends.Api.Models.Response.UserResponse_'];
+                    };
+                };
+                /**
+                 * @description 1: The target user is invalid or does not exist.
+                 *     6: Invalid parameters.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 2: The user is banned from performing operation.
+                 *     3: The user is blocked from performing this action.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 9: The flood limit has been exceeded. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/users/{targetUserId}/followings/count': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get the number of following a user has */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    targetUserId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Friends.Api.FollowCountResponse'];
+                        'text/json': components['schemas']['Roblox.Friends.Api.FollowCountResponse'];
+                    };
+                };
+                /** @description 1: The target user is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/users/{targetUserId}/unfollow': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Deletes the following between a user and user with targetUserId */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    targetUserId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: The target user is invalid or does not exist.
+                 *     6: Invalid parameters.
+                 *     8: The user cannot follow itself.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     2: The user is banned from performing operation.
+                 *     3: The user is blocked from performing this action.
+                 *     14: The user has not passed the captcha.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 9: The flood limit has been exceeded. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/users/{userId}': {
         parameters: {
             query?: never;
@@ -30193,6 +40289,222 @@ export interface paths {
                  * @description 1: The specified user does not exist.
                  *     2: An account for the given userId does not exist!
                  */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/users/{userId}/badges': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Gets a list of badges a user has been awarded.
+         * @description Respects inventory privacy settings when evaluating which awarded badges are visible.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description The number of results per request. */
+                    limit?: 10 | 25 | 50 | 100;
+                    /** @description The paging cursor for the previous or next page. */
+                    cursor?: string;
+                    /** @description The order the results are sorted in. */
+                    sortOrder?: 'Asc' | 'Desc';
+                };
+                header?: never;
+                path: {
+                    /** @description The user Id. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Badges.Api.GetBadgesByUserResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Badges.Api.GetBadgesByUserResponse_'];
+                    };
+                };
+                /** @description 4: User is invalid or does not exist. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/users/{userId}/badges/awarded-dates': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Gets timestamps for when badges were awarded to a user.
+         * @description Batch form of awarded-date lookup with a maximum number of badge ids per request.
+         */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The CSV of badge Ids. */
+                    badgeIds: number[];
+                };
+                header?: never;
+                path: {
+                    /** @description The user Id. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Badges.Api.BadgeAwardResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Badges.Api.BadgeAwardResponse_'];
+                    };
+                };
+                /** @description 5: Too many badge Ids. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 4: User is invalid or does not exist. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/users/{userId}/badges/{badgeId}/awarded-date': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Gets timestamp for when a single badge was awarded to a user.
+         * @description Returns 204 when the user has not been awarded the badge or the badge is filtered from view.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description User id. */
+                    userId: number;
+                    /** @description Badge id. */
+                    badgeId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 4: User is invalid or does not exist. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/users/{userId}/bundles': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Lists the bundles owned by a given user. */
+        get: {
+            parameters: {
+                query?: {
+                    cursor?: string;
+                    limit?: number;
+                    sortOrder?: 1 | 2;
+                };
+                header?: never;
+                path: {
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Catalog.Api.OwnedBundleModel_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Catalog.Api.OwnedBundleModel_'];
+                    };
+                };
+                /** @description 1: Invalid bundle */
                 400: {
                     headers: {
                         [name: string]: unknown;
@@ -32566,6 +42878,396 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/users/{userId}/friends': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get list of all friends for the specified user. */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Specifies how to sort the returned friends. */
+                    userSort?: 0 | 1 | 2;
+                };
+                header?: never;
+                path: {
+                    /** @description The user Id to get the friends for. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Friends.Api.Models.Response.UserResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Friends.Api.Models.Response.UserResponse_'];
+                    };
+                };
+                /** @description 1: The target user is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/users/{userId}/friends/count': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get the number of friends a user has */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Friends.Api.FriendsCountResponse'];
+                        'text/json': components['schemas']['Roblox.Friends.Api.FriendsCountResponse'];
+                    };
+                };
+                /** @description 1: The target user is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/users/{userId}/friends/find': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a paginated list of all friends for the specified user. */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Specifies how to sort the returned friends. */
+                    userSort?: 0 | 1 | 2;
+                    /** @description The paging cursor for the previous or next page. */
+                    cursor?: string;
+                    /** @description The number of results per request. */
+                    limit?: number;
+                    /** @description ['FindFriends' = 0, 'FindTrustedFriends' = 1] */
+                    findFriendsType?: 0 | 1;
+                };
+                header?: never;
+                path: {
+                    /** @description The user Id to get the friends for. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Paging.CursoredPagedResult_Roblox.Friends.Api.Models.Response.FriendResponse_'];
+                        'text/json': components['schemas']['Roblox.Paging.CursoredPagedResult_Roblox.Friends.Api.Models.Response.FriendResponse_'];
+                    };
+                };
+                /**
+                 * @description 1: The target user is invalid or does not exist.
+                 *     6: Invalid parameters.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/users/{userId}/friends/groups/roles': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets a list of all groups the specified users' friends are in. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The user id. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.UserGroupMembershipResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.UserGroupMembershipResponse_'];
+                    };
+                };
+                /** @description 3: The user is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: The user is invalid or does not exist. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/users/{userId}/friends/inactive': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get list of inactive friends for the specified user. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The user Id to get the friends for. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Friends.Api.Models.Response.UserResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Friends.Api.Models.Response.UserResponse_'];
+                    };
+                };
+                /**
+                 * @description 1: The target user is invalid or does not exist.
+                 *     6: Invalid parameters.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/users/{userId}/friends/online': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get list of all online friends for the specified user. */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description The sort order to return the friends. */
+                    userSort?: 0 | 1 | 2;
+                };
+                header?: never;
+                path: {
+                    /** @description The user Id to get the friends for. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Friends.Api.Models.Response.UserPresenceResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Friends.Api.Models.Response.UserPresenceResponse_'];
+                    };
+                };
+                /**
+                 * @description 1: The target user is invalid or does not exist.
+                 *     6: Invalid parameters.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/users/{userId}/friends/search': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Search for friends by name using a text query. */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description The string to search names of friends for. */
+                    query?: string;
+                    /** @description The paging cursor for the previous or next page. */
+                    cursor?: string;
+                    /** @description The number of results per request. */
+                    limit?: number;
+                };
+                header?: never;
+                path: {
+                    /** @description The user Id to get the friends for. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Paging.CursoredPagedResult_Roblox.Friends.Api.Models.Response.FriendResponse_'];
+                        'text/json': components['schemas']['Roblox.Paging.CursoredPagedResult_Roblox.Friends.Api.Models.Response.FriendResponse_'];
+                    };
+                };
+                /**
+                 * @description 1: The target user is invalid or does not exist.
+                 *     6: Invalid parameters.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/users/{userId}/friends/statuses': {
         parameters: {
             query?: never;
@@ -32603,6 +43305,104 @@ export interface paths {
                  *     15: Too many ids.
                  *     16: Invalid ids.
                  */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/users/{userId}/groups/primary/role': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets a user's primary group. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The user id. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GroupMembershipDetailResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GroupMembershipDetailResponse'];
+                    };
+                };
+                /** @description 4: User is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/users/{userId}/groups/roles': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets a list of all group roles for groups the specified user is in. */
+        get: {
+            parameters: {
+                query?: {
+                    includeLocked?: boolean;
+                    includeNotificationPreferences?: boolean;
+                    discoveryType?: 0 | 1 | 2;
+                };
+                header?: never;
+                path: {
+                    /** @description The user id. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupMembershipDetailResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupMembershipDetailResponse_'];
+                    };
+                };
+                /** @description 3: The user is invalid or does not exist. */
                 400: {
                     headers: {
                         [name: string]: unknown;
@@ -32847,6 +43647,53 @@ export interface paths {
                 };
                 /** @description 3: Insufficient permission. */
                 403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/users/{userId}/premium-upsell-precheck': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Premium upsell precheck */
+        get: {
+            parameters: {
+                query: {
+                    universeId: number;
+                    placeId: number;
+                };
+                header?: never;
+                path: {
+                    /** @description User ID */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -33195,6 +44042,212 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/users/{userId}/universes': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets all the followings between a user with userId and universes */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description A list of user to game followings. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'][];
+                        'text/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'][];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description User is not authorized for this action. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/users/{userId}/universes/{universeId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Creates the following between a user with userId and universe with universeId */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: number;
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description The created following. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'];
+                        'text/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'];
+                    };
+                };
+                /** @description The user has reached the limit of number of followed universes. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description User is not authorized for this action. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        /** Deletes the following between a user with userId and universe with universeId */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: number;
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description The deleted following. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'];
+                        'text/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description User is not authorized for this action. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/users/{userId}/universes/{universeId}/status': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the status of a following relationship between a user and a universe. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: number;
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description The status of the following relationship. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseStatusResponse'];
+                        'text/json': components['schemas']['Roblox.Followings.Api.Models.UserFollowingUniverseStatusResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description User is not authorized for this action. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/users/{userId}/username-history': {
         parameters: {
             query?: never;
@@ -33233,6 +44286,50 @@ export interface paths {
                 };
                 /** @description 3: The user id is invalid. */
                 400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/users/{userId}/validate-membership': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get if a user has a Premium membership */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description User ID */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -33440,6 +44537,86 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/vip-server/can-invite/{userId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations['PrivateServers_CanInviteUser'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/vip-servers/my-private-servers': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations['PrivateServersApi.PrivateServers_GetMyPrivateServers'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/vip-servers/{id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations['PrivateServers_GetPrivateServer'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations['PrivateServers_UpdatePrivateServer'];
+        trace?: never;
+    };
+    '/v1/vip-servers/{id}/permissions': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations['PrivateServers_UpdatePrivateServerPermissions'];
+        trace?: never;
+    };
+    '/v1/vip-servers/{id}/subscription': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations['PrivateServers_UpdatePrivateServerSubscription'];
+        trace?: never;
+    };
     '/v1/xbox/connection': {
         parameters: {
             query?: never;
@@ -33460,7 +44637,6 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -33512,7 +44688,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description OK */
+                /** @description Account is successfully disconnected */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -33529,10 +44705,7 @@ export interface paths {
                     };
                     content?: never;
                 };
-                /**
-                 * @description Forbidden
-                 *     0: Token Validation Failed
-                 */
+                /** @description Forbidden */
                 403: {
                     headers: {
                         [name: string]: unknown;
@@ -33564,7 +44737,6 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -33628,7 +44800,6 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -33645,7 +44816,6 @@ export interface paths {
                     };
                     content?: never;
                 };
-                /** @description 0: Token Validation Failed */
                 403: {
                     headers: {
                         [name: string]: unknown;
@@ -33908,6 +45078,75 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v2/assets/{assetId}/bundles': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Lists bundles that contain the given asset (hydrated search-detail shape for marketplace). */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description The number of results per request. */
+                    limit?: 10 | 25 | 50 | 100;
+                    /** @description The paging cursor for the previous or next page. */
+                    cursor?: string;
+                    /** @description The order the results are sorted in. */
+                    sortOrder?: 'Asc' | 'Desc';
+                };
+                header: {
+                    /** @description Roblox-Place-Id header. */
+                    'Roblox-Place-Id': number;
+                    /** @description Roblox-Game-Id header. */
+                    'Roblox-Game-Id': string;
+                };
+                path: {
+                    /** @description Asset id. */
+                    assetId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Catalog.Api.CatalogSearchDetailedResponseItem_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Catalog.Api.CatalogSearchDetailedResponseItem_'];
+                    };
+                };
+                /**
+                 * @description 1: Invalid assetId
+                 *     4: Invalid Cursor.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 7: User is unauthorized. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v2/assets/{assetId}/owners': {
         parameters: {
             query?: never;
@@ -33958,6 +45197,61 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v2/assets/{id}/versions': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieves asset information for the specified asset ID. The authenticated user must be able to manage the asset
+         *     or granted by package permission.
+         * @deprecated
+         * @description Use OpenCloud Assets API instead.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description The number of results per request. */
+                    limit?: 10 | 25 | 50 | 100;
+                    /** @description The paging cursor for the previous or next page. */
+                    cursor?: string;
+                    /** @description Sort by version number, default is desc. */
+                    sortOrder?: 'Asc' | 'Desc';
+                };
+                header: {
+                    /** @description The ID of the place.Roblox.Platform.Assets.IPlace */
+                    'Roblox-Place-Id': number;
+                };
+                path: {
+                    /** @description The ID of the asset.Roblox.Platform.Assets.IAsset */
+                    id: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Api.Develop.AssetVersion_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Api.Develop.AssetVersion_'];
+                    };
                 };
             };
         };
@@ -34644,6 +45938,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v2/games/{placeId}/servers/{serverType}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations['GameInstances_GetServerListV2'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v2/games/{universeId}/media': {
         parameters: {
             query?: never;
@@ -34686,6 +45996,171 @@ export interface paths {
                 };
                 /** @description 2: The requested universe does not exist. */
                 404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v2/groups': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Multi-get groups information by Ids.
+         * @description If a group comes back as null, it will not be returned in the response.
+         */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The group Ids. */
+                    groupIds: number[];
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Groups.GroupResponseV2_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Groups.GroupResponseV2_'];
+                    };
+                };
+                /**
+                 * @description 2: Too many ids in request.
+                 *     3: Ids could not be parsed from request.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v2/groups/{groupId}/games': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets experiences created by the specified group id. */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description The access type of the experiences. */
+                    accessFilter?: 1 | 2 | 4;
+                    /** @description The number of results per request. */
+                    limit?: 10 | 25 | 50 | 100;
+                    /** @description The paging cursor for the previous or next page. */
+                    cursor?: string;
+                    /** @description The order the results are sorted in. */
+                    sortOrder?: 'Asc' | 'Desc';
+                };
+                header?: never;
+                path: {
+                    /** @description The group Id */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.GroupExperienceResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.GroupExperienceResponse_'];
+                    };
+                };
+                /** @description 47: Code path is not implemented. */
+                501: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v2/groups/{groupId}/gamesV2': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets experiences created by the specified group id. */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description The access type of the experiences. */
+                    accessFilter?: 1 | 2 | 4;
+                    /** @description The number of results per request. */
+                    limit?: 10 | 25 | 50 | 100;
+                    /** @description The paging cursor for the previous or next page. */
+                    cursor?: string;
+                    /** @description The order the results are sorted in. */
+                    sortOrder?: 'Asc' | 'Desc';
+                };
+                header?: never;
+                path: {
+                    /** @description The group Id */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.GroupExperienceResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.GroupExperienceResponse_'];
+                    };
+                };
+                /** @description 47: Code path is not implemented. */
+                501: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -35176,6 +46651,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v2/groups/{groupId}/transactions': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations['TransactionHistory_GetGroupTransactions'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v2/groups/{groupId}/users/{userId}/invitation': {
         parameters: {
             query?: never;
@@ -35411,7 +46902,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description OK */
+                /** @description Successfully logged in. */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -35503,7 +46994,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description OK */
+                /** @description Successful login */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -36166,7 +47657,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description OK */
+                /** @description The password was successfully reset. */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -36253,7 +47744,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description OK */
+                /** @description The forgot password email successfully sent. */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -36343,7 +47834,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description OK */
+                /** @description Verification succeeded. */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -36416,7 +47907,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description OK */
+                /** @description Success */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -36452,7 +47943,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description OK */
+                /** @description Success */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -37286,7 +48777,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description OK */
+                /** @description Successfully invalidated all tickets. */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -37319,6 +48810,22 @@ export interface paths {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v2/sales/sales-report-download': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations['TransactionRecordsApi.SalesReportDownload_PublishSalesReportDownloadMessage'];
         delete?: never;
         options?: never;
         head?: never;
@@ -37506,7 +49013,7 @@ export interface paths {
             };
             requestBody: components['requestBodies']['Roblox.Authentication.Api.Models.SignupRequest'];
             responses: {
-                /** @description OK */
+                /** @description Successful signup */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -37516,11 +49023,7 @@ export interface paths {
                         'text/json': components['schemas']['Roblox.Authentication.Api.Models.SignupResponse'];
                     };
                 };
-                /**
-                 * @description Bad request
-                 *     16: User agreement ids are null.
-                 *     21: Empty account switch blob required
-                 */
+                /** @description Bad request */
                 400: {
                     headers: {
                         [name: string]: unknown;
@@ -37558,11 +49061,7 @@ export interface paths {
                     };
                     content?: never;
                 };
-                /**
-                 * @description Internal server error
-                 *     15: Insert acceptances failed.
-                 *     27: Pre-auth passkey registration failed
-                 */
+                /** @description Internal server error */
                 500: {
                     headers: {
                         [name: string]: unknown;
@@ -37603,7 +49102,7 @@ export interface paths {
             };
             requestBody: components['requestBodies']['Roblox.Authentication.Api.Models.SignupRequest'];
             responses: {
-                /** @description OK */
+                /** @description Successful signup */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -37613,11 +49112,7 @@ export interface paths {
                         'text/json': components['schemas']['Roblox.Authentication.Api.Models.SignupResponse'];
                     };
                 };
-                /**
-                 * @description Bad request
-                 *     16: User agreement ids are null.
-                 *     21: Empty account switch blob required
-                 */
+                /** @description Bad request */
                 400: {
                     headers: {
                         [name: string]: unknown;
@@ -37657,12 +49152,7 @@ export interface paths {
                     };
                     content?: never;
                 };
-                /**
-                 * @description Internal server error
-                 *     15: Insert acceptances failed.
-                 *     27: Pre-auth passkey registration failed
-                 *     30: Account Linking required but failed
-                 */
+                /** @description Internal server error */
                 500: {
                     headers: {
                         [name: string]: unknown;
@@ -39194,7 +50684,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description OK */
+                /** @description Password successfully changed. */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -39226,10 +50716,7 @@ export interface paths {
                     };
                     content?: never;
                 };
-                /**
-                 * @description Roblox.Web.Authentication.Passwords.PasswordResponseCodes.PinLocked
-                 *     0: Token Validation Failed
-                 */
+                /** @description Roblox.Web.Authentication.Passwords.PasswordResponseCodes.PinLocked */
                 403: {
                     headers: {
                         [name: string]: unknown;
@@ -39527,7 +51014,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description OK */
+                /** @description Success */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -39566,7 +51053,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description OK */
+                /** @description Success */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -39784,6 +51271,57 @@ export interface paths {
                         'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Web.Responses.Games.GameResponseV2_'];
                         'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Web.Responses.Games.GameResponseV2_'];
                     };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v2/users/{userId}/groups/roles': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets a list of all group roles for groups the specified user is in. */
+        get: {
+            parameters: {
+                query: {
+                    includeLocked: boolean;
+                    includeNotificationPreferences: boolean;
+                    discoveryType: 0 | 1 | 2;
+                };
+                header?: never;
+                path: {
+                    /** @description The user id. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupMembershipResponse_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupMembershipResponse_'];
+                    };
+                };
+                /** @description 3: The user is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
                 };
             };
         };
@@ -40133,6 +51671,108 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v2/users/{userId}/transaction-totals': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations['TransactionRecords_GetUserRevenueSummary'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v2/users/{userId}/transaction-types': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations['TransactionRecords_GetUsedTransactionTypes'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v2/users/{userId}/transactions': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations['TransactionRecordsApi.TransactionRecords_GetUserTransactions'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v2/users/{userId}/universes': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets all universes followed by a user. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The user ID. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Data model containing map of (universe ID => follow date). */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Followings.Api.Models.FollowsByTypeResponse'];
+                        'text/json': components['schemas']['Roblox.Followings.Api.Models.FollowsByTypeResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description User is not authorized for this action. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v3/logout': {
         parameters: {
             query?: never;
@@ -40158,7 +51798,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description OK */
+                /** @description Successfully logged out. */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -41011,6 +52651,14 @@ export interface components {
         /** @description A join request ID. */
         AcceptGroupJoinRequestRequest: Record<string, never>;
         ActionResult: Record<string, never>;
+        AgentResponse: {
+            /** Format: int64 */
+            id?: number;
+            type?: components['schemas']['AgentType'];
+            name?: string | null;
+        };
+        /** @enum {string} */
+        AgentType: 'User' | 'Group';
         /** @description The threshold condition that determines when an alert fires. */
         'AlertStorage.AlertCondition': {
             operator: components['schemas']['AlertStorage.ConditionOperator'];
@@ -42046,6 +53694,11 @@ export interface components {
             /** @description The MDE async operation. */
             operation?: components['schemas']['MdeOperation'] | null;
         };
+        CanInviteUserResponse: {
+            canInvite?: boolean;
+            doesOwnerPrivacyRestrictJoins?: boolean;
+            inviteResponseType?: components['schemas']['PrivateServerInviteResponseType'];
+        };
         CategoryResponse: {
             /**
              * @description The event category type of an event.
@@ -42056,6 +53709,24 @@ export interface components {
             category?: components['schemas']['EventCategory'];
             /** Format: int32 */
             rank?: number;
+        };
+        /** @description Get Client Status request. */
+        ClientStatusGetRequest: {
+            /**
+             * Format: int64
+             * @description The client's browser tracker id.
+             */
+            browserTrackerId?: number | null;
+        };
+        /** @description Set Client Status request. */
+        ClientStatusSetRequest: {
+            /** @description The client's status to send. */
+            status?: string | null;
+            /**
+             * Format: int64
+             * @description The client's browser tracker id.
+             */
+            browserTrackerId?: number | null;
         };
         /**
          * @description Request body for
@@ -42150,17 +53821,6 @@ export interface components {
             } | null;
             /** @description Conditional RPN rules and evaluation order, when any exist. */
             conditionalRules?: components['schemas']['ConditionalRulesPayload'] | null;
-        };
-        ConfigResponse: {
-            /** @description Cron expression defining the event's recurrence schedule, if any. */
-            recurrence?: string | null;
-            /**
-             * Format: date-time
-             * @description The latest UTC timestamp at which automatic recurrence scheduling can occur.
-             */
-            recurrenceEndTime?: string | null;
-            /** @description The audience that should receive notifications for this event. */
-            notificationAudience?: components['schemas']['EventNotificationAudience'];
         };
         /** @description A full representation of a configuration value, including its metadata. */
         ConfigValueFull: {
@@ -42289,14 +53949,6 @@ export interface components {
             /** @description Resulting async operation describing the create call. */
             operation?: components['schemas']['ExperimentOperation'] | null;
         };
-        /** @description Optional event configuration block (recurrence + notification audience) on the v3 Create body. */
-        CreateGameEventConfigRequest: {
-            /** @description Cron expression for recurrence. Null = no recurrence. Validated server-side. */
-            recurrence?: string | null;
-            /** Format: date-time */
-            recurrenceEndTime?: string | null;
-            notificationAudience?: components['schemas']['EventNotificationAudience'] | null;
-        };
         /**
          * @description Request body for `POST /v3/universes/{universeId}/game-events`.
          *     `universeId` comes from the URL path, not the body.
@@ -42338,8 +53990,6 @@ export interface components {
             placeId?: number | null;
             categories?: components['schemas']['EventRankedCategory'][] | null;
             thumbnails?: components['schemas']['EventMedia'][] | null;
-            /** @description Optional event configuration block (recurrence + notification audience) on the v3 Create body. */
-            config?: components['schemas']['CreateGameEventConfigRequest'] | null;
             /** @description Optional featuring status flag. When omitted, defaults to "not featured". */
             featuringStatus?: components['schemas']['FeaturingStatus'] | null;
             /** @description Optional tagline. Length and content are validated server-side. */
@@ -42429,6 +54079,13 @@ export interface components {
         /** @description The response for creating a matchmaking server attribute definition. */
         CreateMatchmakingServerAttributeDefinitionResponse: {
             playerAttributeDefinition?: components['schemas']['MatchmakingServerAttributeDefinition'];
+        };
+        CreatePrivateServerRequest: {
+            name?: string | null;
+            /** Format: int64 */
+            expectedPrice?: number;
+            isPurchaseConfirmed?: boolean | null;
+            idempotencyKey?: string | null;
         };
         /** @description Request model for creating a save */
         CreateSaveRequest: {
@@ -42661,6 +54318,8 @@ export interface components {
             /** @description The Creator Store product is a font family with this asset ID. */
             fontFamilyAssetId?: string;
         };
+        /** @enum {string} */
+        CurrencyHolderType: 'Undefined' | 'User' | 'Group' | 'UserKey';
         /** @enum {string} */
         CursorPagingDirection: 'Forward' | 'Backward';
         /** @description The custom signal configuration using a developer created attribute. */
@@ -42900,6 +54559,8 @@ export interface components {
              */
             collectionName?: string | null;
         } | null;
+        /** @description Response for deleting the start place override for a universe. */
+        DeleteStartPlaceOverrideResponse: Record<string, never>;
         /**
          * @description Deployment strategy for publishing configurations.
          *
@@ -43118,11 +54779,6 @@ export interface components {
              */
             rank?: number;
         };
-        /**
-         * @description The notification audience for an experience event
-         * @enum {string}
-         */
-        EventNotificationAudience: 'all' | 'rsvp' | 'subscribed' | 'group' | 'none';
         /** @description Representation of the category associated with an event. */
         EventRankedCategory: {
             /** @description The category content. */
@@ -43494,7 +55150,7 @@ export interface components {
          * @description The featuring status of a virtual event.
          * @enum {string}
          */
-        FeaturingStatus: 'invalid' | 'enabled' | 'disabled';
+        FeaturingStatus: 'enabled' | 'disabled';
         /**
          * @description Describes whether a fetch operation failed or succeeded.
          * @enum {string}
@@ -43560,6 +55216,18 @@ export interface components {
                 [key: string]: components['schemas']['PlaceSummaryForGameRestart'];
             } | null;
         };
+        /** @description ForecastUpdateRequest is used to request an update to the forecast of a Place in a Universe. */
+        ForecastUpdateRequest: {
+            /**
+             * Format: int64
+             * @description The Universe ID to update.
+             */
+            universeId?: number;
+        };
+        /** @description ForecastUpdateResponse is used to return information about the forecasted update of a place. */
+        ForecastUpdateResponse: {
+            placeSummaries?: components['schemas']['PlaceSummaryForGameUpdate'][] | null;
+        };
         /** @description v3 game event response. All fields except VirtualEventsApi.Models.V3.Response.GameEventResponse.Id are gated by the `?fields=` mask. */
         GameEventResponse: {
             /**
@@ -43594,7 +55262,6 @@ export interface components {
             thumbnails?: components['schemas']['ThumbnailResponse'][] | null;
             /** @description Whether all requested thumbnails were successfully persisted. Returned on Create/Update. */
             allThumbnailsCreated?: boolean | null;
-            config?: components['schemas']['ConfigResponse'] | null;
             /** @description Authenticated caller's RSVP status. Omitted for unauthenticated callers. */
             userRsvpStatus?: components['schemas']['RsvpStatus'] | null;
             /** Format: date-time */
@@ -43691,6 +55358,12 @@ export interface components {
          * @enum {string}
          */
         'GamePasses.PricingFeature': 'Invalid' | 'PriceOptimization' | 'UserFixedPrice' | 'RegionalPricing';
+        GameResponse: {
+            /** Format: int64 */
+            id?: number;
+            name?: string | null;
+            rootPlace?: components['schemas']['PlaceResponse'] | null;
+        };
         /** @description Response model for listing a game server log */
         GameServerLog: {
             /**
@@ -43719,6 +55392,8 @@ export interface components {
             messageTemplate?: string | null;
             /** @description Optional message context included with structured logging */
             context?: string | null;
+            /** @description The full path of the logger that emitted the log entry */
+            loggerFullPath?: string | null;
             /**
              * Format: int32
              * @description How many duplicate versions of this message were present in the same time window as this log
@@ -43735,6 +55410,33 @@ export interface components {
              */
             structuredStackTrace?: components['schemas']['StructuredStackFrame'][] | null;
         };
+        GameServerPlayerResponse: {
+            /** Format: int64 */
+            id?: number;
+            name?: string | null;
+            displayName?: string | null;
+            playerToken?: string | null;
+        };
+        GameServerResponsePageResponse: {
+            previousPageCursor?: string | null;
+            nextPageCursor?: string | null;
+            data?: components['schemas']['PublicServerBrowserService.GameServerResponse'][] | null;
+        };
+        GameUpdateStatus: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: int64 */
+            universeId?: number;
+            /** Format: date-time */
+            startTime?: string;
+            closeOldVersionsOnly?: boolean;
+            /** Format: date-time */
+            bleedOffEndTime?: string;
+            placeUpdateStatuses?: {
+                [key: string]: components['schemas']['PlaceUpdateStatus'];
+            } | null;
+            bleedOffServers?: boolean;
+        };
         GameVoteResponse: {
             /** Format: int64 */
             id?: number;
@@ -43745,6 +55447,11 @@ export interface components {
         };
         GameVoteResponseApiArrayResponse: {
             data?: components['schemas']['GameVoteResponse'][] | null;
+        };
+        /** @description Response for generating mock server signal values. */
+        GenerateMockServerSignalValuesResponse: {
+            /** @description The mock server signal values. */
+            exampleGameSignalValues?: components['schemas']['MockServerSignalValues'][] | null;
         };
         /**
          * @description Represents metadata about the long-running operation corresponding to a
@@ -43815,6 +55522,11 @@ export interface components {
             /** @description URI for the generated thumbnail. */
             imageUri?: string | null;
         };
+        GenericCurrencyResponse: {
+            /** Format: int64 */
+            amount?: number;
+            type?: components['schemas']['TransactionRecordsApi.CurrencyType'];
+        };
         /**
          * @description Response body for
          *     `GET /v1/experimentation/universes/{universeId}/operations/{operationId}`.
@@ -43852,6 +55564,32 @@ export interface components {
         GetMatchmakingScoringConfigurationResponse: {
             scoringConfiguration?: components['schemas']['MatchmakingScoringConfiguration'];
         };
+        /** @description Response containing the weights of the current default matchmaking scoring weights */
+        GetMatchmakingScoringDefaultWeightsResponse: {
+            /** @description The weights of the current default matchmaking scoring weights. */
+            weights?: {
+                /** Format: double */
+                Invalid?: number;
+                /** Format: double */
+                Occupancy?: number;
+                /** Format: double */
+                Age?: number;
+                /** Format: double */
+                Language?: number;
+                /** Format: double */
+                Latency?: number;
+                /** Format: double */
+                PreferredPlayers?: number;
+                /** Format: double */
+                VoiceChat?: number;
+                /** Format: double */
+                DeviceType?: number;
+                /** Format: double */
+                PlayHistory?: number;
+                /** Format: double */
+                TextChat?: number;
+            } | null;
+        };
         GetPlaceContributorsResponse: {
             nextCursor?: string | null;
             hasMore?: boolean;
@@ -43878,6 +55616,15 @@ export interface components {
             /** @description Gets or sets the saves. */
             saves: components['schemas']['HydratedSave'][] | null;
         } | null;
+        /** @description Response for getting the start place override for a universe. */
+        GetStartPlaceOverrideResponse: {
+            dataStoreLocation?: components['schemas']['DataStoreLocation'];
+        };
+        /** @description Get Update Status response. */
+        GetUpdateStatusResponse: {
+            /** @description The status of the game update. */
+            updateStatusList?: components['schemas']['GameUpdateStatus'][] | null;
+        };
         /** @description Contains an arbitrary serialized message along with a @type that describes the type of the serialized message. */
         GoogleProtobufAny: {
             /** @description The type of the serialized message. */
@@ -44437,6 +56184,117 @@ export interface components {
              */
             bypassSlowMode?: boolean;
         };
+        'GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_': {
+            /** Format: int64 */
+            id?: number;
+            /**
+             * Format: int32
+             * @description ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95, 'ComputeFunction' = 96]
+             * @enum {integer}
+             */
+            type?:
+                | 1
+                | 2
+                | 3
+                | 4
+                | 5
+                | 6
+                | 7
+                | 8
+                | 9
+                | 10
+                | 11
+                | 12
+                | 13
+                | 16
+                | 17
+                | 18
+                | 19
+                | 21
+                | 22
+                | 24
+                | 25
+                | 26
+                | 27
+                | 28
+                | 29
+                | 30
+                | 31
+                | 32
+                | 33
+                | 34
+                | 35
+                | 37
+                | 38
+                | 39
+                | 40
+                | 41
+                | 42
+                | 43
+                | 44
+                | 45
+                | 46
+                | 47
+                | 48
+                | 49
+                | 50
+                | 51
+                | 52
+                | 53
+                | 54
+                | 55
+                | 56
+                | 59
+                | 60
+                | 61
+                | 62
+                | 63
+                | 64
+                | 65
+                | 66
+                | 67
+                | 68
+                | 69
+                | 70
+                | 71
+                | 72
+                | 73
+                | 74
+                | 75
+                | 76
+                | 77
+                | 78
+                | 79
+                | 80
+                | 81
+                | 82
+                | 83
+                | 84
+                | 85
+                | 86
+                | 87
+                | 88
+                | 89
+                | 90
+                | 91
+                | 92
+                | 93
+                | 94
+                | 95
+                | 96;
+            name?: string;
+        };
+        'GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Core.CreatorType_': {
+            /** Format: int64 */
+            id?: number;
+            /**
+             * Format: int32
+             * @description ['User' = 0, 'Group' = 1, 'Experience' = 2]
+             * @enum {integer}
+             */
+            type?: 0 | 1 | 2;
+            name?: string;
+        };
         /** @description A homepage thumbnail associated with a universe. */
         HomepageThumbnail: {
             /** @description The unique identifier of the homepage thumbnail. */
@@ -44472,6 +56330,38 @@ export interface components {
          * @enum {string}
          */
         HostType: 'user' | 'group';
+        HttpContent: {
+            readonly headers?: components['schemas']['StringStringIEnumerableKeyValuePair'][] | null;
+        };
+        HttpMethod: {
+            method?: string | null;
+        };
+        HttpRequestMessage: {
+            version?: string | null;
+            versionPolicy?: components['schemas']['HttpVersionPolicy'];
+            content?: components['schemas']['HttpContent'] | null;
+            method?: components['schemas']['HttpMethod'] | null;
+            /** Format: uri */
+            requestUri?: string | null;
+            readonly headers?: components['schemas']['StringStringIEnumerableKeyValuePair'][] | null;
+            /** @deprecated */
+            readonly properties?: {
+                [key: string]: unknown;
+            } | null;
+            readonly options?: {
+                [key: string]: unknown;
+            } | null;
+        };
+        HttpResponseMessage: {
+            version?: string | null;
+            content?: components['schemas']['HttpContent'] | null;
+            statusCode?: components['schemas']['TransactionRecordsApi.HttpStatusCode'];
+            reasonPhrase?: string | null;
+            readonly headers?: components['schemas']['StringStringIEnumerableKeyValuePair'][] | null;
+            readonly trailingHeaders?: components['schemas']['StringStringIEnumerableKeyValuePair'][] | null;
+            requestMessage?: components['schemas']['HttpRequestMessage'] | null;
+            readonly isSuccessStatusCode?: boolean;
+        };
         HttpValidationProblemDetails:
             | (({
                   errors?: {
@@ -44482,6 +56372,8 @@ export interface components {
               }) &
                   components['schemas']['ProblemDetails'])
             | null;
+        /** @enum {string} */
+        HttpVersionPolicy: 'RequestVersionOrLower' | 'RequestVersionOrHigher' | 'RequestVersionExact';
         /** @description A save record, hydrated with the asset details. */
         HydratedSave: {
             /** @description Whether the asset is owned by the user. */
@@ -44598,6 +56490,17 @@ export interface components {
              */
             tool?: number;
         } | null;
+        Int64ExclusiveStartKeyCursor: {
+            /** Format: int64 */
+            key?: number;
+            sortOrder?: components['schemas']['TransactionRecordsApi.SortOrder'];
+            pagingDirection?: components['schemas']['CursorPagingDirection'];
+            /** Format: int32 */
+            pageNumber?: number;
+            discriminator?: string | null;
+            /** Format: int32 */
+            count?: number;
+        };
         /** @description Represents an item in a user's inventory. */
         InventoryItem: {
             /**
@@ -44733,6 +56636,8 @@ export interface components {
             /** @description A unique ID that identifies a private server. */
             privateServerId?: string;
         };
+        /** @enum {string} */
+        ItemPricingType: 'Undefined' | 'All' | 'PaidAndLimited';
         /** @description Request model for launching a game restart. */
         LaunchRestartRequest: {
             /**
@@ -44770,6 +56675,61 @@ export interface components {
              * @description Number of game instances that will be closed.
              */
             instancesImpacted?: number;
+        };
+        /** @description Launch Update Request. Contains specification for how update should roll out */
+        LaunchUpdateRequest: {
+            /**
+             * Format: int64
+             * @description The Universe ID to update.
+             */
+            universeId?: number;
+            /** @description The place IDs to update. If none are specified, we will update all active Places in the Universe */
+            placeIds?: number[] | null;
+            /**
+             * @description If true (default in UI), we will only migrate players from servers running old PlaceVersions.
+             *     If false, we will migrate all players
+             */
+            closeOldVersionsOnly?: boolean;
+            /**
+             * @description If true (default in UI), we will stop matchmaking to servers but keep them up before shutting them down, allowing
+             *      players to naturally migrate to the newer version.
+             *     If false, we will immediately start shutting down servers
+             */
+            bleedOffServers?: boolean;
+            /**
+             * Format: int32
+             * @description If BleedOffServers=true, how long will we allow old servers to stay up before shutting them down.
+             *     Valid values: 1 - 60 minutes
+             */
+            bleedOffDurationMinutes?: number;
+            /**
+             * @description Optional. A mapping of PlaceId to the specific versions to restart/bleed off for that place.
+             *     When set for a place, only servers running those exact versions will be affected.
+             *     If a place is not in this dictionary or has an empty set, behavior falls back to CloseOldVersionsOnly logic.
+             */
+            placeIdToVersions?: {
+                [key: string]: number[] | null;
+            } | null;
+            /** @description Optional. Attributes string to include in the ServerLifecycleChanged CSM payload published to game servers. */
+            attributes?: string | null;
+        };
+        /** @description Launch Update response. */
+        LaunchUpdateResponse: {
+            /**
+             * Format: uuid
+             * @description An ID for UI to query status of this update
+             */
+            updateId?: string;
+            /**
+             * Format: int32
+             * @description How many players are playing in servers that will be shut down according to the update configuration
+             */
+            numPlayersToBeKicked?: number;
+            /**
+             * Format: int32
+             * @description How many game instances will be closed according to the update configuration
+             */
+            instancesToBeClosed?: number;
         };
         /**
          * Format: int32
@@ -45693,6 +57653,66 @@ export interface components {
              */
             readonly count?: number;
         };
+        /** @description Mock server signal values. */
+        MockServerSignalValues: {
+            /**
+             * Format: int32
+             * @description The capacity of the mock server.
+             */
+            capacity?: number;
+            /**
+             * Format: int32
+             * @description The occupancy of the mock server.
+             */
+            occupancy?: number;
+            /** @description If the game has preferred players. */
+            hasPreferredPlayers?: boolean;
+            /**
+             * Format: int32
+             * @description The joining player's age.
+             */
+            playerAge?: number;
+            /**
+             * Format: int32
+             * @description The server's age for the mock server.
+             */
+            serverAveragePlayerAge?: number;
+            /**
+             * Format: int32
+             * @description The number of player's in the mock server that have a common language.
+             */
+            commonLanguagePlayers?: number;
+            /**
+             * Format: int32
+             * @description The latency of the mock server.
+             */
+            latency?: number;
+            /**
+             * Format: int32
+             * @description The number of player's in the mock server that have a common device.
+             */
+            commonDevicePlayers?: number;
+            /**
+             * Format: double
+             * @description The joining player's play history. The value is a log10 transformation of the player's playtime in minutes during last 28 days.
+             */
+            playerPlayHistory?: number;
+            /**
+             * Format: double
+             * @description The server's play history for the mock server.
+             */
+            serverAveragePlayHistory?: number;
+            /**
+             * Format: int32
+             * @description The number of player's in the mock server that have voice chat enabled.
+             */
+            commonVoicePlayers?: number | null;
+            /**
+             * Format: int32
+             * @description The number of player's in the mock server that can commonly text chat with the joining player.
+             */
+            commonTextChatPlayers?: number;
+        };
         /** @description Representation of a model asset. */
         Model:
             | ({
@@ -45778,6 +57798,37 @@ export interface components {
          * @enum {string}
          */
         MusicChartType: 'None' | 'Current' | 'Week' | 'Month' | 'Year';
+        MyPrivateServersData: {
+            active?: boolean;
+            /** Format: int64 */
+            universeId?: number;
+            /** Format: int64 */
+            placeId?: number | null;
+            name?: string | null;
+            /** Format: int64 */
+            ownerId?: number;
+            ownerName?: string | null;
+            /** Format: int64 */
+            priceInRobux?: number | null;
+            /** Format: int64 */
+            privateServerId?: number;
+            /** Format: date-time */
+            expirationDate?: string;
+            willRenew?: boolean;
+            universeName?: string | null;
+            /** Format: int64 */
+            purchaseScheduleId?: number | null;
+            /** Format: int64 */
+            totalDiscountAmountInRobux?: number | null;
+            metadata?: components['schemas']['PrivateServerSubscriptionMetadata'] | null;
+        };
+        MyPrivateServersResponse: {
+            nextPageCursor?: string | null;
+            previousPageCursor?: string | null;
+            data?: components['schemas']['MyPrivateServersData'][] | null;
+        };
+        /** @enum {string} */
+        O18EligibilityTag: 'None' | 'O18Eligible' | 'O18EligibleAndPlus';
         /** @description This resource represents a long-running operation that is the result of a network API call. */
         'OCV1.Assets.Operation': {
             /** @description The server-assigned resource path. The default format is `operations/{operation_id}`. */
@@ -46168,6 +58219,8 @@ export interface components {
          * @enum {string}
          */
         PersonalizedThumbnailStatus: 'Active' | 'Inactive';
+        /** @enum {string} */
+        PingSignalLevel: 'Low' | 'Medium' | 'High';
         /** @description Represents a Roblox place. */
         Place: {
             /**
@@ -46237,6 +58290,11 @@ export interface components {
              *     Mutually exclusive with ServerManagementService.V2.Models.PlaceFilter.Versions.
              */
             excludeCurrentVersion?: boolean | null;
+        };
+        PlaceResponse: {
+            /** Format: int64 */
+            id?: number;
+            name?: string | null;
         };
         /** @description Per-place restart status. */
         PlaceRestartStatus: {
@@ -46335,6 +58393,110 @@ export interface components {
                 [key: string]: number;
             } | null;
         };
+        /** @description Summary of a place for a game update. */
+        PlaceSummaryForGameUpdate: {
+            /**
+             * Format: int64
+             * @description Place ID of the place to be updated.
+             */
+            placeId?: number;
+            /**
+             * Format: int32
+             * @description Number of players to be kicked from the place during the game update.
+             */
+            playersToBeKicked?: number;
+            /**
+             * Format: int32
+             * @description Total number of players in the place.
+             */
+            totalPlayers?: number;
+            /**
+             * Format: int32
+             * @description Number of instances to be closed for the place during the game update.
+             */
+            instancesToBeClosed?: number;
+            /**
+             * Format: int32
+             * @description Total number of instances for the place.
+             */
+            totalInstances?: number;
+            /**
+             * Format: int32
+             * @description Lastest version of the place to be updated.
+             */
+            placeVersion?: number;
+            /**
+             * Format: date-time
+             * @description The timestamp of the last update to the place summary.
+             */
+            lastUpdated?: string;
+            /**
+             * @description Indicates whether the place is still part of the universe.
+             *     A place may have active games but is no longer in the universe if it has been removed from the universe.
+             */
+            isInUniverse?: boolean;
+            /**
+             * @description Player counts broken down by place version.
+             *     Key is the place version, value is the number of players on that version.
+             */
+            versionToPlayerCounts?: {
+                [key: string]: number;
+            } | null;
+            /**
+             * @description Instance counts broken down by place version.
+             *     Key is the place version, value is the number of instances on that version.
+             */
+            versionToInstanceCounts?: {
+                [key: string]: number;
+            } | null;
+        };
+        /** @description Container for the status of a game update. */
+        PlaceUpdateStatus: {
+            /**
+             * Format: int64
+             * @description The placeId of the game update
+             */
+            placeId?: number;
+            /** @description Which phase is the update in: BleedOff, Migrate, or Done */
+            phase?: string | null;
+            /**
+             * Format: date-time
+             * @description When the update started
+             */
+            startTime?: string;
+            /**
+             * Format: date-time
+             * @description When the update is expected to end, or null if it has not ended yet
+             */
+            endTime?: string | null;
+            /**
+             * Format: int32
+             * @description Number of players in the game update initially, before any players are kicked
+             */
+            startPlayersToBeKicked?: number;
+            /**
+             * Format: int32
+             * @description Number of instances that will be closed during the game update
+             */
+            startInstancesToBeClosed?: number;
+            /**
+             * Format: int32
+             * @description How many players are remaining in instances that will be shut down according to the update configuration
+             */
+            numPlayersToBeKicked?: number;
+            /**
+             * Format: int32
+             * @description Number of places that will be updated
+             */
+            instancesToBeClosed?: number;
+            /**
+             * Format: int32
+             * @description The version of the place that is being updated
+             */
+            placeVersion?: number;
+            /** @description The versions of the place that will be closed during the update */
+            placeVersionsToBeClosed?: number[] | null;
+        };
         PlaceVersion: {
             version?: string | null;
             title?: string | null;
@@ -46416,12 +58578,77 @@ export interface components {
         };
         /** @enum {string} */
         PricingFeature: 'Invalid' | 'PriceOptimization' | 'UserFixedPrice' | 'RegionalPricing';
+        /** @enum {string} */
+        PrivateServerInviteResponseType:
+            | 'Invalid'
+            | 'CanInvite'
+            | 'UnableToAddAnyUser'
+            | 'UnableToAddNonFriends'
+            | 'UnableToAddSpecificUser';
+        PrivateServerPermissionsResponse: {
+            clanAllowed?: boolean;
+            /** Format: int64 */
+            enemyClanId?: number | null;
+            friendsAllowed?: boolean;
+            users?: components['schemas']['SkinnyUserResponse'][] | null;
+        };
         PrivateServerPlayerResponse: {
             /** Format: int64 */
             id?: number;
             name?: string | null;
             displayName?: string | null;
             playerToken?: string | null;
+        };
+        PrivateServerResponse: {
+            /** Format: int64 */
+            id?: number;
+            name?: string | null;
+            game?: components['schemas']['GameResponse'] | null;
+            joinCode?: string | null;
+            active?: boolean;
+            subscription?: components['schemas']['PrivateServerSubscriptionResponse'] | null;
+            permissions?: components['schemas']['PrivateServerPermissionsResponse'] | null;
+            link?: string | null;
+        };
+        PrivateServerSubscriptionMetadata: {
+            privateServerSubscriptionTags?: components['schemas']['PrivateServerSubscriptionTag'][] | null;
+        };
+        PrivateServerSubscriptionResponse: {
+            active?: boolean;
+            expired?: boolean;
+            /** Format: date-time */
+            expirationDate?: string;
+            /** Format: int64 */
+            price?: number | null;
+            canRenew?: boolean;
+            hasInsufficientFunds?: boolean;
+            hasRecurringProfile?: boolean;
+            hasPriceChanged?: boolean;
+            /** Format: int64 */
+            purchaseScheduleId?: number | null;
+            /** Format: int64 */
+            totalDiscountAmountInRobux?: number | null;
+            metadata?: components['schemas']['PrivateServerSubscriptionMetadata'] | null;
+        };
+        /** @enum {string} */
+        PrivateServerSubscriptionTag: 'Invalid' | 'RobloxSubscription' | 'RobloxSubscriptionActiveBenefit';
+        PrivateServerUpdatePermissionsRequest: {
+            clanAllowed?: boolean | null;
+            /** Format: int64 */
+            enemyClanId?: number | null;
+            friendsAllowed?: boolean | null;
+            usersToAdd?: number[] | null;
+            usersToRemove?: number[] | null;
+        };
+        PrivateServerUpdateRequest: {
+            name?: string | null;
+            newJoinCode?: boolean | null;
+            active?: boolean | null;
+        };
+        PrivateServerUpdateSubscriptionRequest: {
+            active?: boolean | null;
+            /** Format: int64 */
+            price?: number | null;
         };
         'PrivateServersApi.GameServerResponse': {
             /** Format: uuid */
@@ -46445,6 +58672,11 @@ export interface components {
         };
         /** @enum {string} */
         'PrivateServersApi.SortOrder': 'Asc' | 'Desc';
+        PrivateServersEnabledInUniverseResponse: {
+            privateServersEnabled?: boolean;
+        };
+        /** @enum {string} */
+        PrivateServersTab: 'MyPrivateServers' | 'OtherPrivateServers';
         ProblemDetails:
             | ({
                   type?: string | null;
@@ -46574,6 +58806,59 @@ export interface components {
             recipientUserId?: number;
             status?: components['schemas']['FetchStatus'];
             oneTimePayout?: components['schemas']['PublicOneTimePayout'];
+        };
+        /** @description A numeric-ID recurring payout split in the public groups API contract. */
+        PublicRecurringPayoutRequestModel: {
+            /**
+             * Format: int64
+             * @description The payout recipient user ID.
+             */
+            userId: number;
+            /**
+             * Format: int64
+             * @description The recipient's payout percentage.
+             */
+            percentage: number;
+        };
+        'PublicServerBrowserService.GameServerResponse': {
+            /** Format: uuid */
+            id?: string | null;
+            /** Format: int32 */
+            maxPlayers?: number;
+            /** Format: int32 */
+            playing?: number;
+            playerTokens?: string[] | null;
+            players?: components['schemas']['GameServerPlayerResponse'][] | null;
+            /** Format: double */
+            fps?: number | null;
+            /** Format: int32 */
+            ping?: number | null;
+            /** Format: int32 */
+            languageMatchCount?: number | null;
+            pingSignalLevel?: components['schemas']['PingSignalLevel'] | null;
+            /** Format: int32 */
+            friendCount?: number | null;
+            name?: string | null;
+            /** Format: int64 */
+            vipServerId?: number | null;
+            /** Format: uuid */
+            accessCode?: string | null;
+            owner?: components['schemas']['VerifiedBadgeUserResponse'] | null;
+        };
+        /**
+         * Format: int32
+         * @enum {integer}
+         */
+        'PublicServerBrowserService.ServerType': 0 | 1;
+        /**
+         * Format: int32
+         * @enum {integer}
+         */
+        'PublicServerBrowserService.SortOrder': 1 | 2;
+        /** @description Request for updating recurring payouts through the public groups API. */
+        PublicUpdateUniverseRecurringPayoutsRequestModel: {
+            /** @description The recurring payout splits to apply. */
+            payouts: components['schemas']['PublicRecurringPayoutRequestModel'][];
         };
         /** @description A payout-visible universe in the public groups API contract. */
         PublicUserUniversePayout: {
@@ -46750,6 +59035,45 @@ export interface components {
         };
         /** @description Empty response. May later contain a status. */
         RestartUniverseServersResponse: Record<string, never>;
+        RevenueSummaryResponse: {
+            /** Format: int64 */
+            recurringRobuxStipend?: number;
+            /** Format: int64 */
+            itemSaleRobux?: number;
+            /** Format: int64 */
+            purchasedRobux?: number;
+            /** Format: int64 */
+            tradeSystemRobux?: number;
+            /** Format: int64 */
+            pendingRobux?: number;
+            /** Format: int64 */
+            groupPayoutRobux?: number;
+            /** Format: int64 */
+            individualToGroupRobux?: number;
+            /** Format: int64 */
+            premiumPayouts?: number;
+            /** Format: int64 */
+            groupPremiumPayouts?: number;
+            /** Format: int64 */
+            adjustmentRobux?: number;
+            /** Format: int64 */
+            immersiveAdPayouts?: number;
+            /** Format: int64 */
+            subscriptionPayouts?: number;
+            /** Format: int64 */
+            subscriptionClawbacks?: number;
+            isShowImmersiveAdPayoutSummaryOnZeroEnabled?: boolean;
+            /** Format: int64 */
+            commissionRobux?: number;
+            /** Format: int64 */
+            publishingAdvanceRebates?: number;
+            /** Format: int64 */
+            groupAffiliatePayoutRobux?: number;
+            /** Format: int64 */
+            creatorRewardsPayoutRobux?: number;
+        };
+        /** @enum {string} */
+        RevenueSummaryTimeFrame: 'Day' | 'Week' | 'Month' | 'Year';
         /** @description Represents a change in a revision, showing before and after values. */
         RevisionChange: {
             /** @description The value before the change. Null if the key was added. */
@@ -46954,6 +59278,135 @@ export interface components {
             description?: string;
             /** @description The URL corresponding to the image which represents this Roblox badge. */
             imageUrl?: string;
+        };
+        /** @description Response model for getting the user's verified and pending email addresses */
+        'Roblox.AccountSettings.Api.CurrentEmailsResponse': {
+            /** @description The user's most recent verified email address (masked) */
+            verifiedEmail?: string;
+            /** @description The user's pending (unverified) email address if one exists (masked) */
+            pendingEmail?: string;
+        };
+        /** @description Response model for getting the user's email address and verified status */
+        'Roblox.AccountSettings.Api.EmailResponse': {
+            /** @description The masked and formatted email address */
+            emailAddress?: string;
+            /** @description The verified status of the email */
+            verified?: boolean;
+            /** @description Whether password is required for updating email */
+            canBypassPasswordForEmailUpdate?: boolean;
+        };
+        /** @description A model containing website metadata for avatars */
+        'Roblox.AccountSettings.Api.Models.AccountsSettingsMetadataModel': {
+            /** @description Whether or not account restrictions spam bug fix is enabled */
+            IsAccountsRestrictionsSpamBugFixEnabled?: boolean;
+            /**
+             * Format: int32
+             * @description The max amount a user can enter as their monthly spending limit in USD
+             */
+            MaximumParentalControlsMonthlySpendLimitInUSD?: number;
+            /** @description Enables/disables the section in the account parental controls page where you can set the monthly spend limit */
+            IsParentalMonthlyLimitInUIEnabled?: boolean;
+            /** @description Enables/disables the section in the account parental controls page where you can set the parental notifications settings */
+            IsParentalNotificationSettingsInUIEnabled?: boolean;
+            /** @description Enables/disables the section in the account parental controls page where you can set the content control settings */
+            IsContentControlsEnabled?: boolean;
+        };
+        'Roblox.AccountSettings.Api.Models.Response.AccountCountrySettingsResponse': {
+            value?: components['schemas']['Roblox.AccountSettings.Api.Models.Response.UserAccountCountry'];
+        };
+        'Roblox.AccountSettings.Api.Models.Response.UpdateAccountCountryResponse': Record<string, never>;
+        'Roblox.AccountSettings.Api.Models.Response.UserAccountCountry': {
+            countryName?: string;
+            subdivisionIso?: string;
+            localizedSubdivision?: string;
+            localizedName?: string;
+            /** Format: int32 */
+            countryId?: number;
+        };
+        /** @description Request model for sending a verify email request */
+        'Roblox.AccountSettings.Api.SendVerifyEmailRequest': {
+            /** @description Whether the user will see messaging that they received a free item after verifying their email */
+            freeItem?: boolean;
+            /** @description Whether the request is coming from ads site */
+            isAdsAccount?: boolean;
+        };
+        /** @description Response model for get user's theme type */
+        'Roblox.AccountSettings.Api.ThemeConfigurationRequest': {
+            /** @description theme Type */
+            themeType?: string;
+        };
+        /** @description Response model for get user's theme type */
+        'Roblox.AccountSettings.Api.ThemeConfigurationResponse': {
+            /** @description theme Type */
+            themeType?: string;
+        };
+        /** @description Response model for getting the user's trade privacy settings */
+        'Roblox.AccountSettings.Api.TradePrivacyResponse': {
+            /** @description The current trade privacy setting for the current user */
+            tradePrivacy?: string;
+        };
+        /** @description Response model for updating the user's trade privacy settings */
+        'Roblox.AccountSettings.Api.TradePrivacyUpdateResponse': {
+            /**
+             * Format: int32
+             * @description The trade privacy setting after updating ['Undefined' = 0, 'Disabled' = 1, 'NoOne' = 2, 'Friends' = 3, 'TopFriends' = 4, 'Following' = 5, 'Followers' = 6, 'All' = 7]
+             * @enum {integer}
+             */
+            tradePrivacy?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+            /**
+             * Format: int32
+             * @description The inventory privacy setting after updating ['NoOne' = 1, 'Friends' = 2, 'FriendsAndFollowing' = 3, 'FriendsFollowingAndFollowers' = 4, 'AllAuthenticatedUsers' = 5, 'AllUsers' = 6]
+             * @enum {integer}
+             */
+            inventoryPrivacy?: 1 | 2 | 3 | 4 | 5 | 6;
+            /**
+             * Format: int32
+             * @description The response state after updating trade privacy ['Success' = 0, 'Conflict' = 1]
+             * @enum {integer}
+             */
+            privacySettingResponse?: 0 | 1;
+        };
+        /** @description Request model for trade value setting update */
+        'Roblox.AccountSettings.Api.TradeValueRequest': {
+            /**
+             * Format: int32
+             * @description The desired trade value setting for the active user ['Undefined' = 0, 'None' = 1, 'Low' = 2, 'Medium' = 3, 'High' = 4]
+             * @enum {integer}
+             */
+            tradeValue?: 0 | 1 | 2 | 3 | 4;
+        };
+        /** @description Response model for getting the user's trade value settings */
+        'Roblox.AccountSettings.Api.TradeValueResponse': {
+            /** @description The current trade value setting for the current user */
+            tradeValue?: string;
+        };
+        /** @description Request Model for updating a user's account country */
+        'Roblox.AccountSettings.Api.UpdateAccountCountryRequest': {
+            /**
+             * Format: int32
+             * @description The targetCountryId
+             */
+            targetCountryId?: number;
+        };
+        /** @description Request model for updating an email */
+        'Roblox.AccountSettings.Api.UpdateEmailRequest': {
+            /** @description The user's password. */
+            password?: string;
+            /** @description The new email address to set. */
+            emailAddress?: string;
+            /** @description Should the email controller skip sending the verification email. */
+            skipVerificationEmail?: boolean;
+            /** @description Whether the request is coming from ads site. */
+            isAdsAccount?: boolean;
+        };
+        /** @description Request model for trade privacy setting update */
+        'Roblox.AccountSettings.Api.UpdateTradePrivacyRequest': {
+            /**
+             * Format: int32
+             * @description The desired trade privacy setting for the active user ['Undefined' = 0, 'Disabled' = 1, 'NoOne' = 2, 'Friends' = 3, 'TopFriends' = 4, 'Following' = 5, 'Followers' = 6, 'All' = 7]
+             * @enum {integer}
+             */
+            tradePrivacy?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
         };
         /** @description A request model for creating a sponsored game */
         'Roblox.AdConfiguration.Api.CreateSponsoredGameV2Request': {
@@ -47397,6 +59850,52 @@ export interface components {
              * @description The number of conversions by ad click generated by the ad
              */
             clickConversions?: number;
+        };
+        /** @description The response model for serving a sponsored game. */
+        'Roblox.Ads.Api.Models.Response.CreateSponsoredItemCampaignResponse': {
+            /**
+             * Format: int64
+             * @description Id of the universe that is being sponsored.
+             */
+            creatorTargetId?: number;
+            /** @description Type of the creator. */
+            creatorType?: string;
+            /** @description Name of the creator. */
+            creatorName?: string;
+        };
+        /** @description The response model for serving a sponsored game. */
+        'Roblox.Ads.Api.Models.Response.SponsoredPageResponse': {
+            /** @description The name of the sponsored page. */
+            name?: string;
+            /** @description The title of the sponsored page. */
+            title?: string;
+            /** @description The logo image hash of the sponsored page. */
+            logoImageUrl?: string;
+            /**
+             * Format: int32
+             * @description The type of the sponsored page. ['Event' = 0, 'Sponsored' = 1]
+             * @enum {integer}
+             */
+            pageType?: 0 | 1;
+            /** @description The path of the sponsored page. */
+            pagePath?: string;
+        };
+        /** @description A request model for an ad click. */
+        'Roblox.Ads.Api.RecordClickRequest': {
+            /** @description The encrypted tracking data */
+            encryptedAdTrackingData?: string;
+            /**
+             * Format: int32
+             * @description The campaign target type ['Undefined' = 0, 'Universe' = 1, 'Asset' = 2, 'ImmersiveAd' = 3]
+             * @enum {integer}
+             */
+            campaignTargetType?: 0 | 1 | 2 | 3;
+            /**
+             * Format: int32
+             * @description The placement location ['Undefined' = 1, 'GameSort' = 2, 'AvatarShop' = 4, 'ItemDetails' = 8, 'HomePage' = 16, 'Billboard300x250' = 32, 'Billboard600x300' = 64, 'Billboard300x600' = 128]
+             * @enum {integer}
+             */
+            placementLocation?: 1 | 2 | 4 | 8 | 16 | 32 | 64 | 128;
         };
         /** @description A model which contains accessory position coordinates */
         'Roblox.Api.Avatar.Models.AccessoryPositionModel': {
@@ -48445,6 +60944,52 @@ export interface components {
             /** @description Whether or not all the outfit contents were successfully worn */
             success?: boolean;
         };
+        /** @description Model of an asset version. */
+        'Roblox.Api.Develop.AssetVersion': {
+            /**
+             * Format: int64
+             * @description The VersionID of the asset version.
+             */
+            Id?: number;
+            /**
+             * Format: int64
+             * @description The ID of the asset.
+             */
+            assetId?: number;
+            /**
+             * Format: int32
+             * @description The version number.
+             */
+            assetVersionNumber?: number;
+            /** @description Type of the asset version creator. */
+            creatorType?: string;
+            /**
+             * Format: int64
+             * @description ID of the asset version creator.
+             */
+            creatorTargetId?: number;
+            /**
+             * Format: int64
+             * @description ID of the universe this asset version was created in.
+             */
+            creatingUniverseId?: number;
+            /**
+             * Format: date-time
+             * @description The created date of this asset version.
+             */
+            created?: string;
+            /**
+             * @description Indicates if this version is same to current published version.
+             *     This property is available on /v1/{assetId}/published-versions and /v1/{assetId}/version/{versionNumber}.
+             */
+            isEqualToCurrentPublishedVersion?: boolean;
+            /**
+             * @description Indicates if this version is / was published.
+             *     This property is available on /v1/{assetId}/saved-versions.
+             *     This should be true for all assets coming from GetAssetPublishedVersionsByAssetId
+             */
+            isPublished?: boolean;
+        };
         /** @description The result of various checks for a user's eligibility to activate a given universe from private to public. */
         'Roblox.Api.Develop.Models.ActivationEligibilityResponse': {
             /**
@@ -48760,6 +61305,32 @@ export interface components {
              * @description The number of active VIP server subscriptions. A negative value indicates at least this many exist (i.e. -100 means 100+ active subscriptions).
              */
             activeSubscriptionsCount?: number;
+        };
+        /** @description Asset voting information */
+        'Roblox.Api.Develop.Models.Response.AssetVotingModel': {
+            /**
+             * Format: int64
+             * @description The !:IAsset's id.
+             */
+            assetId?: number;
+            /** @description Whether the user has voted on this !:IAsset. */
+            hasUserVoted?: boolean;
+            /** @description Whether the user can vote on this !:IAsset. */
+            canUserVote?: boolean;
+            /** @description Whether votes should be shown. */
+            shouldShowVotes?: boolean;
+            /**
+             * Format: int64
+             * @description The number of up votes.
+             */
+            upVotes?: number;
+            /**
+             * Format: int64
+             * @description The number of down votes.
+             */
+            downVotes?: number;
+            /** @description The reason this !:IAsset cannot be voted on. */
+            reasonForNotAbleToVote?: string;
         };
         /** @description Team create settings */
         'Roblox.Api.Develop.Models.Response.TeamCreateSettingsResponse': {
@@ -50139,6 +62710,31 @@ export interface components {
             accountBlob?: string;
             accountLinkParameters?: components['schemas']['Roblox.Authentication.Api.Models.AccountLinkParameters'];
         };
+        /** @description The result of being awarded a badge. */
+        'Roblox.Badges.Api.BadgeAwardResponse': {
+            /**
+             * Format: int64
+             * @description The badge Id.
+             */
+            badgeId?: number;
+            /**
+             * Format: date-time
+             * @description When the badge was awarded.
+             */
+            awardedDate?: string;
+        };
+        /** @description Represents information about the badge creator. (Creator of the place that awarded the badge) */
+        'Roblox.Badges.Api.BadgeCreatorResponse': {
+            /**
+             * Format: int64
+             * @description The creator ID
+             */
+            id?: number;
+            /** @description The name of the creator */
+            name?: string;
+            /** @description The type of the creator */
+            type?: string;
+        };
         /** @description Metadata about badges. */
         'Roblox.Badges.Api.BadgeMetadataResponse': {
             /**
@@ -50203,6 +62799,35 @@ export interface components {
             statistics?: components['schemas']['Roblox.Web.Responses.Badges.BadgeAwardStatisticsResponse'];
             awardingUniverse?: components['schemas']['Roblox.Badges.Api.UniverseResponse'];
         };
+        /** @description Response for the GetBadgesByUser endpoint. */
+        'Roblox.Badges.Api.GetBadgesByUserResponse': {
+            creator?: components['schemas']['Roblox.Badges.Api.BadgeCreatorResponse'];
+            /** Format: int64 */
+            id?: number;
+            name?: string;
+            description?: string;
+            displayName?: string;
+            displayDescription?: string;
+            enabled?: boolean;
+            /** Format: int64 */
+            iconImageId?: number;
+            /** Format: int64 */
+            displayIconImageId?: number;
+            awarder?: components['schemas']['Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Badges.BadgeAwarderType_'];
+            statistics?: components['schemas']['Roblox.Web.Responses.Badges.BadgeAwardStatisticsResponse'];
+            /** Format: date-time */
+            created?: string;
+            /** Format: date-time */
+            updated?: string;
+        };
+        /** @description Badge icon upload response. */
+        'Roblox.Badges.Api.IconUploadResponse': {
+            /**
+             * Format: int64
+             * @description The asset id of the uploaded icon.
+             */
+            targetId?: number;
+        };
         /** @description A response containing universe information. */
         'Roblox.Badges.Api.UniverseResponse': {
             /**
@@ -50226,6 +62851,31 @@ export interface components {
             description?: string;
             /** @description The new enabled state of the badge. */
             enabled?: boolean;
+        };
+        /** @description A model to represent asset favorites. */
+        'Roblox.Catalog.Api.AssetFavoriteModel': {
+            /**
+             * Format: int64
+             * @description The Id of the asset being favorited.
+             */
+            assetId?: number;
+            /**
+             * Format: int64
+             * @description The Id of the user favoriting the asset.
+             */
+            userId?: number;
+            /**
+             * Format: date-time
+             * @description The time at which the user favorited the asset.
+             */
+            created?: string;
+        };
+        /**
+         * @description Response for the batch GetItemDetailsComplete endpoint.
+         *     Each entry in Roblox.Catalog.Api.BatchItemDetailsCompleteResponse.Data is either a successfully hydrated item or a critical error.
+         */
+        'Roblox.Catalog.Api.BatchItemDetailsCompleteResponse': {
+            data?: components['schemas']['Roblox.Catalog.Api.CatalogItemOrError'][];
         };
         'Roblox.Catalog.Api.BundleCreatorModel': {
             /** Format: int64 */
@@ -50252,6 +62902,24 @@ export interface components {
             itemRestrictions?: (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9)[];
             collectibleItemDetail?: components['schemas']['Roblox.Catalog.Api.CollectibleItemDetail'];
             discountInformation?: components['schemas']['Roblox.Catalog.Api.DiscountInformation'];
+        };
+        /** @description A model to represent bundle favorites. */
+        'Roblox.Catalog.Api.BundleFavoriteModel': {
+            /**
+             * Format: int64
+             * @description The Id of the bundle being favorited.
+             */
+            bundleId?: number;
+            /**
+             * Format: int64
+             * @description The Id of the user favoriting the bundle.
+             */
+            userId?: number;
+            /**
+             * Format: date-time
+             * @description The time at which the user favorited the bundle.
+             */
+            created?: string;
         };
         'Roblox.Catalog.Api.BundleItemDetailModel': {
             owned?: boolean;
@@ -50293,6 +62961,255 @@ export interface components {
             isFree?: boolean;
             noPriceText?: string;
             premiumPricing?: components['schemas']['Roblox.Catalog.Api.PremiumPricingModel'];
+        };
+        /**
+         * @description A union type representing either a successfully hydrated item or an error.
+         *     Exactly one of Roblox.Catalog.Api.CatalogItemOrError.Item or Roblox.Catalog.Api.CatalogItemOrError.HttpStatusCode will be non-null.
+         */
+        'Roblox.Catalog.Api.CatalogItemOrError': {
+            /** Format: int64 */
+            id?: number;
+            /**
+             * Format: int32
+             * @description ['Asset' = 1, 'Bundle' = 2]
+             * @enum {integer}
+             */
+            itemType?: 1 | 2;
+            item?: components['schemas']['Roblox.Catalog.Api.CatalogSearchDetailedCompleteResponseItem'];
+            /** Format: int32 */
+            httpStatusCode?: number;
+        };
+        /**
+         * @description The detailed model for catalog items, complete with economy and ownership info.
+         *     This response model is bound in the game-engine here: https://create.roblox.com/docs/reference/engine/classes/AvatarEditorService#GetItemDetails.
+         */
+        'Roblox.Catalog.Api.CatalogSearchDetailedCompleteResponseItem': {
+            /**
+             * Format: int64
+             * @description Id to pass into economy purchase api
+             *     userID of lowest private seller if resellable
+             *     Creator AgentID (deprecated) / CreatorTargetId otherwise.
+             */
+            expectedSellerId?: number;
+            /** @description Whether item is owned by user. */
+            owned?: boolean;
+            /** @description Whether item can be purchased. */
+            isPurchasable?: boolean;
+            /**
+             * Format: int64
+             * @description The universeId that this asset was created in, null if not an in-experience creation.
+             */
+            creatingUniverseId?: number;
+            /**
+             * Format: date-time
+             * @description If a user purchased timed option item, its expiration time.
+             */
+            expirationTime?: string;
+            /**
+             * Format: int64
+             * @description The Item Id.
+             */
+            id?: number;
+            /**
+             * Format: int32
+             * @description The Roblox.Catalog.Api.CatalogSearchDetailedResponseItem.ItemType item type. ['Asset' = 1, 'Bundle' = 2]
+             * @enum {integer}
+             */
+            itemType?: 1 | 2;
+            /**
+             * Format: int32
+             * @description The Roblox.Platform.Assets.AssetType serialized if item is an asset.
+             * @enum {integer}
+             */
+            assetType?:
+                | 1
+                | 2
+                | 3
+                | 4
+                | 5
+                | 6
+                | 7
+                | 8
+                | 9
+                | 10
+                | 11
+                | 12
+                | 13
+                | 16
+                | 17
+                | 18
+                | 19
+                | 21
+                | 22
+                | 24
+                | 25
+                | 26
+                | 27
+                | 28
+                | 29
+                | 30
+                | 31
+                | 32
+                | 33
+                | 34
+                | 35
+                | 37
+                | 38
+                | 39
+                | 40
+                | 41
+                | 42
+                | 43
+                | 44
+                | 45
+                | 46
+                | 47
+                | 48
+                | 49
+                | 50
+                | 51
+                | 52
+                | 53
+                | 54
+                | 55
+                | 56
+                | 59
+                | 60
+                | 61
+                | 62
+                | 63
+                | 64
+                | 65
+                | 66
+                | 67
+                | 68
+                | 69
+                | 70
+                | 71
+                | 72
+                | 73
+                | 74
+                | 75
+                | 76
+                | 77
+                | 78
+                | 79
+                | 80
+                | 81
+                | 82
+                | 83
+                | 84
+                | 85
+                | 86
+                | 87
+                | 88
+                | 89
+                | 90
+                | 91
+                | 92
+                | 93
+                | 94
+                | 95
+                | 96;
+            /**
+             * Format: int32
+             * @description The Roblox.Platform.Bundles.Core.BundleType serialized if item is a bundle.
+             * @enum {integer}
+             */
+            bundleType?: 1 | 2 | 3 | 4;
+            /** @description Gets or sets the property whether a bundle is recolorable or not. Not serialized for asset. */
+            isRecolorable?: boolean;
+            /** @description The item name. */
+            name?: string;
+            /** @description The item description. */
+            description?: string;
+            /**
+             * Format: int64
+             * @description The product id of corresponding item.
+             */
+            productId?: number;
+            /** @description The System.Collections.Generic.IEnumerable`1 contained in the bundle, serialized if item is a bundle. */
+            bundledItems?: components['schemas']['Roblox.Catalog.Api.BundleItemDetailModel'][];
+            /** @description The System.Collections.Generic.IEnumerable`1 if item has Roblox.Catalog.Api.CatalogItemStatus. */
+            itemStatus?: (1 | 2 | 7 | 8)[];
+            /** @description The System.Collections.Generic.IEnumerable`1 if item has Roblox.Catalog.Api.CatalogItemRestriction. */
+            itemRestrictions?: (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9)[];
+            /** @description The verified status of a creator. */
+            creatorHasVerifiedBadge?: boolean;
+            /**
+             * Format: int32
+             * @description The Roblox.Catalog.Api.CatalogSearchDetailedResponseItem.CreatorType of the item's creator.
+             * @enum {integer}
+             */
+            creatorType?: 0 | 1 | 2;
+            /**
+             * Format: int64
+             * @description The creator id of the item's creator.
+             */
+            creatorTargetId?: number;
+            /** @description The creator name of the item's creator. */
+            creatorName?: string;
+            /**
+             * Format: int64
+             * @description The item's price.
+             */
+            price?: number;
+            /**
+             * Format: int64
+             * @description The item's lowest price, only if the item is resellable and there are resellers.
+             */
+            lowestPrice?: number;
+            /**
+             * Format: int64
+             * @description The item's lowest resale price, only if the item is resellable and there are resellers, including current user.
+             */
+            lowestResalePrice?: number;
+            /** @description The localized string item status if the item's price should not be displayed. */
+            priceStatus?: string;
+            /**
+             * Format: int64
+             * @description The number of items in stock, only if the item is resellable and is limitedEdition.
+             */
+            unitsAvailableForConsumption?: number;
+            /**
+             * Format: int64
+             * @description The number of times the item has been favorited.
+             */
+            favoriteCount?: number;
+            /**
+             * Format: date-time
+             * @description When the item will go off sale, if the item has an off deadline.
+             */
+            offSaleDeadline?: string;
+            /**
+             * @description The item's collectible item id.
+             *     It is an UUID if a item is collectible type. Otherwise, it is null.
+             */
+            collectibleItemId?: string;
+            /**
+             * Format: int64
+             * @description The collectible or limited-unique item's total quantity of unique instances.
+             */
+            totalQuantity?: number;
+            /**
+             * Format: int32
+             * @description The sale location type of the item. ['NotApplicable' = 0, 'ShopOnly' = 1, 'MyExperiencesOnly' = 2, 'ShopAndMyExperiences' = 3, 'ExperiencesById' = 4, 'ShopAndAllExperiences' = 5, 'ExperiencesDevApiOnly' = 6, 'ShopAndExperiencesById' = 7]
+             * @enum {integer}
+             */
+            saleLocationType?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+            /** @description An indicator if the item has resellers or not (null if not resellable). */
+            hasResellers?: boolean;
+            /** @description An indicator if the item is off sale or not. */
+            isOffSale?: boolean;
+            /**
+             * Format: int32
+             * @description Quantity limit for how many instances a user can buy.
+             */
+            quantityLimitPerUser?: number;
+            /** @description Whether the item supports head shapes. */
+            supportsHeadShapes?: boolean;
+            /** @description The timed options for the item. */
+            timedOptions?: components['schemas']['Roblox.Catalog.Api.TimedOption'][];
         };
         /**
          * @description Game-engine version of fully hydrated asset or bundle in catalog marketplace.
@@ -50731,6 +63648,37 @@ export interface components {
             nextPageCursor?: string;
             data?: components['schemas']['Roblox.Catalog.Api.CatalogSearchDetailedResponseItemV2'][];
         };
+        /** @description Response model for category. */
+        'Roblox.Catalog.Api.CategoryModel': {
+            /**
+             * Format: int32
+             * @description Category type.
+             * @enum {integer}
+             */
+            category?: 0 | 1 | 2 | 3 | 4 | 5 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18;
+            /** @description The associated public facing web_stable_id corresponding to internal taxonomy uuid for this category. */
+            taxonomy?: string;
+            /** @description List of AssetTypeIds corresponding to AssetType enum that this category returns. */
+            assetTypeIds?: number[];
+            /** @description List of bundleTypeIds corresponding to BundleType enum that this category returns. */
+            bundleTypeIds?: number[];
+            /**
+             * Format: int32
+             * @description Category id.
+             */
+            categoryId?: number;
+            /** @description Category name. */
+            name?: string;
+            /**
+             * Format: int32
+             * @description Category order index.
+             */
+            orderIndex?: number;
+            /** @description Subcategories under this category. */
+            subcategories?: components['schemas']['Roblox.Catalog.Api.SubcategoryModel'][];
+            /** @description Gets or sets whether the category is searchable in search bar. */
+            isSearchable?: boolean;
+        };
         'Roblox.Catalog.Api.CollectibleItemDetail': {
             collectibleItemId?: string;
             collectibleProductId?: string;
@@ -50818,6 +63766,17 @@ export interface components {
             /** @description Gets or sets the search result engagement score. */
             searchResultEngagementScore?: string;
         };
+        /** @description A response containing favorited bundles and whether there are more. */
+        'Roblox.Catalog.Api.FavoriteBundlesResponse': {
+            /** @description Collection of favorited bundles and associated details. */
+            favorites?: components['schemas']['Roblox.Catalog.Api.BundleDetailsModel'][];
+            /** @description True if there exists a next page of favorited bundles. */
+            moreFavorites?: boolean;
+            /** @description Pagination cursor for the next page. */
+            nextCursor?: string;
+            /** @description Pagination cursor for the previous page. */
+            previousCursor?: string;
+        };
         'Roblox.Catalog.Api.MultigetItemDetailsRequestItem': {
             /**
              * Format: int32
@@ -50866,6 +63825,82 @@ export interface components {
             universeIds?: number[];
             enabledUniverseIds?: number[];
         };
+        /** @description Response model for subcategory. */
+        'Roblox.Catalog.Api.SubcategoryModel': {
+            /**
+             * Format: int32
+             * @description Subcategory type.
+             * @enum {integer}
+             */
+            subcategory?:
+                | 0
+                | 1
+                | 2
+                | 3
+                | 4
+                | 5
+                | 9
+                | 10
+                | 12
+                | 13
+                | 14
+                | 15
+                | 19
+                | 20
+                | 21
+                | 22
+                | 23
+                | 24
+                | 25
+                | 26
+                | 27
+                | 37
+                | 38
+                | 39
+                | 40
+                | 41
+                | 42
+                | 43
+                | 44
+                | 45
+                | 46
+                | 47
+                | 48
+                | 49
+                | 50
+                | 51
+                | 52
+                | 53
+                | 54
+                | 55
+                | 56
+                | 57
+                | 58
+                | 59
+                | 60
+                | 61
+                | 62
+                | 63
+                | 64
+                | 65
+                | 66
+                | 67;
+            /** @description The taxonomy UUID associated with this node. */
+            taxonomy?: string;
+            /** @description List of AssetTypeIds corresponding to AssetType enum that this category returns. */
+            assetTypeIds?: number[];
+            /** @description List of bundleTypeIds corresponding to BundleType enum that this category returns. */
+            bundleTypeIds?: number[];
+            /**
+             * Format: int32
+             * @description Subcategory id.
+             */
+            subcategoryId?: number;
+            /** @description Subcategory name. */
+            name?: string;
+            /** @description Subcategory short name. */
+            shortName?: string;
+        };
         /** @description public api model coaslescing taxonomy information for a single item. */
         'Roblox.Catalog.Api.TaxonomyModel': {
             /** @description The id value to pass into taxonomy field in SearchV2 catalog-api. */
@@ -50888,6 +63923,34 @@ export interface components {
             discountInformation?: components['schemas']['Roblox.Catalog.Api.DiscountInformation'];
             /** @description To indicate if this option is selected by the client. */
             selected?: boolean;
+        };
+        /** @description Response model for avatar topics. */
+        'Roblox.Catalog.Api.TopicModel': {
+            /** @description The display topic name. */
+            displayName?: string;
+            /** @description The original topic name stored in the table. */
+            originalTopicName?: string;
+        };
+        'Roblox.Catalog.Api.TopicRequestModel': {
+            items?: components['schemas']['Roblox.MarketplaceTopicDiscovery.TopicDiscoveryService.V1Beta1.AvatarItem'][];
+            selectTopics?: string[];
+            inputQuery?: string;
+            /**
+             * Format: int32
+             * @description Maximum number of topic results returned from the server.
+             */
+            maxResult?: number;
+            /**
+             * Format: int32
+             * @description ['Unknown' = 1, 'Male' = 2, 'Female' = 3]
+             * @enum {integer}
+             */
+            genderType?: 1 | 2 | 3;
+        };
+        'Roblox.Catalog.Api.TopicResponse': {
+            topics?: components['schemas']['Roblox.Catalog.Api.TopicModel'][];
+            queries?: string[];
+            error?: components['schemas']['Roblox.MarketplaceTopicDiscovery.TopicDiscoveryService.V1Beta1.Error'];
         };
         /** @description Contains the names of the libraries in an Android Binary Module. */
         'Roblox.ClientSettings.Api.Models.Response.AndroidBinaryLibraryNames': {
@@ -51037,6 +64100,90 @@ export interface components {
                 [key: string]: number[][];
             };
         };
+        /** @description Data model containing collection of all followed sources of a specific type. */
+        'Roblox.Followings.Api.Models.FollowsByTypeResponse': {
+            /**
+             * Format: int32
+             * @description Type of the follower entity.
+             * @enum {integer}
+             */
+            followerType?: 0 | 1;
+            /**
+             * Format: int64
+             * @description ID of the follower entity.
+             */
+            followerId?: number;
+            /**
+             * Format: int32
+             * @description Type of the source entity.
+             * @enum {integer}
+             */
+            sourceType?: 0 | 1;
+            /** @description Followed sources: map of (source ID => follow date) */
+            followedSources?: {
+                [key: string]: string;
+            };
+        };
+        /** @description Model for a user following a universe controller responses */
+        'Roblox.Followings.Api.Models.UserFollowingUniverseResponse': {
+            /**
+             * Format: int64
+             * @description The id of the universe being followed
+             */
+            universeId?: number;
+            /**
+             * Format: int64
+             * @description The id of the user that is following
+             */
+            userId?: number;
+        };
+        /** @description Model for a user following a universe  state controller responses */
+        'Roblox.Followings.Api.Models.UserFollowingUniverseStatusResponse': {
+            /**
+             * Format: int64
+             * @description The id of the universe.
+             */
+            UniverseId?: number;
+            /**
+             * Format: int64
+             * @description The id of the user.
+             */
+            UserId?: number;
+            /** @description If the user can follow the universe. */
+            CanFollow?: boolean;
+            /** @description If the user is currently following the universe. */
+            IsFollowing?: boolean;
+            /**
+             * Format: int32
+             * @description The number of followings between this user and a universe.
+             */
+            FollowingCountByType?: number;
+            /**
+             * Format: int32
+             * @description The limit to the number of followings between a user and a universe for a specific user.
+             */
+            FollowingLimitByType?: number;
+        };
+        /** @description This is response model to notify when action succeeded, failed, or captcha is required */
+        'Roblox.Friends.Api.CaptchaStatusResponseModel': {
+            success?: boolean;
+            /** @description Captcha is set to true if captcha is required from user to perform action */
+            isCaptchaRequired?: boolean;
+            notificationMuted?: boolean;
+        };
+        /** @description Response model for following or followers Count */
+        'Roblox.Friends.Api.FollowCountResponse': {
+            /**
+             * Format: int64
+             * @description Count of following or followers
+             */
+            count?: number;
+        };
+        /** @description Request model for FollowingExists endpoint */
+        'Roblox.Friends.Api.FollowingExistsRequestModel': {
+            /** @description The userIds which the user may or may not be following. */
+            targetUserIds?: number[];
+        };
         /** @description A response model representing a friend request. */
         'Roblox.Friends.Api.FriendRequest': {
             /**
@@ -51120,6 +64267,42 @@ export interface components {
              */
             count?: number;
         };
+        /** @description Response contained in list for FollowingExists endpoint. Corresponds to a single userId. */
+        'Roblox.Friends.Api.Models.Response.FollowingExistsResponse': {
+            /** @description Whether or not a user is following userId in FriendsController.FollowingExists */
+            isFollowing?: boolean;
+            /** @description Whether or not a user is followed by userId in FriendsController.FollowingExists */
+            isFollowed?: boolean;
+            /**
+             * Format: int64
+             * @description The userId being potentially followed
+             */
+            userId?: number;
+        };
+        /** @description Response model for FollowingExists endpoint. */
+        'Roblox.Friends.Api.Models.Response.FollowingExistsResponseModel': {
+            /** @description A list of userIds and whether or not the given user is following them. */
+            followings?: components['schemas']['Roblox.Friends.Api.Models.Response.FollowingExistsResponse'][];
+        };
+        /** @description A response model representing friend information */
+        'Roblox.Friends.Api.Models.Response.FriendResponse': {
+            /**
+             * Format: int64
+             * @description The friend's userId
+             */
+            id?: number;
+            /** @description The friend's verified badge status. */
+            hasVerifiedBadge?: boolean;
+        };
+        'Roblox.Friends.Api.Models.Response.FriendsPageMetadataResponse': {
+            readonly isFriendsFilterBarEnabled?: boolean;
+            readonly isFriendsPageSortExperimentEnabled?: boolean;
+            readonly isFriendsUserDataStoreCacheEnabled?: boolean;
+            /** Format: int32 */
+            readonly frequentFriendSortRollout?: number;
+            userName?: string;
+            displayName?: string;
+        };
         /** @description The friendship status response model. */
         'Roblox.Friends.Api.Models.Response.NewFriendRequestsCountResponse': {
             /**
@@ -51127,6 +64310,9 @@ export interface components {
              * @description Count of new friend requests.
              */
             count?: number;
+        };
+        'Roblox.Friends.Api.Models.Response.RefreshQrSessionResponse': {
+            Success?: boolean;
         };
         /** @description A response model representing a friend request. */
         'Roblox.Friends.Api.Models.Response.TrustedFriendRequestResponse': {
@@ -51141,6 +64327,116 @@ export interface components {
              */
             senderId?: number;
         };
+        /** @description A response model representing user presence information. */
+        'Roblox.Friends.Api.Models.Response.UserPresenceResponse': {
+            userPresence?: components['schemas']['Roblox.Friends.Api.Models.Response.UserPresenceResponseModel'];
+            /**
+             * Format: double
+             * @description Carousel sort score
+             */
+            sortScore?: number;
+            /**
+             * Format: int64
+             * @description The user Id.
+             */
+            id?: number;
+            /** @description The user name. */
+            name?: string;
+            /** @description The user DisplayName. */
+            displayName?: string;
+        };
+        /** @description Response model for !:IUserPresence objects */
+        'Roblox.Friends.Api.Models.Response.UserPresenceResponseModel': {
+            /** @description User Presence Type */
+            UserPresenceType?: string;
+            /** @description Location Type */
+            UserLocationType?: string;
+            /** @description Last Location */
+            lastLocation?: string;
+            /**
+             * Format: int64
+             * @description Place Id
+             */
+            placeId?: number;
+            /**
+             * Format: int64
+             * @description Root Place Id
+             */
+            rootPlaceId?: number;
+            /**
+             * Format: uuid
+             * @description Game Instance Id
+             */
+            gameInstanceId?: string;
+            /**
+             * Format: int64
+             * @description Universe Id
+             */
+            universeId?: number;
+            /**
+             * Format: date-time
+             * @description Most recent time online
+             */
+            lastOnline?: string;
+        };
+        /** @description A response model representing user information that also contains select presence information */
+        'Roblox.Friends.Api.Models.Response.UserResponse': {
+            /** @description Whether the user is online. */
+            isOnline?: boolean;
+            /**
+             * Format: int32
+             * @description Where the user is online.
+             * @enum {integer}
+             */
+            presenceType?: 0 | 1 | 2 | 3 | 4;
+            /** @description Whether the user is deleted. */
+            isDeleted?: boolean;
+            /**
+             * Format: int64
+             * @description Frequents value for the user.
+             */
+            friendFrequentScore?: number;
+            /**
+             * Format: int64
+             * @description Frequents rank for the user.
+             */
+            friendFrequentRank?: number;
+            /** @description The user's verified badge status. */
+            hasVerifiedBadge?: boolean;
+            /** @description The user description. */
+            description?: string;
+            /**
+             * Format: date-time
+             * @description When the user signed up.
+             */
+            created?: string;
+            /** @description Whether or not the user is banned */
+            isBanned?: boolean;
+            /**
+             * @description Used when user is logged in from third party app (e.g. QQ)
+             *     ExternalAppDisplayName is the name used in that app (e.g. QQ nickname)
+             */
+            externalAppDisplayName?: string;
+            /**
+             * Format: int64
+             * @description The user Id.
+             */
+            id?: number;
+            /** @description The user name. */
+            name?: string;
+            /** @description The user DisplayName. */
+            displayName?: string;
+        };
+        /** @description Request model for MultigetAreFriends endpoint */
+        'Roblox.Friends.Api.MultigetAreFriendsRequestModel': {
+            /** @description The target userIds to check against with the requesting user regarding friendship. */
+            targetUserIds?: number[];
+        };
+        /** @description Response model for MultigetAreFriendsResponse */
+        'Roblox.Friends.Api.MultigetAreFriendsResponse': {
+            /** @description friends id list */
+            friendsId?: number[];
+        };
         /** @description Response model for Pending Friend Request Count */
         'Roblox.Friends.Api.PendingFriendRequestCountModel': {
             /**
@@ -51148,6 +64444,22 @@ export interface components {
              * @description Count of pending friend requests
              */
             count?: number;
+        };
+        'Roblox.GameInternationalization.Api.AssociateLocalizationTablesToGameRequest': {
+            tables?: components['schemas']['Roblox.GameInternationalization.Api.LocalizationTableGameAssociation'][];
+        };
+        'Roblox.GameInternationalization.Api.AssociateLocalizationTablesToGameResponse': {
+            success?: boolean;
+        };
+        'Roblox.GameInternationalization.Api.AutoLocalizationMetadataResponse': {
+            /** @description Is React Implementation of AutoLocalization Settings Enabled */
+            isReactVersionEnabledForAutoLocalizationSettings?: boolean;
+            /** @description Is Tabbed UI Enabled for Configure Localization Page */
+            isTabbedUIEnabledForConfigureLocalizationPage?: boolean;
+            /** @description Is Toggle UI Enabled for Automatic Translations */
+            isAutomaticTranslationToggleUIEnabled?: boolean;
+            /** @description Is Quota UI Enabled for Automatic Translations */
+            isAutomaticTranslationQuotaUIEnabled?: boolean;
         };
         'Roblox.GameInternationalization.Api.AutomaticTranslationStatusTargetLanguage': {
             /** @description The language code. */
@@ -51181,6 +64493,16 @@ export interface components {
             languageCode?: string;
             /** Format: int32 */
             errorCode?: number;
+        };
+        'Roblox.GameInternationalization.Api.GameAutolocalizationInformationResponse': {
+            isAutolocalizationEnabled?: boolean;
+            shouldUseLocalizationTable?: boolean;
+            shouldUseImageLocalizationTable?: boolean;
+            isAutoLocalizationForImageEnabled?: boolean;
+            /** Format: uuid */
+            autoLocalizationTableId?: string;
+            /** Format: int64 */
+            assetId?: number;
         };
         /** @description A response model for getting the automatic translation allowed status of target languages. */
         'Roblox.GameInternationalization.Api.GetAllowedAutomaticTranslationStatusForLanguagesResponse': {
@@ -51352,6 +64674,11 @@ export interface components {
             languageFamily?: components['schemas']['Roblox.GameInternationalization.Api.Language'];
             childLocales?: components['schemas']['Roblox.Localization.Client.SupportedLocale'][];
         };
+        'Roblox.GameInternationalization.Api.LocalizationTableGameAssociation': {
+            /** Format: uuid */
+            id?: string;
+            dissociate?: boolean;
+        };
         'Roblox.GameInternationalization.Api.MediaAssetResponse': {
             mediaAssetId?: string;
             mediaAssetAltText?: string;
@@ -51448,6 +64775,14 @@ export interface components {
              * @enum {string}
              */
             reportGenerationStatus?: 'inProgress' | 'ready' | 'unavailable';
+        };
+        'Roblox.GameInternationalization.Api.SetAutolocalizationSettingsForGameRequest': {
+            isAutolocalizationEnabled?: boolean;
+            shouldUseLocalizationTable?: boolean;
+        };
+        'Roblox.GameInternationalization.Api.SetAutolocalizationTableForGameRequest': {
+            /** Format: uuid */
+            tableId?: string;
         };
         /** @description A request model for sorting of image Ids for game thumbnails */
         'Roblox.GameInternationalization.Api.SortImageIdsRequest': {
@@ -51880,6 +65215,34 @@ export interface components {
              */
             favoritesCount?: number;
         };
+        /** @description Response model for getting the game media item */
+        'Roblox.Games.Api.Models.Response.GameMediaItem': {
+            /**
+             * Format: int64
+             * @description The media item id.
+             */
+            id?: number;
+            /**
+             * Format: int64
+             * @description The media item type id
+             */
+            assetTypeId?: number;
+            /** @description The media item type, Image or YouTubeVideo */
+            assetType?: string;
+            /**
+             * Format: int64
+             * @description The media item image id
+             */
+            imageId?: number;
+            /** @description The media item video hash */
+            videoHash?: string;
+            /** @description The video title for video items. */
+            videoTitle?: string;
+            /** @description The media item is approved or not */
+            approved?: boolean;
+            /** @description The media item's alt text */
+            altText?: string;
+        };
         /** @description Response model for getting the game product information */
         'Roblox.Games.Api.Models.Response.GameProductResponse': {
             /**
@@ -52184,12 +65547,35 @@ export interface components {
             /** @description Localized body text for the upsell. */
             bodyText?: string;
         };
+        /** @description ApiPageResponse for blocked keywords */
+        'Roblox.Groups.Api.BlockedKeywordPageResponse_Roblox.Groups.Client.BlockedKeywordModel_': {
+            /**
+             * Format: int32
+             * @description Total number of active keywords in the group
+             */
+            totalActiveKeywordsCount?: number;
+            previousPageCursor?: string;
+            nextPageCursor?: string;
+            data?: components['schemas']['Roblox.Groups.Client.BlockedKeywordModel'][];
+        };
+        /** @description A request model for changing the group owner. */
+        'Roblox.Groups.Api.ChangeOwnerRequest': {
+            /**
+             * Format: int64
+             * @description The user id.
+             */
+            userId?: number;
+        };
         /** @description Response model representing the freeze status of a community feature. */
         'Roblox.Groups.Api.CommunityFeatureFreezeStatus': {
             /** @description The community feature. */
             feature?: string;
             /** @description Whether the feature is currently disabled. */
             isDisabled?: boolean;
+        };
+        'Roblox.Groups.Api.CreateBlockedKeywordsRequest': {
+            keywords?: string;
+            isPrivate?: boolean;
         };
         /** @description Response model for the community feature freezes endpoint. */
         'Roblox.Groups.Api.GetCommunityFeatureFreezesResponse': {
@@ -52202,6 +65588,177 @@ export interface components {
             isLocked?: boolean;
             /** @description The freeze status of each feature for the group. */
             features?: components['schemas']['Roblox.Groups.Api.GroupFeatureResponse'][];
+        };
+        /** @description A social link response from a create request */
+        'Roblox.Groups.Api.GetSocialLinkResponse': {
+            data?: components['schemas']['Roblox.Groups.Api.SocialLinkResponse'][];
+            /**
+             * Format: int32
+             * @enum {integer}
+             */
+            socialLinksVerificationStatus?: 0 | 1 | 2 | 3;
+        };
+        /** @description A group roles response model */
+        'Roblox.Groups.Api.GroupAllRolesResponse': {
+            /**
+             * Format: int64
+             * @description The group id
+             */
+            groupId?: number;
+            /** @description The roles in the group */
+            roles?: components['schemas']['Roblox.Groups.Api.GroupRoleResponse'][];
+        };
+        /** @description ApiPageResponse for group audit log */
+        'Roblox.Groups.Api.GroupAuditLogPageResponse_Roblox.Groups.Api.Models.Response.GroupAuditLogResponseItem_': {
+            previousPageCursor?: string;
+            nextPageCursor?: string;
+            data?: components['schemas']['Roblox.Groups.Api.Models.Response.GroupAuditLogResponseItem'][];
+        };
+        /** @description A ban member from group response */
+        'Roblox.Groups.Api.GroupBanMemberResponse': {
+            user?: components['schemas']['Roblox.Groups.Api.Models.Response.UserModel'];
+            actingUser?: components['schemas']['Roblox.Groups.Api.UserGroupRoleResponse'];
+            /**
+             * Format: date-time
+             * @description The group ban's created time
+             */
+            created?: string;
+        };
+        /** @description A model for communication channel permissions. */
+        'Roblox.Groups.Api.GroupChannelPermissionsModel': {
+            /** @description Group Channel Id */
+            channelId?: string;
+            groupForumsPermissions?: components['schemas']['Roblox.Groups.Api.GroupForumsPermissionsModel'];
+        };
+        /** @description A detailed group response model */
+        'Roblox.Groups.Api.GroupConfigurationDetailsResponse': {
+            /**
+             * Format: int64
+             * @description The group id
+             */
+            groupId?: number;
+            /**
+             * Format: int64
+             * @description The group emblem id
+             */
+            emblemId?: number;
+            /**
+             * Format: int64
+             * @description The group cover photo id
+             */
+            coverPhotoId?: number;
+        };
+        /** @description A response model for group configuration */
+        'Roblox.Groups.Api.GroupConfigurationDisplayOptionsResponse': {
+            groupConfiguration?: components['schemas']['Roblox.Groups.Api.GroupConfigurationResponse'];
+            recurringPayoutsConfiguration?: components['schemas']['Roblox.Groups.Api.RecurringPayoutsConfigurationResponse'];
+            roleConfiguration?: components['schemas']['Roblox.Groups.Api.RoleConfigurationResponse'];
+            groupNameChangeConfiguration?: components['schemas']['Roblox.Groups.Api.GroupNameChangeConfigurationResponse'];
+            /** @description The configuration of premium payouts shows in Group Revenue Summary page */
+            isPremiumPayoutsEnabled?: boolean;
+            /**
+             * @description If set to true, default group emblem policies handled by GUAC will be enabled
+             *
+             *     If set to false, default group emblem policies will not be enabled
+             */
+            isDefaultEmblemPolicyEnabled?: boolean;
+        };
+        /** @description A response model for group configuration */
+        'Roblox.Groups.Api.GroupConfigurationResponse': {
+            /**
+             * Format: int32
+             * @description The maximum length of a group name
+             */
+            nameMaxLength?: number;
+            /**
+             * Format: int32
+             * @description The maximum length of a group description
+             */
+            descriptionMaxLength?: number;
+            /**
+             * Format: int32
+             * @description The maximum file size of the group icon in megabytes
+             */
+            iconMaxFileSizeMb?: number;
+            /**
+             * Format: int32
+             * @description The maximum file size of the group cover photo in megabytes
+             */
+            coverPhotoMaxFileSizeMb?: number;
+            /** @description The valid dimensions of the group cover photo in CSV format */
+            validCoverPhotoDimensions?: string;
+            /**
+             * Format: int64
+             * @description The cost of purchasing a group
+             */
+            cost?: number;
+            /** @description Should the frontend use the 2sv webview component (as opposed to the built-in 2sv pop up) */
+            isUsingTwoStepWebviewComponent?: boolean;
+        };
+        /** @description A model representing group content moderation permissions */
+        'Roblox.Groups.Api.GroupContentModerationPermissionsModel': {
+            /** @description Manage keyword block list permission */
+            manageKeywordBlockList?: boolean;
+            /** @description View keyword block list permission */
+            viewKeywordBlockList?: boolean;
+        };
+        'Roblox.Groups.Api.GroupDescriptionResponse': {
+            /** @description The new description returned */
+            newDescription?: string;
+        };
+        /** @description A detailed group response model */
+        'Roblox.Groups.Api.GroupDetailResponse': {
+            /**
+             * Format: int64
+             * @description The group id
+             */
+            id?: number;
+            /** @description The group name */
+            name?: string;
+            /** @description The group description */
+            description?: string;
+            owner?: components['schemas']['Roblox.Groups.Api.Models.Response.UserModel'];
+            shout?: components['schemas']['Roblox.Groups.Api.ShoutResponse'];
+            /**
+             * Format: int32
+             * @description The number of members in the group
+             */
+            memberCount?: number;
+            /** @description Whether the group is Builders Club only */
+            isBuildersClubOnly?: boolean;
+            /** @description Whether the group is public (no approval required) */
+            publicEntryAllowed?: boolean;
+            /** @description Whether the group is locked */
+            isLocked?: boolean;
+            /** @description Whether the group is deactivated */
+            isDeactivated?: boolean;
+            /** @description Whether the group has a verified badge. */
+            hasVerifiedBadge?: boolean;
+            /**
+             * @description Whether the group has social modules enabled (e.g. Forums)
+             *     (determines if "Followers" vs "Members" should be shown).
+             */
+            hasSocialModules?: boolean;
+            communityTier?: components['schemas']['Roblox.Groups.Client.CommunityTierInfoResponse'];
+        };
+        /** @description A model representing data about an Roblox.Platform.Membership.IUser */
+        'Roblox.Groups.Api.GroupEconomyPermissionsModel': {
+            /** @description Spend group funds permission */
+            spendGroupFunds?: boolean;
+            /** @description Advertise group permission */
+            advertiseGroup?: boolean;
+            /** @description Create items permission */
+            createItems?: boolean;
+            /** @description Manage items permission */
+            manageItems?: boolean;
+            /** @description Add group places permission */
+            addGroupPlaces?: boolean;
+            /** @description Manage group games permission */
+            manageGroupGames?: boolean;
+            /** @description Manage group games permission */
+            viewGroupPayouts?: boolean;
+            /** @description Permission to view universe analytics from the creator dashboard. */
+            viewAnalytics?: boolean;
         };
         /** @description Response model representing the freeze status of a group feature. */
         'Roblox.Groups.Api.GroupFeatureResponse': {
@@ -52223,6 +65780,664 @@ export interface components {
              * @description The UTC time at which the moderator-force expires, allowing the freeze to be deactivated upon request. Only present when the feature is forced frozen.
              */
             expiration?: string;
+        };
+        /** @description A model representing group posts permissions */
+        'Roblox.Groups.Api.GroupForumsPermissionsModel': {
+            /** @description View forums permission */
+            viewForums?: boolean;
+            /** @description Manage categories permission */
+            manageCategories?: boolean;
+            /** @description Create posts permission */
+            createPosts?: boolean;
+            /** @description Remove posts permission */
+            removePosts?: boolean;
+            /** @description Lock posts permission */
+            lockPosts?: boolean;
+            /** @description Pin posts permission */
+            pinPosts?: boolean;
+            /** @description Create comments permission */
+            createComments?: boolean;
+            /** @description Remove comments permission */
+            removeComments?: boolean;
+            /**
+             * @description Create bug reports (support ticket) permission. Only emitted when the permission is exposed
+             *     (Roblox.Groups.Api.Properties.IGroupsApiSettings.ExposeCreateBugReportsPermission).
+             */
+            createBugReports?: boolean;
+        };
+        /** @description Response model for a group join request */
+        'Roblox.Groups.Api.GroupJoinRequestResponse': {
+            requester?: components['schemas']['Roblox.Groups.Api.Models.Response.UserModel'];
+            /**
+             * Format: date-time
+             * @description The DateTime the request was created
+             */
+            created?: string;
+        };
+        /** @description A model representing data about an Roblox.Platform.Membership.IUser */
+        'Roblox.Groups.Api.GroupManagementPermissionsModel': {
+            /** @description Manage group relationships permission */
+            manageRelationships?: boolean;
+            /** @description Manage clan permission */
+            manageClan?: boolean;
+            /** @description View audit logs permission */
+            viewAuditLogs?: boolean;
+            /** @description Bypass slowmode permission. */
+            bypassSlowmode?: boolean;
+            /** @description View community analytics permission. */
+            viewCommunityAnalytics?: boolean;
+        };
+        /** @description A group membership response model */
+        'Roblox.Groups.Api.GroupMembershipDetailResponse': {
+            group?: components['schemas']['Roblox.Groups.Api.GroupDetailResponse'];
+            role?: components['schemas']['Roblox.Groups.Api.GroupRoleResponse'];
+            /** @description Whether the group is the user's Primary Group */
+            isPrimaryGroup?: boolean;
+            /** @description Whether the group notification preferences are enabled for the user */
+            isNotificationsEnabled?: boolean;
+            notificationPreferences?: components['schemas']['Roblox.Groups.Api.GroupNotificationPreferenceData'][];
+        };
+        /** @description A user's group membership metadata response model */
+        'Roblox.Groups.Api.GroupMembershipMetadataResponse': {
+            /**
+             * Format: int64
+             * @description The group id
+             */
+            groupId?: number;
+            /** @description Whether the group is primary */
+            isPrimary?: boolean;
+            /** @description Whether there has been a request to join this group */
+            isPendingJoin?: boolean;
+            userRole?: components['schemas']['Roblox.Groups.Api.UserGroupRoleResponse'];
+            permissions?: components['schemas']['Roblox.Groups.Api.GroupPermissionsModel'];
+            /** @description The users's permissions for each communication channel in the group */
+            channelPermissions?: components['schemas']['Roblox.Groups.Api.GroupChannelPermissionsModel'][];
+            /** @description Whether group games are visible */
+            areGroupGamesVisible?: boolean;
+            /** @description Whether group funds are visible */
+            areGroupFundsVisible?: boolean;
+            /** @description Whether enemies are allowed */
+            areEnemiesAllowed?: boolean;
+            /** @description If the user can configure the group */
+            canConfigure?: boolean;
+            /** @description Whether the group's notification preferences set to enabled for the user */
+            isNotificationsEnabled?: boolean;
+            notificationPreferences?: components['schemas']['Roblox.Groups.Api.GroupNotificationPreferenceData'][];
+            /** @description Whether the user is banned from the group */
+            isBannedFromGroup?: boolean;
+            /** @description Whether the user can view the group member list */
+            canViewMemberList?: boolean;
+            /** @description Whether the authenticated user is the owner of the group */
+            isOwner?: boolean;
+        };
+        /** @description A model representing data about an Roblox.Platform.Membership.IUser */
+        'Roblox.Groups.Api.GroupMembershipPermissionsModel': {
+            /** @description Update a member's role */
+            changeRank?: boolean;
+            /** @description Invite members to the group */
+            inviteMembers?: boolean;
+            /** @description Remove from group permission */
+            removeMembers?: boolean;
+            /** @description Ban from group permission */
+            banMembers?: boolean;
+        };
+        /** @description A basic group membership response model */
+        'Roblox.Groups.Api.GroupMembershipResponse': {
+            group?: components['schemas']['Roblox.Web.Responses.Groups.GroupBasicResponse'];
+            role?: components['schemas']['Roblox.Web.Responses.Groups.GroupRoleBasicResponse'];
+            /**
+             * @description Whether the group notification preferences are enabled for the user
+             *     TODO: Deprecate this field - it only returns if announcement notifications are enabled and that information is already returned in the NotificationPreferences list below
+             */
+            isNotificationsEnabled?: boolean;
+            notificationPreferences?: components['schemas']['Roblox.Groups.Api.GroupNotificationPreferenceData'][];
+        };
+        'Roblox.Groups.Api.GroupNameChangeConfigurationResponse': {
+            /**
+             * Format: int64
+             * @description The cost of renaming a group
+             */
+            cost?: number;
+            /**
+             * Format: int32
+             * @description The cooldown for group name changes in days
+             */
+            cooldownInDays?: number;
+            /**
+             * Format: int32
+             * @description The ownership cooldown for group name changes in days
+             */
+            ownershipCooldownInDays?: number;
+        };
+        'Roblox.Groups.Api.GroupNotificationPreferenceData': {
+            /**
+             * Format: int32
+             * @description ['AnnouncementCreatedNotification' = 0, 'ForumPostCreatedNotification' = 1, 'ForumCommentCreatedNotification' = 2, 'ForumCommentReplyCreatedNotification' = 3, 'ForumSubscriberNotification' = 4]
+             * @enum {integer}
+             */
+            type?: 0 | 1 | 2 | 3 | 4;
+            enabled?: boolean;
+            name?: string;
+            description?: string;
+        };
+        'Roblox.Groups.Api.GroupOpenCloudPermissionsModel': {
+            /** @description Permission to create and use API keys on the group's resources. */
+            useCloudAuthentication?: boolean;
+            /** @description Permission to administer all of the group's API keys. */
+            administerCloudAuthentication?: boolean;
+        };
+        /** @description A group payout response */
+        'Roblox.Groups.Api.GroupPayoutResponse': {
+            user?: components['schemas']['Roblox.Groups.Api.Models.Response.UserModel'];
+            /**
+             * Format: int32
+             * @description The group payout percentage for the user
+             */
+            percentage?: number;
+        };
+        /** @description Response model for Group Payout Restriction */
+        'Roblox.Groups.Api.GroupPayoutRestrictionResponse': {
+            /** @description Whether the group can use recurring payout feature. */
+            canUseRecurringPayout?: boolean;
+            /** @description Whether the group can use one-time payout feature. */
+            canUseOneTimePayout?: boolean;
+        };
+        /** @description A model for group permissions. */
+        'Roblox.Groups.Api.GroupPermissionsModel': {
+            groupPostsPermissions?: components['schemas']['Roblox.Groups.Api.GroupPostsPermissionsModel'];
+            groupForumsPermissions?: components['schemas']['Roblox.Groups.Api.GroupForumsPermissionsModel'];
+            groupContentModerationPermissions?: components['schemas']['Roblox.Groups.Api.GroupContentModerationPermissionsModel'];
+            groupMembershipPermissions?: components['schemas']['Roblox.Groups.Api.GroupMembershipPermissionsModel'];
+            groupManagementPermissions?: components['schemas']['Roblox.Groups.Api.GroupManagementPermissionsModel'];
+            groupEconomyPermissions?: components['schemas']['Roblox.Groups.Api.GroupEconomyPermissionsModel'];
+            groupOpenCloudPermissions?: components['schemas']['Roblox.Groups.Api.GroupOpenCloudPermissionsModel'];
+        };
+        /** @description A group role's permissions response model */
+        'Roblox.Groups.Api.GroupPermissionsResponse': {
+            /**
+             * Format: int64
+             * @description The group id
+             */
+            groupId?: number;
+            role?: components['schemas']['Roblox.Groups.Api.GroupRoleResponse'];
+            permissions?: components['schemas']['Roblox.Groups.Api.GroupPermissionsModel'];
+        };
+        'Roblox.Groups.Api.GroupPoliciesResponse': {
+            groups?: components['schemas']['Roblox.Groups.Api.GroupPolicyResponse'][];
+        };
+        'Roblox.Groups.Api.GroupPolicyRequest': {
+            groupIds?: number[];
+        };
+        'Roblox.Groups.Api.GroupPolicyResponse': {
+            canViewGroup?: boolean;
+            /** Format: int64 */
+            groupId?: number;
+        };
+        /** @description A model representing group posts permissions */
+        'Roblox.Groups.Api.GroupPostsPermissionsModel': {
+            /** @description View status permission */
+            viewStatus?: boolean;
+            /** @description Post to status permission */
+            postToStatus?: boolean;
+        };
+        /** @description A group relationships response model */
+        'Roblox.Groups.Api.GroupRelationshipsResponse': {
+            /**
+             * Format: int64
+             * @description The group id
+             */
+            groupId?: number;
+            /**
+             * Format: int32
+             * @description The group relationship type ['Allies' = 1, 'Enemies' = 2]
+             * @enum {integer}
+             */
+            relationshipType?: 1 | 2;
+            /**
+             * Format: int64
+             * @description The total number of groups for this relationship type
+             */
+            totalGroupCount?: number;
+            /** @description The related or requested groups */
+            relatedGroups?: components['schemas']['Roblox.Groups.Api.GroupDetailResponse'][];
+            /**
+             * Format: int64
+             * @description The index for the next page of related groups
+             */
+            nextRowIndex?: number;
+        };
+        'Roblox.Groups.Api.GroupRoleDetailResponse': {
+            /**
+             * Format: int64
+             * @description The id of the group the role belongs to
+             */
+            groupId?: number;
+            /**
+             * Format: int64
+             * @description The role id
+             */
+            id?: number;
+            /** @description The role name */
+            name?: string;
+            /** @description The role description */
+            description?: string;
+            /**
+             * Format: int32
+             * @description The role rank
+             */
+            rank?: number;
+            /**
+             * Format: int64
+             * @description The number of members in the role.
+             */
+            memberCount?: number;
+            /** @description Whether or not the role is the base role for the group */
+            isBase?: boolean;
+            /**
+             * Format: int32
+             * @description The role color. ['Invalid' = 0, 'Blue' = 1, 'Green' = 2, 'Purple' = 3, 'Yellow' = 4, 'Orange' = 5, 'Red' = 6, 'Magenta' = 7, 'Teal' = 8, 'Turquoise' = 9, 'Rust' = 10, 'Pistachio' = 11, 'Midnight' = 12, 'Lavender' = 13, 'Pink' = 14, 'Crimson' = 15, 'Plum' = 16]
+             * @enum {integer}
+             */
+            color?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16;
+            /**
+             * @description Whether the role is private (only visible to members with permission).
+             *     Omitted from the response when false.
+             */
+            isPrivate?: boolean;
+        };
+        /** @description A group role response model */
+        'Roblox.Groups.Api.GroupRoleResponse': {
+            /**
+             * Format: int64
+             * @description The role id
+             */
+            id?: number;
+            /** @description The role name */
+            name?: string;
+            /** @description The role description */
+            description?: string;
+            /**
+             * Format: int32
+             * @description The role rank
+             */
+            rank?: number;
+            /**
+             * Format: int64
+             * @description The number of members in the role.
+             */
+            memberCount?: number;
+            /** @description Whether or not the role is the base role for the group */
+            isBase?: boolean;
+            /**
+             * Format: int32
+             * @description The role color. ['Invalid' = 0, 'Blue' = 1, 'Green' = 2, 'Purple' = 3, 'Yellow' = 4, 'Orange' = 5, 'Red' = 6, 'Magenta' = 7, 'Teal' = 8, 'Turquoise' = 9, 'Rust' = 10, 'Pistachio' = 11, 'Midnight' = 12, 'Lavender' = 13, 'Pink' = 14, 'Crimson' = 15, 'Plum' = 16]
+             * @enum {integer}
+             */
+            color?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16;
+            /**
+             * @description Whether the role is private (only visible to members with permission).
+             *     Omitted from the response when false.
+             */
+            isPrivate?: boolean;
+        };
+        /** @description Response Model For Group Search Metadata Endpoint */
+        'Roblox.Groups.Api.GroupSearchMetadataResponse': {
+            /** @description Suggested Group Category translation keys */
+            SuggestedGroupKeywords?: string[];
+            /** @description Whether or not the Friends' Groups sort should show for the authenticated user */
+            ShowFriendsGroupsSort?: boolean;
+        };
+        /** @description ApiPageResponse for catalog search */
+        'Roblox.Groups.Api.GroupSearchPageResponse': {
+            /** @description Keyword used for search query */
+            keyword?: string;
+            /** Format: int64 */
+            totalResults?: number;
+            previousPageCursor?: string;
+            nextPageCursor?: string;
+            data?: components['schemas']['Roblox.Groups.Api.GroupSearchResponseItem'][];
+        };
+        /** @description A group search response */
+        'Roblox.Groups.Api.GroupSearchResponseItem': {
+            /**
+             * Format: int64
+             * @description The group id
+             */
+            id?: number;
+            /** @description The group name */
+            name?: string;
+            /** @description The group description */
+            description?: string;
+            /**
+             * Format: int32
+             * @description The number of members in the group
+             */
+            memberCount?: number;
+            /** @description The previous name of the group */
+            previousName?: string;
+            /**
+             * @description When true anyone can join the group. When false manual approval
+             *     is required to join the group
+             */
+            publicEntryAllowed?: boolean;
+            /**
+             * Format: date-time
+             * @description When the group was created
+             */
+            created?: string;
+            /**
+             * Format: date-time
+             * @description When the group was last updated
+             */
+            updated?: string;
+            /** @description The group's verified badge status */
+            hasVerifiedBadge?: boolean;
+        };
+        /** @description Response model for Group Settings */
+        'Roblox.Groups.Api.GroupSettingsResponse': {
+            /** @description Whether public entry is allowed. */
+            isApprovalRequired?: boolean;
+            /** @description Whether Builder's Club is required. */
+            isBuildersClubRequired?: boolean;
+            /** @description Whether enemy club declarations are allowed. */
+            areEnemiesAllowed?: boolean;
+            /** @description Whether funds are publicly visible. */
+            areGroupFundsVisible?: boolean;
+            /** @description Whether games are publicly visible. */
+            areGroupGamesVisible?: boolean;
+            /** @description If the group name change feature is enabled for this group. */
+            isGroupNameChangeEnabled?: boolean;
+            /**
+             * Format: int32
+             * @description The verification level for the group. Null if the verification level could not be determined due to an error.
+             * @enum {integer}
+             */
+            verificationLevel?: 0 | 1 | 2 | 3;
+            /**
+             * Format: int32
+             * @description The account tenure requirement for the group. Null if the account tenure requirement could not be determined due to an error.
+             * @enum {integer}
+             */
+            accountTenureRequirement?: 0 | 1 | 2 | 3 | 4 | 5;
+            /**
+             * Format: int32
+             * @description The slowmode level for the group (0-4).
+             *     0 = No slowmode, 1-4 = Slowmode levels with increasing restrictions.
+             * @enum {integer}
+             */
+            slowmode?: 0 | 1 | 2 | 3;
+            /** @description Whether the group member list is visible to public. */
+            isMemberListVisibleToPublic?: boolean;
+            /**
+             * @description Whether automatic assignment of the lowest non-guest role is disabled for this group.
+             *     For non-legacy groups (created after the multi-role cutoff), this is always true.
+             *     For legacy groups, reflects the persisted GroupFeatureSettings value.
+             *     Null when the value could not be determined.
+             */
+            isAutoAssignRoleDisabled?: boolean;
+            /** @description Whether this group still auto-assigns its lowest non-guest role to new members. */
+            hasLegacyAutoAssignRole?: boolean;
+            communityTier?: components['schemas']['Roblox.Groups.Client.CommunityTierInfoResponse'];
+        };
+        /** @description A group roles response model */
+        'Roblox.Groups.Api.GroupsDisplayOptionsResponse': {
+            /**
+             * Format: int32
+             * @description The user's builders club membership group limit
+             */
+            groupLimit?: number;
+            /**
+             * Format: int32
+             * @description The user's current group membership count
+             */
+            currentGroupCount?: number;
+            /**
+             * Format: int32
+             * @description The maximum length of a group status
+             */
+            groupStatusMaxLength?: number;
+            /**
+             * @description If set to true, groups showcase will not show on users profiles.
+             *
+             *     If set to false, group showcase will display on users profiles.
+             */
+            areProfileGroupsHidden?: boolean;
+            /**
+             * @description If set to true, group details will respect GUAC policies for group details
+             *
+             *     If set to false, group details will not respect GUAC policies
+             */
+            isGroupDetailsPolicyEnabled?: boolean;
+            /** @description Whether or not we should show previous names of this group */
+            showPreviousGroupNames?: boolean;
+            /** @description Whether or not group bans are enabled */
+            areGroupBansEnabled?: boolean;
+            /** @description Whether or not group notifications can be enabled */
+            canEnableGroupNotifications?: boolean;
+        };
+        /** @description Response model for the features/status endpoint. */
+        'Roblox.Groups.Api.HasGroupFeaturesBlockedResponse': {
+            /** @description Whether the group has any active feature freezes. */
+            hasFeaturesBlocked?: boolean;
+        };
+        /** @description A request model for joining group. */
+        'Roblox.Groups.Api.JoinGroupRequest': {
+            sessionId?: string;
+            redemptionToken?: string;
+            captchaId?: string;
+            captchaToken?: string;
+            captchaProvider?: string;
+            challengeId?: string;
+        };
+        'Roblox.Groups.Api.MembersRequest': {
+            /** @description The user ids being either accepted or declined */
+            UserIds?: number[];
+        };
+        'Roblox.Groups.Api.Models.Request.CreateRoleSetRequest': {
+            /** @description The name of the roleset. */
+            name?: string;
+            /** @description The description of the roleset. */
+            description?: string;
+            /**
+             * Format: int32
+             * @description The rank/positioning of the roleset.
+             */
+            rank?: number;
+            /** @description Setting to use group funds or not. */
+            usingGroupFunds?: boolean;
+            /**
+             * @description Optional. When true the role is only visible to members with permission to see private roles.
+             *     Defaults to false (public). Only accessible to group owners.
+             */
+            isPrivate?: boolean;
+        };
+        'Roblox.Groups.Api.Models.Request.UpdateRoleSetRequest': {
+            /** @description The name of the roleset. */
+            name?: string;
+            /** @description The description of the roleset. */
+            description?: string;
+            /**
+             * Format: int32
+             * @description The rank/positioning of the roleset.
+             */
+            rank?: number;
+            /**
+             * Format: int32
+             * @description Optional. The color of the roleset (GroupRoleSetColorType value, e.g. 0 = Invalid, 1 = Blue).
+             *     When omitted, only name and description are updated and the existing color is left unchanged.
+             *     When set, name, description, and color are updated via UpdateGroupRoleSetProperties.
+             */
+            color?: number;
+            /**
+             * @description Optional. When set, updates the visibility of the roleset.
+             *     Only accessible to group owners.
+             *     The base (guest) role cannot be made private.
+             */
+            isPrivate?: boolean;
+        };
+        /** @description A group audit log response model */
+        'Roblox.Groups.Api.Models.Response.GroupAuditLogResponseItem': {
+            actor?: components['schemas']['Roblox.Groups.Api.UserGroupRoleResponse'];
+            /** @description The action type */
+            actionType?: string;
+            /** @description Information on the action performed */
+            description?: unknown;
+            /**
+             * Format: date-time
+             * @description Date the group action was performed
+             */
+            created?: string;
+        };
+        /** @description A response model representing an experience/game. */
+        'Roblox.Groups.Api.Models.Response.GroupExperienceResponse': {
+            /**
+             * Format: int64
+             * @description The game (universe) Id.
+             */
+            id?: number;
+            /** @description The game name. */
+            name?: string;
+            /** @description The game description. */
+            description?: string;
+            creator?: components['schemas']['GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Core.CreatorType_'];
+            rootPlace?: components['schemas']['GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_'];
+            /**
+             * Format: date-time
+             * @description When the game was created.
+             */
+            created?: string;
+            /**
+             * Format: date-time
+             * @description When the game was last updated.
+             */
+            updated?: string;
+            /**
+             * Format: int64
+             * @description The number of place visits for this game.
+             */
+            placeVisits?: number;
+        };
+        /** @description A group name history response model */
+        'Roblox.Groups.Api.Models.Response.GroupNameHistoryResponseItem': {
+            /** @description The group name before the change */
+            name?: string;
+            /**
+             * Format: date-time
+             * @description Date the name change was applied
+             */
+            created?: string;
+        };
+        /** @description A model representing data about an Roblox.Platform.Membership.IUser */
+        'Roblox.Groups.Api.Models.Response.UserModel': {
+            /**
+             * Format: int32
+             * @description The user's builders club membership type
+             * @enum {integer}
+             */
+            buildersClubMembershipType?: 0 | 1 | 2 | 3 | 4;
+            /** @description The user's verified badge status. */
+            hasVerifiedBadge?: boolean;
+            /** Format: int64 */
+            userId?: number;
+            username?: string;
+            displayName?: string;
+        };
+        /** @description Response model for one-time payout requests. */
+        'Roblox.Groups.Api.OneTimePayoutResponse': {
+            /**
+             * Format: int32
+             * @description One-time payout status. ['NotHeld' = 0, 'Held' = 1]
+             * @enum {integer}
+             */
+            status?: 0 | 1;
+        };
+        /** @description A request model for paying out Robux. */
+        'Roblox.Groups.Api.PayoutRecipientRequest': {
+            /**
+             * Format: int64
+             * @description The recipient id.
+             */
+            recipientId?: number;
+            /**
+             * Format: int32
+             * @description The recipient type. ['User' = 0, 'Group' = 1]
+             * @enum {integer}
+             */
+            recipientType?: 0 | 1;
+            /**
+             * Format: int64
+             * @description The amount to payout.
+             */
+            amount?: number;
+        };
+        /** @description Multi-payout request information. */
+        'Roblox.Groups.Api.PayoutRequest': {
+            /**
+             * Format: int32
+             * @description The Roblox.Groups.Api.PayoutType. ['FixedAmount' = 1, 'Percentage' = 2]
+             * @enum {integer}
+             */
+            PayoutType?: 1 | 2;
+            /** @description The recipients of the payouts. */
+            Recipients?: components['schemas']['Roblox.Groups.Api.PayoutRecipientRequest'][];
+            /** @description The idempotency key of the payout request. */
+            IdempotencyKey?: string;
+            /** @description Optional watermark contributions for DevEx attribution tracking. */
+            WatermarkContributions?: components['schemas']['Roblox.Groups.Api.WatermarkContributionRequest'][];
+        };
+        /** @description A request model for setting the authenticated user's primary group. */
+        'Roblox.Groups.Api.PostGroupStatusRequest': {
+            /** @description The message to set the group status to. */
+            message?: string;
+        };
+        /** @description A request model for setting the authenticated user's primary group. */
+        'Roblox.Groups.Api.PrimaryGroupRequest': {
+            /**
+             * Format: int64
+             * @description The group id.
+             */
+            groupId?: number;
+        };
+        /** @description A response model for recurring payout configuration */
+        'Roblox.Groups.Api.RecurringPayoutsConfigurationResponse': {
+            /**
+             * Format: int32
+             * @description The maximum number of recurring payout partners
+             */
+            maxPayoutPartners?: number;
+        };
+        /** @description A response model for role configuration */
+        'Roblox.Groups.Api.RoleConfigurationResponse': {
+            /**
+             * Format: int32
+             * @description The maximum length of a role name
+             */
+            nameMaxLength?: number;
+            /**
+             * Format: int32
+             * @description The maximum length of a role description
+             */
+            descriptionMaxLength?: number;
+            /**
+             * Format: int32
+             * @description The maximum number of roles in a group
+             */
+            limit?: number;
+            /**
+             * Format: int64
+             * @description The cost of purchasing a role
+             */
+            cost?: number;
+            /**
+             * Format: int32
+             * @description The minimum rank a role can have
+             */
+            minRank?: number;
+            /**
+             * Format: int32
+             * @description The maximum rank a role can have
+             */
+            maxRank?: number;
         };
         /** @description Request model for setting the desired status of group features. */
         'Roblox.Groups.Api.SetFeaturesRequestModel': {
@@ -52265,6 +66480,190 @@ export interface components {
             /** @description Whether any features were updated. */
             Updated: boolean;
         };
+        'Roblox.Groups.Api.ShoutResponse': {
+            /** @description The shout's message */
+            body?: string;
+            poster?: components['schemas']['Roblox.Groups.Api.Models.Response.UserModel'];
+            /**
+             * Format: date-time
+             * @description The shout's created time
+             */
+            created?: string;
+            /**
+             * Format: date-time
+             * @description The shout's last updated time
+             */
+            updated?: string;
+        };
+        /** @description An update request for a social link */
+        'Roblox.Groups.Api.SocialLinkRequest': {
+            /**
+             * Format: int32
+             * @description What type of social media this points to
+             * @enum {integer}
+             */
+            type?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+            /** @description The url of the link */
+            url?: string;
+            /** @description The title of the link */
+            title?: string;
+        };
+        /** @description A social link response from a create request */
+        'Roblox.Groups.Api.SocialLinkResponse': {
+            /**
+             * Format: int64
+             * @description The id of the social link
+             */
+            id?: number;
+            /**
+             * Format: int32
+             * @description What type of social media (including Roblox Group) this points to ['Facebook' = 0, 'Twitter' = 1, 'YouTube' = 2, 'Twitch' = 3, 'GooglePlus' = 4, 'Discord' = 5, 'RobloxGroup' = 6, 'Amazon' = 7, 'Guilded' = 8]
+             * @enum {integer}
+             */
+            type?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+            /** @description The url of the link */
+            url?: string;
+            /** @description The title of the link */
+            title?: string;
+        };
+        'Roblox.Groups.Api.UpdateBlockedKeywordRequest': {
+            keyword?: string;
+            isPrivate?: boolean;
+        };
+        /** @description A request model for setting a description for the group */
+        'Roblox.Groups.Api.UpdateGroupDescriptionRequest': {
+            /** @description The group description being set. */
+            description?: string;
+        };
+        /** @description A request model for setting a name for the group */
+        'Roblox.Groups.Api.UpdateGroupNameRequest': {
+            /** @description The group name being set. */
+            name?: string;
+        };
+        'Roblox.Groups.Api.UpdateGroupNameResponse': {
+            /** @description The new description returned */
+            newName?: string;
+        };
+        /** @description A request model for updating a group's notification preference. */
+        'Roblox.Groups.Api.UpdateGroupNotificationPreferenceRequest': {
+            /** @description Whether the user wants to receive notifications from the group. */
+            notificationsEnabled?: boolean;
+            /**
+             * Format: int32
+             * @description ['AnnouncementCreatedNotification' = 0, 'ForumPostCreatedNotification' = 1, 'ForumCommentCreatedNotification' = 2, 'ForumCommentReplyCreatedNotification' = 3, 'ForumSubscriberNotification' = 4]
+             * @enum {integer}
+             */
+            type?: 0 | 1 | 2 | 3 | 4;
+        };
+        /** @description A request model for updating a group's settings. */
+        'Roblox.Groups.Api.UpdateGroupSettingsRequest': {
+            /** @description Whether public entry is allowed. */
+            isApprovalRequired?: boolean;
+            /** @description Whether enemy club declarations are allowed. */
+            areEnemiesAllowed?: boolean;
+            /** @description Whether funds are publicly visible. */
+            areGroupFundsVisible?: boolean;
+            /** @description Whether games are publicly visible. */
+            areGroupGamesVisible?: boolean;
+            /**
+             * Format: int32
+             * @description The verification level for the group.
+             * @enum {integer}
+             */
+            verificationLevel?: 0 | 1 | 2 | 3;
+            /**
+             * Format: int32
+             * @description The account tenure requirement for the group.
+             * @enum {integer}
+             */
+            accountTenureRequirement?: 0 | 1 | 2 | 3 | 4 | 5;
+            /**
+             * Format: int32
+             * @description The slowmode level for the group (0-4).
+             *     0 = No slowmode, 1-4 = Slowmode levels with increasing restrictions.
+             *     Null = No change to current slowmode setting.
+             * @enum {integer}
+             */
+            slowmode?: 0 | 1 | 2 | 3;
+            /** @description Whether the group member list is visible to public. */
+            isMemberListVisibleToPublic?: boolean;
+        };
+        /** @description A request model for updating a group's roleset's permissions. */
+        'Roblox.Groups.Api.UpdatePermissionsRequest': {
+            /** @description The permission-value pairs to be updated. */
+            permissions?: {
+                InviteMembers?: boolean;
+                PostToStatus?: boolean;
+                RemoveMembers?: boolean;
+                BanMembers?: boolean;
+                ViewStatus?: boolean;
+                ChangeRank?: boolean;
+                AdvertiseGroup?: boolean;
+                ManageRelationships?: boolean;
+                AddGroupPlaces?: boolean;
+                ViewAuditLogs?: boolean;
+                CreateItems?: boolean;
+                ManageItems?: boolean;
+                SpendGroupFunds?: boolean;
+                ManageClan?: boolean;
+                ManageGroupGames?: boolean;
+                UseCloudAuthentication?: boolean;
+                AdministerCloudAuthentication?: boolean;
+                ViewAnalytics?: boolean;
+                ViewForums?: boolean;
+                ManageCategories?: boolean;
+                CreatePosts?: boolean;
+                RemovePosts?: boolean;
+                LockPosts?: boolean;
+                PinPosts?: boolean;
+                CreateComments?: boolean;
+                RemoveComments?: boolean;
+                ManageKeywordBlockList?: boolean;
+                ViewKeywordBlockList?: boolean;
+                BypassSlowmode?: boolean;
+                ViewCommunityAnalytics?: boolean;
+                CreateBugReports?: boolean;
+            };
+        };
+        /** @description A request model for setting a users role in a group. */
+        'Roblox.Groups.Api.UpdateUserRoleRequest': {
+            /**
+             * Format: int64
+             * @description The role in the group the user should be put into.
+             */
+            roleId?: number;
+        };
+        /** @description A users group membership response model */
+        'Roblox.Groups.Api.UserGroupMembershipResponse': {
+            user?: components['schemas']['Roblox.Groups.Api.Models.Response.UserModel'];
+            /** @description The list of group memberships */
+            groups?: components['schemas']['Roblox.Groups.Api.GroupMembershipDetailResponse'][];
+        };
+        /** @description A user group role response model */
+        'Roblox.Groups.Api.UserGroupRoleResponse': {
+            user?: components['schemas']['Roblox.Groups.Api.Models.Response.UserModel'];
+            role?: components['schemas']['Roblox.Groups.Api.GroupRoleResponse'];
+        };
+        'Roblox.Groups.Api.WatermarkContributionRequest': {
+            /**
+             * @description ['Standard' = 1, 'O18Boosted' = 2]
+             * @enum {string}
+             */
+            balanceKey?: 'Standard' | 'O18Boosted';
+            /** Format: int64 */
+            amount?: number;
+        };
+        'Roblox.Groups.Client.BlockedKeywordModel': {
+            id?: string;
+            keyword?: string;
+            /** Format: int64 */
+            createdBy?: number;
+            isPrivate?: boolean;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
         'Roblox.Groups.Client.CommunityTierInfoResponse': {
             /** Format: int64 */
             groupId: number;
@@ -52278,6 +66677,29 @@ export interface components {
             lastEvaluatedTime?: string;
             requirements?: components['schemas']['Roblox.Groups.Client.TierRequirement'][];
             capabilities?: components['schemas']['Roblox.Groups.Client.TierCapabilities'];
+        };
+        'Roblox.Groups.Client.CreateBlockedKeywordsResponse': {
+            createdKeywords?: components['schemas']['Roblox.Groups.Client.BlockedKeywordModel'][];
+            hadModeratedKeywords?: boolean;
+            hadDuplicateKeywords?: boolean;
+        };
+        'Roblox.Groups.Client.EmoteModel': {
+            id?: string;
+            name?: string;
+        };
+        'Roblox.Groups.Client.EmoteSetModel': {
+            id?: string;
+            name?: string;
+            emotes?: components['schemas']['Roblox.Groups.Client.EmoteModel'][];
+        };
+        'Roblox.Groups.Client.GetGroupEmoteSetsResponse': {
+            emoteSets?: components['schemas']['Roblox.Groups.Client.EmoteSetModel'][];
+        };
+        'Roblox.Groups.Client.GroupFeaturedContentResponse': {
+            /** Format: int64 */
+            groupId?: number;
+            contentType?: string;
+            contentId?: string;
         };
         'Roblox.Groups.Client.TierCapabilities': {
             isEligibleForUnrestrictedMessages: boolean;
@@ -52602,6 +67024,67 @@ export interface components {
              */
             created?: string;
         };
+        'Roblox.ItemConfiguration.Api.AssetCreationsDetailsRequest': {
+            AssetIds?: number[];
+        };
+        'Roblox.ItemConfiguration.Api.AssetCreationsDetailsResponse': {
+            /**
+             * Format: int64
+             * @description The asset Id.
+             */
+            assetId?: number;
+            /** @description The asset name. */
+            name?: string;
+            /**
+             * @description The asset status. ['Unknown' = 0, 'ReviewPending' = 1, 'Moderated' = 2, 'ReviewApproved' = 3, 'OnSale' = 4, 'OffSale' = 5, 'DelayedRelease' = 6, 'Free' = 7]
+             * @enum {string}
+             */
+            status?:
+                | 'Unknown'
+                | 'ReviewPending'
+                | 'Moderated'
+                | 'ReviewApproved'
+                | 'OnSale'
+                | 'OffSale'
+                | 'DelayedRelease'
+                | 'Free';
+            /** @description The asset description. */
+            description?: string;
+            /**
+             * @description The creator type. ['Unknown' = 0, 'User' = 1, 'Group' = 2]
+             * @enum {string}
+             */
+            creatorType?: 'Unknown' | 'User' | 'Group';
+            /**
+             * Format: int64
+             * @description The creator target Id.
+             */
+            creatorTargetId?: number;
+            /** @description Is the asset archived. */
+            isArchived?: boolean;
+            /** @description Type of the asset. */
+            assetType?: string;
+            /**
+             * Format: date-time
+             * @description Date asset was created.
+             */
+            created?: string;
+            /**
+             * Format: date-time
+             * @description Date asset was created.
+             */
+            updated?: string;
+        };
+        /** @description Asset Status response model. */
+        'Roblox.ItemConfiguration.Api.AssetCreationsResponse': {
+            /**
+             * Format: int64
+             * @description The asset Id.
+             */
+            assetId?: number;
+            /** @description The asset name. */
+            name?: string;
+        };
         'Roblox.ItemConfiguration.Api.Models.Request.PublishingPreferences.CreatePublishingPreferencesRequest': {
             /** Format: int64 */
             creatorUserId?: number;
@@ -52873,6 +67356,21 @@ export interface components {
             /** @description Is Quota UI Enabled for Automatic Translations */
             isAutomaticTranslationQuotaUIEnabled?: boolean;
         };
+        'Roblox.LocalizationTables.Api.AutoScrapeEntry': {
+            context?: string;
+            source?: string;
+            screenshot?: string;
+            meta?: components['schemas']['Roblox.LocalizationTables.Api.AutoScrapeEntryMetadata'];
+        };
+        'Roblox.LocalizationTables.Api.AutoScrapeEntryMetadata': {
+            text?: string;
+            /** Format: int64 */
+            userId?: number;
+            osPlatform?: string;
+            /** Format: uuid */
+            sessionId?: string;
+            matchedEntry?: components['schemas']['Roblox.LocalizationTables.Api.MatchedEntry'];
+        };
         'Roblox.LocalizationTables.Api.CreateTableRequest': {
             name?: string;
             /** @enum {string} */
@@ -53081,6 +67579,29 @@ export interface components {
             /** Format: int64 */
             assetId?: number;
         };
+        /** @description An ingest content request to IngestAutoScrapedContentForGame. */
+        'Roblox.LocalizationTables.Api.IngestAutoScrapedContentForGameRequest': {
+            /** @description The entries of an ingest content request. */
+            entries?: components['schemas']['Roblox.LocalizationTables.Api.AutoScrapeEntry'][];
+            metadata?: components['schemas']['Roblox.LocalizationTables.Api.IngestContentMetadata'];
+        };
+        /** @description The metadata of an ingest content request. */
+        'Roblox.LocalizationTables.Api.IngestContentMetadata': {
+            placeInformation?: components['schemas']['Roblox.LocalizationTables.Api.IngestContentMetadataPlaceInformation'];
+        };
+        /** @description The place information metadata of an ingest content request. */
+        'Roblox.LocalizationTables.Api.IngestContentMetadataPlaceInformation': {
+            /**
+             * Format: int64
+             * @description The place id of an ingest content request.
+             */
+            placeId?: number;
+            /**
+             * Format: int32
+             * @description The place version number of an ingest content request.
+             */
+            placeVersionNumber?: number;
+        };
         'Roblox.LocalizationTables.Api.LocalizationTablesMetadataResponse': {
             /** @description Is bulk upload feature enabled */
             isBulkUploadFeatureEnabled?: boolean;
@@ -53094,6 +67615,11 @@ export interface components {
             isUntranslatedFilterEnabled?: boolean;
             /** @description Is filter for automatic translations on UI is enabled */
             isAutomaticTranslationFilterEnabled?: boolean;
+        };
+        'Roblox.LocalizationTables.Api.MatchedEntry': {
+            source?: string;
+            /** Format: int32 */
+            matchedParamIndex?: number;
         };
         'Roblox.LocalizationTables.Api.ModifiedEntry': {
             identifier?: components['schemas']['Roblox.LocalizationTables.Api.EntryIdentifier'];
@@ -53185,6 +67711,27 @@ export interface components {
              * @enum {string}
              */
             readonly OptionalIdCase?: 'None' | 'Id';
+        };
+        'Roblox.MarketplaceTopicDiscovery.TopicDiscoveryService.V1Beta1.AvatarItem': {
+            /** Format: int64 */
+            TargetId?: number;
+            /**
+             * Format: int32
+             * @description ['Invalid' = 0, 'Asset' = 1, 'Bundle' = 2]
+             * @enum {integer}
+             */
+            ItemType?: 0 | 1 | 2;
+        };
+        'Roblox.MarketplaceTopicDiscovery.TopicDiscoveryService.V1Beta1.Error': {
+            Message?: string;
+            /** Format: int32 */
+            Code?: number;
+        };
+        'Roblox.Paging.CursoredPagedResult_Roblox.Friends.Api.Models.Response.FriendResponse_': {
+            PreviousCursor?: string;
+            PageItems?: components['schemas']['Roblox.Friends.Api.Models.Response.FriendResponse'][];
+            NextCursor?: string;
+            HasMore?: boolean;
         };
         'Roblox.Platform.Avatar.BodyColorsModelV2': {
             headColor3?: string;
@@ -53304,6 +67851,73 @@ export interface components {
             name?: string;
             displayName?: string;
         };
+        /** @description Model for asset quota. */
+        'Roblox.Publish.Api.AssetQuota': {
+            /** @description Duration type of the quota. */
+            duration?: string;
+            /**
+             * Format: int64
+             * @description Current usage of the quota.
+             */
+            usage?: number;
+            /**
+             * Format: int64
+             * @description Capacity of the quota.
+             */
+            capacity?: number;
+            /** @description Expiration time of current usage limit. */
+            expirationTime?: string;
+        };
+        /** @description Response model for asset quotas. */
+        'Roblox.Publish.Api.AssetQuotasResponse': {
+            /** @description A list of quotas. */
+            quotas?: components['schemas']['Roblox.Publish.Api.AssetQuota'][];
+        };
+        /** @description Response model for publish audio. */
+        'Roblox.Publish.Api.PublishAudioResponse': {
+            /**
+             * Format: int64
+             * @description Id of the published asset.
+             */
+            Id?: number;
+            /** @description Name of the published asset. */
+            Name?: string;
+        };
+        /** @description A request model for uploading an audio file. */
+        'Roblox.Publish.Api.UploadAudioRequest': {
+            /** @description Name for the audio file. */
+            name?: string;
+            /** @description File to be uploaded. Formatted as a base64 string. */
+            file?: string;
+            /**
+             * Format: int64
+             * @description Id of the group you are publishing the audio asset for. Null if not publishing under a group.
+             */
+            groupId?: number;
+            /**
+             * @description The source of funds for payment.
+             *       User: Use personal funds of authenticated user.
+             *       Group: Use group funds from Roblox.Publish.Api.UploadAudioRequest.GroupId.
+             *       Null/Empty: Will default to authenticated user funds.
+             */
+            paymentSource?: string;
+            /**
+             * Format: int64
+             * @description Estimated file size of the audio file in bytes.
+             */
+            estimatedFileSize?: number;
+            /**
+             * Format: double
+             * @description Estimated duration of the audio file in seconds.
+             */
+            estimatedDuration?: number;
+            /**
+             * Format: int32
+             * @description The asset privacy of the audio asset.
+             * @enum {integer}
+             */
+            assetPrivacy?: 1 | 2;
+        };
         /** @description A response used when an upload has completed. */
         'Roblox.Publish.Api.UploadResponse': {
             /**
@@ -53311,6 +67925,47 @@ export interface components {
              * @description The target Id of the uploaded item.
              */
             targetId?: number;
+        };
+        /** @description Request model to publish an audio asset. */
+        'Roblox.Publish.Api.VerifyAudioRequest': {
+            /** @description Gets or sets the name of the audio asset. */
+            name?: string;
+            /** @description File to be uploaded. Formatted as a base64 string. */
+            file?: string;
+            /**
+             * Format: int64
+             * @description Gets or sets the ID of the group if applicable. Optional.
+             */
+            groupId?: number;
+            /** @description Gets or sets the payment source. 'User' or 'Group'. Required if Group ID is set. */
+            paymentSource?: string;
+            /**
+             * Format: int64
+             * @description Gets or sets the size of the audio file in bytes.
+             */
+            fileSize?: number;
+            /**
+             * Format: double
+             * @description Gets or sets the duration of the audio in seconds.
+             */
+            duration?: number;
+        };
+        /** @description Response model for verify audio endpoint. */
+        'Roblox.Publish.Api.VerifyAudioResponse': {
+            /** @description Name of the audio file. */
+            name?: string;
+            /**
+             * Format: int64
+             * @description Price in robux to publish the audio file.
+             */
+            price?: number;
+            /**
+             * Format: int64
+             * @description User's current Robux balance.
+             */
+            balance?: number;
+            /** @description Boolean, true if the user can afford to purchase the publishing of the audio file. */
+            canAfford?: boolean;
         };
         'Roblox.Thumbnails.Apis.Models.ThumbnailBatchRequest': {
             /** @description The request id. (Generated client side, used to represent the items in the request) */
@@ -53952,7 +68607,7 @@ export interface components {
             challengeId?: string;
             /**
              * Format: int32
-             * @description The Roblox.TwoStepVerification.Client.TwoStepVerificationActionType associated with the challenge. ['Unknown' = 0, 'Login' = 1, 'RobuxSpend' = 2, 'ItemTrade' = 3, 'Resale' = 4, 'PasswordReset' = 5, 'RevertAccount' = 6, 'Generic' = 7, 'GenericWithRecoveryCodes' = 8]
+             * @description The Roblox.TwoStepVerification.Client.TwoStepVerificationActionType associated with the challenge.
              * @enum {integer}
              */
             actionType?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
@@ -53965,7 +68620,7 @@ export interface components {
             challengeId?: string;
             /**
              * Format: int32
-             * @description The Roblox.TwoStepVerification.Client.TwoStepVerificationActionType associated with the challenge. ['Unknown' = 0, 'Login' = 1, 'RobuxSpend' = 2, 'ItemTrade' = 3, 'Resale' = 4, 'PasswordReset' = 5, 'RevertAccount' = 6, 'Generic' = 7, 'GenericWithRecoveryCodes' = 8]
+             * @description The Roblox.TwoStepVerification.Client.TwoStepVerificationActionType associated with the challenge.
              * @enum {integer}
              */
             actionType?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
@@ -53985,7 +68640,7 @@ export interface components {
             challengeId?: string;
             /**
              * Format: int32
-             * @description The Roblox.TwoStepVerification.Client.TwoStepVerificationActionType associated with the challenge. ['Unknown' = 0, 'Login' = 1, 'RobuxSpend' = 2, 'ItemTrade' = 3, 'Resale' = 4, 'PasswordReset' = 5, 'RevertAccount' = 6, 'Generic' = 7, 'GenericWithRecoveryCodes' = 8]
+             * @description The Roblox.TwoStepVerification.Client.TwoStepVerificationActionType associated with the challenge.
              * @enum {integer}
              */
             actionType?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
@@ -54005,7 +68660,7 @@ export interface components {
         'Roblox.TwoStepVerification.Api.UserConfigurationMethod': {
             /**
              * Format: int32
-             * @description The Roblox.TwoStepVerification.Client.TwoStepVerificationMediaType for the method. ['Email' = 0, 'SMS' = 1, 'Authenticator' = 2, 'RecoveryCode' = 3, 'SecurityKey' = 4, 'CrossDevice' = 5, 'Password' = 6, 'Passkey' = 7]
+             * @description The Roblox.TwoStepVerification.Client.TwoStepVerificationMediaType for the method.
              * @enum {integer}
              */
             mediaType?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
@@ -54023,7 +68678,7 @@ export interface components {
             challengeId?: string;
             /**
              * Format: int32
-             * @description The Roblox.TwoStepVerification.Client.TwoStepVerificationActionType associated with the challenge. ['Unknown' = 0, 'Login' = 1, 'RobuxSpend' = 2, 'ItemTrade' = 3, 'Resale' = 4, 'PasswordReset' = 5, 'RevertAccount' = 6, 'Generic' = 7, 'GenericWithRecoveryCodes' = 8]
+             * @description The Roblox.TwoStepVerification.Client.TwoStepVerificationActionType associated with the challenge.
              * @enum {integer}
              */
             actionType?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
@@ -54039,7 +68694,7 @@ export interface components {
             challengeId?: string;
             /**
              * Format: int32
-             * @description The Roblox.TwoStepVerification.Client.TwoStepVerificationActionType associated with the challenge. ['Unknown' = 0, 'Login' = 1, 'RobuxSpend' = 2, 'ItemTrade' = 3, 'Resale' = 4, 'PasswordReset' = 5, 'RevertAccount' = 6, 'Generic' = 7, 'GenericWithRecoveryCodes' = 8]
+             * @description The Roblox.TwoStepVerification.Client.TwoStepVerificationActionType associated with the challenge.
              * @enum {integer}
              */
             actionType?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
@@ -54304,6 +68959,12 @@ export interface components {
             /** Format: int64 */
             xcachesplit?: number;
         };
+        'Roblox.Web.Captcha.Models.Request.CaptchaTokenRequest': {
+            captchaId?: string;
+            captchaToken?: string;
+            captchaProvider?: string;
+            challengeId?: string;
+        };
         'Roblox.Web.Responses.Avatar.ScaleModel': {
             /** Format: double */
             height?: number;
@@ -54439,6 +69100,33 @@ export interface components {
              * @description The number of place visits for this game.
              */
             placeVisits?: number;
+        };
+        'Roblox.Web.Responses.Groups.GroupBasicResponse': {
+            /** Format: int64 */
+            id?: number;
+            name?: string;
+            /** Format: int64 */
+            memberCount?: number;
+            hasVerifiedBadge?: boolean;
+        };
+        'Roblox.Web.Responses.Groups.GroupResponseV2': {
+            /** Format: int64 */
+            id?: number;
+            name?: string;
+            description?: string;
+            owner?: components['schemas']['Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Web.Responses.Groups.GroupOwnerType_'];
+            /** Format: int64 */
+            memberCount?: number;
+            /** Format: date-time */
+            created?: string;
+            hasVerifiedBadge?: boolean;
+        };
+        'Roblox.Web.Responses.Groups.GroupRoleBasicResponse': {
+            /** Format: int64 */
+            id?: number;
+            name?: string;
+            /** Format: int32 */
+            rank?: number;
         };
         /** @description Represents information about a plugin. */
         'Roblox.Web.Responses.Plugins.PluginResponse': {
@@ -54600,6 +69288,17 @@ export interface components {
             type?: 1 | 2;
             name?: string;
         };
+        'Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Web.Responses.Groups.GroupOwnerType_': {
+            /** Format: int64 */
+            id?: number;
+            /**
+             * Format: int32
+             * @description ['User' = 0]
+             * @enum {integer}
+             */
+            type?: 0;
+            name?: string;
+        };
         'Roblox.Web.Responses.Users.LegacyUserResponse': {
             /** Format: int64 */
             userId?: number;
@@ -54613,11 +69312,17 @@ export interface components {
             displayName?: string;
         };
         'Roblox.Web.WebAPI.ApiEmptyResponseModel': Record<string, never>;
+        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Ads.Api.Models.Response.SponsoredPageResponse_': {
+            data?: components['schemas']['Roblox.Ads.Api.Models.Response.SponsoredPageResponse'][];
+        };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Api.Develop.Models.GameTemplateModel_': {
             data?: components['schemas']['Roblox.Api.Develop.Models.GameTemplateModel'][];
         };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Api.Develop.Models.GroupModel_': {
             data?: components['schemas']['Roblox.Api.Develop.Models.GroupModel'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Api.Develop.Models.Response.AssetVotingModel_': {
+            data?: components['schemas']['Roblox.Api.Develop.Models.Response.AssetVotingModel'][];
         };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Api.Develop.Models.UniverseIdPermissionsModel_': {
             data?: components['schemas']['Roblox.Api.Develop.Models.UniverseIdPermissionsModel'][];
@@ -54628,11 +69333,23 @@ export interface components {
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Api.Develop.Models.UniverseTeamCreateSettingsModel_': {
             data?: components['schemas']['Roblox.Api.Develop.Models.UniverseTeamCreateSettingsModel'][];
         };
+        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Badges.Api.BadgeAwardResponse_': {
+            data?: components['schemas']['Roblox.Badges.Api.BadgeAwardResponse'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Catalog.Api.BundleDetailsModel_': {
+            data?: components['schemas']['Roblox.Catalog.Api.BundleDetailsModel'][];
+        };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Catalog.Api.CatalogSearchDetailedResponseItemV2_': {
             data?: components['schemas']['Roblox.Catalog.Api.CatalogSearchDetailedResponseItemV2'][];
         };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Friends.Api.FriendStatusResponse_': {
             data?: components['schemas']['Roblox.Friends.Api.FriendStatusResponse'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Friends.Api.Models.Response.UserPresenceResponse_': {
+            data?: components['schemas']['Roblox.Friends.Api.Models.Response.UserPresenceResponse'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Friends.Api.Models.Response.UserResponse_': {
+            data?: components['schemas']['Roblox.Friends.Api.Models.Response.UserResponse'][];
         };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.GameInternationalization.Api.GetBadgeIconResponse_': {
             data?: components['schemas']['Roblox.GameInternationalization.Api.GetBadgeIconResponse'][];
@@ -54667,8 +69384,32 @@ export interface components {
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Games.Api.Models.Response.GameDetailResponse_': {
             data?: components['schemas']['Roblox.Games.Api.Models.Response.GameDetailResponse'][];
         };
+        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Games.Api.Models.Response.GameMediaItem_': {
+            data?: components['schemas']['Roblox.Games.Api.Models.Response.GameMediaItem'][];
+        };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Games.Api.Models.Response.GameProductResponse_': {
             data?: components['schemas']['Roblox.Games.Api.Models.Response.GameProductResponse'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupDetailResponse_': {
+            data?: components['schemas']['Roblox.Groups.Api.GroupDetailResponse'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupMembershipDetailResponse_': {
+            data?: components['schemas']['Roblox.Groups.Api.GroupMembershipDetailResponse'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupMembershipResponse_': {
+            data?: components['schemas']['Roblox.Groups.Api.GroupMembershipResponse'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupPayoutResponse_': {
+            data?: components['schemas']['Roblox.Groups.Api.GroupPayoutResponse'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupPermissionsResponse_': {
+            data?: components['schemas']['Roblox.Groups.Api.GroupPermissionsResponse'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupRoleDetailResponse_': {
+            data?: components['schemas']['Roblox.Groups.Api.GroupRoleDetailResponse'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.UserGroupMembershipResponse_': {
+            data?: components['schemas']['Roblox.Groups.Api.UserGroupMembershipResponse'][];
         };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Locale.Api.SupportedLocaleLocus_': {
             data?: components['schemas']['Roblox.Locale.Api.SupportedLocaleLocus'][];
@@ -54685,11 +69426,25 @@ export interface components {
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Games.GameMediaItemResponseV2_': {
             data?: components['schemas']['Roblox.Web.Responses.Games.GameMediaItemResponseV2'][];
         };
+        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Groups.GroupBasicResponse_': {
+            data?: components['schemas']['Roblox.Web.Responses.Groups.GroupBasicResponse'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Groups.GroupResponseV2_': {
+            data?: components['schemas']['Roblox.Web.Responses.Groups.GroupResponseV2'][];
+        };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Plugins.PluginResponse_': {
             data?: components['schemas']['Roblox.Web.Responses.Plugins.PluginResponse'][];
         };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Users.SkinnyUserResponse_': {
             data?: components['schemas']['Roblox.Web.Responses.Users.SkinnyUserResponse'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiArrayResponse_System.String_': {
+            data?: string[];
+        };
+        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Api.Develop.AssetVersion_': {
+            previousPageCursor?: string;
+            nextPageCursor?: string;
+            data?: components['schemas']['Roblox.Api.Develop.AssetVersion'][];
         };
         'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Api.Develop.Models.IPlaceModel_': {
             previousPageCursor?: string;
@@ -54705,6 +69460,11 @@ export interface components {
             previousPageCursor?: string;
             nextPageCursor?: string;
             data?: components['schemas']['Roblox.Badges.Api.BadgeResponse'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Badges.Api.GetBadgesByUserResponse_': {
+            previousPageCursor?: string;
+            nextPageCursor?: string;
+            data?: components['schemas']['Roblox.Badges.Api.GetBadgesByUserResponse'][];
         };
         'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Catalog.Api.BundleDetailsModel_': {
             previousPageCursor?: string;
@@ -54730,6 +69490,41 @@ export interface components {
             previousPageCursor?: string;
             nextPageCursor?: string;
             data?: components['schemas']['Roblox.Friends.Api.Models.Response.TrustedFriendRequestResponse'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Friends.Api.Models.Response.UserResponse_': {
+            previousPageCursor?: string;
+            nextPageCursor?: string;
+            data?: components['schemas']['Roblox.Friends.Api.Models.Response.UserResponse'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.GroupBanMemberResponse_': {
+            previousPageCursor?: string;
+            nextPageCursor?: string;
+            data?: components['schemas']['Roblox.Groups.Api.GroupBanMemberResponse'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.GroupJoinRequestResponse_': {
+            previousPageCursor?: string;
+            nextPageCursor?: string;
+            data?: components['schemas']['Roblox.Groups.Api.GroupJoinRequestResponse'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.GroupExperienceResponse_': {
+            previousPageCursor?: string;
+            nextPageCursor?: string;
+            data?: components['schemas']['Roblox.Groups.Api.Models.Response.GroupExperienceResponse'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.GroupNameHistoryResponseItem_': {
+            previousPageCursor?: string;
+            nextPageCursor?: string;
+            data?: components['schemas']['Roblox.Groups.Api.Models.Response.GroupNameHistoryResponseItem'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.UserModel_': {
+            previousPageCursor?: string;
+            nextPageCursor?: string;
+            data?: components['schemas']['Roblox.Groups.Api.Models.Response.UserModel'][];
+        };
+        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.UserGroupRoleResponse_': {
+            previousPageCursor?: string;
+            nextPageCursor?: string;
+            data?: components['schemas']['Roblox.Groups.Api.UserGroupRoleResponse'][];
         };
         'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Inventory.Api.Models.CollectibleUserAssetModel_': {
             previousPageCursor?: string;
@@ -54766,6 +69561,11 @@ export interface components {
             nextPageCursor?: string;
             data?: components['schemas']['Roblox.Inventory.Api.V2.UserAssetItemModelV2'][];
         };
+        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.ItemConfiguration.Api.AssetCreationsResponse_': {
+            previousPageCursor?: string;
+            nextPageCursor?: string;
+            data?: components['schemas']['Roblox.ItemConfiguration.Api.AssetCreationsResponse'][];
+        };
         'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Trades.Api.TradeResponse_': {
             previousPageCursor?: string;
             nextPageCursor?: string;
@@ -54794,6 +69594,12 @@ export interface components {
         'Roblox.Web.WebAPI.Models.ApiSuccessResponse': {
             success?: boolean;
         };
+        RobuxRateBreakdown: {
+            /** Format: double */
+            o18?: number | null;
+            /** Format: double */
+            standard?: number | null;
+        };
         /** @description RPN operand: attribute reference or literal value. */
         RpnOperandDto: {
             attributeReference?: string | null;
@@ -54818,6 +69624,14 @@ export interface components {
         RulesOrderDeltaPayload: {
             before?: string[] | null;
             after?: string[] | null;
+        };
+        SalesReportDownloadRequest: {
+            /** Format: int64 */
+            targetId: number;
+            targetType: components['schemas']['CurrencyHolderType'];
+            startDate: string | null;
+            endDate: string | null;
+            transactionType?: components['schemas']['TransactionType'];
         };
         /**
          * Format: int32
@@ -54855,7 +69669,7 @@ export interface components {
          *     of "categories" (or asset types) that can be searched upon from the toolbox search API.
          * @enum {string}
          */
-        SearchCategoryType: 'Audio' | 'Model' | 'Decal' | 'Plugin' | 'MeshPart' | 'Video' | 'FontFamily';
+        SearchCategoryType: 'Audio' | 'Place' | 'Model' | 'Decal' | 'Plugin' | 'MeshPart' | 'Video' | 'FontFamily';
         /** @description Request model for searching Creator Store assets. */
         SearchCreatorStoreAssetsRequest: {
             /**
@@ -55022,6 +69836,11 @@ export interface components {
             /** @description The constant value for this signal to be compared to. */
             constantValue?: string | null;
         };
+        /**
+         * Format: int32
+         * @enum {integer}
+         */
+        ServerListSortOption: 0 | 1 | 2 | 3 | 4;
         /** @description Response model for listing a Game Server */
         'ServerManagementService.GameServer': {
             /** @description The place ID this game server belongs to. */
@@ -55171,12 +69990,73 @@ export interface components {
             /** @description The ID of the scoring configuration. */
             scoringConfigurationId?: string | null;
         };
+        /**
+         * @description Request body for setting the start place override for a universe. The universe is
+         *     identified by the route, so it is not part of the body.
+         */
+        SetStartPlaceOverrideRequestBody: {
+            dataStoreLocation?: components['schemas']['DataStoreLocation'];
+        };
+        /** @description Response for setting the start place override for a universe. */
+        SetStartPlaceOverrideResponse: Record<string, never>;
+        /** @description Shutdown All Game Instances response. */
+        ShutdownAllGameInstancesResponse: {
+            /**
+             * Format: int64
+             * @description The place ID to shut down.
+             */
+            placeId?: number;
+            /** @description Whether to replace instances or not. */
+            replaceInstances?: boolean;
+        };
+        /** @description Shutdown Game Instance request. */
+        ShutdownGameInstancesRequest: {
+            /**
+             * Format: int64
+             * @description The place ID to shut down.
+             */
+            placeId?: number;
+            /**
+             * Format: int64
+             * @description The private server ID.
+             */
+            privateServerId?: number | null;
+            /**
+             * Format: uuid
+             * @description The game ID.
+             */
+            gameId?: string | null;
+        };
+        /** @description Shutdown Game Instance response. */
+        ShutdownGameInstancesResponse: {
+            /**
+             * Format: int64
+             * @description The place ID to shut down.
+             */
+            placeId?: number;
+            /**
+             * Format: int64
+             * @description The private server ID.
+             */
+            privateServerId?: number | null;
+            /**
+             * Format: uuid
+             * @description The game ID.
+             */
+            gameId?: string | null;
+        };
         /** @description Variant definition for an in-game-config experiment (CreatorConfigsPublicApi.Models.Experimentation.InGameConfigExperimentConfiguration). */
         SingleConfigExperimentVariant: {
             /** @description Metadata common to all variants. */
             variantMeta?: components['schemas']['VariantMeta'] | null;
             /** @description The config entry value for this variant. Required for non-`IsBaseline` variants. */
             configEntry?: components['schemas']['ExperimentConfigEntry'] | null;
+        };
+        SkinnyUserResponse: {
+            /** Format: int64 */
+            id?: number;
+            name?: string | null;
+            displayName?: string | null;
         };
         /** @description Takes a new snapshot for the given experience. */
         SnapshotDataStoresRequest: Record<string, never>;
@@ -55243,6 +70123,21 @@ export interface components {
             operation?: components['schemas']['ExperimentOperation'] | null;
         };
         /**
+         * @description Whether a user's saved start place passed every check, and if not, why.
+         * @enum {string}
+         */
+        StartPlaceOverrideTestResult:
+            | 'Invalid'
+            | 'Found'
+            | 'NoOverrideConfigured'
+            | 'DataStoreEntryNotFound'
+            | 'DataStoreNotFound'
+            | 'DataStoreError'
+            | 'FieldMissing'
+            | 'ValueParseFailure'
+            | 'PlaceNotInExperience'
+            | 'PlaceNotPublished';
+        /**
          * @description Whether the asset is active or archived. Unspecified isn't used.
          * @enum {string}
          */
@@ -55268,6 +70163,10 @@ export interface components {
             pagingDirection?: components['schemas']['CursorPagingDirection'];
             /** Format: int32 */
             pageNumber?: number;
+        };
+        StringStringIEnumerableKeyValuePair: {
+            key?: string | null;
+            value?: string[] | null;
         };
         /**
          * @description Part of the ServerManagementService.V2.Models.GameServerLog and ServerManagementService.V2.Models.ClientLog response objects.
@@ -55466,6 +70365,16 @@ export interface components {
              */
             rule?: components['schemas']['ConditionalRuleDefinition'] | null;
         };
+        /** @description Response for testing a user's saved start place in a universe. */
+        TestStartPlaceOverrideResponse: {
+            result?: components['schemas']['StartPlaceOverrideTestResult'];
+            /**
+             * Format: int64
+             * @description The place id read from the user's data store entry.
+             *     Null when no place id could be read.
+             */
+            placeId?: number | null;
+        };
         /**
          * @description The moderation status of a homepage thumbnail's image asset.
          * @enum {string}
@@ -55554,6 +70463,246 @@ export interface components {
             currencyCode?: string | null;
             quantity?: components['schemas']['ToolboxService.Decimal'] | null;
         } | null;
+        TransactionDetailsResponse: Record<string, never>;
+        TransactionRecordResponse: {
+            /** Format: int64 */
+            id?: number;
+            idHash?: string | null;
+            transactionType?: string | null;
+            /** Format: date-time */
+            created?: string;
+            isPending?: boolean;
+            agent?: components['schemas']['AgentResponse'] | null;
+            details?: components['schemas']['TransactionDetailsResponse'] | null;
+            currency?: components['schemas']['GenericCurrencyResponse'] | null;
+            purchaseToken?: string | null;
+            transactionSubtype?: string | null;
+            o18EligibilityTag?: components['schemas']['O18EligibilityTag'] | null;
+            robuxRateBreakdown?: components['schemas']['RobuxRateBreakdown'] | null;
+        };
+        TransactionRecordResponseApiPageResponse: {
+            previousPageCursor?: string | null;
+            nextPageCursor?: string | null;
+            data?: components['schemas']['TransactionRecordResponse'][] | null;
+        };
+        /** @enum {string} */
+        'TransactionRecordsApi.CurrencyType': 'Robux' | 'Tickets';
+        /** @enum {string} */
+        'TransactionRecordsApi.HttpStatusCode':
+            | 'Continue'
+            | 'SwitchingProtocols'
+            | 'Processing'
+            | 'EarlyHints'
+            | 'OK'
+            | 'Created'
+            | 'Accepted'
+            | 'NonAuthoritativeInformation'
+            | 'NoContent'
+            | 'ResetContent'
+            | 'PartialContent'
+            | 'MultiStatus'
+            | 'AlreadyReported'
+            | 'IMUsed'
+            | 'MultipleChoices'
+            | 'MovedPermanently'
+            | 'Found'
+            | 'SeeOther'
+            | 'NotModified'
+            | 'UseProxy'
+            | 'Unused'
+            | 'RedirectKeepVerb'
+            | 'PermanentRedirect'
+            | 'BadRequest'
+            | 'Unauthorized'
+            | 'PaymentRequired'
+            | 'Forbidden'
+            | 'NotFound'
+            | 'MethodNotAllowed'
+            | 'NotAcceptable'
+            | 'ProxyAuthenticationRequired'
+            | 'RequestTimeout'
+            | 'Conflict'
+            | 'Gone'
+            | 'LengthRequired'
+            | 'PreconditionFailed'
+            | 'RequestEntityTooLarge'
+            | 'RequestUriTooLong'
+            | 'UnsupportedMediaType'
+            | 'RequestedRangeNotSatisfiable'
+            | 'ExpectationFailed'
+            | 'MisdirectedRequest'
+            | 'UnprocessableEntity'
+            | 'Locked'
+            | 'FailedDependency'
+            | 'UpgradeRequired'
+            | 'PreconditionRequired'
+            | 'TooManyRequests'
+            | 'RequestHeaderFieldsTooLarge'
+            | 'UnavailableForLegalReasons'
+            | 'InternalServerError'
+            | 'NotImplemented'
+            | 'BadGateway'
+            | 'ServiceUnavailable'
+            | 'GatewayTimeout'
+            | 'HttpVersionNotSupported'
+            | 'VariantAlsoNegotiates'
+            | 'InsufficientStorage'
+            | 'LoopDetected'
+            | 'NotExtended'
+            | 'NetworkAuthenticationRequired';
+        /** @enum {string} */
+        'TransactionRecordsApi.SortOrder': 'Asc' | 'Desc';
+        TransactionResponse: {
+            /** Format: int64 */
+            id?: number;
+            idHash?: string | null;
+            /** Format: date-time */
+            created?: string;
+            isPending?: boolean;
+            agent?: components['schemas']['AgentResponse'] | null;
+            details?: components['schemas']['TransactionDetailsResponse'] | null;
+            currency?: components['schemas']['GenericCurrencyResponse'] | null;
+            purchaseToken?: string | null;
+            o18EligibilityTag?: components['schemas']['O18EligibilityTag'] | null;
+        };
+        TransactionResponseApiPageResponse: {
+            previousPageCursor?: string | null;
+            nextPageCursor?: string | null;
+            data?: components['schemas']['TransactionResponse'][] | null;
+        };
+        TransactionTotalsResponse: {
+            /** Format: int64 */
+            salesTotal?: number;
+            /** Format: int64 */
+            purchasesTotal?: number;
+            /** Format: int64 */
+            affiliateSalesTotal?: number;
+            /** Format: int64 */
+            groupPayoutsTotal?: number;
+            /** Format: int64 */
+            currencyPurchasesTotal?: number;
+            /** Format: int64 */
+            premiumStipendsTotal?: number;
+            /** Format: int64 */
+            tradeSystemEarningsTotal?: number;
+            /** Format: int64 */
+            tradeSystemCostsTotal?: number;
+            /** Format: int64 */
+            premiumPayoutsTotal?: number;
+            /** Format: int64 */
+            groupPremiumPayoutsTotal?: number;
+            /** Format: int64 */
+            adSpendTotal?: number;
+            /** Format: int64 */
+            developerExchangeTotal?: number;
+            /** Format: int64 */
+            pendingRobuxTotal?: number;
+            /** Format: int64 */
+            incomingRobuxTotal?: number;
+            /** Format: int64 */
+            outgoingRobuxTotal?: number;
+            /** Format: int64 */
+            individualToGroupTotal?: number;
+            /** Format: int64 */
+            csAdjustmentTotal?: number;
+            /** Format: int64 */
+            adsRevsharePayoutsTotal?: number;
+            /** Format: int64 */
+            groupAdsRevsharePayoutsTotal?: number;
+            /** Format: int64 */
+            subscriptionsRevshareTotal?: number;
+            /** Format: int64 */
+            groupSubscriptionsRevshareTotal?: number;
+            /** Format: int64 */
+            subscriptionsRevshareOutgoingTotal?: number;
+            /** Format: int64 */
+            groupSubscriptionsRevshareOutgoingTotal?: number;
+            /** Format: int64 */
+            publishingAdvanceRebatesTotal?: number;
+            /** Format: int64 */
+            affiliatePayoutTotal?: number;
+            /** Format: int64 */
+            licensingPaymentTotal?: number;
+            /** Format: int64 */
+            licensingPaymentClawbackOutgoingTotal?: number;
+            /** Format: int64 */
+            incomingRobuxTransferTotal?: number;
+            /** Format: int64 */
+            outgoingRobuxTransferTotal?: number;
+            /** Format: int64 */
+            robloxSelectIncomingTotal?: number;
+            /** Format: int64 */
+            robloxSelectOutgoingTotal?: number;
+            /** Format: int64 */
+            privateServerEngagementPayoutsTotal?: number;
+            /** Format: int64 */
+            creatorRewardsPayoutsTotal?: number;
+            /** Format: int64 */
+            subscriptionReferralPayoutsTotal?: number;
+        };
+        /** @enum {string} */
+        TransactionType:
+            | 'Undefined'
+            | 'Sale'
+            | 'Purchase'
+            | 'AffiliateSale'
+            | 'DevEx'
+            | 'GroupPayout'
+            | 'AdImpressionPayout'
+            | 'CurrencyPurchase'
+            | 'TradeRobux'
+            | 'PremiumStipend'
+            | 'PendingRobux'
+            | 'EngagementPayout'
+            | 'GroupEngagementPayout'
+            | 'AdSpend'
+            | 'Summary'
+            | 'IndividualToGroup'
+            | 'CSAdjustment'
+            | 'AdsRevsharePayout'
+            | 'GroupAdsRevsharePayout'
+            | 'SubscriptionsRevsharePayout'
+            | 'GroupSubscriptionsRevsharePayout'
+            | 'SubscriptionsRevshareClawback'
+            | 'GroupSubscriptionsRevshareClawback'
+            | 'PublishingAdvanceRebates'
+            | 'AffiliatePayout'
+            | 'LicensingPayment'
+            | 'LicensingPaymentClawback'
+            | 'CurrencyTransfer'
+            | 'RobloxSelectTransfer'
+            | 'PrivateServerEngagementPayout'
+            | 'CurrencySubscriptionStipend'
+            | 'SubscriptionReferralPayout'
+            | 'CreatorRewardsPayout';
+        TransactionUsedTypesResponse: {
+            HasPurchase?: boolean;
+            HasSale?: boolean;
+            HasAffiliatePayout?: boolean;
+            HasAffiliateSale?: boolean;
+            HasGroupPayout?: boolean;
+            HasCurrencyPurchase?: boolean;
+            HasTradeRobux?: boolean;
+            HasPremiumStipend?: boolean;
+            HasEngagementPayout?: boolean;
+            HasGroupEngagementPayout?: boolean;
+            HasAdSpend?: boolean;
+            HasDevEx?: boolean;
+            HasPendingRobux?: boolean;
+            HasIndividualToGroup?: boolean;
+            HasCSAdjustment?: boolean;
+            HasAdsRevsharePayout?: boolean;
+            HasGroupAdsRevsharePayout?: boolean;
+            HasSubscriptionsRevsharePayout?: boolean;
+            HasGroupSubscriptionsRevsharePayout?: boolean;
+            HasPublishingAdvanceRebates?: boolean;
+            HasLicensingPayment?: boolean;
+            HasTransfer?: boolean;
+            HasRobloxSelectTransfer?: boolean;
+            HasPrivateServerEngagementPayout?: boolean;
+            HasCreatorRewardsPayout?: boolean;
+            HasSubscriptionReferralPayout?: boolean;
+        };
         /**
          * @description Contains the text to be translated, the source language (optional), and a
          *     list of target languages for translation.
@@ -55949,14 +71098,6 @@ export interface components {
             /** @description Resulting async operation describing the update call. */
             operation?: components['schemas']['ExperimentOperation'] | null;
         };
-        /** @description Optional config block on the v3 PATCH body. Null sub-fields = no change. */
-        UpdateGameEventConfigRequest: {
-            /** @description New cron recurrence expression. Null = no change. Validated server-side. */
-            recurrence?: string | null;
-            /** Format: date-time */
-            recurrenceEndTime?: string | null;
-            notificationAudience?: components['schemas']['EventNotificationAudience'] | null;
-        };
         /**
          * @description Request body for `PATCH /v3/game-events/{eventId}`.
          *     Every field is optional; null = "no change". An empty body is a no-op and returns the current resource.
@@ -55975,8 +71116,6 @@ export interface components {
             placeId?: number | null;
             categories?: components['schemas']['EventRankedCategory'][] | null;
             thumbnails?: components['schemas']['EventMedia'][] | null;
-            /** @description Optional config block on the v3 PATCH body. Null sub-fields = no change. */
-            config?: components['schemas']['UpdateGameEventConfigRequest'] | null;
             featuringStatus?: components['schemas']['FeaturingStatus'] | null;
             tagline?: string | null;
         };
@@ -56985,6 +72124,13 @@ export interface components {
                 'text/json': components['schemas']['Roblox.AccountInformation.Api.Models.PhoneRequest'];
             };
         };
+        /** @description The request body. */
+        'Roblox.AccountSettings.Api.UpdateEmailRequest': {
+            content: {
+                'application/json': components['schemas']['Roblox.AccountSettings.Api.UpdateEmailRequest'];
+                'text/json': components['schemas']['Roblox.AccountSettings.Api.UpdateEmailRequest'];
+            };
+        };
         'Roblox.Api.Develop.Models.PlaceConfigurationModel': {
             content: {
                 'application/json': components['schemas']['Roblox.Api.Develop.Models.PlaceConfigurationModel'];
@@ -57017,6 +72163,27 @@ export interface components {
             content: {
                 'application/json': components['schemas']['Roblox.Catalog.Api.MultigetItemDetailsRequestModel'];
                 'text/json': components['schemas']['Roblox.Catalog.Api.MultigetItemDetailsRequestModel'];
+            };
+        };
+        /** @description The Roblox.Groups.Api.MembersRequest. */
+        'Roblox.Groups.Api.MembersRequest': {
+            content: {
+                'application/json': components['schemas']['Roblox.Groups.Api.MembersRequest'];
+                'text/json': components['schemas']['Roblox.Groups.Api.MembersRequest'];
+            };
+        };
+        /** @description The Roblox.Groups.Api.PayoutRequest. */
+        'Roblox.Groups.Api.PayoutRequest': {
+            content: {
+                'application/json': components['schemas']['Roblox.Groups.Api.PayoutRequest'];
+                'text/json': components['schemas']['Roblox.Groups.Api.PayoutRequest'];
+            };
+        };
+        /** @description The request body. */
+        'Roblox.LocalizationTables.Api.IngestAutoScrapedContentForGameRequest': {
+            content: {
+                'application/json': components['schemas']['Roblox.LocalizationTables.Api.IngestAutoScrapedContentForGameRequest'];
+                'text/json': components['schemas']['Roblox.LocalizationTables.Api.IngestAutoScrapedContentForGameRequest'];
             };
         };
         'Roblox.PrivateMessages.Api.Models.BatchMessagesRequest': {
@@ -64689,6 +79856,34 @@ export interface operations {
             };
         };
     };
+    PrivateServers_CreatePrivateServer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json': components['schemas']['CreatePrivateServerRequest'];
+                'text/json': components['schemas']['CreatePrivateServerRequest'];
+                'application/*+json': components['schemas']['CreatePrivateServerRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['PrivateServersApi.GameServerResponse'];
+                };
+            };
+        };
+    };
     Voting_MultiGetGameVoteStatus: {
         parameters: {
             query?: {
@@ -64733,6 +79928,48 @@ export interface operations {
                 content: {
                     'application/json': components['schemas']['GetPrivateServerListResponse'];
                 };
+            };
+        };
+    };
+    'PublicServerBrowserService.GameInstances_GetServerList': {
+        parameters: {
+            query?: {
+                sortOrder?: components['schemas']['PublicServerBrowserService.SortOrder'];
+                limit?: number;
+                cursor?: string;
+                excludeFullGames?: boolean;
+            };
+            header?: never;
+            path: {
+                placeId: number;
+                serverType: components['schemas']['PublicServerBrowserService.ServerType'];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['GameServerResponsePageResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
@@ -64809,6 +80046,29 @@ export interface operations {
             };
         };
     };
+    RevenueSummary_GetGroupRevenueSummary: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                groupId: number;
+                timeFrame: components['schemas']['RevenueSummaryTimeFrame'];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['RevenueSummaryResponse'];
+                };
+            };
+        };
+    };
     Presence_GetUserPresences: {
         parameters: {
             query?: never;
@@ -64856,6 +80116,415 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['PresenceApi.ErrorResponse'];
+                };
+            };
+        };
+    };
+    PrivateServers_PrivateServersEnabledInUniverse: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['PrivateServersEnabledInUniverseResponse'];
+                };
+            };
+        };
+    };
+    PrivateServers_GetMyPrivateServers: {
+        parameters: {
+            query?: {
+                privateServersTab?: components['schemas']['PrivateServersTab'];
+                itemsPerPage?: number;
+                cursor?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['MyPrivateServersResponse'];
+                };
+            };
+        };
+    };
+    GameInstances_GetServerList: {
+        parameters: {
+            query?: {
+                sortOrder?: components['schemas']['PublicServerBrowserService.SortOrder'];
+                limit?: number;
+                cursor?: string;
+                excludeFullGames?: boolean;
+            };
+            header?: never;
+            path: {
+                placeId: number;
+                serverType: components['schemas']['PublicServerBrowserService.ServerType'];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['GameServerResponsePageResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    PrivateServers_CanInviteUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['CanInviteUserResponse'];
+                };
+            };
+        };
+    };
+    'PrivateServersApi.PrivateServers_GetMyPrivateServers': {
+        parameters: {
+            query?: {
+                privateServersTab?: components['schemas']['PrivateServersTab'];
+                itemsPerPage?: number;
+                cursor?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['MyPrivateServersResponse'];
+                };
+            };
+        };
+    };
+    PrivateServers_GetPrivateServer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['PrivateServerResponse'];
+                };
+            };
+        };
+    };
+    PrivateServers_UpdatePrivateServer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json': components['schemas']['PrivateServerUpdateRequest'];
+                'text/json': components['schemas']['PrivateServerUpdateRequest'];
+                'application/*+json': components['schemas']['PrivateServerUpdateRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['PrivateServerResponse'];
+                };
+            };
+        };
+    };
+    PrivateServers_UpdatePrivateServerPermissions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json': components['schemas']['PrivateServerUpdatePermissionsRequest'];
+                'text/json': components['schemas']['PrivateServerUpdatePermissionsRequest'];
+                'application/*+json': components['schemas']['PrivateServerUpdatePermissionsRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['PrivateServerPermissionsResponse'];
+                };
+            };
+        };
+    };
+    PrivateServers_UpdatePrivateServerSubscription: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json': components['schemas']['PrivateServerUpdateSubscriptionRequest'];
+                'text/json': components['schemas']['PrivateServerUpdateSubscriptionRequest'];
+                'application/*+json': components['schemas']['PrivateServerUpdateSubscriptionRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['PrivateServerSubscriptionResponse'];
+                };
+            };
+        };
+    };
+    GameInstances_GetServerListV2: {
+        parameters: {
+            query?: {
+                orderBy?: components['schemas']['ServerListSortOption'];
+                limit?: number;
+                cursor?: string;
+                excludeFullGames?: boolean;
+            };
+            header?: never;
+            path: {
+                placeId: number;
+                serverType: components['schemas']['PublicServerBrowserService.ServerType'];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['GameServerResponsePageResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    TransactionHistory_GetGroupTransactions: {
+        parameters: {
+            query?: {
+                exclusiveStartRequest?: components['schemas']['Int64ExclusiveStartKeyCursor'];
+                transactionType?: components['schemas']['TransactionType'];
+            };
+            header?: never;
+            path: {
+                groupId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['TransactionResponseApiPageResponse'];
+                };
+            };
+        };
+    };
+    'TransactionRecordsApi.SalesReportDownload_PublishSalesReportDownloadMessage': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json-patch+json': components['schemas']['SalesReportDownloadRequest'];
+                'application/json': components['schemas']['SalesReportDownloadRequest'];
+                'text/json': components['schemas']['SalesReportDownloadRequest'];
+                'application/*+json': components['schemas']['SalesReportDownloadRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['HttpResponseMessage'];
+                };
+            };
+        };
+    };
+    TransactionRecords_GetUserRevenueSummary: {
+        parameters: {
+            query?: {
+                usedTypes?: number;
+                timeFrame?: components['schemas']['RevenueSummaryTimeFrame'];
+                transactionType?: components['schemas']['TransactionType'];
+                exclusiveStartCursor?: components['schemas']['Int64ExclusiveStartKeyCursor'];
+            };
+            header?: never;
+            path: {
+                userId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['TransactionTotalsResponse'];
+                };
+            };
+        };
+    };
+    TransactionRecords_GetUsedTransactionTypes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['TransactionUsedTypesResponse'];
+                };
+            };
+        };
+    };
+    'TransactionRecordsApi.TransactionRecords_GetUserTransactions': {
+        parameters: {
+            query?: {
+                exclusiveStartCursor?: components['schemas']['Int64ExclusiveStartKeyCursor'];
+                transactionType?: components['schemas']['TransactionType'];
+                itemPricingType?: components['schemas']['ItemPricingType'];
+            };
+            header?: never;
+            path: {
+                userId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['TransactionRecordResponseApiPageResponse'];
                 };
             };
         };

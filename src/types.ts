@@ -10511,6 +10511,70 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/log-attribute-http-service/v1/universe-regexes': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations['LogAttributeService_Find'];
+        put?: never;
+        post: operations['LogAttributeService_Create'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/log-attribute-http-service/v1/universe-regexes/{id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations['LogAttributeService_Update'];
+        post?: never;
+        delete: operations['LogAttributeService_Delete'];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/log-attribute-http-service/v1/universe-regexes/{id}/ignore': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations['LogAttributeService_Ignore'];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/log-attribute-http-service/v1/universe-regexes/{id}/reorder': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations['LogAttributeService_Reorder'];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/matchmaking-api/v1/client-status': {
         parameters: {
             query?: never;
@@ -11951,6 +12015,271 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/service-efficiency-api/v1/accounts/groups/{groupId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Operation to Get an Account for a Group. */
+        get: operations['ServiceEfficiencyApi_GetAccountForGroup'];
+        /** Operation to Update an Account for a Group. */
+        put: operations['ServiceEfficiencyApi_UpdateAccountForGroup'];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/service-efficiency-api/v1/accounts/users/{userId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Operation to Get an Account for a User. */
+        get: operations['ServiceEfficiencyApi_GetAccountForUser'];
+        /** Operation to Update an Account for a User. */
+        put: operations['ServiceEfficiencyApi_UpdateAccountForUser'];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/service-efficiency-api/v1/billing_activities/groups/{groupId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Operation to Get Billing Activities */
+        get: operations['ServiceEfficiencyApi_GetBillingActivitiesByGroup'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/service-efficiency-api/v1/billing_activities/users/{userId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Operation to Get Billing Activities */
+        get: operations['ServiceEfficiencyApi_GetBillingActivitiesByUser'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/service-efficiency-api/v1/bills/groups/{groupId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Operation to Get Billing Statement for group owned account. */
+        get: operations['ServiceEfficiencyApi_GetBillByGroup'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/service-efficiency-api/v1/bills/users/{userId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Operation to Get Billing Statement for user owned account. */
+        get: operations['ServiceEfficiencyApi_GetBillByUser'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/service-efficiency-api/v1/configurations/universes/{universeId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Operation to Get ConsumerConfiguration for a universe. */
+        get: operations['ServiceEfficiencyApi_GetConsumerConfigurationsByUniverse'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Operation to Update ConsumerConfiguration for a universe. */
+        patch: operations['ServiceEfficiencyApi_UpdateConsumerConfigurationsByUniverse'];
+        trace?: never;
+    };
+    '/service-efficiency-api/v1/eligibility/groups/{groupId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Operation to Check the Eligibility of a Group. */
+        get: operations['ServiceEfficiencyApi_CheckEligibilityForGroup'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/service-efficiency-api/v1/eligibility/users/{userId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Operation to Check the Eligibility of a User. */
+        get: operations['ServiceEfficiencyApi_CheckEligibilityForUser'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/service-efficiency-api/v1/is_allowed': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Endpoint to return whether the current user can access the features in this API, optionally with a universe
+         *     ID.
+         */
+        get: operations['ServiceEfficiencyApi_IsAllowed'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/service-efficiency-api/v1/payment_profiles/groups/{groupId}/service_efficiency': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Operation to Get the Service Efficiency Payment Method for a Group. */
+        get: operations['ServiceEfficiencyApi_GetServiceEfficiencyPaymentMethodForGroup'];
+        /** Operation to Set the Service Efficiency Payment Method for a Group. */
+        put: operations['ServiceEfficiencyApi_SetServiceEfficiencyPaymentMethodForGroup'];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/service-efficiency-api/v1/payment_profiles/users/{userId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Operation to List Payment Profiles of a User. */
+        get: operations['ServiceEfficiencyApi_ListPaymentProfilesByUser'];
+        put?: never;
+        /** Operation to Create Payment Profile for a User. */
+        post: operations['ServiceEfficiencyApi_CreatePaymentProfileForUser'];
+        /** Operation to Delete a Payment Profile for a User. */
+        delete: operations['ServiceEfficiencyApi_DeletePaymentProfileForUser'];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/service-efficiency-api/v1/payment_profiles/users/{userId}/service_efficiency': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Operation to Get the Service Efficiency Payment Method for a User. */
+        get: operations['ServiceEfficiencyApi_GetServiceEfficiencyPaymentMethodForUser'];
+        /** Operation to Set the Service Efficiency Payment Method for a User. */
+        put: operations['ServiceEfficiencyApi_SetServiceEfficiencyPaymentMethodForUser'];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/service-efficiency-api/v1/payments/groups/{groupId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Operation to Submit a Manual Payment for a Group. */
+        post: operations['ServiceEfficiencyApi_SubmitManualPaymentForGroup'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/service-efficiency-api/v1/payments/users/{userId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Operation to Submit a Manual Payment for a User. */
+        post: operations['ServiceEfficiencyApi_SubmitManualPaymentForUser'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/thumbnail-personalization-api/v1/universes/{universeId}/personalization': {
         parameters: {
             query?: never;
@@ -12137,6 +12466,23 @@ export interface paths {
          * @description Search Creator Store for assets.
          */
         post: operations['Toolbox_SearchCreatorStoreAssets'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/universe-performance-raqi/v1/events/logging/universe/{universeId}/log-details': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get logs based on message hash ids, keywords, placeVersions, start/end time. */
+        get: operations['ErrorLoggingDetail_GetLogs'];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -23113,7 +23459,7 @@ export interface paths {
                 query: {
                     /** @description The keyword or phrase to use as the search parameter. */
                     keyword: string;
-                    /** @description Whether or not to prioritize the exact match for the keyword (optional, defaults to false). */
+                    /** @description Whether to move the exact-name group to first (optional, defaults to false). Ignored when the user's group search config sets its own position. */
                     prioritizeExactMatch?: boolean;
                     /** @description The number of results per request. */
                     limit?: 10 | 25 | 50 | 100;
@@ -23139,7 +23485,6 @@ export interface paths {
                 /**
                  * @description 2: Search term not appropriate for Roblox.
                  *     3: Search term was left empty.
-                 *     4: Search terms can be 2 to 50 characters long.
                  */
                 400: {
                     headers: {
@@ -26790,13 +27135,6 @@ export interface paths {
                     };
                     content?: never;
                 };
-                /** @description 28: Migration in progress. Please try again in a moment. */
-                409: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
             };
         };
         delete?: never;
@@ -26870,13 +27208,6 @@ export interface paths {
                     };
                     content?: never;
                 };
-                /** @description 28: Migration in progress. Please try again in a moment. */
-                409: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
             };
         };
         options?: never;
@@ -26942,13 +27273,6 @@ export interface paths {
                  *     9: You do not have permissions to perform this action.
                  */
                 403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 28: Migration in progress. Please try again in a moment. */
-                409: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -47261,6 +47585,7 @@ export interface paths {
         };
         /**
          * Get OTA information for a specific binary type with a given version on some channel.
+         *     When a named channel has no OTA config for that version, the version is ignored and the channel's config is returned.
          *     Returns empty list if no updates are found or channel/application with the given version does not exist in CVS.
          */
         get: {
@@ -47268,7 +47593,7 @@ export interface paths {
                 query?: {
                     /** @description Channel name. If not provided, production is assumed. */
                     channel?: string;
-                    /** @description Application version */
+                    /** @description Application version. Optional when a named channel is set. Required for production. */
                     version?: string;
                     /** @description Tag to filter results by. Only applicable to non-studio application types. */
                     tag?: string;
@@ -52650,7 +52975,44 @@ export interface components {
     schemas: {
         /** @description A join request ID. */
         AcceptGroupJoinRequestRequest: Record<string, never>;
+        /** @description Representation of an Account and its settings. */
+        Account: {
+            /** @description Gets or sets the tax treatment for this account. */
+            accountTaxType: components['schemas']['AccountTaxType'];
+            /** @description Gets or sets the name for this account. */
+            accountName?: string | null;
+            /** @description Gets or sets the tax id for this account. */
+            taxId?: string | null;
+            /** @description Gets or sets the type of the tax id for this account. */
+            taxIdType?: components['schemas']['TaxIdType'] | null;
+        };
+        /**
+         * @description Account setting for tax treatment type.
+         * @enum {string}
+         */
+        AccountTaxType: 'Invalid' | 'Individual' | 'Business';
         ActionResult: Record<string, never>;
+        /** @description Represents an address. */
+        Address: {
+            /**
+             * @description The country of this address.
+             *     Format: ISO 3166-1 alpha-2
+             *     Currently, only "US" supported
+             */
+            country?: string | null;
+            /** @description The ZIP or postal code of this address. */
+            postalCode?: string | null;
+            /** @description The state, county, province, or region of this address. */
+            state?: string | null;
+            /** @description The city, district, suburb, town, or village of this address. */
+            city?: string | null;
+            /** @description The first address line of this address (e.g. street, PO Box, or company name) */
+            addressLine1?: string | null;
+            /** @description The second address line of this address (e.g. apartment, suite, unit, or building) */
+            addressLine2?: string | null;
+            /** @description The name associated with this address. */
+            name?: string | null;
+        };
         AgentResponse: {
             /** Format: int64 */
             id?: number;
@@ -53629,6 +53991,80 @@ export interface components {
             /** @description The list of grants that had errors. */
             errors?: components['schemas']['GrantPermissionError'][] | null;
         };
+        /** @description Response object for a billing statement. */
+        BillDetailsResponse: {
+            /** @description Gets or sets the account state. */
+            accountState?: components['schemas']['ResponseAccountState'];
+            /** @description Gets or sets the ID of the bill. */
+            billId?: string | null;
+            /** @description Gets or sets the status of the bill. */
+            billStatus: components['schemas']['BillStatus'];
+            /** @description Gets or sets the pre-tax bill amount. */
+            usageAmount: components['schemas']['ServiceEfficiencyApi.Money'];
+            /** @description Gets or sets the tax amount of the bill. */
+            taxAmount: components['schemas']['ServiceEfficiencyApi.Money'];
+            /**
+             * @description Gets or sets the total, tax-inclusive amount of the bill.
+             *     This is Roblox.CloudPricing.ServiceEfficiencyApi.Models.BillDetailsResponse.UsageAmount + Roblox.CloudPricing.ServiceEfficiencyApi.Models.BillDetailsResponse.TaxAmount.
+             */
+            totalAmount: components['schemas']['ServiceEfficiencyApi.Money'];
+            /** @description Gets or sets the list of consumer usages. */
+            usages: components['schemas']['ConsumerUsage'][];
+            /** @description Gets or sets the billing address of this bill. */
+            billingAddress: components['schemas']['Address'];
+            /** @description Gets or sets the Roblox Company address associated with this bill. */
+            robloxAddress: components['schemas']['Address'];
+            /** @description Gets or sets the tax id used for this bill. */
+            taxId?: string | null;
+            /** @description Gets or sets the type of the tax id used for this bill. */
+            taxIdType?: components['schemas']['TaxIdType'] | null;
+            /** @description Gets or sets the payments associated with this bill. */
+            payments: components['schemas']['Payment'][];
+            /**
+             * Format: double
+             * @description Gets or sets the USD-to-local-currency conversion rate at bill creation time, provided for reference only.
+             *     Null if the payment method is in the US, the bill predates this feature, or for pending bills.
+             *     -1 if the currency converter lookup failed.
+             */
+            conversionRate?: number | null;
+        };
+        /**
+         * @description Bill Status Type
+         * @enum {string}
+         */
+        BillStatus: 'Invalid' | 'Unpaid' | 'Paid' | 'Closed';
+        /** @description Summary of a bill. */
+        BillSummary: {
+            /**
+             * Format: int64
+             * @description Gets or sets the year of this bill.
+             */
+            timestamp: number;
+            /** @description Gets or sets string ID of the bill. */
+            billId?: string | null;
+            /** @description Gets or sets the status of the bill. */
+            billStatus: components['schemas']['BillStatus'];
+            /** @description Gets or sets the total amount of this bill. */
+            totalAmount: components['schemas']['ServiceEfficiencyApi.Money'];
+        };
+        /** @description Response object for Billing Activities request. */
+        BillingActivitiesResponse: {
+            /** @description Gets or sets the account state. */
+            accountState?: components['schemas']['ResponseAccountState'];
+            /** @description Gets or sets the list of account bill summaries. */
+            billSummaries?: components['schemas']['BillSummary'][] | null;
+            /** @description Gets or sets the current account balance. */
+            currentBalance: components['schemas']['ServiceEfficiencyApi.Money'];
+            /** @description Gets or sets the month to date balance */
+            monthToDateBalance: components['schemas']['ServiceEfficiencyApi.Money'];
+            /** @description Gets or sets the charging threshold. */
+            chargingThreshold: components['schemas']['ServiceEfficiencyApi.Money'];
+        };
+        /**
+         * @description Indicates the allowed budget levels for a service.
+         * @enum {string}
+         */
+        BudgetLevel: 'ResourceOnly' | 'ServiceOnly';
         /** @description Request model for bulk deleting saves */
         BulkDeleteSavesRequest: {
             /** @description A list of saves being deleted */
@@ -53709,6 +54145,11 @@ export interface components {
             category?: components['schemas']['EventCategory'];
             /** Format: int32 */
             rank?: number;
+        };
+        /** @description Response object for Roblox.CloudPricing.ServiceEfficiencyApi.Operations.CheckEligibilityOperation */
+        CheckEligibilityResponse: {
+            /** @description Gets or sets the eligibility requirement results for the provided creator. */
+            eligibilityRequirementResults?: components['schemas']['EligibilityRequirementResult'][] | null;
         };
         /** @description Get Client Status request. */
         ClientStatusGetRequest: {
@@ -53860,6 +54301,34 @@ export interface components {
          * @enum {string}
          */
         ConfigVariantType: 'conditional';
+        /** @description Request for updating consumer configuration. */
+        ConsumerConfigurationRequest: {
+            /** @description Gets or sets the service configuration lists. */
+            serviceConfigurations: components['schemas']['ServiceConfiguration'][];
+        };
+        /** @description Response object for consumer configuration. */
+        ConsumerConfigurationResponse: {
+            /** @description Gets or sets the account state. */
+            accountState?: components['schemas']['ResponseAccountState'];
+            /** @description Gets or sets a value indicating whether account information is complete. */
+            accountInfoComplete?: boolean;
+            /** @description Gets or sets the service configuration lists. */
+            serviceConfigurations: components['schemas']['ServiceConfiguration'][];
+        };
+        /** @description Usages of a consumer, e.g. my cool universe. */
+        ConsumerUsage: {
+            /**
+             * Format: int64
+             * @description Gets or sets the consumer Id.
+             */
+            consumerId: number;
+            /** @description Gets or sets consumer name. */
+            consumerName?: string | null;
+            /** @description Gets or sets the subtotal amount of this consumer. */
+            subtotalAmount: components['schemas']['ServiceEfficiencyApi.Money'];
+            /** @description Gets or sets the list of service usages. */
+            serviceUsages: components['schemas']['ServiceUsage'][];
+        };
         /** @description Represents the content of a message. */
         ContentMessage: {
             /**
@@ -54080,6 +54549,11 @@ export interface components {
         CreateMatchmakingServerAttributeDefinitionResponse: {
             playerAttributeDefinition?: components['schemas']['MatchmakingServerAttributeDefinition'];
         };
+        /** @description Response object for Roblox.CloudPricing.ServiceEfficiencyApi.Operations.CreatePaymentProfileOperation */
+        CreatePaymentProfileResponse: {
+            /** @description Gets or sets the client secret to complete payment profile creation. */
+            clientSecret?: string | null;
+        };
         CreatePrivateServerRequest: {
             name?: string | null;
             /** Format: int64 */
@@ -54106,6 +54580,13 @@ export interface components {
         CreateThumbnailPersonalizationRequest: {
             /** @description The homepage thumbnail identifiers to include in the configuration. Up to five are supported. */
             homepageThumbnailIds: string[];
+        };
+        CreateUniverseRegexHttpRequest: {
+            /** Format: int64 */
+            universeId?: number;
+            pattern?: string | null;
+            output?: string | null;
+            regexOperation?: components['schemas']['RegexOperation'];
         };
         /** @description The context of creation that is not part of the asset content, such as metadata and creator information. Required for [Create Asset](#POST-v1-assets). */
         CreationContext: {
@@ -54544,6 +55025,8 @@ export interface components {
         DeleteMatchmakingScoringConfigurationResponse: Record<string, never>;
         /** @description The response for deleting a matchmaking server attribute definition. */
         DeleteMatchmakingServerAttributeDefinitionResponse: Record<string, never>;
+        /** @description Response object for Roblox.CloudPricing.ServiceEfficiencyApi.Operations.DeletePaymentProfileOperation */
+        DeletePaymentProfileResponse: Record<string, never>;
         /** @description Request model for deleting a save */
         DeleteSaveRequest: {
             /** @description The type of asset being deleted */
@@ -54651,6 +55134,26 @@ export interface components {
             /** @description The hash of the draft for concurrency control. */
             draftHash?: string | null;
         };
+        /**
+         * @description A type of eligibility requirement.
+         * @enum {string}
+         */
+        EligibilityRequirement:
+            | 'Invalid'
+            | 'Age'
+            | 'AccountCountry'
+            | 'IdVerified'
+            | 'EmailVerified'
+            | 'ModerationStatus'
+            | 'Premium'
+            | 'UserAgreement';
+        /** @description The result of an Account's eligibility check for a specific eligibility type. */
+        EligibilityRequirementResult: {
+            /** @description Gets or sets the eligibility check type. */
+            eligibilityRequirement?: components['schemas']['EligibilityRequirement'];
+            /** @description Gets or sets a value indicating whether the account is eligible for this eligibility type. */
+            eligible?: boolean;
+        };
         /** @description Represents an entry. */
         Entry: {
             /** @description The resource path of the request. */
@@ -54731,6 +55234,38 @@ export interface components {
             | 'Blocked'
             | 'Conflict'
             | 'InvalidManagedPricing';
+        /** @description error log detail */
+        ErrorLogDetail: {
+            /** @description The message hash id for this log detail. */
+            id?: string | null;
+            /** @description The logSeverity of the log */
+            logSeverity?: string | null;
+            /** @description The source of the log */
+            logSource?: string | null;
+            os?: string | null;
+            platform?: string | null;
+            /** @description The message of the error log */
+            message?: string | null;
+            /** @description The stack trace of the error log. This might be not available */
+            stacktrace?: string | null;
+            /**
+             * Format: date-time
+             * @description UTC timestamp when this error was first observed.
+             *     Null when the source document predates this field being populated.
+             */
+            firstSeenUtc?: string | null;
+            /**
+             * Format: int64
+             * @description First seen place version for the error.
+             *     NOTE: This value will only be returned when place id is filtered
+             */
+            firstSeenPlaceVersion?: number | null;
+        };
+        /** @description Response for top error logs */
+        ErrorLogDetailResponse: {
+            /** @description The analytics data for display. */
+            values?: components['schemas']['ErrorLogDetail'][] | null;
+        };
         /** @description This is the base class for all custom Exceptions that are thrown in this API. */
         ErrorResponse: {
             /** @description The ErrorCode for the exception. */
@@ -55196,6 +55731,9 @@ export interface components {
             /** @description The cursor to use for the next page of results. */
             nextCursor?: string | null;
         };
+        FindUniverseRegexesHttpResponse: {
+            universeRegexes?: components['schemas']['UniverseRegexHttpResponse'][] | null;
+        };
         /**
          * @description Represents metadata about the long-running operation corresponding to a
          *     FlushMemoryStore request.
@@ -55527,6 +56065,11 @@ export interface components {
             amount?: number;
             type?: components['schemas']['TransactionRecordsApi.CurrencyType'];
         };
+        /** @description Response structure for GetAccount endpoints. */
+        GetAccountResponse: {
+            /** @description Gets or sets the account settings. */
+            account: components['schemas']['Account'];
+        };
         /**
          * @description Response body for
          *     `GET /v1/experimentation/universes/{universeId}/operations/{operationId}`.
@@ -55616,6 +56159,11 @@ export interface components {
             /** @description Gets or sets the saves. */
             saves: components['schemas']['HydratedSave'][] | null;
         } | null;
+        /** @description Response object for Roblox.CloudPricing.ServiceEfficiencyApi.Operations.GetServiceEfficiencyPaymentMethodOperation */
+        GetServiceEfficiencyPaymentMethodResponse: {
+            /** @description Gets or sets the payment profile set for Service Efficiency use for the provided creator. */
+            paymentProfile?: components['schemas']['PaymentProfile'] | null;
+        };
         /** @description Response for getting the start place override for a universe. */
         GetStartPlaceOverrideResponse: {
             dataStoreLocation?: components['schemas']['DataStoreLocation'];
@@ -56954,6 +57502,11 @@ export interface components {
              */
             nextPageToken?: string;
         };
+        /** @description Response object for Roblox.CloudPricing.ServiceEfficiencyApi.Operations.ListPaymentProfilesOperation. */
+        ListPaymentProfilesResponse: {
+            /** @description Gets or sets the payment profiles owned by the provided creator. */
+            paymentProfiles?: components['schemas']['PaymentProfile'][] | null;
+        };
         /** @description Response to list all places with scoring configuration in a universe. */
         ListPlaceMatchmakingScoringConfigurationsResponse: {
             /** @description The scoring configurations for places. */
@@ -58195,6 +58748,39 @@ export interface components {
             nextPageToken?: string | null;
             previousPageToken?: string | null;
         };
+        /** @description Service Efficiency API representation of a payment. */
+        Payment: {
+            /**
+             * Format: int64
+             * @description Gets or sets the time of this payment, in unix milliseconds.
+             */
+            timestamp: number;
+            /** @description Gets or sets the total, tax-inclusive amount of the payment. */
+            amount: components['schemas']['ServiceEfficiencyApi.Money'];
+            /** @description Gets or sets the status of the payment. */
+            status: components['schemas']['ServiceEfficiencyApi.TransactionStatus'];
+        };
+        /** @description Service Efficiency representation of a Payment Profile. */
+        PaymentProfile: {
+            /** @description Gets or sets the payment profile id. */
+            paymentProfileId?: string | null;
+            /** @description Gets or sets the payment profile owner type. GROUP or USER. */
+            paymentProfileOwnerType?: string | null;
+            /** @description Gets or sets the card network. */
+            cardNetwork?: string | null;
+            /** @description Gets or sets the last four digits of the card. */
+            last4Digits?: string | null;
+            /**
+             * Format: int32
+             * @description Gets or sets the expiry month of the card.
+             */
+            expMonth?: number | null;
+            /**
+             * Format: int32
+             * @description Gets or sets the expiry year of the card.
+             */
+            expYear?: number | null;
+        };
         /**
          * @description The lifecycle status of a thumbnail personalization configuration.
          * @enum {string}
@@ -58566,6 +59152,19 @@ export interface components {
             /** @description Ordered list of video preview asset ids. */
             videoPreviewAssets?: number[] | null;
         } | null;
+        /** @description Describes the price of a resource. */
+        Price: {
+            /** @description Cost of the resource. */
+            cost?: components['schemas']['ServiceEfficiencyApi.Money'] | null;
+            /**
+             * Format: int64
+             * @description The number of units of the resource to which the cost applies. For example, if `cost` is 0.0044 and `unit_amount` is
+             *     1000000, the cost is $0.0044 per million of units. The split between `cost` and `unit_amount` should reflect how we
+             *     refer to the price in real life, e.g. the above example reflects how we talk about the price of UMS request units
+             *     ($0.0044 per million request units).
+             */
+            unitAmount?: number;
+        };
         /** @description The pricing configuration information. */
         PriceInformationStruct: {
             /**
@@ -58947,8 +59546,16 @@ export interface components {
             /** @description The items read from the queue */
             items?: components['schemas']['MemoryStoreQueueItem'][];
         };
+        /** @enum {string} */
+        RegexOperation: 'Invalid' | 'Ignore' | 'Group';
+        /** @enum {string} */
+        RegexStatus: 'Invalid' | 'CreatorCreated' | 'AutoGenerated' | 'CreatorIgnored';
         /** @description Response to remove scoring configuration for a place. */
         RemovePlaceMatchmakingScoringConfigurationResponse: Record<string, never>;
+        ReorderUniverseRegexHttpRequest: {
+            /** Format: int32 */
+            order?: number;
+        };
         /**
          * @description Public API repository identifier. Only values exposed by the public API are included;
          *     internal repository types are not exposed to allow development and testing before enabling.
@@ -58979,6 +59586,45 @@ export interface components {
             | 'ExperienceUserConfig'
             | 'JourneysConfig'
             | 'AntiCheatConfig';
+        /** @description Configuration for a resource, like Memory Stores request unit. */
+        ResourceConfiguration: {
+            /** @description Gets or sets the resource ID. */
+            resourceId: string;
+            /** @description Gets or sets a value indicating whether the resource has unlocked additional usage. */
+            unlocked: boolean;
+            /** @description Gets or sets the monthly budget. */
+            monthlyBudget?: components['schemas']['ServiceEfficiencyApi.Money'] | null;
+            /** @description Gets or sets the unit cost of this resource. */
+            unitCost: components['schemas']['ServiceEfficiencyApi.Money'];
+            /** @description Gets or sets the price of this resource. */
+            price: components['schemas']['Price'];
+        };
+        /** @description Usage of a resource e.g. Memory Stores Requests. */
+        ResourceUsage: {
+            /** @description Gets or sets resource ID. */
+            resourceId: string;
+            /**
+             * Format: double
+             * @description Gets or sets free amount
+             */
+            freeAmount?: number;
+            /**
+             * Format: double
+             * @description Gets or sets paid amount
+             */
+            paidAmount?: number;
+            /** @description Gets or sets the unit cost of this resource. */
+            unitCost: components['schemas']['ServiceEfficiencyApi.Money'];
+            /** @description Gets or sets the price of this resource. */
+            price: components['schemas']['Price'];
+            /** @description Gets or sets the total cost of this resource. */
+            totalCost: components['schemas']['ServiceEfficiencyApi.Money'];
+        };
+        /**
+         * @description Account State in the HTTP response.
+         * @enum {string}
+         */
+        ResponseAccountState: 'Invalid' | 'Normal' | 'Overdue' | 'Suspended';
         /**
          * @description The current state of a place restart.
          * @enum {string}
@@ -69976,6 +70622,58 @@ export interface components {
          * @enum {integer}
          */
         ServerType: 0 | 1 | 2 | 3 | 4 | 5;
+        /** @description Configuration of a service, including whether unlocked and budget. */
+        ServiceConfiguration: {
+            /** @description Gets or sets the service ID. */
+            serviceId: string;
+            /** @description Gets or sets the monthly budget. */
+            monthlyBudget?: components['schemas']['ServiceEfficiencyApi.Money'] | null;
+            /** @description Gets or sets the list of resource configurations. */
+            resourceConfigurations: components['schemas']['ResourceConfiguration'][];
+            /**
+             * @description Gets or sets the allowed budget level for this service.
+             *     This value can only be set in the GetConsumerConfiguration endpoint, it will be ignored in the UpdateConsumerConfiguration endpoint.
+             */
+            budgetLevel: components['schemas']['BudgetLevel'];
+        };
+        /**
+         * @description Temporary until https://roblox.atlassian.net/browse/ICSC-1360 is done.
+         *     Will be replaced by google.type.Money
+         */
+        'ServiceEfficiencyApi.Money': {
+            /** @description The three-letter currency code defined in ISO 4217. */
+            currencyCode?: string | null;
+            /**
+             * Format: int64
+             * @description The whole units of the amount.
+             *     For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar.
+             */
+            units?: number;
+            /**
+             * Format: int32
+             * @description Number of nano (10^-9) units of the amount.
+             *     The value must be between -999,999,999 and +999,999,999 inclusive.
+             *     If `units` is positive, `nanos` must be positive or zero.
+             *     If `units` is zero, `nanos` can be positive, zero, or negative.
+             *     If `units` is negative, `nanos` must be negative or zero.
+             *     For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000.
+             */
+            nanos?: number;
+        };
+        /**
+         * @description Transaction Status for HTTP responses.
+         * @enum {string}
+         */
+        'ServiceEfficiencyApi.TransactionStatus': 'Invalid' | 'Pending' | 'Successful' | 'Failed';
+        /** @description Usage of a service, e.g. Memory Stores */
+        ServiceUsage: {
+            /** @description Gets or sets service ID. */
+            serviceId: string;
+            /** @description Gets or sets the subtotal amount of this service. */
+            subtotalAmount: components['schemas']['ServiceEfficiencyApi.Money'];
+            /** @description Gets or sets the list of resource usages. */
+            resourceUsages: components['schemas']['ResourceUsage'][];
+        };
         /** @description Response to set the matchmaking scoring configuration. */
         SetMatchmakingScoringConfigurationResponse: {
             scoringConfiguration?: components['schemas']['MatchmakingScoringConfiguration'];
@@ -69990,6 +70688,8 @@ export interface components {
             /** @description The ID of the scoring configuration. */
             scoringConfigurationId?: string | null;
         };
+        /** @description Response object for Roblox.CloudPricing.ServiceEfficiencyApi.Operations.SetServiceEfficiencyPaymentMethodOperation */
+        SetServiceEfficiencyPaymentMethodResponse: Record<string, never>;
         /**
          * @description Request body for setting the start place override for a universe. The universe is
          *     identified by the route, so it is not part of the body.
@@ -70197,6 +70897,15 @@ export interface components {
         };
         /** @enum {string} */
         SubjectType: 'Invalid' | 'User' | 'Group' | 'GroupRoleset' | 'All' | 'Universe';
+        /** @description Request object to be set as the body of submit manual payment endpoint requests. */
+        SubmitManualPaymentRequest: {
+            /** @description Gets or sets the amount of money to charge in the manual payment. */
+            amount?: components['schemas']['ServiceEfficiencyApi.Money'] | null;
+            /** @description Gets or sets the id of the bill to make the manual payment on. */
+            billId?: string | null;
+        };
+        /** @description Response object for Roblox.CloudPricing.ServiceEfficiencyApi.Operations.SubmitManualPaymentOperation */
+        SubmitManualPaymentResponse: Record<string, never>;
         /**
          * @description Represents a user's subscription to a subscription product. The
          *     subscription ID is the same as the user ID of the user who subscribed.
@@ -70365,6 +71074,20 @@ export interface components {
              */
             rule?: components['schemas']['ConditionalRuleDefinition'] | null;
         };
+        /**
+         * @description Type of the tax id.
+         *     Maps to and should be kept up to date with
+         *     https://github.rbx.com/Roblox/service-contracts/blob/master/protos/roblox/payments/shared/v1/tax_id_type.proto.
+         * @enum {string}
+         */
+        TaxIdType:
+            | 'Invalid'
+            | 'UnitedStatesEin'
+            | 'EuropeanVatNumber'
+            | 'UnitedKingdomVatNumber'
+            | 'CanadianBusinessNumber'
+            | 'CanadianGstHstNumber'
+            | 'MexicanRfcNumber';
         /** @description Response for testing a user's saved start place in a universe. */
         TestStartPlaceOverrideResponse: {
             result?: components['schemas']['StartPlaceOverrideTestResult'];
@@ -71001,6 +71724,29 @@ export interface components {
             /** @description Learning (observation-only) metrics. */
             learningMetrics?: components['schemas']['UniverseExperimentMetric'][] | null;
         };
+        UniverseRegexHttpResponse: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            universeId?: number;
+            regexStatus?: components['schemas']['RegexStatus'];
+            pattern?: string | null;
+            output?: string | null;
+            /** Format: int32 */
+            order?: number;
+            regexOperation?: components['schemas']['RegexOperation'];
+            /** Format: date-time */
+            createdTime?: string;
+            /** Format: date-time */
+            updatedTime?: string;
+            /** Format: int32 */
+            matchedCount?: number | null;
+            sampleMessage?: string | null;
+        };
+        UniverseRegexMutationHttpResponse: {
+            /** Format: int32 */
+            order?: number;
+        };
         /**
          * @description A social link that may be associated with the universe.
          *
@@ -71011,6 +71757,16 @@ export interface components {
             title?: string;
             /** @description The uri of the social link. */
             uri?: string;
+        };
+        /** @description Request structure for UpdateAccount endpoints. */
+        UpdateAccountRequest: {
+            /** @description Gets or sets the account settings to update. */
+            account: components['schemas']['Account'];
+        };
+        /** @description Response structure for UpdateAccount endpoints. */
+        UpdateAccountResponse: {
+            /** @description Gets or sets the account settings. */
+            account: components['schemas']['Account'];
         };
         /** @description Request to update a custom matchmaking signal. */
         UpdateCustomMatchmakingSignalRequest: {
@@ -71203,6 +71959,11 @@ export interface components {
             homepageThumbnailIds: string[];
             /** @description The identifier of the active personalization configuration to update. */
             id: string;
+        };
+        UpdateUniverseRegexHttpRequest: {
+            pattern?: string | null;
+            output?: string | null;
+            regexOperation?: components['schemas']['RegexOperation'];
         };
         /**
          * Format: int32
@@ -77883,6 +78644,151 @@ export interface operations {
             };
         };
     };
+    LogAttributeService_Find: {
+        parameters: {
+            query?: {
+                universeId?: number;
+                status?: components['schemas']['RegexStatus'];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['FindUniverseRegexesHttpResponse'];
+                };
+            };
+        };
+    };
+    LogAttributeService_Create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json': components['schemas']['CreateUniverseRegexHttpRequest'];
+                'text/json': components['schemas']['CreateUniverseRegexHttpRequest'];
+                'application/*+json': components['schemas']['CreateUniverseRegexHttpRequest'];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['UniverseRegexMutationHttpResponse'];
+                };
+            };
+        };
+    };
+    LogAttributeService_Update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json': components['schemas']['UpdateUniverseRegexHttpRequest'];
+                'text/json': components['schemas']['UpdateUniverseRegexHttpRequest'];
+                'application/*+json': components['schemas']['UpdateUniverseRegexHttpRequest'];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['UniverseRegexMutationHttpResponse'];
+                };
+            };
+        };
+    };
+    LogAttributeService_Delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    LogAttributeService_Ignore: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    LogAttributeService_Reorder: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json': components['schemas']['ReorderUniverseRegexHttpRequest'];
+                'text/json': components['schemas']['ReorderUniverseRegexHttpRequest'];
+                'application/*+json': components['schemas']['ReorderUniverseRegexHttpRequest'];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['UniverseRegexMutationHttpResponse'];
+                };
+            };
+        };
+    };
     CrossServerMessaging_Publish: {
         parameters: {
             query?: never;
@@ -78870,6 +79776,1516 @@ export interface operations {
             };
         };
     };
+    ServiceEfficiencyApi_GetAccountForGroup: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Group id. */
+                groupId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['GetAccountResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ServiceEfficiencyApi_UpdateAccountForGroup: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Group id. */
+                groupId: number;
+            };
+            cookie?: never;
+        };
+        /** @description Endpoint request. */
+        requestBody: {
+            content: {
+                'application/json-patch+json': components['schemas']['UpdateAccountRequest'];
+                'application/json': components['schemas']['UpdateAccountRequest'];
+                'text/json': components['schemas']['UpdateAccountRequest'];
+                'application/*+json': components['schemas']['UpdateAccountRequest'];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['UpdateAccountResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ServiceEfficiencyApi_GetAccountForUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description User id. */
+                userId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['GetAccountResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ServiceEfficiencyApi_UpdateAccountForUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description User id. */
+                userId: number;
+            };
+            cookie?: never;
+        };
+        /** @description Endpoint request. */
+        requestBody: {
+            content: {
+                'application/json-patch+json': components['schemas']['UpdateAccountRequest'];
+                'application/json': components['schemas']['UpdateAccountRequest'];
+                'text/json': components['schemas']['UpdateAccountRequest'];
+                'application/*+json': components['schemas']['UpdateAccountRequest'];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['UpdateAccountResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ServiceEfficiencyApi_GetBillingActivitiesByGroup: {
+        parameters: {
+            query: {
+                startYear: number;
+                startMonth: number;
+                endYear: number;
+                endMonth: number;
+            };
+            header?: never;
+            path: {
+                groupId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['BillingActivitiesResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ServiceEfficiencyApi_GetBillingActivitiesByUser: {
+        parameters: {
+            query: {
+                startYear: number;
+                startMonth: number;
+                endYear: number;
+                endMonth: number;
+            };
+            header?: never;
+            path: {
+                userId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['BillingActivitiesResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ServiceEfficiencyApi_GetBillByGroup: {
+        parameters: {
+            query?: {
+                /** @description Bill id. Takes precedence over date fields. */
+                billId?: string;
+                /** @description Bill year. Ignored if bill id is provided. */
+                year?: number;
+                /** @description Bill month. Ignored if bill id is provided. */
+                month?: number;
+                /** @description Bill date. Ignored if bill id is provided. */
+                date?: number;
+                /** @description If true, we will return the most recent bill. */
+                latest?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description Group id. */
+                groupId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['BillDetailsResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ServiceEfficiencyApi_GetBillByUser: {
+        parameters: {
+            query?: {
+                /** @description Bill id. Takes precedence over date fields. */
+                billId?: string;
+                /** @description Bill year. Ignored if bill id is provided. */
+                year?: number;
+                /** @description Bill month. Ignored if bill id is provided. */
+                month?: number;
+                /** @description Bill date. Ignored if bill id is provided. */
+                date?: number;
+                /** @description If true, we will return the most recent bill. */
+                latest?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description User id. */
+                userId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['BillDetailsResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ServiceEfficiencyApi_GetConsumerConfigurationsByUniverse: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ConsumerConfigurationResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ServiceEfficiencyApi_UpdateConsumerConfigurationsByUniverse: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json-patch+json': components['schemas']['ConsumerConfigurationRequest'];
+                'application/json': components['schemas']['ConsumerConfigurationRequest'];
+                'text/json': components['schemas']['ConsumerConfigurationRequest'];
+                'application/*+json': components['schemas']['ConsumerConfigurationRequest'];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ConsumerConfigurationResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ServiceEfficiencyApi_CheckEligibilityForGroup: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Group id. */
+                groupId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['CheckEligibilityResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ServiceEfficiencyApi_CheckEligibilityForUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description User id. */
+                userId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['CheckEligibilityResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ServiceEfficiencyApi_IsAllowed: {
+        parameters: {
+            query?: {
+                /** @description a universe the user may or may not be allowed to access */
+                universeId?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': boolean;
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ServiceEfficiencyApi_GetServiceEfficiencyPaymentMethodForGroup: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Group id. */
+                groupId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['GetServiceEfficiencyPaymentMethodResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ServiceEfficiencyApi_SetServiceEfficiencyPaymentMethodForGroup: {
+        parameters: {
+            query: {
+                /** @description Payment profile id to set. */
+                paymentProfileId: string;
+                /** @description Payment profile owner type. GROUP or USER. */
+                paymentProfileOwnerType: string;
+            };
+            header?: never;
+            path: {
+                /** @description Group id. */
+                groupId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['SetServiceEfficiencyPaymentMethodResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Client Error */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ServiceEfficiencyApi_ListPaymentProfilesByUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description User id. */
+                userId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ListPaymentProfilesResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ServiceEfficiencyApi_CreatePaymentProfileForUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description User id. */
+                userId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['CreatePaymentProfileResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ServiceEfficiencyApi_DeletePaymentProfileForUser: {
+        parameters: {
+            query: {
+                /** @description Payment profile id to delete. */
+                paymentProfileId: string;
+            };
+            header?: never;
+            path: {
+                /** @description User id. */
+                userId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['DeletePaymentProfileResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ServiceEfficiencyApi_GetServiceEfficiencyPaymentMethodForUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description User id. */
+                userId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['GetServiceEfficiencyPaymentMethodResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ServiceEfficiencyApi_SetServiceEfficiencyPaymentMethodForUser: {
+        parameters: {
+            query: {
+                /** @description Payment profile id to set. */
+                paymentProfileId: string;
+                /** @description Payment profile owner type. GROUP or USER. */
+                paymentProfileOwnerType: string;
+            };
+            header?: never;
+            path: {
+                /** @description User id. */
+                userId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['SetServiceEfficiencyPaymentMethodResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Client Error */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ServiceEfficiencyApi_SubmitManualPaymentForGroup: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Group id. */
+                groupId: number;
+            };
+            cookie?: never;
+        };
+        /** @description Endpoint request. */
+        requestBody: {
+            content: {
+                'application/json-patch+json': components['schemas']['SubmitManualPaymentRequest'];
+                'application/json': components['schemas']['SubmitManualPaymentRequest'];
+                'text/json': components['schemas']['SubmitManualPaymentRequest'];
+                'application/*+json': components['schemas']['SubmitManualPaymentRequest'];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['SubmitManualPaymentResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ServiceEfficiencyApi_SubmitManualPaymentForUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description User id. */
+                userId: number;
+            };
+            cookie?: never;
+        };
+        /** @description Endpoint request. */
+        requestBody: {
+            content: {
+                'application/json-patch+json': components['schemas']['SubmitManualPaymentRequest'];
+                'application/json': components['schemas']['SubmitManualPaymentRequest'];
+                'text/json': components['schemas']['SubmitManualPaymentRequest'];
+                'application/*+json': components['schemas']['SubmitManualPaymentRequest'];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['SubmitManualPaymentResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     'ThumbnailPersonalizationApi.HomepageThumbnail_FindThumbnailPersonalizations': {
         parameters: {
             query: {
@@ -79779,6 +82195,88 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    ErrorLoggingDetail_GetLogs: {
+        parameters: {
+            query?: {
+                messageHashIds?: string[];
+                /** @description Optional keyword to help highlight matching keyword in the error message */
+                keyword?: string;
+                /** @description Optional query window start; omitted values are defaulted server-side. */
+                startTime?: string;
+                /** @description Optional query window end; omitted values are defaulted server-side. */
+                endTime?: string;
+                /** @description Optional place id filter. */
+                placeId?: number;
+                /** @description Optional place version filters. */
+                placeVersions?: number[];
+                /** @description Optional minimum first seen place version filter (inclusive). */
+                firstSeenPlaceVersion?: number;
+            };
+            header?: never;
+            path: {
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'text/plain': components['schemas']['ErrorLogDetailResponse'];
+                    'application/json': components['schemas']['ErrorLogDetailResponse'];
+                    'text/json': components['schemas']['ErrorLogDetailResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'text/plain': components['schemas']['ActionResult'];
+                    'application/json': components['schemas']['ActionResult'];
+                    'text/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'text/plain': components['schemas']['ActionResult'];
+                    'application/json': components['schemas']['ActionResult'];
+                    'text/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'text/plain': components['schemas']['ActionResult'];
+                    'application/json': components['schemas']['ActionResult'];
+                    'text/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'text/plain': components['schemas']['ActionResult'];
+                    'application/json': components['schemas']['ActionResult'];
+                    'text/json': components['schemas']['ActionResult'];
+                };
             };
         };
     };

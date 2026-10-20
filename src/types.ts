@@ -52929,7 +52929,7 @@ export interface paths {
          * Get a single game event by ID.
          *     Use `?fields=` to request a subset of fields; unknown field names return 400.
          */
-        get: operations['GameEvent_Get'];
+        get: operations['GameEvent_GetGameEvent'];
         put?: never;
         post?: never;
         /**
@@ -52937,14 +52937,14 @@ export interface paths {
          *     Permission is enforced via an explicit pre-check: callers that can read but not edit
          *     receive 403; callers that cannot read receive 404.
          */
-        delete: operations['GameEvent_Delete'];
+        delete: operations['GameEvent_DeleteGameEvent'];
         options?: never;
         head?: never;
         /**
          * Partially update a game event. Only fields present in the request body are changed; omitted or null fields are left
          *     unchanged. Empty body is a no-op and returns the current game event resource.
          */
-        patch: operations['GameEvent_Update'];
+        patch: operations['GameEvent_UpdateGameEvent'];
         trace?: never;
     };
     '/virtual-events/v3/universes/{universeId}/game-events': {
@@ -52959,10 +52959,10 @@ export interface paths {
          *     Use `?fields=` to trim the response payload.
          *     Response is always 200 (empty list for unknown universe).
          */
-        get: operations['GameEvents_List'];
+        get: operations['GameEvents_GetGameEvents'];
         put?: never;
         /** Create a new game event. Returns the full resource on success. */
-        post: operations['GameEvents_Create'];
+        post: operations['GameEvents_CreateGameEvent'];
         delete?: never;
         options?: never;
         head?: never;
@@ -58723,7 +58723,6 @@ export interface components {
             | 'TooManyUsers'
             | 'GroupFeatureFrozen'
             | 'GroupMigrated'
-            | 'RoleIdMigrationInProgress'
             | 'UnificationInProgress'
             | 'InvalidPageLimit'
             | 'InvalidSortOrder'
@@ -83027,7 +83026,7 @@ export interface operations {
             };
         };
     };
-    GameEvent_Get: {
+    GameEvent_GetGameEvent: {
         parameters: {
             query?: {
                 /** @description Optional field mask (comma-separated; omit or use * for all fields). */
@@ -83071,7 +83070,7 @@ export interface operations {
             };
         };
     };
-    GameEvent_Delete: {
+    GameEvent_DeleteGameEvent: {
         parameters: {
             query?: never;
             header?: never;
@@ -83128,7 +83127,7 @@ export interface operations {
             };
         };
     };
-    GameEvent_Update: {
+    GameEvent_UpdateGameEvent: {
         parameters: {
             query?: never;
             header?: never;
@@ -83195,7 +83194,7 @@ export interface operations {
             };
         };
     };
-    GameEvents_List: {
+    GameEvents_GetGameEvents: {
         parameters: {
             query?: {
                 /** @description Requested page size. */
@@ -83246,7 +83245,7 @@ export interface operations {
             };
         };
     };
-    GameEvents_Create: {
+    GameEvents_CreateGameEvent: {
         parameters: {
             query?: never;
             header?: never;

@@ -784,505 +784,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/analytics-alert-control-plane/v1/resource/{resourceType}/id/{resourceId}/alerts': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Returns the alert configurations for a resource. Optionally filter by alert IDs, firing
-         *     status, severity, or metric name.
-         */
-        get: {
-            parameters: {
-                query?: {
-                    /**
-                     * @description Optional list of alert IDs to restrict results to. Repeat the parameter for multiple
-                     *     values: `?ids=1&ids=2`. IDs are string-encoded 64-bit integers.
-                     */
-                    ids?: string[];
-                    /**
-                     * @description Optional firing-status filter (`OK` or `Firing`).
-                     *
-                     *     OK
-                     *
-                     *     Firing
-                     */
-                    firingStatus?: components['schemas']['AlertStorage.FiringStatus'];
-                    /**
-                     * @description Optional list of severity levels to filter by. Repeat the parameter for multiple
-                     *     values: `?severities=SEV_0&severities=SEV_1`.
-                     */
-                    severities?: components['schemas']['AlertStorage.Severity'][];
-                    /**
-                     * @description Optional list of metric names to filter by (exact match, case-sensitive). Repeat the
-                     *     parameter for multiple values: `?metrics=dau&metrics=mau`.
-                     */
-                    metrics?: string[];
-                };
-                header?: never;
-                path: {
-                    /**
-                     * @description The type of resource to query. Currently only `Universe` is supported.
-                     *
-                     *     Universe
-                     */
-                    resourceType: components['schemas']['AlertStorage.ResourceType'];
-                    /** @description The numeric ID of the resource (e.g. the universe ID). */
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.AlertDetailResponse'][];
-                    };
-                };
-                /** @description Bad Request */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-                /** @description Unauthorized */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-                /** @description Forbidden */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-                /** @description Service Unavailable */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /**
-         * Creates a new alert configuration for a resource.
-         * @description See the <a href="https://create.roblox.com/docs/cloud/guides/alerts/metrics">alerts guide</a> for supported metrics and dimensions.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description The type of resource to create the alert on. Currently only `Universe` is supported.
-                     *
-                     *     Universe
-                     */
-                    resourceType: components['schemas']['AlertStorage.ResourceType'];
-                    /** @description The numeric ID of the resource (e.g. the universe ID). */
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            /** @description The alert configuration to create. */
-            requestBody?: {
-                content: {
-                    'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.CreateAlertConfigRequest'];
-                    'text/json': components['schemas']['AnalyticsAlertControlPlane.Models.CreateAlertConfigRequest'];
-                    'application/*+json': components['schemas']['AnalyticsAlertControlPlane.Models.CreateAlertConfigRequest'];
-                };
-            };
-            responses: {
-                /** @description Created */
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.AlertDetailResponse'];
-                    };
-                };
-                /** @description Bad Request */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-                /** @description Unauthorized */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-                /** @description Forbidden */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-                /**
-                 * @description Conflict. Possible error codes:
-                 *
-                 *     - `ALERT_NAME_EXISTED`: An alert with this name already exists for the resource.
-                 *       Alert names must be unique per resource.
-                 *
-                 *     - `MAX_ALERT_REACHED`: The resource has reached the maximum number of allowed alerts.
-                 */
-                409: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-                /** @description Service Unavailable */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/analytics-alert-control-plane/v1/resource/{resourceType}/id/{resourceId}/alerts/incidents': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Returns alert incidents for a resource whose active window overlaps the specified time
-         *     range. An incident is included if it was open at any point between `startTime` and
-         *     `endTime`.
-         */
-        get: {
-            parameters: {
-                query: {
-                    /**
-                     * @description Start of the time range to query (ISO 8601, UTC). Must be within the last 30 days
-                     *     (see AnalyticsAlertControlPlane.Operations.GetAlertIncidentsOperation.MaxQueryDays).
-                     */
-                    startTime: string;
-                    /**
-                     * @description End of the time range to query (ISO 8601, UTC). Must be greater than or equal to
-                     *     `startTime`.
-                     */
-                    endTime: string;
-                    /**
-                     * @description Optional metric name to restrict results to incidents from alerts on that metric (exact
-                     *     match, case-sensitive).
-                     */
-                    metric?: string;
-                    /**
-                     * @description Optional list of alert IDs to restrict results to. Repeat the parameter for multiple
-                     *     values: `?alertIds=1&alertIds=2`. IDs are string-encoded 64-bit integers.
-                     */
-                    alertIds?: string[];
-                    /**
-                     * @description Optional list of severity levels to restrict results to. Repeat the parameter for
-                     *     multiple values: `?severities=SEV_0&severities=SEV_1`.
-                     */
-                    severities?: components['schemas']['AlertStorage.Severity'][];
-                };
-                header?: never;
-                path: {
-                    /**
-                     * @description The type of resource to query. Currently only `Universe` is supported.
-                     *
-                     *     Universe
-                     */
-                    resourceType: components['schemas']['AlertStorage.ResourceType'];
-                    /** @description The numeric ID of the resource (e.g. the universe ID). */
-                    resourceId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.IncidentDetailResponse'][];
-                    };
-                };
-                /** @description Bad Request */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-                /** @description Unauthorized */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-                /** @description Forbidden */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-                /** @description Service Unavailable */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/analytics-alert-control-plane/v1/resource/{resourceType}/id/{resourceId}/alerts/{alertId}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /** Deletes an alert configuration. This action is irreversible. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description The type of resource the alert belongs to. Currently only `Universe` is supported.
-                     *
-                     *     Universe
-                     */
-                    resourceType: components['schemas']['AlertStorage.ResourceType'];
-                    /** @description The numeric ID of the resource (e.g. the universe ID). */
-                    resourceId: string;
-                    /** @description The ID of the alert to delete. */
-                    alertId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description No Content */
-                204: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description Bad Request */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-                /** @description Unauthorized */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-                /** @description Forbidden */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-                /** @description Not Found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-                /** @description Service Unavailable */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        /**
-         * Updates an existing alert configuration. Only the fields included in the request body are
-         *     changed; omitted fields retain their current values.
-         * @description See the <a href="https://create.roblox.com/docs/cloud/guides/alerts/metrics">alerts guide</a> for supported metrics and dimensions.
-         */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /**
-                     * @description The type of resource the alert belongs to. Currently only `Universe` is supported.
-                     *
-                     *     Universe
-                     */
-                    resourceType: components['schemas']['AlertStorage.ResourceType'];
-                    /** @description The numeric ID of the resource (e.g. the universe ID). */
-                    resourceId: string;
-                    /** @description The ID of the alert to update. */
-                    alertId: string;
-                };
-                cookie?: never;
-            };
-            /** @description The fields to update on the alert configuration. */
-            requestBody?: {
-                content: {
-                    'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.UpdateAlertConfigRequest'];
-                    'text/json': components['schemas']['AnalyticsAlertControlPlane.Models.UpdateAlertConfigRequest'];
-                    'application/*+json': components['schemas']['AnalyticsAlertControlPlane.Models.UpdateAlertConfigRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.AlertDetailResponse'];
-                    };
-                };
-                /** @description Bad Request */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-                /** @description Unauthorized */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-                /** @description Forbidden */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-                /** @description Not Found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-                /**
-                 * @description Conflict (`ALERT_NAME_EXISTED`): the new name collides with an existing alert on the
-                 *     same resource. Alert names must be unique per resource.
-                 */
-                409: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-                /** @description Service Unavailable */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['AnalyticsAlertControlPlane.Models.ErrorResponse'];
-                    };
-                };
-            };
-        };
-        trace?: never;
-    };
     '/analytics-query-api/v1/universes/{universeId}/dimension-values': {
         parameters: {
             query?: never;
@@ -53021,395 +52522,6 @@ export interface components {
         };
         /** @enum {string} */
         AgentType: 'User' | 'Group';
-        /** @description The threshold condition that determines when an alert fires. */
-        'AlertStorage.AlertCondition': {
-            operator: components['schemas']['AlertStorage.ConditionOperator'];
-            /**
-             * Format: double
-             * @description Numeric threshold the metric value is compared against.
-             */
-            threshold: number;
-            evaluationMode: components['schemas']['AlertStorage.EvaluationMode'];
-            /**
-             * Format: int32
-             * @description How many intervals back the comparison period is placed for `PeriodOverPeriod`
-             *     evaluation. A value of `1` compares against the immediately preceding interval;
-             *     a value of `7` with a `OneDay` interval compares against the same day last
-             *     week. `null` for `Absolute` conditions.
-             */
-            periodOffsetMultiplier?: number | null;
-        };
-        /**
-         * @description The current lifecycle state of an alert configuration.
-         *
-         *     Enabled
-         *
-         *     Disabled
-         *
-         *     PausedByRoblox
-         *
-         *     Syncing
-         *
-         *     Error
-         * @enum {string}
-         */
-        'AlertStorage.AlertConfigState': 'Enabled' | 'Disabled' | 'PausedByRoblox' | 'Syncing' | 'Error';
-        /**
-         * @description How frequently an alert condition is evaluated.
-         *
-         *     OneMinute
-         *
-         *     HalfHour
-         *
-         *     OneHour
-         *
-         *     OneDay
-         * @enum {string}
-         */
-        'AlertStorage.AlertInterval': 'OneMinute' | 'HalfHour' | 'OneHour' | 'OneDay';
-        /**
-         * @description Comparison operator used to evaluate whether a metric value breaches a threshold.
-         *
-         *     Gt
-         *
-         *     Gte
-         *
-         *     Lt
-         *
-         *     Lte
-         * @enum {string}
-         */
-        'AlertStorage.ConditionOperator': 'Gt' | 'Gte' | 'Lt' | 'Lte';
-        /**
-         * @description Determines how the metric value is derived before being compared against the threshold.
-         *
-         *     Absolute
-         *
-         *     PeriodOverPeriod
-         * @enum {string}
-         */
-        'AlertStorage.EvaluationMode': 'Absolute' | 'PeriodOverPeriod';
-        /**
-         * @description Whether an alert is currently in a firing or resolved state.
-         *
-         *     OK
-         *
-         *     Firing
-         * @enum {string}
-         */
-        'AlertStorage.FiringStatus': 'OK' | 'Firing';
-        /**
-         * @description The type of resource an alert is attached to.
-         *
-         *     Universe
-         * @enum {string}
-         */
-        'AlertStorage.ResourceType': 'Universe';
-        /**
-         * @description Severity level assigned to an alert configuration.
-         *
-         *     SEV_0
-         *
-         *     SEV_1
-         *
-         *     SEV_2
-         * @enum {string}
-         */
-        'AlertStorage.Severity': 'SEV_0' | 'SEV_1' | 'SEV_2';
-        /** @description A single webhook notification destination linked to an alert configuration. */
-        'AlertStorage.WebhookReceiver': {
-            /**
-             * @description The ID of the webhook configuration in the Webhook Delivery System. Must be a valid
-             *     UUID and unique within the list on this alert configuration.
-             */
-            webhookConfigurationId: string;
-        };
-        /**
-         * @description Webhook notification settings for an alert. When set, each webhook in the
-         *     `receivers` list will be called whenever the alert fires or resolves.
-         *     Set to `null` to disable webhook notifications for the alert.
-         */
-        'AlertStorage.WebhookReceiverConfig': {
-            /**
-             * @description List of webhook destinations to notify when the alert fires or resolves. Each entry
-             *     references a webhook configuration you have created in the Webhook Delivery System.
-             *     The list must contain unique entries with no duplicates.
-             */
-            receivers?: components['schemas']['AlertStorage.WebhookReceiver'][] | null;
-        };
-        /**
-         * @description The threshold condition for an alert. Specifies the comparison operator, threshold value,
-         *     and how the metric value is derived before comparison.
-         *
-         *     On create, `operator`, `threshold`, and `evaluationMode` are all required.
-         *     On update (PATCH), the entire `condition` object is optional; when included, any
-         *     sub-field can be omitted to keep its current value.
-         *
-         *     `periodOffsetMultiplier` only applies when `evaluationMode` is
-         *     `PeriodOverPeriod`. It is ignored for `Absolute` conditions.
-         */
-        'AnalyticsAlertControlPlane.Models.AlertConditionInput': {
-            operator?: components['schemas']['AlertStorage.ConditionOperator'];
-            /**
-             * Format: double
-             * @description Numeric threshold the metric value is compared against.
-             *     Required on create; optional on update.
-             */
-            threshold?: number | null;
-            evaluationMode?: components['schemas']['AlertStorage.EvaluationMode'];
-            /**
-             * Format: int32
-             * @description How many intervals back the comparison period is placed for
-             *     `PeriodOverPeriod` evaluation. For example, a value of `1` (the default)
-             *     compares the current interval against the immediately preceding interval.
-             *     A value of `7` with a `OneDay` interval compares today against the same
-             *     day last week. Only valid when `evaluationMode` is `PeriodOverPeriod`;
-             *     omit or leave `null` for `Absolute` conditions.
-             */
-            periodOffsetMultiplier?: number | null;
-        };
-        /** @description Key fields of the alert configuration that triggered an incident. */
-        'AnalyticsAlertControlPlane.Models.AlertConfigSummary': {
-            /** @description Unique identifier of the alert configuration (string-encoded 64-bit integer). */
-            id: string;
-            /** @description Display name of the alert configuration. */
-            name: string;
-            /** @description Name of the metric this alert evaluates. */
-            metric: string;
-            severity: components['schemas']['AlertStorage.Severity'];
-            /** @description Optional free-text description of the alert's purpose. */
-            description?: string | null;
-            interval: components['schemas']['AlertStorage.AlertInterval'];
-            /** @description Dimension filters applied to the metric query, if any. */
-            filter?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertQueryFilter'][] | null;
-            /** @description Grouping dimensions for the metric query, if any. */
-            breakdown?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertQueryBreakdown'][] | null;
-            condition: components['schemas']['AlertStorage.AlertCondition'];
-        };
-        /** @description Full details of a saved alert configuration. */
-        'AnalyticsAlertControlPlane.Models.AlertDetailResponse': {
-            /** @description Unique identifier of the alert configuration (string-encoded 64-bit integer). */
-            alertId: string;
-            resourceType: components['schemas']['AlertStorage.ResourceType'];
-            /** @description Numeric ID of the resource this alert monitors (e.g. the universe ID). */
-            resourceId: string;
-            /** @description Display name of the alert. Must be unique within the resource. */
-            name: string;
-            /** @description Name of the metric this alert evaluates. */
-            metric: string;
-            /** @description Optional free-text description of the alert's purpose. */
-            description?: string | null;
-            severity: components['schemas']['AlertStorage.Severity'];
-            interval: components['schemas']['AlertStorage.AlertInterval'];
-            /**
-             * Format: int32
-             * @description Number of consecutive evaluation periods the condition must be met before the alert fires.
-             *     Must be at least 1. For example, a value of 3 with a 1-minute interval means the condition
-             *     must hold for 3 consecutive minutes before an incident is opened.
-             */
-            consecutiveOccurrences: number;
-            /**
-             * @description Optional dimension filters applied to the metric query. Each entry restricts the metric
-             *     to rows where the specified dimension matches one of the given values.
-             */
-            filter?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertQueryFilter'][] | null;
-            /**
-             * @description Optional grouping dimensions for the metric query. When set, the alert evaluates
-             *     the metric independently for each combination of dimension values and fires if any
-             *     group breaches the condition.
-             */
-            breakdown?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertQueryBreakdown'][] | null;
-            condition: components['schemas']['AlertStorage.AlertCondition'];
-            configState: components['schemas']['AlertStorage.AlertConfigState'];
-            webhookReceiverConfig?: components['schemas']['AlertStorage.WebhookReceiverConfig'];
-            firingStatus: components['schemas']['AlertStorage.FiringStatus'];
-            /**
-             * Format: date-time
-             * @description Timestamp of the most recent firing event. `null` if the alert has never fired.
-             */
-            lastFiredAt?: string | null;
-            /**
-             * Format: date-time
-             * @description Timestamp when this alert configuration was created (UTC).
-             */
-            createdAt: string;
-            /**
-             * Format: date-time
-             * @description Timestamp of the most recent modification to this alert configuration (UTC).
-             */
-            lastModifiedAt: string;
-            /**
-             * @description ID of the user who last modified this alert configuration.
-             *     `null` if the last modification was made by the system.
-             */
-            lastModifiedBy?: string | null;
-        };
-        /**
-         * @description A set of dimensions used to group the metric query. When a breakdown is specified, the
-         *     alert evaluates each unique combination of dimension values independently and fires if any
-         *     group breaches the condition.
-         */
-        'AnalyticsAlertControlPlane.Models.AlertQueryBreakdown': {
-            /** @description Names of the dimensions to group by (e.g. `["platform", "age_bracket"]`). */
-            dimensions: string[];
-        };
-        /**
-         * @description A dimension filter applied to the metric query. Restricts the metric to rows where the
-         *     specified dimension matches one of the given values.
-         */
-        'AnalyticsAlertControlPlane.Models.AlertQueryFilter': {
-            /** @description Name of the dimension to filter on (e.g. `platform`). */
-            dimension: string;
-            /**
-             * @description The allowed values for this dimension. A metric data point is included only if its
-             *     dimension value is in this list.
-             */
-            values: string[];
-        };
-        /** @description Request body for creating a new alert configuration. */
-        'AnalyticsAlertControlPlane.Models.CreateAlertConfigRequest': {
-            /**
-             * @description Display name of the alert. Must be unique within the resource. Maximum length is 128
-             *     characters and the value is subject to Roblox text-moderation policies.
-             */
-            name: string;
-            /** @description Name of the metric this alert should evaluate. */
-            metric: string;
-            /** @description Optional free-text description of the alert's purpose. */
-            description?: string | null;
-            severity: components['schemas']['AlertStorage.Severity'];
-            interval: components['schemas']['AlertStorage.AlertInterval'];
-            /**
-             * Format: int32
-             * @description Number of consecutive evaluation periods the condition must be met before the alert
-             *     fires. Must be at least 1. For example, a value of 3 with a 1-minute interval means
-             *     the condition must hold for 3 consecutive minutes before an incident is opened.
-             */
-            consecutiveOccurrences: number;
-            /**
-             * @description Optional grouping dimensions for the metric query. When set, the alert evaluates
-             *     the metric independently for each combination of dimension values and fires if any
-             *     group breaches the condition.
-             */
-            breakdown?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertQueryBreakdown'][] | null;
-            /**
-             * @description Optional dimension filters applied to the metric query. Each entry restricts the metric
-             *     to rows where the specified dimension matches one of the given values.
-             */
-            filter?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertQueryFilter'][] | null;
-            condition: components['schemas']['AnalyticsAlertControlPlane.Models.AlertConditionInput'];
-            webhookReceiverConfig?: components['schemas']['AlertStorage.WebhookReceiverConfig'];
-        };
-        /** @description Standard error response body for the Alerts API. */
-        'AnalyticsAlertControlPlane.Models.ErrorResponse': {
-            /** @description Machine-readable error code (e.g. PERMISSION_DENIED). */
-            errorCode?: string | null;
-            /** @description Human-readable error description. */
-            message?: string | null;
-        };
-        /**
-         * @description A single metric value that breached the alert threshold, optionally scoped to a specific
-         *     dimension value when the alert uses a breakdown.
-         */
-        'AnalyticsAlertControlPlane.Models.FiringConditionResponse': {
-            /**
-             * Format: double
-             * @description The metric value that exceeded the threshold at the time of evaluation.
-             */
-            firingValue: number;
-            firingDimension?: components['schemas']['AnalyticsAlertControlPlane.Models.FiringDimensionResponse'];
-        };
-        /** @description A dimension name/value pair that identifies which slice of the metric was firing. */
-        'AnalyticsAlertControlPlane.Models.FiringDimensionResponse': {
-            /** @description Name of the dimension (e.g. `platform`). */
-            dimension: string;
-            /** @description Value of the dimension for the slice that was firing (e.g. `Mobile`). */
-            value: string;
-        };
-        /**
-         * @description A snapshot of the alert condition at a specific evaluation, capturing the metric values
-         *     that were firing and any dimension breakdowns involved.
-         */
-        'AnalyticsAlertControlPlane.Models.FiringMetadataResponse': {
-            /** @description Dimension filters that were active at this evaluation, if any. */
-            filter?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertQueryFilter'][] | null;
-            /** @description Grouping dimensions that were active at this evaluation, if any. */
-            breakdown?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertQueryBreakdown'][] | null;
-            condition: components['schemas']['AlertStorage.AlertCondition'];
-            /** @description The specific metric values and dimension combinations that caused the condition to fire. */
-            firingCondition: components['schemas']['AnalyticsAlertControlPlane.Models.FiringConditionResponse'][];
-        };
-        /** @description Details of a single alert incident. */
-        'AnalyticsAlertControlPlane.Models.IncidentDetailResponse': {
-            /** @description Unique identifier of this incident. */
-            id: string;
-            resourceType: components['schemas']['AlertStorage.ResourceType'];
-            /** @description Numeric ID of the resource this incident belongs to (e.g. the universe ID). */
-            resourceId: string;
-            status: components['schemas']['AlertStorage.FiringStatus'];
-            /**
-             * Format: date-time
-             * @description Timestamp when this incident was first opened (UTC).
-             */
-            openedAt: string;
-            /**
-             * Format: date-time
-             * @description Start of the evaluation window that first satisfied the alert condition and opened this
-             *     incident (UTC).
-             */
-            openedWindowStartAt: string;
-            /**
-             * Format: date-time
-             * @description Timestamp when this incident was resolved (UTC). `null` if the incident is still
-             *     active.
-             */
-            resolvedAt?: string | null;
-            /**
-             * Format: date-time
-             * @description Start of the evaluation window in which the alert condition was no longer satisfied,
-             *     causing the incident to be resolved (UTC). `null` if the incident is still active.
-             */
-            resolvedWindowStartAt?: string | null;
-            firstFiringMetadata: components['schemas']['AnalyticsAlertControlPlane.Models.FiringMetadataResponse'];
-            latestFiringMetadata: components['schemas']['AnalyticsAlertControlPlane.Models.FiringMetadataResponse'];
-            alertConfig: components['schemas']['AnalyticsAlertControlPlane.Models.AlertConfigSummary'];
-        };
-        /**
-         * @description Request body for partially updating an alert configuration (PATCH semantics). All fields
-         *     are optional; only the fields present in the request body are updated.
-         */
-        'AnalyticsAlertControlPlane.Models.UpdateAlertConfigRequest': {
-            /**
-             * @description New display name for the alert. Must be unique within the resource. Subject to
-             *     Roblox text-moderation policies.
-             */
-            name?: string | null;
-            /** @description New metric name this alert should evaluate. */
-            metric?: string | null;
-            /** @description New free-text description of the alert's purpose. */
-            description?: string | null;
-            severity?: components['schemas']['AlertStorage.Severity'];
-            interval?: components['schemas']['AlertStorage.AlertInterval'];
-            /**
-             * Format: int32
-             * @description New consecutive-occurrences count. When set, the alert will require the condition to
-             *     hold for this many consecutive evaluation periods before firing. Must be at least 1.
-             */
-            consecutiveOccurrences?: number | null;
-            /**
-             * @description New grouping dimensions for the metric query. Replaces the existing breakdown entirely
-             *     when provided.
-             */
-            breakdown?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertQueryBreakdown'][] | null;
-            /**
-             * @description New dimension filters for the metric query. Replaces the existing filter list entirely
-             *     when provided.
-             */
-            filter?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertQueryFilter'][] | null;
-            condition?: components['schemas']['AnalyticsAlertControlPlane.Models.AlertConditionInput'];
-            webhookReceiverConfig?: components['schemas']['AlertStorage.WebhookReceiverConfig'];
-            configState?: components['schemas']['AlertStorage.AlertConfigState'];
-        };
         /** @description A breakdown dimension value in a query result. */
         'AnalyticsQueryPublicApi.BreakdownValue': {
             /** @description The dimension name. */
@@ -59453,6 +58565,17 @@ export interface components {
          * @enum {integer}
          */
         'PublicServerBrowserService.SortOrder': 1 | 2;
+        PublicUniverseEligibility: {
+            /** @description Whether the experience can currently be advertised. */
+            eligible?: boolean;
+            /**
+             * @description The reasons the experience is not eligible. Omitted when eligible. Values can be
+             *     `NO_PERMISSION` or `BLOCKED`.
+             */
+            reasons?: ('NO_PERMISSION' | 'BLOCKED')[];
+            /** @description The identifier of the experience that was checked. */
+            universeId?: string;
+        };
         /** @description Request for updating recurring payouts through the public groups API. */
         PublicUpdateUniverseRecurringPayoutsRequestModel: {
             /** @description The recurring payout splits to apply. */
@@ -70437,9 +69560,15 @@ export interface components {
              *     In order to make the secret accessible for all domains, use "*"
              */
             domain?: string | null;
-            /** @description Date and time when the secret was originally created. */
+            /**
+             * Format: date-time
+             * @description Date and time when the secret was originally created.
+             */
             create_time?: string | null;
-            /** @description Date and time when the secret was last updated */
+            /**
+             * Format: date-time
+             * @description Date and time when the secret was last updated
+             */
             update_time?: string | null;
         };
         /**
@@ -70467,7 +69596,8 @@ export interface components {
         'SecretsStoreService.ProblemDetails': {
             type?: string | null;
             title?: string | null;
-            status?: string | null;
+            /** Format: int32 */
+            status?: number | null;
             detail?: string | null;
             instance?: string | null;
         } & {
@@ -71195,6 +70325,7 @@ export interface components {
             created?: string;
             isPending?: boolean;
             agent?: components['schemas']['AgentResponse'] | null;
+            recipient?: components['schemas']['AgentResponse'] | null;
             details?: components['schemas']['TransactionDetailsResponse'] | null;
             currency?: components['schemas']['GenericCurrencyResponse'] | null;
             purchaseToken?: string | null;
@@ -71396,7 +70527,8 @@ export interface components {
             | 'PrivateServerEngagementPayout'
             | 'CurrencySubscriptionStipend'
             | 'SubscriptionReferralPayout'
-            | 'CreatorRewardsPayout';
+            | 'CreatorRewardsPayout'
+            | 'Gifts';
         TransactionUsedTypesResponse: {
             HasPurchase?: boolean;
             HasSale?: boolean;
@@ -71424,6 +70556,7 @@ export interface components {
             HasPrivateServerEngagementPayout?: boolean;
             HasCreatorRewardsPayout?: boolean;
             HasSubscriptionReferralPayout?: boolean;
+            HasGifts?: boolean;
         };
         /**
          * @description Contains the text to be translated, the source language (optional), and a
@@ -72540,7 +71673,7 @@ export interface components {
              * @description The eligibility result for the requested experience. Present only when
              *     universeId was supplied in the request.
              */
-            eligibility?: components['schemas']['internal_public_v1.PublicUniverseEligibility'];
+            eligibility?: components['schemas']['PublicUniverseEligibility'];
             /** @description The campaign objectives you can create. Values can be `PLAYS` or `ENGAGEMENT`. */
             objectives?: ('PLAYS' | 'ENGAGEMENT')[];
             /**
@@ -72699,17 +71832,6 @@ export interface components {
             code?: string;
             /** @description A human-readable description of the error. */
             message?: string;
-        };
-        'internal_public_v1.PublicUniverseEligibility': {
-            /** @description Whether the experience can currently be advertised. */
-            eligible?: boolean;
-            /**
-             * @description The reasons the experience is not eligible. Omitted when eligible. Values can be
-             *     `NO_PERMISSION` or `BLOCKED`.
-             */
-            reasons?: ('NO_PERMISSION' | 'BLOCKED')[];
-            /** @description The identifier of the experience that was checked. */
-            universeId?: string;
         };
         'internal_public_v1.Schedule': {
             /**
@@ -76221,7 +75343,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -76366,7 +75488,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -76423,7 +75545,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -79787,7 +78909,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -79824,14 +78946,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -79860,7 +78982,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -79897,14 +79019,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -79925,7 +79047,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -79962,14 +79084,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -79998,7 +79120,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -80035,14 +79157,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -80067,7 +79189,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -80104,14 +79226,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -80136,7 +79258,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -80173,14 +79295,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -80212,7 +79334,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -80249,14 +79371,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -80288,7 +79410,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -80325,14 +79447,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -80352,7 +79474,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -80389,14 +79511,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -80423,7 +79545,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -80460,14 +79582,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -80488,7 +79610,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -80525,14 +79647,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -80553,7 +79675,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -80590,14 +79712,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -80618,7 +79740,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -80641,14 +79763,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -80669,7 +79791,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -80706,14 +79828,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -80739,7 +79861,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -80776,21 +79898,21 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Client Error */
+            /** @description Precondition Failed */
             412: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -80811,7 +79933,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -80848,14 +79970,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -80876,7 +79998,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -80913,14 +80035,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -80944,7 +80066,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -80981,14 +80103,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -81009,7 +80131,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -81046,14 +80168,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -81079,7 +80201,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -81116,21 +80238,21 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Client Error */
+            /** @description Precondition Failed */
             412: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -81159,7 +80281,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -81196,14 +80318,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;
@@ -81232,7 +80354,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -81269,14 +80391,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Service Unavailable */
             503: {
                 headers: {
                     [name: string]: unknown;

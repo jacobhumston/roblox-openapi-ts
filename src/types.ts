@@ -46087,6 +46087,90 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v2/beta-program-channel-version': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get the channel and current version guid of a beta program the currently logged in user may use, whether or not they are opted in to it.
+         *     Only Studio binary types (MacStudio, WindowsStudio64) are supported for now.
+         */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The beta program id */
+                    programId: string;
+                    /** @description e.g. MacStudio or WindowsStudio64 */
+                    binaryType: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ClientSettings.Api.Models.Response.BetaProgramChannelVersionResponse'];
+                        'text/json': components['schemas']['Roblox.ClientSettings.Api.Models.Response.BetaProgramChannelVersionResponse'];
+                    };
+                };
+                /**
+                 * @description 2: Invalid binaryType.
+                 *     7: Unsupported binaryType.
+                 *     10: Missing or invalid beta program id.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 5: Not authorized to perform this action. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 5: Not authorized to perform this action. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: Could not find version details for binaryType. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: Error while fetching version information. */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v2/client-version/{binaryType}': {
         parameters: {
             query?: never;
@@ -54354,6 +54438,47 @@ export interface components {
             /** @description Postfix RPN token sequence. */
             tokens?: components['schemas']['RpnTokenDto'][] | null;
         };
+        /**
+         * @description RPN token operator values for public HTTP JSON, aligned with
+         *     `roblox.creatorexperienceconfig.conditionrules.v1.Operator` numeric values `1`–`11`.
+         *     The proto `OPERATOR_INVALID` (`0`) is not exposed here; unknown or invalid operators are rejected at deserialization.
+         *     JSON uses proto symbolic names (`OPERATOR_AND`, …) via Google.Protobuf.Reflection.OriginalNameAttribute.
+         *
+         *     OPERATOR_AND
+         *
+         *     OPERATOR_OR
+         *
+         *     OPERATOR_NOT
+         *
+         *     OPERATOR_EQ
+         *
+         *     OPERATOR_NE
+         *
+         *     OPERATOR_GT
+         *
+         *     OPERATOR_LT
+         *
+         *     OPERATOR_GTE
+         *
+         *     OPERATOR_LTE
+         *
+         *     OPERATOR_IN
+         *
+         *     OPERATOR_NIN
+         * @enum {string}
+         */
+        ConditionalRuleOperator:
+            | 'OPERATOR_AND'
+            | 'OPERATOR_OR'
+            | 'OPERATOR_NOT'
+            | 'OPERATOR_EQ'
+            | 'OPERATOR_NE'
+            | 'OPERATOR_GT'
+            | 'OPERATOR_LT'
+            | 'OPERATOR_GTE'
+            | 'OPERATOR_LTE'
+            | 'OPERATOR_IN'
+            | 'OPERATOR_NIN';
         /** @description Minimal delta for conditional rules on a revision (optional extension on list revisions). */
         ConditionalRulesChangesPayload: {
             rulesOrder?: components['schemas']['RulesOrderDeltaPayload'] | null;
@@ -54773,6 +54898,15 @@ export interface components {
              */
             groupId?: number;
         };
+        /**
+         * @description Sort direction for list queries.
+         *
+         *     SORT_ORDER_ASCENDING
+         *
+         *     SORT_ORDER_DESCENDING
+         * @enum {string}
+         */
+        'CreatorConfigsPublicApi.SortOrder': 'SORT_ORDER_ASCENDING' | 'SORT_ORDER_DESCENDING';
         /** @description Model representing a creator. */
         CreatorModelV2: {
             /**
@@ -55803,7 +55937,10 @@ export interface components {
              * @description Experiment ID the stats are for.
              */
             experimentId?: number;
-            /** @description UTC time the operation was last modified. */
+            /**
+             * Format: date-time
+             * @description UTC time the operation was last modified.
+             */
             lastModifiedTime?: string | null;
             /** @description True once the stats fetch terminates (success or failure). */
             done?: boolean;
@@ -55828,11 +55965,20 @@ export interface components {
              * @description UTC time the experiment was created.
              */
             createdTime?: string;
-            /** @description UTC time the experiment was last updated. */
+            /**
+             * Format: date-time
+             * @description UTC time the experiment was last updated.
+             */
             lastUpdatedTime?: string | null;
-            /** @description UTC time the experiment was started, if running. */
+            /**
+             * Format: date-time
+             * @description UTC time the experiment was started, if running.
+             */
             startedTime?: string | null;
-            /** @description UTC time the experiment was stopped, if completed/cancelled. */
+            /**
+             * Format: date-time
+             * @description UTC time the experiment was stopped, if completed/cancelled.
+             */
             stoppedTime?: string | null;
             /**
              * @description Lifecycle state.
@@ -55857,7 +56003,10 @@ export interface components {
              *     (in-game-configs experiments only). Empty for matchmaking.
              */
             experimentConfigKey?: string | null;
-            /** @description UTC time the experiment is scheduled to start, if scheduled. */
+            /**
+             * Format: date-time
+             * @description UTC time the experiment is scheduled to start, if scheduled.
+             */
             scheduledTime?: string | null;
             /**
              * Format: int64
@@ -57530,6 +57679,23 @@ export interface components {
             /** @description A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
             nextPageToken?: string;
         };
+        /**
+         * @description Key to sort an experiment list by.
+         *
+         *     LIST_EXPERIMENT_SORT_KEY_NAME
+         *
+         *     LIST_EXPERIMENT_SORT_KEY_LAST_MODIFIED_TIME
+         *
+         *     LIST_EXPERIMENT_SORT_KEY_START_TIME
+         *
+         *     LIST_EXPERIMENT_SORT_KEY_RELEVANCE
+         * @enum {string}
+         */
+        ListExperimentSortKey:
+            | 'LIST_EXPERIMENT_SORT_KEY_NAME'
+            | 'LIST_EXPERIMENT_SORT_KEY_LAST_MODIFIED_TIME'
+            | 'LIST_EXPERIMENT_SORT_KEY_START_TIME'
+            | 'LIST_EXPERIMENT_SORT_KEY_RELEVANCE';
         /** @description Response body for `GET /v1/experimentation/universes/{universeId}/experiments`. */
         ListExperimentsResponse: {
             /** @description The page of experiments matching the query. */
@@ -57740,9 +57906,11 @@ export interface components {
         };
         /** @description Literal constant for an RPN operand. */
         LiteralValueDto: {
-            booleanValue?: string | null;
-            integerValue?: string | null;
-            doubleValue?: string | null;
+            booleanValue?: boolean | null;
+            /** Format: int64 */
+            integerValue?: number | null;
+            /** Format: double */
+            doubleValue?: number | null;
             stringValue?: string | null;
         };
         /**
@@ -58268,7 +58436,10 @@ export interface components {
         MdeOperation: {
             /** @description Stable operation ID. */
             operationId?: string | null;
-            /** @description UTC time the operation was last modified. */
+            /**
+             * Format: date-time
+             * @description UTC time the operation was last modified.
+             */
             lastModifiedTime?: string | null;
             /** @description True once the calculation terminates (success or failure). */
             done?: boolean;
@@ -59505,11 +59676,20 @@ export interface components {
              * @description UTC time the experiment was created.
              */
             createdTime?: string;
-            /** @description UTC time the experiment was last updated. */
+            /**
+             * Format: date-time
+             * @description UTC time the experiment was last updated.
+             */
             lastUpdatedTime?: string | null;
-            /** @description UTC time the experiment was started (running), if it has been. */
+            /**
+             * Format: date-time
+             * @description UTC time the experiment was started (running), if it has been.
+             */
             startedTime?: string | null;
-            /** @description UTC time the experiment was stopped, if it has been. */
+            /**
+             * Format: date-time
+             * @description UTC time the experiment was stopped, if it has been.
+             */
             stoppedTime?: string | null;
             /**
              * @description Lifecycle state.
@@ -59562,7 +59742,10 @@ export interface components {
             operationalStatus?: components['schemas']['OperationalStatus'];
             /** @description User ID of the creator of the experiment. */
             createdBy?: string | null;
-            /** @description UTC time the experiment is scheduled to start, if scheduled. */
+            /**
+             * Format: date-time
+             * @description UTC time the experiment is scheduled to start, if scheduled.
+             */
             scheduledTime?: string | null;
             /**
              * Format: int64
@@ -64604,7 +64787,6 @@ export interface components {
              * @enum {integer}
              */
             licenseType?: 0 | 1 | 2;
-            licenseHolder?: string;
             licenseDisplayName?: string;
         };
         'Roblox.Catalog.Api.Discount': {
@@ -64843,6 +65025,15 @@ export interface components {
             libraryNames: components['schemas']['Roblox.ClientSettings.Api.Models.Response.AndroidBinaryLibraryNames'];
             /** @description True if the channel supports android binaries. False otherwise. */
             supportsAndroidBinaries?: boolean;
+        };
+        /** @description The channel of a beta program and its current version guid. */
+        'Roblox.ClientSettings.Api.Models.Response.BetaProgramChannelVersionResponse': {
+            /** @description Name of the channel. */
+            channelName: string;
+            /** @description Whether the channel is flag-only, i.e. uses production binaries. */
+            isFlagOnly: boolean;
+            /** @description The channel's current client version upload. For flag-only channels, this is production's. */
+            clientVersionUpload: string;
         };
         /** @description Beta program information included in the user channel response. */
         'Roblox.ClientSettings.Api.Models.Response.BetaProgramInfo': {
@@ -70484,7 +70675,30 @@ export interface components {
         };
         /** @description One RPN token: either a logical/comparison ConditionalRuleOperator or an operand object. */
         RpnTokenDto: {
-            operator?: string | null;
+            /**
+             * @description OPERATOR_AND
+             *
+             *     OPERATOR_OR
+             *
+             *     OPERATOR_NOT
+             *
+             *     OPERATOR_EQ
+             *
+             *     OPERATOR_NE
+             *
+             *     OPERATOR_GT
+             *
+             *     OPERATOR_LT
+             *
+             *     OPERATOR_GTE
+             *
+             *     OPERATOR_LTE
+             *
+             *     OPERATOR_IN
+             *
+             *     OPERATOR_NIN
+             */
+            operator?: components['schemas']['ConditionalRuleOperator'] | null;
             /** @description RPN operand: attribute reference or literal value. */
             operand?: components['schemas']['RpnOperandDto'] | null;
         };
@@ -70524,7 +70738,10 @@ export interface components {
          *     `POST /v1/experimentation/universes/{universeId}/experiments/{experimentId}:schedule`.
          */
         ScheduleExperimentRequest: {
-            /** @description UTC time at which the experiment should be auto-started. */
+            /**
+             * Format: date-time
+             * @description UTC time at which the experiment should be auto-started.
+             */
             scheduledStartTime?: string | null;
         };
         /**
@@ -77169,9 +77386,9 @@ export interface operations {
                 /** @description Optional end time for filtering revisions. */
                 endTime?: string;
                 /** @description Maximum page size. */
-                MaxPageSize?: string;
+                MaxPageSize?: number;
                 /** @description Number of items to skip. */
-                Skip?: string;
+                Skip?: number;
                 /** @description Search key to filter by. */
                 SearchKey?: string;
                 /** @description Sort order (e.g., "SORT_ORDER_DESCENDING", "SORT_ORDER_ASCENDING"). */
@@ -77314,13 +77531,32 @@ export interface operations {
     PublicExperimentation_ListExperiments: {
         parameters: {
             query?: {
-                maxPageSize?: string;
-                skip?: string;
+                maxPageSize?: number;
+                skip?: number;
                 searchKey?: string;
                 stateFilters?: components['schemas']['ExperimentState'][];
-                sortOrder?: string;
-                sortKey?: string;
-                productTypeFilter?: string;
+                /**
+                 * @description SORT_ORDER_ASCENDING
+                 *
+                 *     SORT_ORDER_DESCENDING
+                 */
+                sortOrder?: components['schemas']['CreatorConfigsPublicApi.SortOrder'];
+                /**
+                 * @description LIST_EXPERIMENT_SORT_KEY_NAME
+                 *
+                 *     LIST_EXPERIMENT_SORT_KEY_LAST_MODIFIED_TIME
+                 *
+                 *     LIST_EXPERIMENT_SORT_KEY_START_TIME
+                 *
+                 *     LIST_EXPERIMENT_SORT_KEY_RELEVANCE
+                 */
+                sortKey?: components['schemas']['ListExperimentSortKey'];
+                /**
+                 * @description EXPERIMENT_PRODUCT_TYPE_IN_GAME_CONFIGS
+                 *
+                 *     EXPERIMENT_PRODUCT_TYPE_MATCHMAKING
+                 */
+                productTypeFilter?: components['schemas']['ExperimentProductType'];
             };
             header?: never;
             path: {
@@ -78885,7 +79121,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -78911,7 +79147,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -78939,7 +79175,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -78961,7 +79197,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -78981,7 +79217,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -79007,7 +79243,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -82809,7 +83045,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;

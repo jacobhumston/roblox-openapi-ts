@@ -8,55 +8,9 @@ export interface paths {
         };
         /**
          * List advertisable universes
-         * @description Returns the universe IDs of every experience the billing account is eligible to advertise. The complete list is returned in a single response; this endpoint is not paginated. Use these IDs to set targetUniverseId when creating a campaign, and resolve experience names with the Open Cloud Universe API.
+         * @description Returns the universe IDs of every experience the billing account is eligible to advertise. The complete list is returned in a single response; this endpoint is not paginated. Use these IDs to set targetUniverseId when creating a campaign, and resolve experience names with the Open Cloud Universe API. With groupId, the list is limited to experiences owned by that group.
          */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ListAdvertisableUniversesResponse'];
-                    };
-                };
-                /** @description Permission denied */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Rate limit exceeded */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Internal server error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-            };
-        };
+        get: operations['ListAdvertisableUniverses'];
         put?: never;
         post?: never;
         delete?: never;
@@ -74,69 +28,9 @@ export interface paths {
         };
         /**
          * List billing accounts
-         * @description Lists the billing accounts owned by the authenticated user. Each account includes its type, status, time zone, and create/update timestamps. Results are paginated with a cursor (pageToken).
+         * @description Lists the billing accounts owned by the authenticated user, or by the group in groupId. Each account includes its type, status, time zone, create/update timestamps, creator, and funding state (paymentStatus, supportedPaymentTypes, balances, paymentMethods). Funding state belongs to the account, not to any experience, so this response alone answers whether each account can pay for campaigns; GET /campaign-options with universeId only narrows which of these accounts a campaign for that experience can use. Results are paginated with a cursor (pageToken).
          */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Maximum results per page (1-100, default 50) */
-                    maxPageSize?: number;
-                    /** @description Opaque cursor from a prior nextPageToken */
-                    pageToken?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ListBillingAccountsResponse'];
-                    };
-                };
-                /** @description Invalid maxPageSize or pageToken */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Permission denied */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Rate limit exceeded */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Internal server error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-            };
-        };
+        get: operations['ListBillingAccounts'];
         put?: never;
         post?: never;
         delete?: never;
@@ -154,67 +48,9 @@ export interface paths {
         };
         /**
          * Get a billing account
-         * @description Returns a single billing account owned by the authenticated user. Returns 404 if the account does not exist or is not owned by the caller.
+         * @description Returns a single billing account accessible to the authenticated user (including group accounts where the caller has group advertising permission). In v1.1, includes masked card details, verification state, and a payment-status reason when the account is not ready. Returns 404 if the account does not exist or is not accessible to the caller.
          */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description Billing account ID */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.BillingAccount'];
-                    };
-                };
-                /** @description Permission denied */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Billing account not found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Rate limit exceeded */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Internal server error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-            };
-        };
+        get: operations['GetBillingAccount'];
         put?: never;
         post?: never;
         delete?: never;
@@ -232,69 +68,9 @@ export interface paths {
         };
         /**
          * Get campaign options
-         * @description Returns the values accepted when creating a campaign: supported objectives, payment types, ad formats, and targeting dimensions. When universeId is supplied, the response also includes an eligibility block indicating whether that experience can currently be advertised, along with the reasons when it cannot.
+         * @description Returns the values accepted when creating a campaign: supported objectives, payment types, ad formats, and targeting dimensions. When universeId is supplied, the response also includes an eligibility block indicating whether that experience can currently be advertised, along with the reasons when it cannot. universeId is optional; without it, account-level options are returned without eligibility or billing-account resolution. A caller without permission to advertise the supplied experience gets 403 with reason UNIVERSE_NOT_ADVERTISABLE. It works without a billing account and lists in billingAccounts the accounts you can create a campaign for the experience in, each with the payment types it can use: CREDIT_CARD only for your own account with a card set up, and only ADS_CREDIT for a group's account. paymentTypes is then the payment types at least one of those accounts can use, and is empty when there are none. paymentTypes says which payment types a campaign may choose, not whether an account is funded; read paymentStatus from GET /billing-accounts for that.
          */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Universe ID to check eligibility for */
-                    universeId?: string;
-                    /** @description Objective filter (PLAYS or ENGAGEMENT) */
-                    objective?: 'PLAYS' | 'ENGAGEMENT';
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.CampaignOptionsResponse'];
-                    };
-                };
-                /** @description Invalid objective or universeId */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Permission denied */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Rate limit exceeded */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Internal server error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-            };
-        };
+        get: operations['GetCampaignOptions'];
         put?: never;
         post?: never;
         delete?: never;
@@ -312,147 +88,15 @@ export interface paths {
         };
         /**
          * List campaigns
-         * @description Lists the campaigns in the caller's billing account. Campaigns are grouped by status (ACTIVE first, then PAUSED, then CANCELLED) and returned newest first within each group. Results are paginated with a cursor (pageToken); each page returns up to maxPageSize campaigns (default 50, max 100).
+         * @description Lists the campaigns in the caller's billing account. Results are paginated with a cursor (pageToken); each page returns up to maxPageSize campaigns (default 50, max 100). groupId lists a group's billing account instead, and targetUniverseIds lists the campaigns of those experiences across billing accounts; campaigns that ended more than 730 days ago aren't included, and a page can hold fewer than maxPageSize campaigns while more remain.
          */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Maximum results per page (1-100, default 50) */
-                    maxPageSize?: number;
-                    /** @description Opaque cursor from a prior nextPageToken */
-                    pageToken?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ListCampaignsResponse'];
-                    };
-                };
-                /** @description Invalid maxPageSize or pageToken */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Permission denied */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Rate limit exceeded */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Internal server error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-            };
-        };
+        get: operations['ListCampaigns'];
         put?: never;
         /**
          * Create a campaign
-         * @description Creates an ad campaign in the billing account. The creatives you reference must already exist as Open Cloud image assets that you have permission to use; they are validated and saved to your account's reusable creatives when the campaign is created. On success the campaign is returned with deliveryStatus IN_REVIEW, meaning it is queued for ad-policy review and not yet serving — poll the campaign (or campaigns:batchGetStatus) until this changes. budget.amountMicros is the budget in micro-USD as a decimal string (e.g. "5000000" = $5.00). It must be at least the minimum campaign budget; an amount below the minimum returns 400 with the required minimum stated in the error message. schedule.durationInDays must not exceed 3650 (~10 years). The x-idempotency-key header is required and must be a UUID: retrying the same key with an identical body within 24 hours returns the original campaign (200), while reusing a key with a different body returns 409.
+         * @description Creates an ad campaign in the billing account. The creatives you reference must already exist as Open Cloud image assets that you have permission to use; they are validated and saved to your account's reusable creatives when the campaign is created. On success the campaign is returned with deliveryStatus IN_REVIEW, meaning it is queued for ad-policy review and not yet serving — poll the campaign (or campaigns:batchGetStatus) until this changes. budget.amountMicros is the budget in micro-USD as a decimal string (e.g. "5000000" = $5.00). It must be at least the minimum campaign budget; an amount below the minimum returns 400 with the required minimum stated in the error message. schedule.durationInDays must not exceed 3650 (~10 years). The x-idempotency-key header is required and must be a UUID: retrying the same key within 24 hours returns the original campaign (200) without creating another one, even if the body differs, so use a new key for a different campaign. A retry while the first request is still in progress returns 429.
          */
-        post: {
-            parameters: {
-                query?: never;
-                header: {
-                    /** @description Idempotency key (UUID); 24h dedupe window. Identical replay returns the original campaign (200); mismatched replay may conflict (409). */
-                    'x-idempotency-key': string;
-                };
-                path?: never;
-                cookie?: never;
-            };
-            /** @description Campaign creation request */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['internal_public_v1.CreateCampaignRequest'];
-                };
-            };
-            responses: {
-                /** @description Campaign created, or idempotent replay of a prior create with the same key and body */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.Campaign'];
-                    };
-                };
-                /** @description Validation error, invalid asset, or endTime sent */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Cannot manage account, universe not advertisable, or USE-permission denied */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Idempotency key reused with a different request body, or concurrent write conflict */
-                409: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Rate limit exceeded */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Internal server error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-            };
-        };
+        post: operations['CreateCampaign'];
         delete?: never;
         options?: never;
         head?: never;
@@ -468,76 +112,9 @@ export interface paths {
         };
         /**
          * Get a campaign
-         * @description Returns a single campaign, including its status (the lifecycle state you control: ACTIVE, PAUSED, or CANCELLED) and its deliveryStatus (whether it is currently serving: SERVING, IN_REVIEW, NOT_SERVING, or REJECTED). deliveryStatusReasons lists any reasons that affect delivery — for example why a campaign is not serving or was rejected, or that a serving campaign is still in its initial learning period. Returns 404 if the campaign does not exist or is not owned by the caller.
+         * @description Returns a single campaign, including its status (the lifecycle state you control: ACTIVE, PAUSED, or CANCELLED) and its deliveryStatus (whether it is currently serving: SERVING, IN_REVIEW, NOT_SERVING, or REJECTED). deliveryStatusReasons lists any reasons that affect delivery — for example why a campaign is not serving or was rejected, or that a serving campaign is still in its initial learning period. Returns 404 if the campaign does not exist or the caller can't manage it. A campaign owned by a group is readable by any member with advertising permission on the campaign's experience, without groupId.
          */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description Campaign ID */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.Campaign'];
-                    };
-                };
-                /** @description Invalid campaign ID */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Permission denied */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Campaign not found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Rate limit exceeded */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Internal server error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-            };
-        };
+        get: operations['GetCampaign'];
         put?: never;
         post?: never;
         delete?: never;
@@ -545,81 +122,9 @@ export interface paths {
         head?: never;
         /**
          * Update a campaign
-         * @description Updates the mutable fields of a campaign. You can change: name, budget.amountMicros, schedule.startTime and schedule.durationInDays (schedule changes are only allowed before the campaign starts), and status. Set status to ACTIVE to run or resume the campaign, PAUSED to pause it, or CANCELLED to cancel it permanently. budget.type cannot be changed — only the amount. A budget increase takes effect immediately, but a budget decrease on a running campaign is scheduled for the next midnight in the account's time zone; while a decrease is pending, the response reports it in budget.scheduledAmountMicros and budget.scheduledEffectiveTime. The fields objective, paymentType, targeting, creativeAssetIds, and bid are fixed after creation and return 400 if included. The updated campaign is returned with its recomputed deliveryStatus.
+         * @description Updates the mutable fields of a campaign. You can change: name, budget.amountMicros, schedule.startTime and schedule.durationInDays (schedule changes are only allowed before the campaign starts), status, and creativeAssetIds. New creative asset IDs are appended; IDs already attached to the campaign are ignored, and an empty list is a successful no-op. Set status to ACTIVE to run or resume the campaign, PAUSED to pause it, or CANCELLED to cancel it permanently. budget.type cannot be changed — only the amount. A budget increase takes effect immediately, but a budget decrease on a running campaign is scheduled for the next midnight in the account's time zone; while a decrease is pending, the response reports it in budget.scheduledAmountMicros and budget.scheduledEffectiveTime. The fields objective, paymentType, targeting, and bid are fixed after creation and return 400 if included. The updated campaign is returned with its recomputed deliveryStatus. You can also change video (every ad is updated before the response returns) and autoReloadAdCreditEnabled; billingAccountId and targetUniverseId are fixed after creation, and immutable-field errors carry field and reason IMMUTABLE_FIELD. A campaign owned by a group can be updated by any member with advertising permission on the campaign's experience, without groupId; raising the spend of another user's campaign is limited to its owner.
          */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description Campaign ID */
-                    id: string;
-                };
-                cookie?: never;
-            };
-            /** @description Fields to update */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['internal_public_v1.UpdateCampaignRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.Campaign'];
-                    };
-                };
-                /** @description Validation error or immutable field supplied */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Permission denied */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Campaign not found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Rate limit exceeded */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Internal server error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-            };
-        };
+        patch: operations['UpdateCampaign'];
         trace?: never;
     };
     '/ads-management/v1/campaigns:batchGetStatus': {
@@ -633,69 +138,9 @@ export interface paths {
         put?: never;
         /**
          * Batch get campaign status
-         * @description Returns the status (lifecycle state) and deliveryStatus (whether the campaign is currently serving), along with deliveryStatusReasons, for up to 100 campaigns in a single call. This is the recommended way to poll the review and serving state of many campaigns at once. Provide the campaign IDs in campaignIds; any ID that is not found or is not owned by the caller is returned in the failures array with reason NOT_FOUND.
+         * @description Returns the status (lifecycle state) and deliveryStatus (whether the campaign is currently serving), along with deliveryStatusReasons, for up to 100 campaigns in a single call. This is the recommended way to poll the review and serving state of many campaigns at once. Provide the campaign IDs in campaignIds; any ID that is not found or that the caller can't manage is returned in the failures array with reason NOT_FOUND. A campaign owned by a group is returned to any member with advertising permission on the campaign's experience, without groupId.
          */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description List of campaign IDs (max 100) */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['internal_public_v1.BatchGetStatusRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.BatchGetStatusResponse'];
-                    };
-                };
-                /** @description Invalid request or exceeds 100 IDs */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Permission denied */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Rate limit exceeded */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Internal server error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-            };
-        };
+        post: operations['BatchGetCampaignStatus'];
         delete?: never;
         options?: never;
         head?: never;
@@ -711,71 +156,9 @@ export interface paths {
         };
         /**
          * List creatives
-         * @description Lists the reusable creatives saved to the caller's billing account. Each creative includes its assetId, name, moderation status, dimensions, and source. Use isArchived to filter by archive state. Results are paginated with a cursor (pageToken).
+         * @description Lists the reusable creatives saved to the caller's billing account. Each creative includes its assetId, name, moderation status, dimensions, and source. Use isArchived to filter by archive state. Results are paginated with a cursor (pageToken). A filtered page can be short or empty while more results remain; continue until nextPageToken is absent.
          */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Filter by archived status */
-                    isArchived?: boolean;
-                    /** @description Maximum results per page (1-100, default 50) */
-                    maxPageSize?: number;
-                    /** @description Opaque cursor from a prior nextPageToken */
-                    pageToken?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ListCreativesResponse'];
-                    };
-                };
-                /** @description Invalid maxPageSize or pageToken */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Permission denied */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Rate limit exceeded */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-                /** @description Internal server error */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['internal_public_v1.ErrorEnvelope'];
-                    };
-                };
-            };
-        };
+        get: operations['ListCreatives'];
         put?: never;
         post?: never;
         delete?: never;
@@ -1365,9 +748,9 @@ export interface paths {
             /** @description The dimension values request. */
             requestBody: {
                 content: {
-                    'application/json': components['schemas']['AnalyticsQueryPublicApi.DimensionValuesRequest'];
-                    'text/json': components['schemas']['AnalyticsQueryPublicApi.DimensionValuesRequest'];
-                    'application/*+json': components['schemas']['AnalyticsQueryPublicApi.DimensionValuesRequest'];
+                    'application/json': components['schemas']['DimensionValuesRequest'];
+                    'text/json': components['schemas']['DimensionValuesRequest'];
+                    'application/*+json': components['schemas']['DimensionValuesRequest'];
                 };
             };
             responses: {
@@ -1395,7 +778,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
                 /** @description Forbidden */
@@ -1404,7 +787,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
                 /** @description Too Many Requests */
@@ -1413,7 +796,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
                 /** @description Internal Server Error */
@@ -1422,7 +805,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
                 /** @description Service Unavailable */
@@ -1431,7 +814,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
                 /** @description Gateway Timeout */
@@ -1440,7 +823,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
             };
@@ -1477,9 +860,9 @@ export interface paths {
             /** @description The query request. */
             requestBody: {
                 content: {
-                    'application/json': components['schemas']['AnalyticsQueryPublicApi.QueryRequest'];
-                    'text/json': components['schemas']['AnalyticsQueryPublicApi.QueryRequest'];
-                    'application/*+json': components['schemas']['AnalyticsQueryPublicApi.QueryRequest'];
+                    'application/json': components['schemas']['QueryRequest'];
+                    'text/json': components['schemas']['QueryRequest'];
+                    'application/*+json': components['schemas']['QueryRequest'];
                 };
             };
             responses: {
@@ -1507,7 +890,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
                 /** @description Forbidden */
@@ -1516,7 +899,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
                 /** @description Too Many Requests */
@@ -1525,7 +908,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
                 /** @description Internal Server Error */
@@ -1534,7 +917,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
                 /** @description Service Unavailable */
@@ -1543,7 +926,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
                 /** @description Gateway Timeout */
@@ -1552,7 +935,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
             };
@@ -1612,7 +995,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
                 /** @description Not Found */
@@ -1621,7 +1004,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
                 /** @description Too Many Requests */
@@ -1630,7 +1013,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
                 /** @description Internal Server Error */
@@ -1639,7 +1022,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
                 /** @description Service Unavailable */
@@ -1648,7 +1031,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
                 /** @description Gateway Timeout */
@@ -1657,7 +1040,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
             };
@@ -1719,7 +1102,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
                 /** @description Not Found */
@@ -1728,7 +1111,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
                 /** @description Too Many Requests */
@@ -1737,7 +1120,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
                 /** @description Internal Server Error */
@@ -1746,7 +1129,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
                 /** @description Service Unavailable */
@@ -1755,7 +1138,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
                 /** @description Gateway Timeout */
@@ -1764,7 +1147,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['AnalyticsQueryPublicApi.OperationError'];
+                        'application/json': components['schemas']['OperationError'];
                     };
                 };
             };
@@ -2014,9 +1397,9 @@ export interface paths {
          * Creates an asset with provided content and metadata.
          * @description Creates an asset with provided content and metadata.
          *
-         *     You can't add [SocialLink](#SocialLink) objects when you create an asset. Instead, use [Update Asset](#PATCH-v1-assets-_assetId_).
+         *     You can't add `SocialLink` objects when you create an asset. Instead, use [Update Asset](#Assets_UpdateAsset).
          *
-         *     Provide the [Asset](#Asset), binary asset file path, and [content type](/cloud/guides/usage-assets.md#supported-asset-types-and-limits) in the form data.
+         *     Provide the `Asset`, binary asset file path, and [content type](/cloud/guides/usage-assets.md#supported-asset-types-and-limits) in the form data.
          */
         post: operations['Assets_CreateAsset'];
         delete?: never;
@@ -2046,7 +1429,7 @@ export interface paths {
          * Updates an asset with provided content and metadata.
          * @description Updates an asset with provided content and metadata, including the description, display name, icon, social links, and previews. Currently can only update the content body for **Models**. Icons and Previews must be **Image** assets. Icons must have square dimensions.
          *
-         *     Provide the [Asset](#Asset), binary asset file path, and [content type](/cloud/guides/usage-assets.md#supported-asset-types-and-limits) in the form data.
+         *     Provide the `Asset`, binary asset file path, and [content type](/cloud/guides/usage-assets.md#supported-asset-types-and-limits) in the form data.
          */
         patch: operations['Assets_UpdateAsset'];
         trace?: never;
@@ -2124,7 +1507,7 @@ export interface paths {
         put?: never;
         /**
          * Archives the asset.
-         * @description Archives the asset. Archived assets disappear from the website and are no longer usable or visible in Roblox experiences, but you can [restore](#POST-v1-assets-{assetId}:restore) them.
+         * @description Archives the asset. Archived assets disappear from the website and are no longer usable or visible in Roblox experiences, but you can [restore](#Assets_RestoreAsset) them.
          */
         post: operations['Assets_ArchiveAsset'];
         delete?: never;
@@ -2184,9 +1567,7 @@ export interface paths {
         put?: never;
         /**
          * Create Creator Store Product
-         * @description Add a Creator Store product. Only use this method if your product has never
-         *     been distributed on the Creator Store; otherwise, use the `PATCH` method to
-         *     update the product.
+         * @description Add a Creator Store product. Only use this method if your product has never been distributed on the Creator Store; otherwise, use the `PATCH` method to update the product.
          */
         post: operations['Cloud_CreateCreatorStoreProduct'];
         delete?: never;
@@ -2865,10 +2246,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * Get Universe
-         * @description Gets the specified universe.
-         */
+        /** @description Gets the specified universe. */
         get: operations['Cloud_GetUniverse'];
         put?: never;
         post?: never;
@@ -2876,7 +2254,6 @@ export interface paths {
         options?: never;
         head?: never;
         /**
-         * Update Universe
          * @description Updates the specified universe.
          *
          *     This method is guaranteed to return all updated fields.
@@ -3391,8 +2768,9 @@ export interface paths {
          * Create Memory Store Queue Item
          * @description Creates a new queue item.
          *
-         *     If `ttl` is set, the item will automatically be removed from the queue
-         *     after the time interval specified.
+         *     `ttl` is optional. If omitted, the item expires after 45 days (3888000 seconds).
+         *     If set, it must be a number ending in `s`, greater than 0 and at most `3888000s`.
+         *     The response reports expiration as `expireTime`, not `ttl`.
          *
          *     If a numerical `priority` is set, the item will be inserted into the queue
          *     based on the priority value. The higher the value, the closer to the front
@@ -3495,7 +2873,9 @@ export interface paths {
         head?: never;
         /**
          * Update Memory Store Sorted Map Item
-         * @description Updates the specified map item.
+         * @description Updates the specified map item. A provided sort key replaces the stored sort key.
+         *     Omitting both `stringSortKey` and `numericSortKey` clears the stored sort key.
+         *     Sending both is invalid.
          */
         patch: operations['Cloud_UpdateMemoryStoreSortedMapItem'];
         trace?: never;
@@ -3617,10 +2997,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * Get Place
-         * @description Gets the specified place.
-         */
+        /** @description Gets the specified place. */
         get: operations['Cloud_GetPlace'];
         put?: never;
         post?: never;
@@ -3628,7 +3005,6 @@ export interface paths {
         options?: never;
         head?: never;
         /**
-         * Update Place
          * @description Updates the specified place. To avoid overwriting changes, this endpoint
          *     responds with an HTTP 409 Conflict error if the place is open in an
          *     active Team Create session.
@@ -4001,7 +3377,6 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * Restart Universe Servers
          * @description Restarts active servers for a specific universe. Defaults to only
          *     restarting servers running older versions, but can be configured to restart
          *     all servers regardless of version. Used for releasing experience updates.
@@ -4026,7 +3401,7 @@ export interface paths {
          * Translate Text
          * @description Translates the provided text from one language to another.
          */
-        post: operations['PolyglotApi.Cloud_TranslateText'];
+        post: operations['Cloud_TranslateText'];
         delete?: never;
         options?: never;
         head?: never;
@@ -10656,7 +10031,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -10684,7 +10059,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -10725,7 +10100,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -10761,7 +10136,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -10806,7 +10181,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -10849,7 +10224,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -10897,7 +10272,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -10940,7 +10315,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -10979,7 +10354,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11011,7 +10386,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11043,7 +10418,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11088,7 +10463,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11121,7 +10496,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11162,7 +10537,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11207,7 +10582,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11246,7 +10621,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11281,7 +10656,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11306,7 +10681,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11338,7 +10713,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11379,7 +10754,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11419,7 +10794,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11452,7 +10827,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11484,7 +10859,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11522,7 +10897,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11567,7 +10942,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11606,7 +10981,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11638,7 +11013,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11670,7 +11045,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11708,7 +11083,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11746,7 +11121,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11777,7 +11152,7 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11800,7 +11175,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -11837,7 +11212,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description Success */
+                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -12344,7 +11719,7 @@ export interface paths {
             cookie?: never;
         };
         /** Gets a page of thumbnail personalization configurations for a universe. */
-        get: operations['ThumbnailPersonalizationApi.HomepageThumbnail_FindThumbnailPersonalizations'];
+        get: operations['HomepageThumbnail_FindThumbnailPersonalizations'];
         put?: never;
         post?: never;
         delete?: never;
@@ -12366,7 +11741,7 @@ export interface paths {
          * Creates a new active thumbnail personalization configuration for a universe.
          *     This deactivates the current active configuration, and the new configuration starts its own statistics.
          */
-        post: operations['ThumbnailPersonalizationApi.HomepageThumbnail_CreateThumbnailPersonalization'];
+        post: operations['HomepageThumbnail_CreateThumbnailPersonalization'];
         delete?: never;
         options?: never;
         head?: never;
@@ -12386,7 +11761,7 @@ export interface paths {
          * Replaces the homepage thumbnails in an active personalization configuration without changing its identifier
          *     or existing statistics.
          */
-        post: operations['ThumbnailPersonalizationApi.HomepageThumbnail_UpdateThumbnailPersonalization'];
+        post: operations['HomepageThumbnail_UpdateThumbnailPersonalization'];
         delete?: never;
         options?: never;
         head?: never;
@@ -12401,11 +11776,11 @@ export interface paths {
             cookie?: never;
         };
         /** Gets a page of homepage thumbnails for a universe. */
-        get: operations['ThumbnailPersonalizationApi.HomepageThumbnail_GetHomepageThumbnails'];
+        get: operations['HomepageThumbnail_GetHomepageThumbnails'];
         put?: never;
         post?: never;
         /** Deletes homepage thumbnails from a universe. */
-        delete: operations['ThumbnailPersonalizationApi.HomepageThumbnail_DeleteHomepageThumbnails'];
+        delete: operations['HomepageThumbnail_DeleteHomepageThumbnails'];
         options?: never;
         head?: never;
         patch?: never;
@@ -12421,7 +11796,7 @@ export interface paths {
         get?: never;
         put?: never;
         /** Uploads one or more images to create homepage thumbnails for a universe. */
-        post: operations['ThumbnailPersonalizationApi.HomepageThumbnail_UploadHomepageThumbnails'];
+        post: operations['HomepageThumbnail_UploadHomepageThumbnails'];
         delete?: never;
         options?: never;
         head?: never;
@@ -12436,7 +11811,7 @@ export interface paths {
             cookie?: never;
         };
         /** Gets the processing status of homepage thumbnail upload operations. */
-        get: operations['ThumbnailPersonalizationApi.HomepageThumbnail_GetHomepageThumbnailsStatus'];
+        get: operations['HomepageThumbnail_GetHomepageThumbnailsStatus'];
         put?: never;
         post?: never;
         delete?: never;
@@ -13199,6 +12574,58 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/alias/{universeId}/{assetName}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Retrieves an asset by its alias (universeID/name) */
+        get: {
+            parameters: {
+                query?: {
+                    skipSigningScripts?: boolean;
+                    clientInsert?: number;
+                    scriptinsert?: number;
+                    modulePlaceId?: number;
+                    serverplaceid?: number;
+                    expectedAssetType?: string;
+                    accessContext?: string;
+                };
+                header: {
+                    'Accept-Encoding': string;
+                    'Roblox-Place-Id': number;
+                    AssetType: string;
+                    AssetFormat: string;
+                    'Roblox-AssetFormat': string;
+                    'Roblox-Usage-Context'?: string;
+                };
+                path: {
+                    universeId: string;
+                    assetName: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/announcements': {
         parameters: {
             query?: never;
@@ -13661,7 +13088,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/assets#thumbnails.roblox.com': {
+    '/v1/assets': {
         parameters: {
             query?: never;
             header?: never;
@@ -13934,6 +13361,56 @@ export interface paths {
                  * @description 1: Invalid assetId
                  *     4: Invalid Cursor.
                  */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/assets/{assetId}/resale-data': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Gets asset resale data.
+         * @description This endpoint is only valid for resellable (limited) items.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The asset id. */
+                    assetId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Economy.Api.ResaleDataResponse'];
+                        'text/json': components['schemas']['Roblox.Economy.Api.ResaleDataResponse'];
+                    };
+                };
+                /** @description 5: The asset id is invalid. */
                 400: {
                     headers: {
                         [name: string]: unknown;
@@ -17319,7 +16796,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get list of country regions sorted by localized name */
+        /**
+         * Get list of country regions sorted by localized name
+         * @description Returns active country regions with names localized for the requested or user locale.
+         */
         get: {
             parameters: {
                 query?: {
@@ -20002,115 +19482,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/featured-content/event': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets the featured event for a group */
-        get: {
-            parameters: {
-                query: {
-                    /** @description The group Id. */
-                    groupId: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Client.GroupFeaturedContentResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Client.GroupFeaturedContentResponse'];
-                    };
-                };
-            };
-        };
-        put?: never;
-        /** Sets the featured event for a group */
-        post: {
-            parameters: {
-                query: {
-                    /** @description The group Id. */
-                    groupId: number;
-                    /** @description The event Id. */
-                    eventId: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Client.GroupFeaturedContentResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Client.GroupFeaturedContentResponse'];
-                    };
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     3: User is not authorized to set featured content for this group.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        /** Deletes the featured event for a group */
-        delete: {
-            parameters: {
-                query: {
-                    /** @description The group Id. */
-                    groupId: number;
-                    /** @description The event Id. */
-                    eventId: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     3: User is not authorized to set featured content for this group.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v1/game-icon/games/{gameId}': {
         parameters: {
             query?: never;
@@ -20381,8 +19752,8 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['TranslationRolesApi.Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['TranslationRolesApi.Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
                     };
                 };
                 /**
@@ -20458,8 +19829,8 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['TranslationRolesApi.Roblox.Web.WebAPI.Models.ApiArrayResponse_System.String_'];
-                        'text/json': components['schemas']['TranslationRolesApi.Roblox.Web.WebAPI.Models.ApiArrayResponse_System.String_'];
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_System.String_'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_System.String_'];
                     };
                 };
                 /** @description 3: Invalid game id */
@@ -23099,246 +22470,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/groups/configuration/metadata': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets Group configuration contextual information */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupConfigurationDisplayOptionsResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupConfigurationDisplayOptionsResponse'];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/create': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Creates a new group.
-         * @description This endpoint will charge Robux for the group purchase.
-         *     Accepts "icon" and "coverPhoto" in Files object. Defaults to first file if "icon" is not present.
-         *     Http status code 413 is thrown when the group icon file size is too large.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    'multipart/form-data': {
-                        /** @description The name of the group. */
-                        name?: string;
-                        /** @description The group description. */
-                        description?: string;
-                        /** @description Whether or not the group is open for anyone to join. */
-                        publicGroup?: boolean;
-                        /** @description Whether or not the group is only open to join for builders club members. */
-                        buildersClubMembersOnly?: boolean;
-                        /** Format: binary */
-                        Files?: string;
-                    };
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.Responses.Groups.GroupResponseV2'];
-                        'text/json': components['schemas']['Roblox.Web.Responses.Groups.GroupResponseV2'];
-                    };
-                };
-                /**
-                 * @description 13: The name is invalid.
-                 *     15: The group icon is invalid.
-                 *     16: The group icon is missing from the request.
-                 *     18: The description is too long.
-                 *     19: The name is too long.
-                 *     20: The name has been taken.
-                 *     46: Invalid file format or dimensions for group cover photo.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     10: User must have builders club membership.
-                 *     11: User is in maximum number of groups.
-                 *     12: Insufficient Robux funds.
-                 *     14: The name is moderated.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 37: The name was in use too recently. */
-                409: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Unknown error. */
-                413: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 17: Too many requests. */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 21: Group creation is currently disabled. */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/icon': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Updates the group icon. */
-        patch: {
-            parameters: {
-                query: {
-                    /** @description The group Id. */
-                    groupId: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    'multipart/form-data': {
-                        /** Format: binary */
-                        Files?: string;
-                    };
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: Group is invalid or does not exist.
-                 *     16: The group icon is missing from the request.
-                 *     17: Too many requests.
-                 *     30: Invalid file type for group icon.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     23: Insufficient permissions to complete the request.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Unknown error. */
-                413: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        trace?: never;
-    };
     '/v1/groups/icons': {
         parameters: {
             query?: never;
@@ -23394,7 +22525,111 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/groups/metadata': {
+    '/v1/groups/{groupId}/addfunds/allowed': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': boolean;
+                        'text/json': boolean;
+                    };
+                };
+                /** @description 2: The group is invalid. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: Insufficient permissions. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/addfunds/latest': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Economy.Api.Models.LatestAddFundsResponse'];
+                        'text/json': components['schemas']['Roblox.Economy.Api.Models.LatestAddFundsResponse'];
+                    };
+                };
+                /** @description 2: The group is invalid. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: Insufficient permissions. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/currency': {
         parameters: {
             query?: never;
             header?: never;
@@ -23402,1701 +22637,15 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Gets Groups contextual information:
-         *     Max number of groups a user can be part of.
-         *     Current number of groups a user is a member of.
-         *     Whether to show/hide certain features based on device type.
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupsDisplayOptionsResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupsDisplayOptionsResponse'];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/policies': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Gets group policy info used for compliance. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Groups.Api.GroupPolicyRequest'];
-                    'text/json': components['schemas']['Roblox.Groups.Api.GroupPolicyRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupPoliciesResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupPoliciesResponse'];
-                    };
-                };
-                /**
-                 * @description 1: Too many ids in request.
-                 *     2: Ids could not be parsed from request.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Token Validation Failed */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/search': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Search for groups by keyword. */
-        get: {
-            parameters: {
-                query: {
-                    /** @description The keyword or phrase to use as the search parameter. */
-                    keyword: string;
-                    /** @description Whether to move the exact-name group to first (optional, defaults to false). Ignored when the user's group search config sets its own position. */
-                    prioritizeExactMatch?: boolean;
-                    /** @description The number of results per request. */
-                    limit?: 10 | 25 | 50 | 100;
-                    /** @description The paging cursor for the previous or next page. */
-                    cursor?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupSearchPageResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupSearchPageResponse'];
-                    };
-                };
-                /**
-                 * @description 2: Search term not appropriate for Roblox.
-                 *     3: Search term was left empty.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/search/lookup': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Looks up groups by a name. Prioritizes an exact match as the first result.
-         * @description Should only be used for direct lookups where a user is inputting a group name, shouldn't be used for search pages.
-         */
-        get: {
-            parameters: {
-                query: {
-                    /** @description The group name. */
-                    groupName: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Groups.GroupBasicResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Groups.GroupBasicResponse_'];
-                    };
-                };
-                /** @description 1: Name is missing or has invalid characters. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/search/metadata': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get suggested groups and other miscellaneous information needed for the group/join page like flags
-         * @description Although there is no reason for this to require an authenticated user right now, in the future,
-         *     we will use coco to return different suggested groups based upon that user's request context
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupSearchMetadataResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupSearchMetadataResponse'];
-                    };
-                };
-                /** @description 5: No Localized Version of group search category exists */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets group information */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupDetailResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupDetailResponse'];
-                    };
-                };
-                /** @description 1: Group is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/audit-log': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets the Group's audit log */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description Filter for specific type of action performed */
-                    actionType?:
-                        | 'DeletePost'
-                        | 'RemoveMember'
-                        | 'AcceptJoinRequest'
-                        | 'DeclineJoinRequest'
-                        | 'PostStatus'
-                        | 'ChangeRank'
-                        | 'BuyAd'
-                        | 'SendAllyRequest'
-                        | 'CreateEnemy'
-                        | 'AcceptAllyRequest'
-                        | 'DeclineAllyRequest'
-                        | 'DeleteAlly'
-                        | 'DeleteEnemy'
-                        | 'AddGroupPlace'
-                        | 'RemoveGroupPlace'
-                        | 'CreateItems'
-                        | 'ConfigureItems'
-                        | 'SpendGroupFunds'
-                        | 'ChangeOwner'
-                        | 'Delete'
-                        | 'AdjustCurrencyAmounts'
-                        | 'Abandon'
-                        | 'Claim'
-                        | 'Rename'
-                        | 'ChangeDescription'
-                        | 'InviteToClan'
-                        | 'KickFromClan'
-                        | 'CancelClanInvite'
-                        | 'BuyClan'
-                        | 'CreateGroupAsset'
-                        | 'UpdateGroupAsset'
-                        | 'ConfigureGroupAsset'
-                        | 'RevertGroupAsset'
-                        | 'CreateGroupDeveloperProduct'
-                        | 'ConfigureGroupGame'
-                        | 'CreateGroupDeveloperSubscriptionProduct'
-                        | 'Lock'
-                        | 'Unlock'
-                        | 'CreateGamePass'
-                        | 'CreateBadge'
-                        | 'ConfigureBadge'
-                        | 'SavePlace'
-                        | 'PublishPlace'
-                        | 'UpdateRolesetRank'
-                        | 'UpdateRolesetData'
-                        | 'UpdateRoleSetPosition'
-                        | 'BanMember'
-                        | 'UnbanMember'
-                        | 'CreateForumCategory'
-                        | 'UpdateForumCategory'
-                        | 'ArchiveForumCategory'
-                        | 'DeleteForumCategory'
-                        | 'DeleteForumPost'
-                        | 'DeleteForumComment'
-                        | 'PinForumPost'
-                        | 'UnpinForumPost'
-                        | 'LockForumPost'
-                        | 'UnlockForumPost'
-                        | 'CreateRoleset'
-                        | 'DeleteRoleset'
-                        | 'CreateCommerceProduct'
-                        | 'SetCommerceProductActive'
-                        | 'ArchiveCommerceProduct'
-                        | 'AcceptCommerceProductBundlingFee'
-                        | 'SetCommerceProductInactive'
-                        | 'ConnectMerchant'
-                        | 'DisconnectMerchant'
-                        | 'JoinGroup'
-                        | 'LeaveGroup'
-                        | 'UpdateGroupIcon'
-                        | 'UpdateGroupCoverPhoto'
-                        | 'AssignRole'
-                        | 'UnassignRole'
-                        | 'PublishAnnouncement'
-                        | 'DeleteAnnouncement'
-                        | 'UpdateRoleSetPermissions'
-                        | 'UpdateGroupSecuritySettings'
-                        | 'GrantEnterpriseTier'
-                        | 'RevokeEnterpriseTier'
-                        | 'DeactivateGroup';
-                    /** @description Filter for specific user id */
-                    userId?: number;
-                    /** @description The number of results per request. */
-                    limit?: 10 | 25 | 50 | 100;
-                    /** @description The paging cursor for the previous or next page. */
-                    cursor?: string;
-                    /** @description The order the results are sorted in. */
-                    sortOrder?: 'Asc' | 'Desc';
-                };
-                header?: never;
-                path: {
-                    /** @description The id of the group the user is in. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupAuditLogPageResponse_Roblox.Groups.Api.Models.Response.GroupAuditLogResponseItem_'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupAuditLogPageResponse_Roblox.Groups.Api.Models.Response.GroupAuditLogResponseItem_'];
-                    };
-                };
-                /**
-                 * @description 1: Group is invalid or does not exist.
-                 *     8: Invalid or missing pagination parameters
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 23: Insufficient permissions to complete the request. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/bans': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets the bans for the group */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The number of results per request. */
-                    limit?: 10 | 25 | 50 | 100;
-                    /** @description The paging cursor for the previous or next page. */
-                    cursor?: string;
-                    /** @description The order the results are sorted in. */
-                    sortOrder?: 'Asc' | 'Desc';
-                };
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.GroupBanMemberResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.GroupBanMemberResponse_'];
-                    };
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 19: You have insufficient permissions for this request. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 1: The group is invalid or does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 18: The operation is temporarily unavailable. Please try again later. */
-                405: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/bans/{userId}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Fetch the group ban of a user from a group */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                    /** @description The user Id. */
-                    userId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupBanMemberResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupBanMemberResponse'];
-                    };
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 19: You have insufficient permissions for this request. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 1: The group is invalid or does not exist.
-                 *     3: The user is invalid or does not exist.
-                 */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 18: The operation is temporarily unavailable. Please try again later. */
-                405: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        /** Bans a user from a group */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                    /** @description The Id of the user being banned. */
-                    userId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupBanMemberResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupBanMemberResponse'];
-                    };
-                };
-                /**
-                 * @description 28: The user is already banned from the group.
-                 *     31: You cannot perform this action against the group owner.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     19: You have insufficient permissions for this request.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 1: The group is invalid or does not exist.
-                 *     3: The user is invalid or does not exist.
-                 *     3: The user is invalid or does not exist.
-                 *     15: User is not a member of the group.
-                 */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 18: The operation is temporarily unavailable. Please try again later. */
-                405: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        /** Unbans a user from a group */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                    /** @description The Id of the user being unbanned. */
-                    userId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /** @description 29: The user is not banned from the group. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     19: You have insufficient permissions for this request.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 1: The group is invalid or does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 18: The operation is temporarily unavailable. Please try again later. */
-                405: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/blocked-keywords': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Retrieves a paginated list of blocked keywords for a specific Group. */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The number of results per request. */
-                    limit?: 10 | 25 | 50 | 100;
-                    /** @description The paging cursor for the previous or next page. */
-                    cursor?: string;
-                    /** @description The order the results are sorted in. */
-                    sortOrder?: 'Asc' | 'Desc';
-                };
-                header?: never;
-                path: {
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.BlockedKeywordPageResponse_Roblox.Groups.Client.BlockedKeywordModel_'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.BlockedKeywordPageResponse_Roblox.Groups.Client.BlockedKeywordModel_'];
-                    };
-                };
-                /**
-                 * @description 1: Group is invalid or does not exist.
-                 *     6: Limit is invalid.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 9: User is invalid or does not exist.
-                 *     10: Insufficient permissions to complete the request.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 31: Service is currently unavailable. */
-                405: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        /** Adds new blocked keyword(s) to the specified Group. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Groups.Api.CreateBlockedKeywordsRequest'];
-                    'text/json': components['schemas']['Roblox.Groups.Api.CreateBlockedKeywordsRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Client.CreateBlockedKeywordsResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Client.CreateBlockedKeywordsResponse'];
-                    };
-                };
-                /**
-                 * @description 1: Group is invalid or does not exist.
-                 *     2: One or more keywords are invalid.
-                 *     4: Invalid request.
-                 *     12: The provided content was moderated.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     8: Insufficient permissions to complete the request.
-                 *     9: User is invalid or does not exist.
-                 *     10: Insufficient permissions to complete the request.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 31: Service is currently unavailable. */
-                405: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 11: There was a conflict in your request. */
-                409: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/blocked-keywords/{keywordId}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /** Deletes a specific blocked keyword from the specified Group. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    groupId: number;
-                    keywordId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 1: Group is invalid or does not exist.
-                 *     3: KeywordId is invalid.
-                 *     4: Invalid request.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     9: User is invalid or does not exist.
-                 *     10: Insufficient permissions to complete the request.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 7: Not found. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 31: Service is currently unavailable. */
-                405: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        /** Updates an existing blocked keyword for the specified Group. */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    groupId: number;
-                    keywordId: string;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Groups.Api.UpdateBlockedKeywordRequest'];
-                    'text/json': components['schemas']['Roblox.Groups.Api.UpdateBlockedKeywordRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Client.BlockedKeywordModel'];
-                        'text/json': components['schemas']['Roblox.Groups.Client.BlockedKeywordModel'];
-                    };
-                };
-                /**
-                 * @description 1: Group is invalid or does not exist.
-                 *     3: KeywordId is invalid.
-                 *     4: Invalid request.
-                 *     12: The provided content was moderated.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     8: Insufficient permissions to complete the request.
-                 *     9: User is invalid or does not exist.
-                 *     10: Insufficient permissions to complete the request.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 7: Not found. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 31: Service is currently unavailable. */
-                405: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 11: There was a conflict in your request. */
-                409: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/change-owner': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Changes the group owner to another user. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            /** @description The request. */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Groups.Api.ChangeOwnerRequest'];
-                    'text/json': components['schemas']['Roblox.Groups.Api.ChangeOwnerRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: The group is invalid or does not exist.
-                 *     3: The user is invalid or does not exist.
-                 *     15: User is not a member of the group.
-                 *     16: The user does not have the necessary level of premium membership.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     17: You are not authorized to change the owner of this group.
-                 *     25: 2-Step Verification is required to make further transactions. Go to Settings > Security to complete 2-Step Verification.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/claim-ownership': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Claims ownership of the group as the authenticated user */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /** @description 1: The group is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     11: You are not authorized to claim this group
-                 *     12: This group already has an owner
-                 *     13: Too many attempts to claim groups. Please try again later.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 18: The operation is temporarily unavailable. Please try again later. */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/community-feature-freezes': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets the freeze status of the community features for a group. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GetCommunityFeatureFreezesResponse'];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/community-tier/evaluate': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Client.TierEvaluationResultResponse'];
-                    };
-                };
-                /** @description 1: Group is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     22: The feature is disabled.
-                 *     23: Insufficient permissions to complete the request.
-                 *     49: User is invalid or does not exist
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/configuration': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets group configuration information */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupConfigurationDetailsResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupConfigurationDetailsResponse'];
-                    };
-                };
-                /**
-                 * @description 1: Group is invalid or does not exist.
-                 *     15: User is not a member of the group.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 1: Group is invalid or does not exist.
-                 *     23: Insufficient permissions to complete the request.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 31: Service is currently unavailable. */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/deactivate': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Deactivates the group as its owner. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     19: You have insufficient permissions for this request.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 1: The group is invalid or does not exist. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 18: The operation is temporarily unavailable. Please try again later. */
-                409: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Something went wrong. */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/description': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Updates the groups description */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id of the group the user is in. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            /** @description The Roblox.Groups.Api.UpdateGroupDescriptionRequest. */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Groups.Api.UpdateGroupDescriptionRequest'];
-                    'text/json': components['schemas']['Roblox.Groups.Api.UpdateGroupDescriptionRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupDescriptionResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupDescriptionResponse'];
-                    };
-                };
-                /**
-                 * @description 1: Group is invalid or does not exist.
-                 *     29: Your group description was empty.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     18: The description is too long.
-                 *     23: Insufficient permissions to complete the request.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/emotes': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets a groups emote sets. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Client.GetGroupEmoteSetsResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Client.GetGroupEmoteSetsResponse'];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/features': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets the freeze status of all features and the lock status for a group. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GetGroupFeaturesResponse'];
-                    };
-                };
-                /** @description 1: Group is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 23: Insufficient permissions to complete the request.
-                 *     49: User is invalid or does not exist
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /**
-         * Sets the desired status of group features.
-         *     Currently only removes active freezes for features set to Roblox.Groups.Api.FeatureStatus.On.
-         */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Groups.Api.SetFeaturesRequestModel'];
-                    'text/json': components['schemas']['Roblox.Groups.Api.SetFeaturesRequestModel'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.SetFeaturesResponseModel'];
-                    };
-                };
-                /** @description 1: Group is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     23: Insufficient permissions to complete the request.
-                 *     49: User is invalid or does not exist
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/features/status': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Checks whether a group has ANY feature disabled (includes feature freezes and group lock).
-         *     Used to display a banner on Creator Hub/Studio to inform group members that some features may not be available.
+         * Gets currency for the specified group.
+         * @description Currency can only be retrieved for groups the authenticated user has permission to view group funds for.
          */
         get: {
             parameters: {
                 query?: never;
                 header?: never;
                 path: {
+                    /** @description The group Id to get the currency for. */
                     groupId: number;
                 };
                 cookie?: never;
@@ -25109,27 +22658,18 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.HasGroupFeaturesBlockedResponse'];
+                        'application/json': components['schemas']['Roblox.Web.Responses.Economy.CurrencyResponse'];
+                        'text/json': components['schemas']['Roblox.Web.Responses.Economy.CurrencyResponse'];
                     };
                 };
-                /** @description 1: Group is invalid or does not exist. */
+                /** @description 2: The group is invalid. */
                 400: {
                     headers: {
                         [name: string]: unknown;
                     };
                     content?: never;
                 };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 23: Insufficient permissions to complete the request.
-                 *     49: User is invalid or does not exist
-                 */
+                /** @description 3: Insufficient permissions. */
                 403: {
                     headers: {
                         [name: string]: unknown;
@@ -25140,839 +22680,6 @@ export interface paths {
         };
         put?: never;
         post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/join-requests': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets a page of Group Join Requests for a group. */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The number of results per request. */
-                    limit?: 10 | 25 | 50 | 100;
-                    /** @description The paging cursor for the previous or next page. */
-                    cursor?: string;
-                    /** @description The order the results are sorted in. */
-                    sortOrder?: 'Asc' | 'Desc';
-                };
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.GroupJoinRequestResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.GroupJoinRequestResponse_'];
-                    };
-                };
-                /**
-                 * @description 1: The group is invalid or does not exist.
-                 *     36: The pagination cursor is invalid.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 19: You have insufficient permissions for this request. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        /** Batch accepts group join requests */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody: components['requestBodies']['Roblox.Groups.Api.MembersRequest'];
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: The group is invalid or does not exist.
-                 *     3: The user is invalid or does not exist.
-                 *     20: The group join request is invalid.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     6: You are already in the maximum number of groups.
-                 *     19: You have insufficient permissions for this request.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Something went wrong. */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 18: The operation is temporarily unavailable. Please try again later. */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        /** Batch declines group join requests */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody: components['requestBodies']['Roblox.Groups.Api.MembersRequest'];
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: The group is invalid or does not exist.
-                 *     3: The user is invalid or does not exist.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Token Validation Failed */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/join-requests/users/{userId}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets a group join request by userId. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                    /** @description The user Id. */
-                    userId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupJoinRequestResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupJoinRequestResponse'];
-                    };
-                };
-                /** @description 1: The group is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 19: You have insufficient permissions for this request. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        /** Accepts a group join request. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                    /** @description The user Id. */
-                    userId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: The group is invalid or does not exist.
-                 *     3: The user is invalid or does not exist.
-                 *     20: The group join request is invalid.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     6: You are already in the maximum number of groups.
-                 *     19: You have insufficient permissions for this request.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 18: The operation is temporarily unavailable. Please try again later. */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        /** Declines/cancels a group join request. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                    /** @description The user Id. */
-                    userId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: The group is invalid or does not exist.
-                 *     3: The user is invalid or does not exist.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     4: You do not have permission to manage this member.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/membership': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets group membership information in the context of the authenticated user */
-        get: {
-            parameters: {
-                query: {
-                    includeNotificationPreferences: boolean;
-                };
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupMembershipMetadataResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupMembershipMetadataResponse'];
-                    };
-                };
-                /** @description 1: The group is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/name': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /**
-         * Updates the group's name.
-         * @description This endpoint will charge Robux for the group rename.
-         */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id of the group the user is in. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            /** @description The Roblox.Groups.Api.UpdateGroupNameRequest. */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Groups.Api.UpdateGroupNameRequest'];
-                    'text/json': components['schemas']['Roblox.Groups.Api.UpdateGroupNameRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.UpdateGroupNameResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.UpdateGroupNameResponse'];
-                    };
-                };
-                /**
-                 * @description 1: Group is invalid or does not exist.
-                 *     13: The name is invalid.
-                 *     19: The name is too long.
-                 *     20: The name has been taken.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     12: Insufficient Robux funds.
-                 *     14: The name is moderated.
-                 *     23: Insufficient permissions to complete the request.
-                 *     38: Your account must be verified in order to change your group's name.
-                 *     39: The group ownership was changed too recently.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 36: The name was changed too recently.
-                 *     37: The name was in use too recently.
-                 */
-                409: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Unknown error. */
-                413: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 17: Too many requests. */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/name-history': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets the Group's name change history. */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The number of results per request. */
-                    limit?: 10 | 25 | 50 | 100;
-                    /** @description The paging cursor for the previous or next page. */
-                    cursor?: string;
-                    /** @description The order the results are sorted in. */
-                    sortOrder?: 'Asc' | 'Desc';
-                };
-                header?: never;
-                path: {
-                    /** @description The id of the group. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.GroupNameHistoryResponseItem_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.GroupNameHistoryResponseItem_'];
-                    };
-                };
-                /** @description 1: Group is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 23: Insufficient permissions to complete the request. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/notification-preference': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Updates the group's settings */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id of the group the user is in. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            /** @description Roblox.Groups.Api.UpdateGroupSettingsRequest */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Groups.Api.UpdateGroupNotificationPreferenceRequest'];
-                    'text/json': components['schemas']['Roblox.Groups.Api.UpdateGroupNotificationPreferenceRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': 0 | 1 | 2 | 3;
-                        'text/json': 0 | 1 | 2 | 3;
-                    };
-                };
-                /** @description 1: Group is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Token Validation Failed */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/payout-restriction': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets a value indicating whether the group can use payout feature */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupPayoutRestrictionResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupPayoutRestrictionResponse'];
-                    };
-                };
-                /** @description 1: Group is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 9: You don't have permission to view this group's payouts. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/payouts': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets a list of the group payout percentages */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupPayoutResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupPayoutResponse_'];
-                    };
-                };
-                /** @description 1: Group is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 9: You don't have permission to view this group's payouts. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        /** Pays out a user in Robux. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody: components['requestBodies']['Roblox.Groups.Api.PayoutRequest'];
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.OneTimePayoutResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.OneTimePayoutResponse'];
-                    };
-                };
-                /**
-                 * @description 1: Group is invalid or does not exist.
-                 *     12: Insufficient Robux funds.
-                 *     24: Invalid payout type.
-                 *     25: The amount is invalid.
-                 *     26: Too many recipients.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     23: Insufficient permissions to complete the request.
-                 *     28: Group has paid out too recently. Please wait and try again.
-                 *     35: 2-Step Verification is required to make further transactions. Go to Settings > Security to complete 2-Step Verification.
-                 *     52: Group has paid out to this recipient too many times recently. Please try again later.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 22: The feature is disabled. */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
         delete?: never;
         options?: never;
         head?: never;
@@ -26040,89 +22747,6 @@ export interface paths {
         };
         put?: never;
         post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/payouts/recurring': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Updates recurring payouts.
-         * @description This endpoint will remove any recipients not sent in the request.
-         *     If a recipient in the request is not a valid member in the group they will not be added to the recurring payouts.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody: components['requestBodies']['Roblox.Groups.Api.PayoutRequest'];
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: Group is invalid or does not exist.
-                 *     24: Invalid payout type.
-                 *     25: The amount is invalid.
-                 *     26: Too many recipients.
-                 *     27: The recipients are invalid.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     12: Insufficient Robux funds.
-                 *     28: Group has paid out too recently. Please wait and try again.
-                 *     35: 2-Step Verification is required to make further transactions. Go to Settings > Security to complete 2-Step Verification.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 22: The feature is disabled. */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
         delete?: never;
         options?: never;
         head?: never;
@@ -26253,516 +22877,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/groups/{groupId}/relationships/{groupRelationshipType}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets a group's relationships */
-        get: {
-            parameters: {
-                query: {
-                    /** @description The start index of the page request */
-                    StartRowIndex: number;
-                    /** @description The maximum number of rows for the page request, should be at least 1. */
-                    MaxRows: number;
-                };
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                    /** @description The group relationship type, enemies or allies. */
-                    groupRelationshipType: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupRelationshipsResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupRelationshipsResponse'];
-                    };
-                };
-                /**
-                 * @description 1: Group is invalid or does not exist.
-                 *     4: Group relationship type or request type is invalid.
-                 *     8: Invalid or missing pagination parameters
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/relationships/{groupRelationshipType}/requests': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets a group's relationship requests */
-        get: {
-            parameters: {
-                query: {
-                    /** @description The start index of the page request */
-                    StartRowIndex: number;
-                    /** @description The maximum number of rows for the page request, should be at least 1. */
-                    MaxRows: number;
-                };
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                    /** @description The group relationship type of the request, only allies are supported. */
-                    groupRelationshipType: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupRelationshipsResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupRelationshipsResponse'];
-                    };
-                };
-                /**
-                 * @description 1: Group is invalid or does not exist.
-                 *     4: Group relationship type or request type is invalid.
-                 *     8: Invalid or missing pagination parameters
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 5: You don't have permission to manage this group's relationships. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        /** Create a group relationship. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                    /** @description The group relationship type, enemies or allies. */
-                    groupRelationshipType: string;
-                    /** @description The id of the group you want to create a relationship with. */
-                    relatedGroupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: Group relationship type or request type is invalid.
-                 *     2: Invalid group.
-                 *     3: Target group is invalid or does not exist.
-                 *     4: Your group cannot establish a relationship with itself.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     5: Your group does not allow enemy declarations.
-                 *     6: Other group does not allow enemy declarations.
-                 *     7: Your group already has a relationship with the target group.
-                 *     8: You are blocked from communicating with this user.
-                 *     9: Insufficient permissions.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        /** Deletes a group relationship. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                    /** @description The group relationship type, enemies or allies. */
-                    groupRelationshipType: string;
-                    /** @description The id of the group you want to delete the relationship with. */
-                    relatedGroupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 2: Invalid group.
-                 *     3: Target group is invalid or does not exist.
-                 *     11: Relationship does not exist.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     8: You are blocked from communicating with this user.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/relationships/{groupRelationshipType}/requests/{relatedGroupId}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Accepts a group relationship request. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                    /** @description The group relationship type, enemies or allies, only allies are supported. */
-                    groupRelationshipType: string;
-                    /** @description The id of the group you want to accept the relationship request with. */
-                    relatedGroupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: Group relationship type or request type is invalid.
-                 *     2: Invalid group.
-                 *     3: Target group is invalid or does not exist.
-                 *     10: Relationship request does not exist.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     9: Insufficient permissions.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        /** Declines a group relationship request. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                    /** @description The group relationship type, enemies or allies. */
-                    groupRelationshipType: string;
-                    /** @description The id of the group you want to accept the relationship request with. */
-                    relatedGroupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: Group relationship type or request type is invalid.
-                 *     2: Invalid group.
-                 *     3: Target group is invalid or does not exist.
-                 *     10: Relationship request does not exist.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     9: Insufficient permissions.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/relationships/{groupRelationshipType}/{relatedGroupId}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create a group relationship. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                    /** @description The group relationship type, enemies or allies. */
-                    groupRelationshipType: string;
-                    /** @description The id of the group you want to create a relationship with. */
-                    relatedGroupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: Group relationship type or request type is invalid.
-                 *     2: Invalid group.
-                 *     3: Target group is invalid or does not exist.
-                 *     4: Your group cannot establish a relationship with itself.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     5: Your group does not allow enemy declarations.
-                 *     6: Other group does not allow enemy declarations.
-                 *     7: Your group already has a relationship with the target group.
-                 *     8: You are blocked from communicating with this user.
-                 *     9: Insufficient permissions.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        /** Deletes a group relationship. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                    /** @description The group relationship type, enemies or allies. */
-                    groupRelationshipType: string;
-                    /** @description The id of the group you want to delete the relationship with. */
-                    relatedGroupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 2: Invalid group.
-                 *     3: Target group is invalid or does not exist.
-                 *     11: Relationship does not exist.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     8: You are blocked from communicating with this user.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v1/groups/{groupId}/revenue/summary/{timeFrame}': {
         parameters: {
             query?: never;
@@ -26779,69 +22893,24 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/groups/{groupId}/roles': {
+    '/v1/groups/{groupId}/snapshot-robux': {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Gets a list of the rolesets in a group. */
-        get: {
-            parameters: {
-                query: {
-                    includePrivate: boolean;
-                };
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupAllRolesResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupAllRolesResponse'];
-                    };
-                };
-                /** @description 1: The group is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/roles/guest/permissions': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets the permissions for a group's guest roleset. These can be viewed by all (members and guests) users. */
+        /**
+         * Gets the robux amount at old dev-ex rate for the specified group.
+         *     The response field RobuxAt35 is the amount of robux a group has at the dev ex rate of $3.50 per 1000 robux.
+         * @description Snapshot robux can only be retrieved for groups the authenticated user has permission to view group funds for.
+         */
         get: {
             parameters: {
                 query?: never;
                 header?: never;
                 path: {
-                    /** @description The group id. */
+                    /** @description The group Id to get the snapshot robux amount for. */
                     groupId: number;
                 };
                 cookie?: never;
@@ -26854,253 +22923,18 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupPermissionsResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupPermissionsResponse'];
+                        'application/json': components['schemas']['Roblox.Economy.Api.Models.GetGroupSnapshotRobuxResponse'];
+                        'text/json': components['schemas']['Roblox.Economy.Api.Models.GetGroupSnapshotRobuxResponse'];
                     };
                 };
-                /** @description 1: Group is invalid or does not exist. */
+                /** @description 2: The group is invalid. */
                 400: {
                     headers: {
                         [name: string]: unknown;
                     };
                     content?: never;
                 };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/roles/permissions': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets all permissions for each role */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupPermissionsResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupPermissionsResponse_'];
-                    };
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/roles/{roleSetId}/permissions': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets the permissions for a group's roleset. The authorized user must either be the group owner or the roleset being requested, except for guest roles, which can be viewed by all (members and guests). */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                    /** @description The group's role set id. */
-                    roleSetId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupPermissionsResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupPermissionsResponse'];
-                    };
-                };
-                /**
-                 * @description 1: Group is invalid or does not exist.
-                 *     2: The roleset is invalid or does not exist.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 3: You are not authorized to view/edit permissions for this role. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Updates the permissions for a group's roleset. The authorized user must be the group owner. */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group's id. */
-                    groupId: number;
-                    /** @description The roleset's id. */
-                    roleSetId: number;
-                };
-                cookie?: never;
-            };
-            /** @description The request. */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Groups.Api.UpdatePermissionsRequest'];
-                    'text/json': components['schemas']['Roblox.Groups.Api.UpdatePermissionsRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: Group is invalid or does not exist.
-                 *     2: The roleset is invalid or does not exist.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     3: You are not authorized to view/edit permissions for this role.
-                 *     4: This role's permissions can not be modified.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/roles/{roleSetId}/users': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets a list of users in a group for a specific roleset. */
-        get: {
-            parameters: {
-                query?: {
-                    /** @description The number of results per request. */
-                    limit?: 10 | 25 | 50 | 100;
-                    /** @description The paging cursor for the previous or next page. */
-                    cursor?: string;
-                    /** @description The order the results are sorted in. */
-                    sortOrder?: 'Asc' | 'Desc';
-                };
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                    /** @description The group's role set id. */
-                    roleSetId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.UserModel_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.UserModel_'];
-                    };
-                };
-                /**
-                 * @description 1: The group is invalid or does not exist.
-                 *     36: The pagination cursor is invalid.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 2: The roleset is invalid or does not exist.
-                 *     35: You do not have permission to view this group's member list.
-                 */
+                /** @description 3: Insufficient permissions. */
                 403: {
                     headers: {
                         [name: string]: unknown;
@@ -27115,652 +22949,6 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/rolesets/create': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Creates new group roleset. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            /** @description The Roblox.Groups.Api.Models.Request.CreateRoleSetRequest. */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Groups.Api.Models.Request.CreateRoleSetRequest'];
-                    'text/json': components['schemas']['Roblox.Groups.Api.Models.Request.CreateRoleSetRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupRoleResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupRoleResponse'];
-                    };
-                };
-                /**
-                 * @description 0: Something went wrong.
-                 *     3: You do not have enough funds to purchase this role.
-                 *     5: Role name already exists.
-                 *     6: Rank value is out of bounds.
-                 *     7: The role name is too long.
-                 *     8: The role description is too long.
-                 *     10: This group does not exist.
-                 *     11: Failed to process payment to purchase role.
-                 *     12: Limit for roles have been reached on this group.
-                 *     14: Role name can not be empty.
-                 *     15: This role does not exist.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     9: You do not have permissions to perform this action.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/rolesets/{rolesetId}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /** Deletes existing group roleset. */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                    /** @description The roleset Id. */
-                    rolesetId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 10: This group does not exist.
-                 *     15: This role does not exist.
-                 *     17: Cannot remove any more roles
-                 *     18: Cannot delete this role.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     9: You do not have permissions to perform this action.
-                 *     16: There are users in this role.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        /** Updates existing group roleset. */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                    /** @description The roleset Id. */
-                    rolesetId: number;
-                };
-                cookie?: never;
-            };
-            /** @description The Roblox.Groups.Api.Models.Request.UpdateRoleSetRequest. */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Groups.Api.Models.Request.UpdateRoleSetRequest'];
-                    'text/json': components['schemas']['Roblox.Groups.Api.Models.Request.UpdateRoleSetRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupRoleResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupRoleResponse'];
-                    };
-                };
-                /**
-                 * @description 5: Role name already exists.
-                 *     6: Rank value is out of bounds.
-                 *     7: The role name is too long.
-                 *     8: The role description is too long.
-                 *     10: This group does not exist.
-                 *     14: Role name can not be empty.
-                 *     15: This role does not exist.
-                 *     19: Cannot update Guest role.
-                 *     20: Cannot update Owner role rank.
-                 *     30: Invalid role color.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     9: You do not have permissions to perform this action.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/settings': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets the Group's settings */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id of the group the user is in. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupSettingsResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupSettingsResponse'];
-                    };
-                };
-                /** @description 1: Group is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 23: Insufficient permissions to complete the request. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Updates the group's settings */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id of the group the user is in. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            /** @description Roblox.Groups.Api.UpdateGroupSettingsRequest */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Groups.Api.UpdateGroupSettingsRequest'];
-                    'text/json': components['schemas']['Roblox.Groups.Api.UpdateGroupSettingsRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /** @description 1: Group is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     23: Insufficient permissions to complete the request.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 31: Service is currently unavailable. */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/social-links': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get social link data associated with a group */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The Id of the game */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GetSocialLinkResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GetSocialLinkResponse'];
-                    };
-                };
-                /** @description 1: Group is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 13: Only users who are over thirteen years of age may edit social links. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 11: Social links cannot be processed as this time. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        /** Posts a social links */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id of the group */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            /** @description The Roblox.Groups.Api.SocialLinkRequest */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Groups.Api.SocialLinkRequest'];
-                    'text/json': components['schemas']['Roblox.Groups.Api.SocialLinkRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.SocialLinkResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.SocialLinkResponse'];
-                    };
-                };
-                /**
-                 * @description 3: The social link title is too long.
-                 *     4: The social link title cannot be empty.
-                 *     5: The social link url cannot be empty.
-                 *     7: The request was null.
-                 *     9: The social link type is invalid.
-                 *     12: The social link title was moderated.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     2: You do not have permission to configure this social link.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 8: The requested group or social link was not found. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 11: Social links cannot be processed as this time. */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/social-links/{socialLinkId}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /** Deletes a social link */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id of the game you are editing, required for permissions checking */
-                    groupId: number;
-                    /** @description The id of the social link */
-                    socialLinkId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: Group is invalid or does not exist.
-                 *     10: The social link is not for a group.
-                 *     15: The social link id doesn't match the group id.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     2: You do not have permission to configure this social link.
-                 *     13: Only users who are over thirteen years of age may edit social links.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 11: Social links cannot be processed as this time. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        /** Updates a social link */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id of the universe */
-                    groupId: number;
-                    /** @description The id of the social link being updated */
-                    socialLinkId: number;
-                };
-                cookie?: never;
-            };
-            /** @description The Roblox.Groups.Api.SocialLinkRequest. */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Groups.Api.SocialLinkRequest'];
-                    'text/json': components['schemas']['Roblox.Groups.Api.SocialLinkRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: Group is invalid or does not exist.
-                 *     3: The social link title is too long.
-                 *     4: The social link title cannot be empty.
-                 *     5: The social link url cannot be empty.
-                 *     6: The social link url was improperly formatted.
-                 *     7: The request was null.
-                 *     8: The requested group or social link was not found.
-                 *     9: The social link type is invalid.
-                 *     10: The social link is not for a group.
-                 *     12: The social link title was moderated.
-                 *     16: A social link with this type already exists on this group.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     2: You do not have permission to configure this social link.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 11: Social links cannot be processed as this time. */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 11: Social links cannot be processed as this time. */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
         trace?: never;
     };
     '/v1/groups/{groupId}/universes': {
@@ -27819,27 +23007,21 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/groups/{groupId}/users': {
+    '/v1/groups/{groupId}/users-payout-eligibility': {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Gets a list of users in a group. */
+        /** Gets the group payout eligibility for a group of users. */
         get: {
             parameters: {
-                query?: {
-                    /** @description The number of results per request. */
-                    limit?: 10 | 25 | 50 | 100;
-                    /** @description The paging cursor for the previous or next page. */
-                    cursor?: string;
-                    /** @description The order the results are sorted in. */
-                    sortOrder?: 'Asc' | 'Desc';
+                query: {
+                    userIds: number[];
                 };
                 header?: never;
                 path: {
-                    /** @description The group id. */
                     groupId: number;
                 };
                 cookie?: never;
@@ -27852,320 +23034,12 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.UserGroupRoleResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.UserGroupRoleResponse_'];
+                        'application/json': components['schemas']['Roblox.Economy.Api.Models.UserGroupPayoutEligibilityResponseModel'];
+                        'text/json': components['schemas']['Roblox.Economy.Api.Models.UserGroupPayoutEligibilityResponseModel'];
                     };
-                };
-                /**
-                 * @description 1: The group is invalid or does not exist.
-                 *     36: The pagination cursor is invalid.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 35: You do not have permission to view this group's member list. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        /** Joins a group */
-        post: {
-            parameters: {
-                query?: never;
-                header?: {
-                    /** @description The place ID of the experience the player is in. */
-                    'Roblox-Place-Id'?: number;
-                    /** @description The player's current game Id. */
-                    'Roblox-Game-Id'?: string;
-                    /** @description The player's current session Id. */
-                    'Roblox-Session-Id'?: string;
-                };
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                };
-                cookie?: never;
-            };
-            /** @description Only supplied when captcha has been solved. */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Groups.Api.JoinGroupRequest'];
-                    'text/json': components['schemas']['Roblox.Groups.Api.JoinGroupRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /** @description 1: The group is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
                 };
                 /** @description 0: Authorization has been denied for this request. */
                 401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     6: You are already in the maximum number of groups.
-                 *     9: You do not have the builders club membership necessary to join this group.
-                 *     14: You cannot join a closed group.
-                 *     33: You do not have the required verification level to join this group.
-                 *     34: You do not have the required account tenure to join this group.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 7: You have already requested to join this group.
-                 *     8: You are already a member of this group.
-                 */
-                409: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 10: Too many attempts to join the group. Please try again later. */
-                429: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 18: The operation is temporarily unavailable. Please try again later. */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/users/{userId}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /** Removes a user from a group */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group Id. */
-                    groupId: number;
-                    /** @description The Id of the user being removed. */
-                    userId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: The group is invalid or does not exist.
-                 *     3: The user is invalid or does not exist.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     4: You do not have permission to manage this member.
-                 *     25: 2-Step Verification is required to make further transactions. Go to Settings > Security to complete 2-Step Verification.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 18: The operation is temporarily unavailable. Please try again later. */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        /** Updates a users role in a group. */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The id of the group the user is in. */
-                    groupId: number;
-                    /** @description The id of the user being updated. */
-                    userId: number;
-                };
-                cookie?: never;
-            };
-            /** @description The Roblox.Groups.Api.UpdateUserRoleRequest. */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Groups.Api.UpdateUserRoleRequest'];
-                    'text/json': components['schemas']['Roblox.Groups.Api.UpdateUserRoleRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /**
-                 * @description 1: The group is invalid or does not exist.
-                 *     2: The roleset is invalid or does not exist.
-                 *     3: The user is invalid or does not exist.
-                 *     23: You cannot change your own role.
-                 *     26: You cannot change the user's role to the same role.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     4: You do not have permission to manage this member.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 18: The operation is temporarily unavailable. Please try again later. */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        trace?: never;
-    };
-    '/v1/groups/{groupId}/users/{userId}/permissions': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets the permissions a user has in a group. Only available to group owner and RCC */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The group id. */
-                    groupId: number;
-                    /** @description The user id. */
-                    userId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupPermissionsResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupPermissionsResponse'];
-                    };
-                };
-                /** @description 1: Group is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 3: You are not authorized to view/edit permissions for this role. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 3: The user is invalid or does not exist. */
-                404: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -28352,7 +23226,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get list of Supported locales with user locus information. */
+        /**
+         * Get list of Supported locales with user locus information.
+         * @description Returns supported locales with per-locus data for the current user context.
+         */
         get: {
             parameters: {
                 query?: {
@@ -28364,7 +23241,6 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -28407,7 +23283,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Sets whether translations suggested by Roblox will be shown to the user. */
+        /**
+         * Sets whether translations suggested by Roblox will be shown to the user.
+         * @description Updates the account localization preference for Roblox-suggested translations.
+         */
         post: {
             parameters: {
                 query?: never;
@@ -28423,7 +23302,6 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -28440,20 +23318,14 @@ export interface paths {
                     };
                     content?: never;
                 };
-                /**
-                 * @description Unauthorized
-                 *     0: Authorization has been denied for this request.
-                 */
+                /** @description Unauthorized */
                 401: {
                     headers: {
                         [name: string]: unknown;
                     };
                     content?: never;
                 };
-                /**
-                 * @description Feature is turned off temporary
-                 *     0: Token Validation Failed
-                 */
+                /** @description Feature is turned off temporary */
                 403: {
                     headers: {
                         [name: string]: unknown;
@@ -28487,6 +23359,7 @@ export interface paths {
         /**
          * Sets user's supported locale.
          *     Null supported locale will clear out user's supported locale (set users' supported locale to null)
+         * @description Requires an authenticated user. Sending null clears the stored supported locale.
          */
         post: {
             parameters: {
@@ -28503,7 +23376,6 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -28520,20 +23392,14 @@ export interface paths {
                     };
                     content?: never;
                 };
-                /**
-                 * @description Unauthorized
-                 *     0: Authorization has been denied for this request.
-                 */
+                /** @description Unauthorized */
                 401: {
                     headers: {
                         [name: string]: unknown;
                     };
                     content?: never;
                 };
-                /**
-                 * @description Feature is turned off temporary
-                 *     0: Token Validation Failed
-                 */
+                /** @description Feature is turned off temporary */
                 403: {
                     headers: {
                         [name: string]: unknown;
@@ -28562,7 +23428,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get list of supported locales sorted by the Native Name property. */
+        /**
+         * Get list of supported locales sorted by the Native Name property.
+         * @description Locales are ordered by native display name for the authenticated user context.
+         */
         get: {
             parameters: {
                 query?: never;
@@ -28572,7 +23441,6 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -28651,7 +23519,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get list of Supported locales for a specific feature. */
+        /**
+         * Get list of Supported locales for a specific feature.
+         * @description Currently supports the image-translation feature only; other features return not implemented.
+         */
         get: {
             parameters: {
                 query: {
@@ -28663,7 +23534,6 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -28697,7 +23567,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Gets user locale. If user is absent returns, locale from http request object. */
+        /**
+         * Gets user locale. If user is absent returns, locale from http request object.
+         * @description Uses default locale when the caller lacks permission for a full user locale.
+         */
         get: {
             parameters: {
                 query?: never;
@@ -28707,7 +23580,6 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -28745,6 +23617,7 @@ export interface paths {
          * Gets each of a user's localization locus supported locales. A localization locus supported locale is a page (or group of pages) that
          *     have been defined by the International team which need independent locale support.
          *     If the user is null we will attempt to return the locales appropriate for the user's device language.
+         * @description Locus locales allow different language choices for specific product areas.
          */
         get: {
             parameters: {
@@ -28755,7 +23628,6 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description OK */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -29130,7 +24002,7 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    /** @description The source asset id to start after. If null, starts from the first page. A null cursor in the response means there are no more entries. */
+                    /** @description Opaque cursor from a previous response's nextPageCursor. If null, starts from the first page. A null cursor in the response means there are no more entries. */
                     cursor?: string;
                     /** @description The universe id that owns the table. */
                     gameId?: number;
@@ -29946,6 +24818,18 @@ export interface paths {
                     pageNumber?: number;
                     pageSize?: number;
                     messageTab?: 'Inbox' | 'Sent' | 'Archive';
+                    /**
+                     * @description Opaque pagination token for cursor mode. In cursor mode the count-based
+                     *                 `totalPages`/`totalCollectionSize` fields are omitted; the response instead carries a
+                     *                 numbered `pageWindow` of tokens, a `firstPageToken`, the current `pageNumber`, and
+                     *                 `hasMore`. Echo back a token from `pageWindow` or `firstPageToken` to navigate.
+                     */
+                    pageToken?: string;
+                    /**
+                     * @description Opts into cursor mode. Set this (with an empty pageToken)
+                     *                 to fetch the first page. A non-empty pageToken also selects cursor mode.
+                     */
+                    useCursor?: boolean;
                 };
                 header?: never;
                 path?: never;
@@ -33208,6 +28092,65 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/products/{productId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Retrieves the product purchasable details given its id. */
+        get: {
+            parameters: {
+                query: {
+                    showPurchasableOpt: boolean;
+                };
+                header?: never;
+                path: {
+                    /** @description The id of the product. */
+                    productId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Economy.Api.Models.PurchasableDetailResponse'];
+                        'text/json': components['schemas']['Roblox.Economy.Api.Models.PurchasableDetailResponse'];
+                    };
+                };
+                /**
+                 * @description 1: The user is invalid.
+                 *     33: The product id is invalid.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/promotion-channels': {
         parameters: {
             query?: never;
@@ -33607,57 +28550,6 @@ export interface paths {
                 };
             };
         };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/roles': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets the Roles by their ids. */
-        get: {
-            parameters: {
-                query: {
-                    /** @description A list of role ids */
-                    ids: number[];
-                    includePrivate: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupRoleDetailResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupRoleDetailResponse_'];
-                    };
-                };
-                /**
-                 * @description 1: Ids could not be parsed from request.
-                 *     2: Too many ids in request.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -36955,7 +31847,6 @@ export interface paths {
                 /**
                  * @description 0: Token Validation Failed
                  *     2: You are not authorized to configure this universe.
-                 *     14: You are not authorized to sell games.
                  */
                 403: {
                     headers: {
@@ -37466,72 +32357,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        /** Updates recurring payouts for a group-owned universe. */
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    universeId: number;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    'application/json-patch+json': components['schemas']['PublicUpdateUniverseRecurringPayoutsRequestModel'];
-                    'application/json': components['schemas']['PublicUpdateUniverseRecurringPayoutsRequestModel'];
-                    'text/json': components['schemas']['PublicUpdateUniverseRecurringPayoutsRequestModel'];
-                    'application/*+json': components['schemas']['PublicUpdateUniverseRecurringPayoutsRequestModel'];
-                };
-            };
-            responses: {
-                /** @description Success */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['PublicAllGroupUniversePayoutsResponseModel'];
-                    };
-                };
-                /** @description Bad Request */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
-                    };
-                };
-                /** @description Unauthorized */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
-                    };
-                };
-                /** @description Forbidden */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
-                    };
-                };
-                /** @description Not Found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['OrganizationsServiceApi.ErrorResponse'];
-                    };
-                };
-            };
-        };
+        patch?: never;
         trace?: never;
     };
     '/v1/universes/{universeId}/permissions': {
@@ -38454,152 +33280,6 @@ export interface paths {
         put?: never;
         post?: never;
         delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/user/groups/pending': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets groups that the authenticated user has requested to join */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupDetailResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupDetailResponse_'];
-                    };
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/user/groups/primary': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Sets the authenticated user's primary group */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            /** @description The request body containing the group id. */
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.Groups.Api.PrimaryGroupRequest'];
-                    'text/json': components['schemas']['Roblox.Groups.Api.PrimaryGroupRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /** @description 1: Group is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     2: You aren't a member of the group specified.
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        /** Removes the authenticated user's primary group */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
-                    };
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Token Validation Failed */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
         options?: never;
         head?: never;
         patch?: never;
@@ -40161,6 +34841,13 @@ export interface paths {
                     };
                     content?: never;
                 };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
                 /**
                  * @description 2: The user is banned from performing operation.
                  *     3: The user is blocked from performing this action.
@@ -40275,6 +34962,13 @@ export interface paths {
                  *     6: Invalid parameters.
                  */
                 400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -43046,6 +37740,63 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/users/{userId}/currency': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Gets currency for the specified user.
+         * @description Currency can only be retrieved for the authenticated user.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The user Id to get the currency for. */
+                    userId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.Responses.Economy.CurrencyResponse'];
+                        'text/json': components['schemas']['Roblox.Web.Responses.Economy.CurrencyResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: The user is invalid. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/users/{userId}/currently-wearing': {
         parameters: {
             query?: never;
@@ -43413,60 +38164,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v1/users/{userId}/friends/groups/roles': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets a list of all groups the specified users' friends are in. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The user id. */
-                    userId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.UserGroupMembershipResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.UserGroupMembershipResponse_'];
-                    };
-                };
-                /** @description 3: The user is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 3: The user is invalid or does not exist. */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v1/users/{userId}/friends/inactive': {
         parameters: {
             query?: never;
@@ -43685,104 +38382,6 @@ export interface paths {
                  *     15: Too many ids.
                  *     16: Invalid ids.
                  */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/users/{userId}/groups/primary/role': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets a user's primary group. */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    /** @description The user id. */
-                    userId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Groups.Api.GroupMembershipDetailResponse'];
-                        'text/json': components['schemas']['Roblox.Groups.Api.GroupMembershipDetailResponse'];
-                    };
-                };
-                /** @description 4: User is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/users/{userId}/groups/roles': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets a list of all group roles for groups the specified user is in. */
-        get: {
-            parameters: {
-                query?: {
-                    includeLocked?: boolean;
-                    includeNotificationPreferences?: boolean;
-                    discoveryType?: 0 | 1 | 2;
-                };
-                header?: never;
-                path: {
-                    /** @description The user id. */
-                    userId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupMembershipDetailResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupMembershipDetailResponse_'];
-                    };
-                };
-                /** @description 3: The user is invalid or does not exist. */
                 400: {
                     headers: {
                         [name: string]: unknown;
@@ -45210,6 +39809,57 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v2/alias/{universeId}/{assetName}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    skipSigningScripts?: boolean;
+                    clientInsert?: number;
+                    scriptinsert?: number;
+                    modulePlaceId?: number;
+                    serverplaceid?: number;
+                    expectedAssetType?: string;
+                    accessContext?: string;
+                };
+                header: {
+                    'Accept-Encoding': string;
+                    'Roblox-Place-Id': number;
+                    AssetType: string;
+                    AssetFormat: string;
+                    'Roblox-AssetFormat': string;
+                    'Roblox-Usage-Context'?: string;
+                };
+                path: {
+                    universeId: string;
+                    assetName: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v2/android-binaries/{version}/channels/{channelName}': {
         parameters: {
             query?: never;
@@ -46475,59 +41125,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v2/groups': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Multi-get groups information by Ids.
-         * @description If a group comes back as null, it will not be returned in the response.
-         */
-        get: {
-            parameters: {
-                query: {
-                    /** @description The group Ids. */
-                    groupIds: number[];
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Groups.GroupResponseV2_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Groups.GroupResponseV2_'];
-                    };
-                };
-                /**
-                 * @description 2: Too many ids in request.
-                 *     3: Ids could not be parsed from request.
-                 */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v2/groups/{groupId}/games': {
         parameters: {
             query?: never;
@@ -46656,7 +41253,7 @@ export interface paths {
                     /** @description Page size: 10, 25, 50, or 100. Defaults to 10. */
                     Limit?: number;
                     /** @description Sort order. Only `Asc` is currently supported; defaults to `Asc`. */
-                    SortOrder?: components['schemas']['OrganizationsServiceApi.SortOrder'];
+                    SortOrder?: components['schemas']['SortOrder'];
                 };
                 header?: never;
                 path: {
@@ -47040,7 +41637,7 @@ export interface paths {
                     /** @description Page size: 10, 25, 50, or 100. Defaults to 10. */
                     Limit?: number;
                     /** @description Sort order. Only `Asc` is currently supported; defaults to `Asc`. */
-                    SortOrder?: components['schemas']['OrganizationsServiceApi.SortOrder'];
+                    SortOrder?: components['schemas']['SortOrder'];
                 };
                 header?: never;
                 path: {
@@ -49281,22 +43878,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v2/sales/sales-report-download': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations['TransactionRecordsApi.SalesReportDownload_PublishSalesReportDownloadMessage'];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v2/search/items/details': {
         parameters: {
             query?: never;
@@ -49311,6 +43892,11 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
+                    /**
+                     * @description Stackable boolean filters, e.g. if { Emissive, AdvancedMaterials }, returned items isEmissive AND isAdvancedMaterials.
+                     *     Unsupported enums throw 400s, duplicates get quietly filtered out.
+                     */
+                    RequiredPropertyFilters?: (0 | 1 | 2 | 3)[];
                     Taxonomy?: string;
                     AssetTypeIds?: number[];
                     BundleTypeIds?: number[];
@@ -50003,7 +44589,7 @@ export interface paths {
                     };
                     content?: never;
                 };
-                /** @description Server Error */
+                /** @description Internal Server Error */
                 500: {
                     headers: {
                         [name: string]: unknown;
@@ -50604,6 +45190,59 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v2/stream-notifications/page': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.AppPagePlatform.Notifications.V1Beta1.StreamPageRequest'];
+                    'application/x-protobuf': components['schemas']['Roblox.AppPagePlatform.Notifications.V1Beta1.StreamPageRequest'];
+                    'application/protobuf': components['schemas']['Roblox.AppPagePlatform.Notifications.V1Beta1.StreamPageRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v2/stream-notifications/unread-count': {
         parameters: {
             query?: never;
@@ -50754,6 +45393,63 @@ export interface paths {
                 };
             };
         };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v2/tracking/click': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Records an ad click. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description A click request */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.AdConfiguration.Api.RecordClickRequest'];
+                    'text/json': components['schemas']['Roblox.AdConfiguration.Api.RecordClickRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -51043,7 +45739,6 @@ export interface paths {
                 /**
                  * @description 0: Token Validation Failed
                  *     2: You are not authorized to configure this universe.
-                 *     14: You are not authorized to sell games.
                  *     25: Not authorized to update private server settings
                  *     29: Luobu app terms of service user agreement is missing.
                  *     30: Unknown error while updating Opt in out region.
@@ -51750,57 +46445,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/v2/users/{userId}/groups/roles': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets a list of all group roles for groups the specified user is in. */
-        get: {
-            parameters: {
-                query: {
-                    includeLocked: boolean;
-                    includeNotificationPreferences: boolean;
-                    discoveryType: 0 | 1 | 2;
-                };
-                header?: never;
-                path: {
-                    /** @description The user id. */
-                    userId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupMembershipResponse_'];
-                        'text/json': components['schemas']['Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupMembershipResponse_'];
-                    };
-                };
-                /** @description 3: The user is invalid or does not exist. */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/v2/users/{userId}/inventory': {
         parameters: {
             query?: never;
@@ -52178,7 +46822,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations['TransactionRecordsApi.TransactionRecords_GetUserTransactions'];
+        get: operations['TransactionRecords_GetUserTransactions'];
         put?: never;
         post?: never;
         delete?: never;
@@ -52235,6 +46879,85 @@ export interface paths {
         };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v3/assets/batch': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header: {
+                    'Roblox-Place-Id': number;
+                    'Accept-Encoding': string;
+                };
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox2.Assetdelivery.V3.V3BatchRequest'];
+                    'text/json': components['schemas']['Roblox2.Assetdelivery.V3.V3BatchRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v3/assets/prewarm': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox2.Assetdelivery.V3.V3PrewarmRequest'];
+                    'text/json': components['schemas']['Roblox2.Assetdelivery.V3.V3PrewarmRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
@@ -53135,6 +47858,14 @@ export interface components {
          */
         AccountTaxType: 'Invalid' | 'Individual' | 'Business';
         ActionResult: Record<string, never>;
+        AdFormat: {
+            /** @description The ad format name. */
+            format?: string;
+            /** @description The format height in pixels. */
+            height?: number;
+            /** @description The format width in pixels. */
+            width?: number;
+        };
         /** @description Represents an address. */
         Address: {
             /**
@@ -53155,6 +47886,19 @@ export interface components {
             addressLine2?: string | null;
             /** @description The name associated with this address. */
             name?: string | null;
+        };
+        'AdsManagementApi.Creator': {
+            /** @description The creator group's ID. */
+            groupId?: string;
+            /** @description The creator user's ID. */
+            userId?: string;
+        };
+        AdvertisableUniverse: {
+            /**
+             * @description The identifier of an experience the caller can advertise, as a decimal string.
+             *     Resolve its name via the Open Cloud Universe API.
+             */
+            universeId: string;
         };
         AgentResponse: {
             /** Format: int64 */
@@ -53553,16 +48297,11 @@ export interface components {
             webhookReceiverConfig?: components['schemas']['AlertStorage.WebhookReceiverConfig'];
             configState?: components['schemas']['AlertStorage.AlertConfigState'];
         };
-        'AnalyticsBenchmarkApi.Any': {
-            '@type': string;
-        } & {
-            [key: string]: unknown;
-        };
         'AnalyticsBenchmarkApi.Status': {
             /** Format: int32 */
             code?: number;
             message?: string;
-            details?: components['schemas']['AnalyticsBenchmarkApi.Any'][];
+            details?: components['schemas']['Any'][];
         };
         /** @description A breakdown dimension value in a query result. */
         'AnalyticsQueryPublicApi.BreakdownValue': {
@@ -53587,74 +48326,8 @@ export interface components {
             value: number;
             /** @description String values associated with the data point, when applicable. */
             stringValues?: string[] | null;
-            status?: components['schemas']['AnalyticsQueryPublicApi.DataStatus'];
+            status?: components['schemas']['DataStatus'];
         };
-        /**
-         * @description The status of a data point in a query result.
-         * @enum {string}
-         */
-        'AnalyticsQueryPublicApi.DataStatus': 'Valid' | 'Projected' | 'NotStatisticallySignificant';
-        /** @description The values for a single dimension returned by a dimension values query. */
-        'AnalyticsQueryPublicApi.DimensionValues': {
-            /** @description The dimension name. */
-            dimension: string;
-            /** @description The values for the dimension. */
-            values?: components['schemas']['DimensionValue'][];
-        };
-        /** @description A request to query dimension values. */
-        'AnalyticsQueryPublicApi.DimensionValuesRequest': {
-            /** @description The metric that provides context for resolving dimension namespaces. */
-            metric: string;
-            /** @description The dimensions to retrieve values for. Each entry is a single dimension name. */
-            dimensions?: string[];
-            /**
-             * Format: date-time
-             * @description The inclusive start of the query time range. Any UTC offset is accepted; results are always bucketed in UTC.
-             */
-            startTime: string;
-            /**
-             * Format: date-time
-             * @description The exclusive end of the query time range. Any UTC offset is accepted; results are always bucketed in UTC.
-             */
-            endTime: string;
-            /** @description Filters to apply to the query. */
-            filter?: components['schemas']['AnalyticsQueryPublicApi.QueryFilter'][];
-            granularity?: components['schemas']['AnalyticsQueryPublicApi.MetricGranularity'];
-            /**
-             * Format: int32
-             * @description The maximum number of values to return per dimension.
-             */
-            limit?: number;
-        };
-        /** @description The response for a dimension values query. */
-        'AnalyticsQueryPublicApi.DimensionValuesResponse': {
-            /** @description The dimension values returned by the query. */
-            values?: components['schemas']['AnalyticsQueryPublicApi.DimensionValues'][];
-        };
-        /**
-         * @description The operation to apply to a query filter.
-         * @enum {string}
-         */
-        'AnalyticsQueryPublicApi.FilterOperation':
-            | 'In'
-            | 'NotIn'
-            | 'GreaterThan'
-            | 'GreaterThanOrEqual'
-            | 'LessThan'
-            | 'LessThanOrEqual'
-            | 'Match';
-        /**
-         * @description The time granularity of metric data points in a query.
-         * @enum {string}
-         */
-        'AnalyticsQueryPublicApi.MetricGranularity':
-            | 'OneMinute'
-            | 'HalfHour'
-            | 'OneHour'
-            | 'OneDay'
-            | 'OneWeek'
-            | 'OneMonth'
-            | 'None';
         /** @description A metric value for a single breakdown series. */
         'AnalyticsQueryPublicApi.MetricValue': {
             /** @description The breakdown values for this series. */
@@ -53662,88 +48335,28 @@ export interface components {
             /** @description The data points for this series. */
             dataPoints?: components['schemas']['AnalyticsQueryPublicApi.DataPoint'][];
         };
-        /** @description A completed long-running operation that failed with an error. */
-        'AnalyticsQueryPublicApi.OperationError': {
-            /** @description The server-assigned resource path. */
-            path?: string | null;
-            /** @description If false, the operation is still in progress. If true, the operation is completed. */
-            done?: boolean;
-            error?: components['schemas']['AnalyticsQueryPublicApi.QueryError'];
-            metadata?: components['schemas']['AnalyticsQueryPublicApi.OperationMetadata'];
-        };
-        /** @description The metadata associated with a long-running operation. */
-        'AnalyticsQueryPublicApi.OperationMetadata': {
-            /**
-             * Format: date-time
-             * @description The time the operation was created.
-             */
-            createdTime?: string | null;
-        };
-        /** @description The error returned from a query request. */
-        'AnalyticsQueryPublicApi.QueryError': {
-            /**
-             * Format: int32
-             * @description The error code.
-             */
-            code?: number;
-            /** @description The message associated with the query error. */
-            message: string;
-        };
-        /** @description A filter applied to a query dimension. */
-        'AnalyticsQueryPublicApi.QueryFilter': {
-            /** @description The dimension name to filter on. */
-            dimension: string;
-            /** @description The values to filter by. */
-            values?: string[];
-            operation: components['schemas']['AnalyticsQueryPublicApi.FilterOperation'];
-        };
-        /** @description A request to query time series metric data. */
-        'AnalyticsQueryPublicApi.QueryRequest': {
-            /** @description The metric to query. */
-            metric: string;
-            granularity: components['schemas']['AnalyticsQueryPublicApi.MetricGranularity'];
-            /**
-             * Format: date-time
-             * @description The inclusive start of the query time range. Any UTC offset is accepted; results are always bucketed in UTC.
-             */
-            startTime: string;
-            /**
-             * Format: date-time
-             * @description The exclusive end of the query time range. Any UTC offset is accepted; results are always bucketed in UTC.
-             */
-            endTime: string;
-            /** @description The dimensions to group results by. Each entry is a single dimension name. */
-            breakdown?: string[];
-            /** @description Filters to apply to the query. */
-            filter?: components['schemas']['AnalyticsQueryPublicApi.QueryFilter'][];
-            /**
-             * Format: int32
-             * @description The maximum number of breakdown series to return.
-             */
-            limit?: number;
-        };
-        /** @description The response for a metric query. */
-        'AnalyticsQueryPublicApi.QueryResponse': {
-            /** @description The metric values returned by the query. */
-            values?: components['schemas']['AnalyticsQueryPublicApi.MetricValue'][];
+        Any: {
+            '@type': string;
+        } & {
+            [key: string]: unknown;
         };
         ApiEmptyResponseModel: Record<string, never>;
         /** @description Represents an asset. */
         Asset: {
             /**
              * Format: enum
-             * @description The asset type. Required for [Create Asset](#POST-v1-assets).
+             * @description The asset type. Required for [Create Asset](#Assets_CreateAsset).
              */
             assetType?: string;
             /**
              * Format: int64
-             * @description The unique identifier of the asset. Required for [Update Asset](#PATCH-v1-assets-_asset_).
+             * @description The unique identifier of the asset. Required for [Update Asset](#Assets_UpdateAsset).
              */
-            readonly assetId?: number;
+            assetId?: number;
             creationContext?: components['schemas']['CreationContext'];
-            /** @description The description of the asset. Limit to 1000 characters. Required for [Create Asset](#POST-v1-assets). */
+            /** @description The description of the asset. Limit to 1000 characters. Required for [Create Asset](#Assets_CreateAsset). */
             description?: string;
-            /** @description Display name of the asset. Required for [Create Asset](#POST-v1-assets). */
+            /** @description Display name of the asset. Required for [Create Asset](#Assets_CreateAsset). */
             displayName?: string;
             /** @description The returned resource path of the asset. Format: `assets/{assetId}`. Example: `assets/2205400862`. */
             path?: string;
@@ -53754,7 +48367,11 @@ export interface components {
              * @description The creation timestamp of the current revision.
              */
             readonly revisionCreateTime?: string;
-            moderationResult?: components['schemas']['ModerationResult'];
+            readonly moderationResult?: components['schemas']['ModerationResult'];
+            /** @description Whether to publish the asset version created by the request. To check whether the current revision is published, see `isPublished`. */
+            published?: boolean;
+            /** @description Whether the current revision of the asset is published. */
+            readonly isPublished?: boolean;
             /** @description The resource path for the icon. */
             icon?: string;
             /** @description A list of previews, each with an asset path and alt text. Previews must be **Image** assets. */
@@ -54060,11 +48677,16 @@ export interface components {
         };
         /** @description An asset version. */
         AssetVersion: {
-            creationContext?: components['schemas']['CreationContext'];
+            readonly creationContext?: components['schemas']['CreationContext'];
             /** @description The returned resource path of the asset version. Format: `assets/{assetId}/versions/{version}`. Example: `assets/2205400862/versions/1`. */
             path?: string;
-            moderationResult?: components['schemas']['ModerationResult'];
-            /** @description Only applies to place asset types. Indicates if the place has been published or not. */
+            /**
+             * Format: date-time
+             * @description The timestamp when the asset version was created.
+             */
+            readonly createTime?: string;
+            readonly moderationResult?: components['schemas']['ModerationResult'];
+            /** @description Indicates if the asset version is published or not. */
             published?: boolean;
         };
         /** @description Assigns a role to the specified group membership. */
@@ -54122,6 +48744,16 @@ export interface components {
             /** @description Indicates which music charts to filter from. */
             musicChartType?: components['schemas']['MusicChartType'];
         } | null;
+        BatchGetStatusRequest: {
+            /** @description The campaign IDs to look up. Required. At most 100 per request. */
+            campaignIds: string[];
+        };
+        BatchGetStatusResponse: {
+            /** @description The IDs that could not be resolved. Omitted when every ID resolved. */
+            failures?: components['schemas']['CampaignIDFailure'][];
+            /** @description One entry per successfully resolved campaign. */
+            statuses?: components['schemas']['CampaignStatus'][];
+        };
         /** @description Request object to grant one permission to multiple assets. */
         BatchGrantPermissionsRequest: {
             subjectType?: components['schemas']['SubjectType'];
@@ -54276,6 +48908,105 @@ export interface components {
             /** @description Gets or sets the total amount of this bill. */
             totalAmount: components['schemas']['ServiceEfficiencyApi.Money'];
         };
+        BillingAccount: {
+            /** @description Available ad credit balance in micro-USD, as a decimal string. */
+            adCreditBalanceMicros?: string;
+            /**
+             * Format: date-time
+             * @description The time the account was created, as an RFC 3339 UTC timestamp.
+             */
+            createTime?: string;
+            /** @description The user or group that created the account. */
+            creator?: components['schemas']['AdsManagementApi.Creator'];
+            /** @description The human-readable name of the account. */
+            displayName?: string;
+            /** @description Total of failed credit card charges in micro-USD, as a decimal string. */
+            failedPaymentBalanceMicros?: string;
+            /** @description The unique identifier of the billing account. Use it as the {id} path parameter. */
+            id?: string;
+            /** @description Account-level budget and billing limits. */
+            limits?: components['schemas']['BillingAccountLimits'];
+            /** @description The identifier of the organization that owns the account. */
+            organizationId?: string;
+            /** @description Unbilled credit card spend in micro-USD, as a decimal string. */
+            outstandingBalanceMicros?: string;
+            /** @description Masked payment methods on file. Read-only; cards are added and updated in Ads Manager. */
+            paymentMethods?: components['schemas']['PaymentMethod'][];
+            /**
+             * @description The payment readiness of the account. Can be `READY`, `ACTION_REQUIRED`, `PAST_DUE`, or `DISABLED`.
+             * @enum {string}
+             */
+            paymentStatus?: 'READY' | 'ACTION_REQUIRED' | 'PAST_DUE' | 'DISABLED';
+            /**
+             * @description Machine-readable reason for a paymentStatus other than READY (v1.1).
+             * @enum {string}
+             */
+            paymentStatusReason?: 'PROFILE_NOT_VERIFIED' | 'TRANSACTION_FAILURE' | 'ACCOUNT_DISABLED';
+            /**
+             * @description The current state of the account. Can be `ACTIVE`, `DISABLED`, or `ARCHIVED`.
+             * @enum {string}
+             */
+            status?: 'ACTIVE' | 'DISABLED' | 'ARCHIVED';
+            /** @description Campaign payment types usable right now. */
+            supportedPaymentTypes?: ('CREDIT_CARD' | 'ADS_CREDIT' | 'INVOICE')[];
+            /**
+             * @description The IANA time zone the account's reporting dates and budget schedules are
+             *     interpreted in. Example: `America/Los_Angeles`.
+             */
+            timeZone?: string;
+            /**
+             * @description The account category. External advertisers are always SELF_SERVICE; MANAGED and
+             *     INTERNAL are Roblox-operated accounts. Can be `SELF_SERVICE`, `MANAGED`, or `INTERNAL`.
+             * @enum {string}
+             */
+            type?: 'SELF_SERVICE' | 'MANAGED' | 'INTERNAL';
+            /**
+             * Format: date-time
+             * @description The time the account was last updated, as an RFC 3339 UTC timestamp.
+             */
+            updateTime?: string;
+        };
+        BillingAccountLimits: {
+            /**
+             * @description Card billing threshold in micro-USD: when outstandingBalanceMicros reaches this
+             *     amount, accrued charges are billed to the card on file. Omitted when the account
+             *     has no threshold.
+             */
+            billingThresholdMicros?: string;
+            /** @description Highest daily budget any single campaign on this account may use, in micro-USD. */
+            maximumDailyBudgetMicros?: string;
+        };
+        BillingAccountOption: {
+            /** @description The user or group that created the account. */
+            creator: components['schemas']['AdsManagementApi.Creator'];
+            /** @description The human-readable name of the account. */
+            displayName: string;
+            /** @description The billing account ID. Pass it as billingAccountId when creating a campaign. */
+            id: string;
+            /**
+             * @description The maximum daily budget for CREDIT_CARD campaigns in this
+             *     account, in micro-USD. For LIFETIME, multiply by the schedule's number of days.
+             *     Omitted when the account does not offer CREDIT_CARD; does not limit ADS_CREDIT
+             *     or INVOICE campaigns.
+             */
+            maximumDailyBudgetMicros?: string;
+            /**
+             * @description The payment types a campaign in this account can use: only `ADS_CREDIT` for a
+             *     group's account; otherwise `INVOICE` for a managed account, or `ADS_CREDIT`
+             *     plus `CREDIT_CARD` once a card is set up for a self-serve account.
+             */
+            paymentTypes: ('CREDIT_CARD' | 'ADS_CREDIT' | 'INVOICE')[];
+            /**
+             * @description The current state of the account. Can be `ACTIVE`, `DISABLED`, or `ARCHIVED`.
+             * @enum {string}
+             */
+            status: 'ACTIVE' | 'DISABLED' | 'ARCHIVED';
+            /**
+             * @description The account category. Can be `SELF_SERVICE`, `MANAGED`, or `INTERNAL`.
+             * @enum {string}
+             */
+            type: 'SELF_SERVICE' | 'MANAGED' | 'INTERNAL';
+        };
         /** @description Response object for Billing Activities request. */
         BillingActivitiesResponse: {
             /** @description Gets or sets the account state. */
@@ -54304,6 +49035,52 @@ export interface components {
             value?: string;
             /** @description A display name for `value`. Not set in benchmark results. */
             displayValue?: string;
+        };
+        Budget: {
+            /**
+             * @description The budget amount in micro-USD, as a decimal string (for example, `5000000` =
+             *     $5.00). Money is sent and returned as a string so large values keep full
+             *     precision in every client. On a request it must be a numeric string of micro-USD.
+             */
+            amountMicros: string;
+            /**
+             * @description The queued lower budget for a pending decrease, in micro-USD as a decimal string
+             *     (same format as amountMicros). A budget increase takes effect immediately, but a
+             *     decrease on a running campaign is applied at the next midnight in the account's
+             *     time zone; until then the campaign keeps serving on amountMicros (the current,
+             *     higher budget). Omitted when no decrease is pending.
+             */
+            readonly scheduledAmountMicros?: string;
+            /**
+             * Format: date-time
+             * @description The time a pending budget decrease takes effect, as an RFC 3339 UTC timestamp.
+             *     Omitted when no decrease is pending.
+             */
+            readonly scheduledEffectiveTime?: string;
+            /**
+             * @description The budget cadence. Fixed when the campaign is created. Can be `DAILY` or `LIFETIME`.
+             * @enum {string}
+             */
+            type: 'DAILY' | 'LIFETIME';
+        };
+        BudgetConstraint: {
+            /**
+             * @description The budget type. Values can be `DAILY` or `LIFETIME`.
+             * @enum {string}
+             */
+            budgetType: 'DAILY' | 'LIFETIME';
+            /**
+             * @description The personal account's maximum DAILY budget for CREDIT_CARD,
+             *     in micro-USD. Omitted for other payment types and when universeId is supplied.
+             */
+            maximumAmountMicros?: string;
+            /** @description The longest schedule allowed, in days. */
+            maximumDurationInDays?: number;
+            /**
+             * @description The minimum budget in micro-USD, as a decimal string. For `LIFETIME`, this is
+             *     the minimum per day of the schedule.
+             */
+            minimumAmountMicros: string;
         };
         /**
          * @description Indicates the allowed budget levels for a service.
@@ -54374,6 +49151,190 @@ export interface components {
         CalculateExperimentMdeResponse: {
             /** @description The MDE async operation. */
             operation?: components['schemas']['MdeOperation'] | null;
+        };
+        Campaign: {
+            /** @description Whether ad credit is reloaded automatically when it runs low. */
+            autoReloadAdCreditEnabled?: boolean;
+            /** @description The billing account that owns and funds the campaign. */
+            billingAccountId?: string;
+            budget?: components['schemas']['Budget'];
+            /**
+             * Format: date-time
+             * @description The time the campaign was created, as an RFC 3339 UTC timestamp.
+             */
+            readonly createTime?: string;
+            /**
+             * @description The Roblox image asset IDs the campaign advertises, as decimal strings.
+             *     These are the same values as Creative.assetId.
+             */
+            creativeAssetIds?: string[];
+            /**
+             * @description The current serving state, derived by the system (read-only). Can be `SERVING`,
+             *     `IN_REVIEW`, `NOT_SERVING`, or `REJECTED`.
+             * @enum {string}
+             */
+            deliveryStatus?: 'SERVING' | 'IN_REVIEW' | 'NOT_SERVING' | 'REJECTED';
+            /**
+             * @description The reasons behind the current deliveryStatus, such as why a campaign is not
+             *     serving or was rejected, or `LEARNING` while a serving campaign ramps up. Omitted
+             *     when there are none.
+             */
+            deliveryStatusReasons?: (
+                | 'SCHEDULED'
+                | 'AUTO_PAUSED'
+                | 'PAUSED'
+                | 'INACTIVE'
+                | 'COMPLETED'
+                | 'EXPIRED'
+                | 'CANCELLED'
+                | 'MODERATED'
+                | 'CLICK_BAIT'
+                | 'GAME_FILTERED'
+                | 'PRIVATE'
+                | 'PLACE_JOIN_RESTRICTED'
+                | 'LEARNING'
+            )[];
+            /** @description The server-assigned unique identifier of the campaign. */
+            id?: string;
+            /** @description The display name of the campaign. */
+            name?: string;
+            /**
+             * @description The advertising goal of the campaign. `PLAYS` or `ENGAGEMENT` for campaigns created via this API; campaigns from other surfaces may report `AWARENESS`, `REACH`, `VIDEO_VIEWS`, `ROBUX_SPEND`, or `HIGH_VALUE_ACTION`.
+             * @enum {string}
+             */
+            objective?:
+                | 'PLAYS'
+                | 'ENGAGEMENT'
+                | 'AWARENESS'
+                | 'REACH'
+                | 'VIDEO_VIEWS'
+                | 'ROBUX_SPEND'
+                | 'HIGH_VALUE_ACTION';
+            /**
+             * @description How the campaign is paid for. Fixed when the campaign is created. Can be
+             *     `CREDIT_CARD`, `ADS_CREDIT`, or `INVOICE`.
+             * @enum {string}
+             */
+            paymentType?: 'CREDIT_CARD' | 'ADS_CREDIT' | 'INVOICE';
+            schedule?: components['schemas']['Schedule'];
+            /**
+             * @description The lifecycle state you control through update requests. Can be `ACTIVE`,
+             *     `PAUSED`, or `CANCELLED`. `CANCELLED` is permanent.
+             * @enum {string}
+             */
+            status?: 'ACTIVE' | 'PAUSED' | 'CANCELLED';
+            /** @description The identifier of the experience the campaign advertises. */
+            targetUniverseId?: string;
+            targeting?: components['schemas']['Targeting'];
+            /**
+             * Format: date-time
+             * @description The time the campaign was last updated, as an RFC 3339 UTC timestamp.
+             */
+            readonly updateTime?: string;
+            /**
+             * @description The campaign's video setting, applied to every ad. Omitted for campaigns created
+             *     before the setting existed.
+             */
+            video?: components['schemas']['CampaignVideo'];
+        };
+        CampaignIDFailure: {
+            /** @description The campaign ID that could not be resolved. */
+            id?: string;
+            /**
+             * @description Why the ID could not be resolved. `NOT_FOUND` means the campaign does not exist
+             *     or the caller can't manage it.
+             * @enum {string}
+             */
+            reason?: 'NOT_FOUND';
+        };
+        CampaignOptionsResponse: {
+            /** @description The supported creative formats and their pixel dimensions. */
+            adFormats?: components['schemas']['AdFormat'][];
+            /**
+             * @description The billing accounts you can create a campaign for this experience in: your
+             *     own, then the owning group's for a group-owned experience. Pass one as
+             *     billingAccountId when creating the campaign.
+             */
+            billingAccounts?: components['schemas']['BillingAccountOption'][];
+            /**
+             * @description The minimum budget per budget type. Without universeId, also includes the
+             *     personal account's maximum daily budget for CREDIT_CARD.
+             *     With universeId, read maximumDailyBudgetMicros on the selected billing account.
+             */
+            budgetConstraints?: components['schemas']['BudgetConstraint'][];
+            /** @description The creative count and asset type constraints for create. */
+            creativeRequirements?: components['schemas']['CreativeRequirements'];
+            /**
+             * @description The eligibility result for the requested experience. Present only when
+             *     universeId was supplied in the request.
+             */
+            eligibility?: components['schemas']['PublicUniverseEligibility'];
+            /** @description The campaign fields accepted by UpdateCampaign. */
+            mutableFields?: string[];
+            /**
+             * @description Per-objective availability and targeting support. Filtered to the objective
+             *     query parameter when supplied.
+             */
+            objectiveOptions?: components['schemas']['ObjectiveOption'][];
+            /** @description The campaign objectives you can create. Values can be `PLAYS` or `ENGAGEMENT`. */
+            objectives?: ('PLAYS' | 'ENGAGEMENT' | 'ROBUX_SPEND')[];
+            /**
+             * @description The payment types a campaign may choose. Values can be `CREDIT_CARD`,
+             *     `ADS_CREDIT`, or `INVOICE`. With universeId, the payment types at least one of
+             *     billingAccounts can use; empty when there are none. Without it, the payment
+             *     types of the caller's personal billing account. This is not whether an
+             *     account is funded; read paymentStatus from GET /billing-accounts for that.
+             */
+            paymentTypes?: ('CREDIT_CARD' | 'ADS_CREDIT' | 'INVOICE')[];
+            targetingDimensions?: components['schemas']['TargetingDimensions'];
+            /**
+             * @description The sponsored video tile capability. Omitted when sponsored video tiles aren't
+             *     enabled for the advertising context.
+             */
+            video?: components['schemas']['VideoOptions'];
+        };
+        CampaignStatus: {
+            /**
+             * @description The current serving state. Can be `SERVING`, `IN_REVIEW`, `NOT_SERVING`, or `REJECTED`.
+             * @enum {string}
+             */
+            deliveryStatus?: 'SERVING' | 'IN_REVIEW' | 'NOT_SERVING' | 'REJECTED';
+            /** @description The reasons behind the current deliveryStatus. Omitted when there are none. */
+            deliveryStatusReasons?: (
+                | 'SCHEDULED'
+                | 'AUTO_PAUSED'
+                | 'PAUSED'
+                | 'INACTIVE'
+                | 'COMPLETED'
+                | 'EXPIRED'
+                | 'CANCELLED'
+                | 'MODERATED'
+                | 'CLICK_BAIT'
+                | 'GAME_FILTERED'
+                | 'PRIVATE'
+                | 'PLACE_JOIN_RESTRICTED'
+                | 'LEARNING'
+            )[];
+            /** @description The campaign identifier. */
+            id?: string;
+            /**
+             * @description The lifecycle state. Can be `ACTIVE`, `PAUSED`, or `CANCELLED`.
+             * @enum {string}
+             */
+            status?: 'ACTIVE' | 'PAUSED' | 'CANCELLED';
+        };
+        CampaignVideo: {
+            /**
+             * @description When source is `PREVIEW_VIDEO`, the experience's current preview video asset ID,
+             *     as a decimal string (read-only). Omitted when the experience has no eligible
+             *     preview video, in which case the tile shows the image creative.
+             */
+            readonly previewVideoAssetId?: string;
+            /**
+             * @description The video shown on the sponsored tile. Values can be `IMAGE_ONLY` or `PREVIEW_VIDEO`.
+             * @enum {string}
+             */
+            source: 'IMAGE_ONLY' | 'PREVIEW_VIDEO';
         };
         CanInviteUserResponse: {
             canInvite?: boolean;
@@ -54639,6 +49600,49 @@ export interface components {
             /** @description The reactions to the message, if this feature is enabled for this message. */
             readonly messageReaction?: components['schemas']['MessageReaction'][];
         };
+        CreateCampaignRequest: {
+            /** @description Whether ad credit is reloaded automatically when it runs low. Defaults to false. */
+            autoReloadAdCreditEnabled?: boolean;
+            /**
+             * @description The billing account to create the campaign in: your own, or one owned by a group
+             *     where you have advertising permission. Optional; defaults to your own account.
+             *     For a group's account, targetUniverseId must be an experience the group owns.
+             */
+            billingAccountId?: string;
+            budget: components['schemas']['Budget'];
+            /**
+             * @description The Open Cloud image asset IDs to advertise, as decimal strings. Required. The
+             *     assets must already exist and be usable by the caller.
+             *     These are Roblox asset IDs, the same values as Creative.assetId.
+             */
+            creativeAssetIds: string[];
+            /** @description The display name of the campaign. Required. */
+            name: string;
+            /**
+             * @description The advertising goal. Required. Can be `PLAYS`, `ENGAGEMENT`, or
+             *     `ROBUX_SPEND`. `ENGAGEMENT` does not support targeting; `ENGAGEMENT` and
+             *     `ROBUX_SPEND` are not available for every experience.
+             * @enum {string}
+             */
+            objective: 'PLAYS' | 'ENGAGEMENT' | 'ROBUX_SPEND';
+            /**
+             * @description How the campaign is paid for. Required. Can be `CREDIT_CARD`, `ADS_CREDIT`, or
+             *     `INVOICE`, subject to what the billing account supports. A group's billing
+             *     account accepts only `ADS_CREDIT`.
+             * @enum {string}
+             */
+            paymentType: 'CREDIT_CARD' | 'ADS_CREDIT' | 'INVOICE';
+            schedule: components['schemas']['Schedule'];
+            /** @description The identifier of the experience to advertise. Required. */
+            targetUniverseId: string;
+            /** @description Optional audience targeting. Omit it, or send an empty object, to reach all audiences. */
+            targeting?: components['schemas']['Targeting'];
+            /**
+             * @description The video setting for every ad. Optional; omit it for an image-only campaign.
+             *     Allowed sources are listed by campaign-options `video.sources`.
+             */
+            video?: components['schemas']['CampaignVideo'];
+        };
         /** @description Request to create a custom matchmaking signal. */
         CreateCustomMatchmakingSignalRequest: {
             /** @description The ID of the scoring configuration that has the signal to be created. */
@@ -54647,7 +49651,7 @@ export interface components {
         };
         /** @description Response to create a custom matchmaking signal. */
         CreateCustomMatchmakingSignalResponse: {
-            scoringConfiguration?: components['schemas']['MatchmakingScoringConfiguration'];
+            scoringConfiguration: components['schemas']['MatchmakingScoringConfiguration'];
         };
         /** @description Creates a new entry with the value provided. */
         CreateEntryRequest: {
@@ -54775,7 +49779,7 @@ export interface components {
         };
         /** @description The response for creating a matchmaking player attribute definition. */
         CreateMatchmakingPlayerAttributeDefinitionResponse: {
-            playerAttributeDefinition?: components['schemas']['MatchmakingPlayerAttributeDefinition'];
+            playerAttributeDefinition: components['schemas']['MatchmakingPlayerAttributeDefinition'];
         };
         /** @description Request to create a matchmaking scoring configuration. */
         CreateMatchmakingScoringConfigurationRequest: {
@@ -54811,13 +49815,13 @@ export interface components {
             } | null;
             /** @description The desired set of weights for custom signals. It is a map from custom signal name to its weight. */
             customSignalWeights?: {
-                [key: string]: number | null;
+                [key: string]: number;
             } | null;
             template?: components['schemas']['MatchmakingScoringConfigurationTemplate'];
         };
         /** @description Response to create a matchmaking scoring configuration. */
         CreateMatchmakingScoringConfigurationResponse: {
-            scoringConfiguration?: components['schemas']['MatchmakingScoringConfiguration'];
+            scoringConfiguration: components['schemas']['MatchmakingScoringConfiguration'];
         };
         /** @description Request to create a new ServerAttributeDefinition. */
         CreateMatchmakingServerAttributeDefinitionRequest: {
@@ -54833,7 +49837,22 @@ export interface components {
         };
         /** @description The response for creating a matchmaking server attribute definition. */
         CreateMatchmakingServerAttributeDefinitionResponse: {
-            playerAttributeDefinition?: components['schemas']['MatchmakingServerAttributeDefinition'];
+            playerAttributeDefinition: components['schemas']['MatchmakingServerAttributeDefinition'];
+        };
+        /** @description Represents an item within a queue structure. */
+        CreateMemoryStoreQueueItemRequest: {
+            /** @description The value of the queue item. */
+            data?: unknown;
+            /**
+             * @description The TTL for the item.
+             * @example 3s
+             */
+            ttl?: string | null;
+            /**
+             * Format: double
+             * @description The priority of the queue item.
+             */
+            priority?: number;
         };
         /** @description Response object for Roblox.CloudPricing.ServiceEfficiencyApi.Operations.CreatePaymentProfileOperation */
         CreatePaymentProfileResponse: {
@@ -54874,7 +49893,7 @@ export interface components {
             output?: string | null;
             regexOperation?: components['schemas']['RegexOperation'];
         };
-        /** @description The context of creation that is not part of the asset content, such as metadata and creator information. Required for [Create Asset](#POST-v1-assets). */
+        /** @description The context of creation that is not part of the asset content, such as metadata and creator information. Required for [Create Asset](#Assets_CreateAsset). */
         CreationContext: {
             /** @description Desired privacy setting for the asset on creation. Only applies to asset types that support privacy override. */
             assetPrivacy?: components['schemas']['AssetPrivacy'];
@@ -54884,6 +49903,66 @@ export interface components {
              * @description Expected asset upload fee in Robux. When the actual price is more than expected, the operation fails with a 400 error.
              */
             expectedPrice?: number;
+        };
+        Creative: {
+            /**
+             * @description The Roblox asset ID identifying this creative, as a decimal string.
+             *     groupId selects the group ads account; absent groupId selects the personal ads account.
+             */
+            assetId?: string;
+            /** @description The display name of the underlying asset. */
+            assetName?: string;
+            /**
+             * @description The media type of the asset. Only `IMAGE` is supported.
+             * @enum {string}
+             */
+            assetType?: 'IMAGE';
+            /** @description The billing account whose library holds this entry. */
+            readonly billingAccountId?: string;
+            /**
+             * Format: date-time
+             * @description The time the creative was added to the library, as an RFC 3339 UTC timestamp.
+             */
+            createTime?: string;
+            /** @description The height of the asset in pixels. Omitted when unknown. */
+            height?: number;
+            /**
+             * Format: uuid
+             * @description The UUID identifying this creative registration. GET and PATCH paths use assetId, not this UUID.
+             */
+            readonly id?: string;
+            /** @description Whether the creative has been archived (soft-deleted). */
+            isArchived?: boolean;
+            /**
+             * @description The content-review outcome for the asset. Can be `PENDING_REVIEW`, `APPROVED`, or `REJECTED`.
+             * @enum {string}
+             */
+            moderationStatus?: 'PENDING_REVIEW' | 'APPROVED' | 'REJECTED';
+            /**
+             * @description How the asset was produced. Can be `UPLOAD` or `IN_HOUSE_GEN_AI`.
+             * @enum {string}
+             */
+            source?: 'UPLOAD' | 'IN_HOUSE_GEN_AI';
+            /**
+             * @description The identifier of the experience the creative is associated with, if any, as a
+             *     decimal string. Omitted when not associated with an experience.
+             */
+            universeId?: string;
+            /**
+             * Format: date-time
+             * @description The time the creative was last updated, as an RFC 3339 UTC timestamp.
+             */
+            updateTime?: string;
+            /** @description The width of the asset in pixels. Omitted when unknown. */
+            width?: number;
+        };
+        CreativeRequirements: {
+            /** @description The creative asset types accepted. Values can be `IMAGE`. */
+            acceptedAssetTypes?: 'IMAGE'[];
+            /** @description The most creatives a campaign can have. */
+            maximumCount?: number;
+            /** @description The fewest creatives a campaign can have. */
+            minimumCount?: number;
         };
         /** @description Represents a creator. */
         Creator: {
@@ -54944,7 +50023,7 @@ export interface components {
             /** @description The asset creator's details. */
             creator?: components['schemas']['CreatorModelV2'] | null;
             /** @description The asset's product details. */
-            creatorStoreProduct?: components['schemas']['ToolboxService.CreatorStoreProduct'] | null;
+            creatorStoreProduct?: components['schemas']['CreatorStoreProduct'] | null;
             /** @description The asset information. */
             asset:
                 | (
@@ -54967,135 +50046,15 @@ export interface components {
             /** @description Controls whether the model will be sandboxed upon insertion when it has scripts. */
             shouldSandbox?: boolean;
         } | null;
-        /**
-         * @description Represents a product in the Creator Store. This resource is used to manage
-         *     distribution and pricing of assets on the Creator Store.
-         */
+        /** @description The asset's creator store product information. */
         CreatorStoreProduct: {
-            /**
-             * @description The resource path of the creator store product.
-             *
-             *     Format: `creator-store-products/{creator_store_product_id}`
-             * @example creator-store-products/123
-             */
-            path?: string;
-            /**
-             * @description The base price of the product. For more information, see
-             *     [Money](/cloud/reference/types.md#money). Each product type (such as
-             *     `pluginAssetId`) supports a set of specific prices. Currently, only setting
-             *     a base price in USD is supported.
-             *
-             *     Depending on type, each Creator Store product has a fixed set of supported
-             *     prices; see the `productType` attribute for the full list. For example, to
-             *     set the price of a plugin to $4.99, use the following base price:
-             *     ```
-             *     "basePrice": {
-             *       "currencyCode": "USD",
-             *       "quantity": {
-             *         "significand": 4990000000,
-             *         "exponent": -9
-             *       }
-             *     }
-             *     ```
-             *
-             *     Note: The exponent **must** be -9, and the significand must be in this
-             *     format. The corresponding [Decimal](/cloud/reference/types.md#decimal)
-             *     format is `significand * 10^exponent`.
-             *
-             *     If you want to set the price of a plugin to $0 (i.e. free), use the
-             *     following `base_price`
-             *
-             *     ```
-             *     "basePrice": {
-             *       "currencyCode": "USD",
-             *       "quantity": {
-             *         "significand": 0,
-             *         "exponent": 0
-             *       }
-             *     }
-             *     ```
-             *
-             *     Note: You must still set the `currencyCode` to USD, even for
-             *     free products.
-             *
-             *     The actual purchase price is based on this base price, but often differs
-             *     slightly due to locale-specific considerations.
-             *
-             *     Set this to zero to make the product free.
-             */
-            basePrice?: components['schemas']['Money'];
-            /**
-             * @description The effective purchase price for the user, after factoring in
-             *     locale-specific considerations.
-             */
-            purchasePrice?: components['schemas']['Money'];
-            /**
-             * @description Whether the seller intends to distribute the Creator Store product on
-             *     the Creator Store. A seller might intend to distribute a product, but due
-             *     to some restrictions on the seller or underlying Creator Store product, the
-             *     product may not be available for purchase. See
-             *     `restrictions` and `purchasable` for more details.
-             * @example true
-             */
-            published?: boolean;
-            /**
-             * @description Restrictions applied to the product. A product can have multiple
-             *     restrictions active at one time.
-             *
-             *     Possible values:
-             *
-             *       | Value | Description |
-             *       | --- | --- |
-             *       | RESTRICTION_UNSPECIFIED | Unspecified restriction. |
-             *       | SOLD_ITEM_RESTRICTED | The item being sold has been restricted by Roblox  Details may be available by looking up that item directly. |
-             *       | SELLER_TEMPORARILY_RESTRICTED | The product is restricted because the seller's account is temporarily restricted by Roblox. |
-             *       | SELLER_PERMANENTLY_RESTRICTED | The product is restricted because the seller's account is permanently restricted by Roblox. |
-             *       | SELLER_NO_LONGER_ACTIVE | The product is restricted because the seller's account was deleted or is otherwise no longer active. |
-             */
-            readonly restrictions?: (
-                | 'RESTRICTION_UNSPECIFIED'
-                | 'SOLD_ITEM_RESTRICTED'
-                | 'SELLER_TEMPORARILY_RESTRICTED'
-                | 'SELLER_PERMANENTLY_RESTRICTED'
-                | 'SELLER_NO_LONGER_ACTIVE'
-            )[];
-            /**
-             * @description Whether the product is purchasable.
-             *
-             *     For this value to be true, `published` must be true and `restrictions` must
-             *     be empty. If this value is false, the product may not be acquired by any
-             *     user.
-             * @example true
-             */
-            readonly purchasable?: boolean;
-            /** @description The Roblox user selling the product. */
-            readonly userSeller?: string;
-            /** @description The Roblox group selling the product. */
-            readonly groupSeller?: string;
-            /** @description The Creator Store product is a model with this asset ID. */
-            modelAssetId?: string;
-            /**
-             * @description The Creator Store product is a plugin with this asset ID.
-             *
-             *     Supported base prices in USD: $0, $4.99, $5.99, $6.99, $7.99, $8.99,
-             *     $9.99, $10.99, $11.99, $12.99, $13.99, $14.99, $15.99, $16.99, $17.99,
-             *     $18.99, $19.99, $24.99, $29.99, $34.99, $39.99, $44.99, $49.99, $59.99,
-             *     $69.99, $79.99, $89.99, $99.99, $149.99, $199.99, $249.99
-             */
-            pluginAssetId?: string;
-            /** @description The Creator Store product is an audio file with this asset ID. */
-            audioAssetId?: string;
-            /** @description The Creator Store product is a decal with this asset ID. */
-            decalAssetId?: string;
-            /** @description The Creator Store product is a mesh part with this asset ID. */
-            meshPartAssetId?: string;
-            /** @description The Creator Store product is a video with this asset ID. */
-            videoAssetId?: string;
-            /** @description The Creator Store product is a font family with this asset ID. */
-            fontFamilyAssetId?: string;
-        };
+            /** @description The price of the asset, including the currency code. */
+            purchasePrice: components['schemas']['Money'] | null;
+            /** @description Whether or not the asset can be purchased in the Creator Store. */
+            purchasable: boolean;
+        } | null;
         /** @enum {string} */
-        CurrencyHolderType: 'Undefined' | 'User' | 'Group' | 'UserKey';
+        CurrencyType: 'Robux' | 'Tickets';
         /** @enum {string} */
         CursorPagingDirection: 'Forward' | 'Backward';
         /** @description The custom signal configuration using a developer created attribute. */
@@ -55151,6 +50110,11 @@ export interface components {
              */
             genre?: string;
         };
+        /**
+         * @description The status of a data point in a query result.
+         * @enum {string}
+         */
+        DataStatus: 'Valid' | 'Projected' | 'NotStatisticallySignificant' | 'InsufficientSampleSize';
         /** @description Represents a data store. */
         DataStore: {
             /**
@@ -55299,46 +50263,17 @@ export interface components {
                   textureId?: number;
               } & components['schemas']['ToolboxService.Asset'])
             | null;
-        /**
-         * @description Represents a decimal number in a form similar to scientific notation.
-         *
-         *     Examples:
-         *      - 17            === `{significand: 17   exponent: 0} (or just {significand:
-         *        17})`
-         *      - -0.005        === `{significand: -5   exponent: -3}`
-         *      - 33.5 million  === `{significand: 335  exponent: 5}`
-         *      - 11/8 (1.375)  === `{significand: 1375 exponent: -3}`
-         *
-         *     Note that the range of a Decimal exceeds that of a JSON `number` (double), as
-         *     well as that of a `decimal64`.
-         */
         Decimal: {
-            /**
-             * Format: int64
-             * @description The significant digits of the number.
-             */
+            /** Format: int64 */
             significand?: number;
-            /**
-             * Format: int32
-             * @description Represents the position of the decimal point within the significand.
-             *
-             *     When the exponent is 0, the value of the Decimal is simply the value of
-             *     `significand`.
-             *
-             *     When the exponent is greater than 0, represents the number of trailing
-             *     zeroes after the significant digits.
-             *
-             *     When the exponent is less than 0, represents how many of the significant
-             *     digits (and implicit leading zeroes, as needed) come after the decmial
-             *     point.
-             */
+            /** Format: int32 */
             exponent?: number;
-        };
+        } | null;
         /** @description A join request ID. */
         DeclineGroupJoinRequestRequest: Record<string, never>;
         /** @description Response to delete a custom matchmaking signal. */
         DeleteCustomMatchmakingSignalResponse: {
-            scoringConfiguration?: components['schemas']['MatchmakingScoringConfiguration'];
+            scoringConfiguration: components['schemas']['MatchmakingScoringConfiguration'];
         };
         /** @description Request model for deleting/resetting a draft. */
         DeleteDraftRequest: {
@@ -55433,14 +50368,51 @@ export interface components {
             /** @description A human-readable display value when the dimension is a unique ID. */
             displayValue?: string | null;
         };
+        /** @description The values for a single dimension returned by a dimension values query. */
+        DimensionValues: {
+            /** @description The dimension name. */
+            dimension: string;
+            /** @description The values for the dimension. */
+            values?: components['schemas']['DimensionValue'][];
+        };
         /** @description A completed long-running dimension values operation with results. */
         DimensionValuesOperationResult: {
             /** @description The server-assigned resource path. */
             path?: string | null;
             /** @description If false, the operation is still in progress. If true, the operation is completed. */
             done?: boolean;
-            response?: components['schemas']['AnalyticsQueryPublicApi.DimensionValuesResponse'];
-            metadata?: components['schemas']['AnalyticsQueryPublicApi.OperationMetadata'];
+            response?: components['schemas']['DimensionValuesResponse'];
+            metadata?: components['schemas']['OperationMetadata'];
+        };
+        /** @description A request to query dimension values. */
+        DimensionValuesRequest: {
+            /** @description The metric that provides context for resolving dimension namespaces. */
+            metric: string;
+            /** @description The dimensions to retrieve values for. Each entry is a single dimension name. */
+            dimensions?: string[];
+            /**
+             * Format: date-time
+             * @description The inclusive start of the query time range. Any UTC offset is accepted; results are always bucketed in UTC.
+             */
+            startTime: string;
+            /**
+             * Format: date-time
+             * @description The exclusive end of the query time range. Any UTC offset is accepted; results are always bucketed in UTC.
+             */
+            endTime: string;
+            /** @description Filters to apply to the query. */
+            filter?: components['schemas']['QueryFilter'][];
+            granularity?: components['schemas']['MetricGranularity'];
+            /**
+             * Format: int32
+             * @description Optional result limit. Omit to use the data source default; an explicit value must be positive.
+             */
+            limit?: number | null;
+        };
+        /** @description The response for a dimension values query. */
+        DimensionValuesResponse: {
+            /** @description The dimension values returned by the query. */
+            values?: components['schemas']['DimensionValues'][];
         };
         /** @description Response body for DELETE /v1/universes/{universeId}/experiment/{experimentId}. */
         DiscardExperimentResponse: {
@@ -55450,10 +50422,10 @@ export interface components {
         /** @description Discards read items from the front of the queue. */
         DiscardMemoryStoreQueueItemsRequest: {
             /**
-             * @description The `readId` of the previous read operation for which to discard read
+             * @description The `id` of the previous read operation for which to discard read
              *     items.
              */
-            readId?: string;
+            readId?: string | null;
         };
         /** @description Response model containing the draft hash. */
         DraftHashResponse: {
@@ -55560,6 +50532,16 @@ export interface components {
             | 'Blocked'
             | 'Conflict'
             | 'InvalidManagedPricing';
+        ErrorEnvelope: {
+            /** @description A human-readable explanation of this specific failure. */
+            detail: string;
+            /** @description The individual errors. There is at least one entry; each has a code and message. */
+            errors: components['schemas']['PublicError'][];
+            /** @description The HTTP status code, repeated here for convenience. */
+            status: number;
+            /** @description A short summary of the error class. */
+            title: string;
+        };
         /** @description error log detail */
         ErrorLogDetail: {
             /** @description The message hash id for this log detail. */
@@ -56046,11 +51028,25 @@ export interface components {
             /** @description The list of available values for the filter. */
             values?: unknown[] | null;
         };
+        /**
+         * @description The operation to apply to a query filter.
+         * @enum {string}
+         */
+        FilterOperation:
+            | 'In'
+            | 'NotIn'
+            | 'GreaterThan'
+            | 'GreaterThanOrEqual'
+            | 'LessThan'
+            | 'LessThanOrEqual'
+            | 'Match';
         /** @description Response model for filter options endpoint. */
         FilterOptionsResponse: {
             /** @description A dictionary of filter field names to their metadata and available values. */
             filters?: {
-                [key: string]: components['schemas']['FilterFieldInfo'];
+                EngineVersion?: components['schemas']['FilterFieldInfo'];
+                PlaceVersion?: components['schemas']['FilterFieldInfo'];
+                ALL?: components['schemas']['FilterFieldInfo'];
             } | null;
         };
         /**
@@ -56075,16 +51071,6 @@ export interface components {
         FindUniverseRegexesHttpResponse: {
             universeRegexes?: components['schemas']['UniverseRegexHttpResponse'][] | null;
         };
-        /**
-         * @description Represents metadata about the long-running operation corresponding to a
-         *     FlushMemoryStore request.
-         *
-         *     This is the type of the `Operation.metadata` field in the response to
-         *     `GetOperation` requests for FlushMemoryStore operations.
-         */
-        FlushMemoryStoreMetadata: Record<string, never>;
-        /** @description Returns a FlushMemoryStoreResponse object. */
-        FlushMemoryStoreResponse: Record<string, never>;
         /** @description Response model for the forecast restart endpoint. */
         ForecastRestartResponse: {
             /**
@@ -56105,7 +51091,7 @@ export interface components {
         };
         /** @description ForecastUpdateResponse is used to return information about the forecasted update of a place. */
         ForecastUpdateResponse: {
-            placeSummaries?: components['schemas']['PlaceSummaryForGameUpdate'][] | null;
+            placeSummaries: components['schemas']['PlaceSummaryForGameUpdate'][] | null;
         };
         /** @description v3 game event response. All fields except VirtualEventsApi.Models.V3.Response.GameEventResponse.Id are gated by the `?fields=` mask. */
         GameEventResponse: {
@@ -56243,30 +51229,87 @@ export interface components {
             name?: string | null;
             rootPlace?: components['schemas']['PlaceResponse'] | null;
         };
+        /** @description Response model for listing a Game Server */
+        GameServer: {
+            /** @description The place ID this game server belongs to. */
+            placeId: string | null;
+            /** @description The place version this game server belongs to. */
+            placeVersion: string | null;
+            /** @description The unique ID for this server. */
+            jobId: string | null;
+            /** @description The RCC Version the server is running */
+            engineVersion: string | null;
+            /**
+             * Format: date-time
+             * @description The time this server was created.
+             */
+            createTime: string;
+            /**
+             * Format: date-span
+             * @description How long this server has been running.
+             * @example 1.02:03:04
+             */
+            uptime: string;
+            /**
+             * Format: int64
+             * @description The Memory Usage of the server in bytes.
+             */
+            memoryUsageBytes: number;
+            /**
+             * Format: float
+             * @description The Server Frame Rate.
+             */
+            frameRate: number | null;
+            /**
+             * Format: int32
+             * @description The current number of users in the server.
+             */
+            occupancy: number;
+            /**
+             * Format: int32
+             * @description The maximum number of users in the server.
+             */
+            maxOccupancy: number;
+            /** @description The Type of Server. */
+            type: components['schemas']['ServerType'];
+            /** @description Whether the server is at max occupancy. */
+            full: boolean;
+            /** @description Whether the server has been shutdown. */
+            shutDown: boolean;
+            /** @description Creator-visible server status. */
+            status: components['schemas']['ServerStatus'];
+            /**
+             * Format: date-time
+             * @description The time the server terminated. Null while ServerManagementService.V2.Models.GameServer.ShutDown is false.
+             */
+            terminationTime: string | null;
+            /** @description The list of PlayerIds in the server */
+            playerIds: number[] | null;
+        };
         /** @description Response model for listing a game server log */
         GameServerLog: {
             /**
              * Format: date-time
              * @description The timestamp the log was received
              */
-            messageTimestampMs?: string;
+            messageTimestampMs: string;
             /**
              * Format: int64
              * @description The universe where the log was created
              */
-            universeId?: number;
+            universeId: number;
             /** @description The place where the log was created */
-            placeId?: string | null;
+            placeId: string | null;
             /** @description The place version on which the log was created */
-            placeVersion?: string | null;
+            placeVersion: string | null;
             /** @description The Game Server id where the log was created */
-            jobId?: string | null;
+            jobId: string | null;
             /** @description The severity of the log */
-            severity?: components['schemas']['LogSeverity'];
+            severity: components['schemas']['LogSeverity'];
             /** @description The log message */
-            message?: string | null;
+            message: string | null;
             /** @description The stack trace of the log */
-            stackTrace?: string | null;
+            stackTrace: string | null;
             /** @description Optional message template included with structured logging */
             messageTemplate?: string | null;
             /** @description Optional message context included with structured logging */
@@ -56277,12 +51320,12 @@ export interface components {
              * Format: int32
              * @description How many duplicate versions of this message were present in the same time window as this log
              */
-            skippedCount?: number;
+            skippedCount: number;
             /**
              * Format: int32
              * @description How many more messages were present in the time window beyond our overall rate limits
              */
-            rateLimitedCount?: number;
+            rateLimitedCount: number;
             /**
              * @description A list of ServerManagementService.V2.Models.StructuredStackFrame metadata, identifying the script that errored when combined
              *     with the ServerManagementService.V2.Models.GameServerLog.PlaceVersion
@@ -56296,6 +51339,26 @@ export interface components {
             displayName?: string | null;
             playerToken?: string | null;
         };
+        GameServerResponse: {
+            /** Format: uuid */
+            id?: string | null;
+            /** Format: int32 */
+            maxPlayers?: number;
+            /** Format: int32 */
+            playing?: number;
+            playerTokens?: string[] | null;
+            players?: components['schemas']['PrivateServerPlayerResponse'][] | null;
+            /** Format: double */
+            fps?: number;
+            /** Format: int32 */
+            ping?: number;
+            name?: string | null;
+            /** Format: int64 */
+            vipServerId?: number | null;
+            /** Format: uuid */
+            accessCode?: string | null;
+            owner?: components['schemas']['VerifiedBadgeUserResponse'] | null;
+        };
         GameServerResponsePageResponse: {
             previousPageCursor?: string | null;
             nextPageCursor?: string | null;
@@ -56303,18 +51366,18 @@ export interface components {
         };
         GameUpdateStatus: {
             /** Format: uuid */
-            id?: string;
+            id: string;
             /** Format: int64 */
-            universeId?: number;
+            universeId: number;
             /** Format: date-time */
-            startTime?: string;
-            closeOldVersionsOnly?: boolean;
+            startTime: string;
+            closeOldVersionsOnly: boolean;
             /** Format: date-time */
-            bleedOffEndTime?: string;
-            placeUpdateStatuses?: {
+            bleedOffEndTime: string;
+            placeUpdateStatuses: {
                 [key: string]: components['schemas']['PlaceUpdateStatus'];
             } | null;
-            bleedOffServers?: boolean;
+            bleedOffServers: boolean;
         };
         GameVoteResponse: {
             /** Format: int64 */
@@ -56404,7 +51467,7 @@ export interface components {
         GenericCurrencyResponse: {
             /** Format: int64 */
             amount?: number;
-            type?: components['schemas']['TransactionRecordsApi.CurrencyType'];
+            type?: components['schemas']['CurrencyType'];
         };
         /** @description Response structure for GetAccount endpoints. */
         GetAccountResponse: {
@@ -56442,16 +51505,16 @@ export interface components {
         GetInstanceMetadata: Record<string, never>;
         /** @description Response to get matchmaking customization feature flags. */
         GetMatchmakingCustomizationFeatureFlagsResponse: {
-            featureFlags?: components['schemas']['MatchmakingCustomizationFeatureFlags'];
+            featureFlags: components['schemas']['MatchmakingCustomizationFeatureFlags'];
         };
         /** @description Response to get the matchmaking scoring configuration. */
         GetMatchmakingScoringConfigurationResponse: {
-            scoringConfiguration?: components['schemas']['MatchmakingScoringConfiguration'];
+            scoringConfiguration: components['schemas']['MatchmakingScoringConfiguration'];
         };
         /** @description Response containing the weights of the current default matchmaking scoring weights */
         GetMatchmakingScoringDefaultWeightsResponse: {
             /** @description The weights of the current default matchmaking scoring weights. */
-            weights?: {
+            weights: {
                 /** Format: double */
                 Invalid?: number;
                 /** Format: double */
@@ -56485,7 +51548,7 @@ export interface components {
             placeVersions?: components['schemas']['PlaceVersion'][] | null;
         };
         GetPrivateServerListResponse: {
-            data?: components['schemas']['PrivateServersApi.GameServerResponse'][] | null;
+            data?: components['schemas']['GameServerResponse'][] | null;
             previousPageCursor?: string | null;
             nextPageCursor?: string | null;
             gameJoinRestricted?: boolean;
@@ -56512,7 +51575,17 @@ export interface components {
         /** @description Get Update Status response. */
         GetUpdateStatusResponse: {
             /** @description The status of the game update. */
-            updateStatusList?: components['schemas']['GameUpdateStatus'][] | null;
+            updateStatusList: components['schemas']['GameUpdateStatus'][] | null;
+        };
+        'Google.Protobuf.WellKnownTypes.Any': {
+            typeUrl?: string | null;
+            value?: number[] | null;
+        };
+        'Google.Rpc.Status': {
+            /** Format: int32 */
+            code?: number;
+            message?: string | null;
+            readonly details?: components['schemas']['Google.Protobuf.WellKnownTypes.Any'][] | null;
         };
         /** @description Contains an arbitrary serialized message along with a @type that describes the type of the serialized message. */
         GoogleProtobufAny: {
@@ -57078,7 +52151,7 @@ export interface components {
             id?: number;
             /**
              * Format: int32
-             * @description ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95, 'ComputeFunction' = 96]
+             * @description ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95, 'ComputeFunction' = 96, 'AvatarEffect' = 97]
              * @enum {integer}
              */
             type?:
@@ -57170,18 +52243,8 @@ export interface components {
                 | 93
                 | 94
                 | 95
-                | 96;
-            name?: string;
-        };
-        'GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Core.CreatorType_': {
-            /** Format: int64 */
-            id?: number;
-            /**
-             * Format: int32
-             * @description ['User' = 0, 'Group' = 1, 'Experience' = 2]
-             * @enum {integer}
-             */
-            type?: 0 | 1 | 2;
+                | 96
+                | 97;
             name?: string;
         };
         /** @description A homepage thumbnail associated with a universe. */
@@ -57194,7 +52257,7 @@ export interface components {
              */
             assetId: number;
             /** @description The moderation status of the thumbnail's image asset. */
-            moderationStatus: components['schemas']['ThumbnailPersonalizationApi.ModerationStatus'];
+            moderationStatus: components['schemas']['ModerationStatus'];
             /** @description Indicates whether the thumbnail belongs to an active personalization configuration. */
             personalizedConfigStatus: components['schemas']['PersonalizedConfigStatus'];
             /** @description The availability status of the homepage thumbnail. */
@@ -57219,38 +52282,6 @@ export interface components {
          * @enum {string}
          */
         HostType: 'user' | 'group';
-        HttpContent: {
-            readonly headers?: components['schemas']['StringStringIEnumerableKeyValuePair'][] | null;
-        };
-        HttpMethod: {
-            method?: string | null;
-        };
-        HttpRequestMessage: {
-            version?: string | null;
-            versionPolicy?: components['schemas']['HttpVersionPolicy'];
-            content?: components['schemas']['HttpContent'] | null;
-            method?: components['schemas']['HttpMethod'] | null;
-            /** Format: uri */
-            requestUri?: string | null;
-            readonly headers?: components['schemas']['StringStringIEnumerableKeyValuePair'][] | null;
-            /** @deprecated */
-            readonly properties?: {
-                [key: string]: unknown;
-            } | null;
-            readonly options?: {
-                [key: string]: unknown;
-            } | null;
-        };
-        HttpResponseMessage: {
-            version?: string | null;
-            content?: components['schemas']['HttpContent'] | null;
-            statusCode?: components['schemas']['TransactionRecordsApi.HttpStatusCode'];
-            reasonPhrase?: string | null;
-            readonly headers?: components['schemas']['StringStringIEnumerableKeyValuePair'][] | null;
-            readonly trailingHeaders?: components['schemas']['StringStringIEnumerableKeyValuePair'][] | null;
-            requestMessage?: components['schemas']['HttpRequestMessage'] | null;
-            readonly isSuccessStatusCode?: boolean;
-        };
         HttpValidationProblemDetails:
             | (({
                   errors?: {
@@ -57261,8 +52292,6 @@ export interface components {
               }) &
                   components['schemas']['ProblemDetails'])
             | null;
-        /** @enum {string} */
-        HttpVersionPolicy: 'RequestVersionOrLower' | 'RequestVersionOrHigher' | 'RequestVersionExact';
         /** @description A save record, hydrated with the asset details. */
         HydratedSave: {
             /** @description Whether the asset is owned by the user. */
@@ -57597,7 +52626,7 @@ export interface components {
              *     If a place is not in this dictionary or has an empty set, behavior falls back to CloseOldVersionsOnly logic.
              */
             placeIdToVersions?: {
-                [key: string]: number[] | null;
+                [key: string]: number[];
             } | null;
             /** @description Optional. Attributes string to include in the ServerLifecycleChanged CSM payload published to game servers. */
             attributes?: string | null;
@@ -57608,23 +52637,30 @@ export interface components {
              * Format: uuid
              * @description An ID for UI to query status of this update
              */
-            updateId?: string;
+            updateId: string;
             /**
              * Format: int32
              * @description How many players are playing in servers that will be shut down according to the update configuration
              */
-            numPlayersToBeKicked?: number;
+            numPlayersToBeKicked: number;
             /**
              * Format: int32
              * @description How many game instances will be closed according to the update configuration
              */
-            instancesToBeClosed?: number;
+            instancesToBeClosed: number;
         };
         /**
          * Format: int32
          * @enum {integer}
          */
         LinkType: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+        ListAdvertisableUniversesResponse: {
+            /**
+             * @description The complete set of experiences the caller can advertise. This endpoint is not
+             *     paginated; the full list is returned in one response.
+             */
+            advertisableUniverses: components['schemas']['AdvertisableUniverse'][];
+        };
         /** @description A list of AssetQuotas in the parent collection. */
         ListAssetQuotasResponse: {
             /** @description The AssetQuotas from the specified User. */
@@ -57632,6 +52668,33 @@ export interface components {
             /**
              * @description A token that you can send as a `pageToken` parameter to retrieve the next
              *     page. If this field is omitted, there are no subsequent pages.
+             */
+            nextPageToken?: string;
+        };
+        ListBillingAccountsResponse: {
+            /** @description The page of billing accounts. */
+            billingAccounts?: components['schemas']['BillingAccount'][];
+            /**
+             * @description The cursor for the next page. Pass it as pageToken to fetch the next page.
+             *     Absent on the last page.
+             */
+            nextPageToken?: string;
+        };
+        ListCampaignsResponse: {
+            /** @description The page of campaigns. */
+            campaigns?: components['schemas']['Campaign'][];
+            /**
+             * @description The cursor for the next page. Pass it as pageToken to fetch the next page.
+             *     Absent on the last page.
+             */
+            nextPageToken?: string;
+        };
+        ListCreativesResponse: {
+            /** @description The page of creatives. */
+            creatives?: components['schemas']['Creative'][];
+            /**
+             * @description The cursor for the next page. Pass it as pageToken to fetch the next page.
+             *     Absent on the last page.
              */
             nextPageToken?: string;
         };
@@ -57723,6 +52786,37 @@ export interface components {
              *     page. If this field is omitted, there are no subsequent pages.
              */
             nextPageToken?: string | null;
+        };
+        /** @description Response model for listing game servers. */
+        ListGameServersResponse: {
+            /** @description The GameServers from the specified PlaceVersion. */
+            gameServers?: components['schemas']['GameServer'][] | null;
+            /**
+             * @description A token that you can send as a `pageToken` parameter to retrieve the next
+             *     page. If this field is omitted, there are no subsequent pages.
+             */
+            nextPageToken?: string | null;
+            /**
+             * @description A token that you can send as a `pageToken` parameter to retrieve the previous
+             *     page (reverse cursor). If this field is omitted, there are no prior pages.
+             */
+            previousPageToken?: string | null;
+            /**
+             * Format: int32
+             * @description Total matching rows across all pages. Combined active+shutdown queries return the sum of
+             *     each source total when both are known; omitted when a source failed or omitted its total.
+             */
+            totalCount?: number | null;
+            /**
+             * @description True when this page includes active rows but shutdown rows could not be fetched.
+             *     Results may be a partial slice of the globally ordered combined stream.
+             */
+            shutdownServersFetchError?: boolean | null;
+            /**
+             * @description True when this page includes shutdown rows but active rows could not be fetched.
+             *     Results may be a partial slice of the globally ordered combined stream.
+             */
+            activeServersFetchError?: boolean | null;
         };
         /** @description A list of GroupForumCategories in the parent collection. */
         ListGroupForumCategoriesResponse: {
@@ -57833,7 +52927,7 @@ export interface components {
         /** @description Response to list matchmaking scoring configurations in a universe. */
         ListMatchmakingScoringConfigurationsResponse: {
             /** @description The scoring configurations. */
-            scoringConfigurations?: components['schemas']['MatchmakingScoringConfiguration'][] | null;
+            scoringConfigurations: components['schemas']['MatchmakingScoringConfiguration'][] | null;
         };
         /** @description The response for listing matchmaking server attribute definitions. */
         ListMatchmakingServerAttributeDefinitionsResponse: {
@@ -57843,12 +52937,12 @@ export interface components {
         /** @description A list of MemoryStoreSortedMapItems in the parent collection. */
         ListMemoryStoreSortedMapItemsResponse: {
             /** @description The MemoryStoreSortedMapItems from the specified MemoryStoreSortedMap. */
-            items?: components['schemas']['MemoryStoreSortedMapItem'][];
+            items?: components['schemas']['MemoryStoreSortedMapItem'][] | null;
             /**
              * @description A token that you can send as a `pageToken` parameter to retrieve the next
              *     page. If this field is omitted, there are no subsequent pages.
              */
-            nextPageToken?: string;
+            nextPageToken?: string | null;
         };
         /** @description A list of OrderedDataStoreEntries in the parent collection. */
         ListOrderedDataStoreEntriesResponse: {
@@ -57868,7 +52962,7 @@ export interface components {
         /** @description Response to list all places with scoring configuration in a universe. */
         ListPlaceMatchmakingScoringConfigurationsResponse: {
             /** @description The scoring configurations for places. */
-            placeScoringConfigurations?: {
+            placeScoringConfigurations: {
                 [key: string]: components['schemas']['MatchmakingScoringConfiguration'];
             } | null;
         };
@@ -58225,6 +53319,192 @@ export interface components {
              */
             readonly results?: components['schemas']['GoogleProtobufValue'][];
         };
+        /**
+         * @description Represents a product in the Creator Store. This resource is used to manage
+         *     distribution and pricing of assets on the Creator Store.
+         */
+        'MarketplaceFiatService.CreatorStoreProduct': {
+            /**
+             * @description The resource path of the creator store product.
+             *
+             *     Format: `creator-store-products/{creator_store_product_id}`
+             * @example creator-store-products/123
+             */
+            path?: string | null;
+            /**
+             * @description The base price of the product. For more information, see
+             *     [Money](/cloud/reference/types.md#money). Each product type (such as
+             *     `pluginAssetId`) supports a set of specific prices. Currently, only setting
+             *     a base price in USD is supported.
+             *
+             *     Depending on type, each Creator Store product has a fixed set of supported
+             *     prices; see the `productType` attribute for the full list. For example, to
+             *     set the price of a plugin to $4.99, use the following base price:
+             *     ```
+             *     "basePrice": {
+             *       "currencyCode": "USD",
+             *       "quantity": {
+             *         "significand": 4990000000,
+             *         "exponent": -9
+             *       }
+             *     }
+             *     ```
+             *
+             *     Note: The exponent **must** be -9, and the significand must be in this
+             *     format. The corresponding [Decimal](/cloud/reference/types.md#decimal)
+             *     format is `significand * 10^exponent`.
+             *
+             *     If you want to set the price of a plugin to $0 (i.e. free), use the
+             *     following `base_price`
+             *
+             *     ```
+             *     "basePrice": {
+             *       "currencyCode": "USD",
+             *       "quantity": {
+             *         "significand": 0,
+             *         "exponent": 0
+             *       }
+             *     }
+             *     ```
+             *
+             *     Note: You must still set the `currencyCode` to USD, even for
+             *     free products.
+             *
+             *     The actual purchase price is based on this base price, but often differs
+             *     slightly due to locale-specific considerations.
+             *
+             *     Set this to zero to make the product free.
+             */
+            basePrice?: components['schemas']['MarketplaceFiatService.Money'];
+            /**
+             * @description The effective purchase price for the user, after factoring in
+             *     locale-specific considerations.
+             */
+            purchasePrice?: components['schemas']['MarketplaceFiatService.Money'];
+            /**
+             * @description Whether the seller intends to distribute the Creator Store product on
+             *     the Creator Store. A seller might intend to distribute a product, but due
+             *     to some restrictions on the seller or underlying Creator Store product, the
+             *     product may not be available for purchase. See
+             *     `restrictions` and `purchasable` for more details.
+             * @example true
+             */
+            published?: boolean;
+            /**
+             * @description Restrictions applied to the product. A product can have multiple
+             *     restrictions active at one time.
+             *
+             *     Possible values:
+             *
+             *       | Value | Description |
+             *       | --- | --- |
+             *       | RESTRICTION_UNSPECIFIED | Unspecified restriction. |
+             *       | SOLD_ITEM_RESTRICTED | The item being sold has been restricted by Roblox  Details may be available by looking up that item directly. |
+             *       | SELLER_TEMPORARILY_RESTRICTED | The product is restricted because the seller's account is temporarily restricted by Roblox. |
+             *       | SELLER_PERMANENTLY_RESTRICTED | The product is restricted because the seller's account is permanently restricted by Roblox. |
+             *       | SELLER_NO_LONGER_ACTIVE | The product is restricted because the seller's account was deleted or is otherwise no longer active. |
+             */
+            readonly restrictions?:
+                | (
+                      | 'RESTRICTION_UNSPECIFIED'
+                      | 'SOLD_ITEM_RESTRICTED'
+                      | 'SELLER_TEMPORARILY_RESTRICTED'
+                      | 'SELLER_PERMANENTLY_RESTRICTED'
+                      | 'SELLER_NO_LONGER_ACTIVE'
+                  )[]
+                | null;
+            /**
+             * @description Whether the product is purchasable.
+             *
+             *     For this value to be true, `published` must be true and `restrictions` must
+             *     be empty. If this value is false, the product may not be acquired by any
+             *     user.
+             * @example true
+             */
+            readonly purchasable?: boolean;
+            /** @description The Roblox user selling the product. */
+            readonly userSeller?: string | null;
+            /** @description The Roblox group selling the product. */
+            readonly groupSeller?: string | null;
+            /** @description The Creator Store product is a model with this asset ID. */
+            modelAssetId?: string | null;
+            /**
+             * @description The Creator Store product is a plugin with this asset ID.
+             *
+             *     Supported base prices in USD: $0, $4.99, $5.99, $6.99, $7.99, $8.99,
+             *     $9.99, $10.99, $11.99, $12.99, $13.99, $14.99, $15.99, $16.99, $17.99,
+             *     $18.99, $19.99, $24.99, $29.99, $34.99, $39.99, $44.99, $49.99, $59.99,
+             *     $69.99, $79.99, $89.99, $99.99, $149.99, $199.99, $249.99
+             */
+            pluginAssetId?: string | null;
+            /** @description The Creator Store product is an audio file with this asset ID. */
+            audioAssetId?: string | null;
+            /** @description The Creator Store product is a decal with this asset ID. */
+            decalAssetId?: string | null;
+            /** @description The Creator Store product is a mesh part with this asset ID. */
+            meshPartAssetId?: string | null;
+            /** @description The Creator Store product is a video with this asset ID. */
+            videoAssetId?: string | null;
+            /** @description The Creator Store product is a font family with this asset ID. */
+            fontFamilyAssetId?: string | null;
+        };
+        /**
+         * @description Represents a decimal number in a form similar to scientific notation.
+         *
+         *     Examples:
+         *      - 17            === `{significand: 17   exponent: 0} (or just {significand:
+         *        17})`
+         *      - -0.005        === `{significand: -5   exponent: -3}`
+         *      - 33.5 million  === `{significand: 335  exponent: 5}`
+         *      - 11/8 (1.375)  === `{significand: 1375 exponent: -3}`
+         *
+         *     Note that the range of a Decimal exceeds that of a JSON `number` (double), as
+         *     well as that of a `decimal64`.
+         */
+        'MarketplaceFiatService.Decimal': {
+            /**
+             * Format: int64
+             * @description The significant digits of the number.
+             */
+            significand?: number;
+            /**
+             * Format: int32
+             * @description Represents the position of the decimal point within the significand.
+             *
+             *     When the exponent is 0, the value of the Decimal is simply the value of
+             *     `significand`.
+             *
+             *     When the exponent is greater than 0, represents the number of trailing
+             *     zeroes after the significant digits.
+             *
+             *     When the exponent is less than 0, represents how many of the significant
+             *     digits (and implicit leading zeroes, as needed) come after the decmial
+             *     point.
+             */
+            exponent?: number;
+        };
+        /**
+         * @description Represents an amount of money with its currency type.
+         *
+         *     Examples:
+         *      - Five US dollars === `{currency_code: "USD" quantity: {significand: 5}}`
+         */
+        'MarketplaceFiatService.Money': {
+            /**
+             * @description A currency code.
+             *
+             *     This may be a three-letter currency code defined in ISO 4217.
+             *
+             *     APIs may define additional currency codes that are not included in the ISO
+             *     4217 standard (for example, virtual currencies or cryptocurrencies). These
+             *     must start with `X-`, in order to distinguish them from potential future
+             *     ISO 4217 codes. For example, `"USD"` is the ISO 4217 code for United States
+             *     dollar.
+             */
+            currencyCode?: string | null;
+            /** @description The quantity of currency. */
+            quantity?: components['schemas']['MarketplaceFiatService.Decimal'];
+        };
         /** @description Matchmaking attribute aggregation object for matchmaking rules. */
         MatchmakingAttributeAggregation: {
             aggregationFunction?: components['schemas']['AttributeAggregationFunction'];
@@ -58275,11 +53555,11 @@ export interface components {
         /** @description Matchmaking object for universe feature flags controlling matchmaking customization. */
         MatchmakingCustomizationFeatureFlags: {
             /** @description If matchmaking customization is allowed for this universe */
-            isMatchmakingCustomizationAllowed?: boolean;
+            isMatchmakingCustomizationAllowed: boolean;
             /** @description If matchmaking customization experiments are allowed for this universe */
-            isMatchmakingCustomizationExperimentsAllowed?: boolean;
+            isMatchmakingCustomizationExperimentsAllowed: boolean;
             /** @description Whether text chat signal is enabled for Custom Matchmaking. */
-            isMatchmakingTextChatSignalEnabled?: boolean;
+            isMatchmakingTextChatSignalEnabled: boolean;
         };
         /** @description Configuration for a matchmaking experiment. */
         MatchmakingExperimentConfiguration: {
@@ -58304,17 +53584,17 @@ export interface components {
         /** @description Describes a player attribute definition for matchmaking. */
         MatchmakingPlayerAttributeDefinition: {
             /** @description The id of the attribute. */
-            id?: string | null;
+            id: string | null;
             /**
              * Format: int64
              * @description The universe id of the attribute.
              */
             universeId?: number;
             /** @description The name of the attribute. */
-            name?: string | null;
+            name: string | null;
             dataType?: components['schemas']['MatchmakingAttributeDataType'];
             defaultValue?: components['schemas']['MatchmakingAttributeValue'];
-            attributeValueLocation?: components['schemas']['MatchmakingAttributeValueLocation'];
+            attributeValueLocation: components['schemas']['MatchmakingAttributeValueLocation'];
             /**
              * Format: date-time
              * @description The aggregation function of the attribute.
@@ -58329,11 +53609,11 @@ export interface components {
         /** @description The custom scoring configuration for matchmaking. */
         MatchmakingScoringConfiguration: {
             /** @description The id of the scoring configuration. */
-            id?: string | null;
+            id: string | null;
             /** @description The name of the scoring configuration. It needs to be unique within a universe. */
-            name?: string | null;
+            name: string | null;
             /** @description The signal weights for the scoring configuration. */
-            signalWeights?: {
+            signalWeights: {
                 Invalid?: components['schemas']['MatchmakingSignalWeightConfiguration'];
                 Occupancy?: components['schemas']['MatchmakingSignalWeightConfiguration'];
                 Age?: components['schemas']['MatchmakingSignalWeightConfiguration'];
@@ -58346,19 +53626,19 @@ export interface components {
                 TextChat?: components['schemas']['MatchmakingSignalWeightConfiguration'];
             } | null;
             /** @description The custom signals part of this place's scoring configuration. */
-            customSignals?: {
+            customSignals: {
                 [key: string]: components['schemas']['CustomSignalConfiguration'];
             } | null;
             /**
              * Format: date-time
              * @description The scoring configuration's created time.
              */
-            createdTime?: string;
+            createdTime: string;
             /**
              * Format: date-time
              * @description The scoring configuration's updated time.
              */
-            updatedTime?: string;
+            updatedTime: string;
         };
         /**
          * @description A predefined template used for creating matchmaking scoring configuration.
@@ -58379,14 +53659,14 @@ export interface components {
         /** @description Describes a player attribute definition for matchmaking. */
         MatchmakingServerAttributeDefinition: {
             /** @description The id of the attribute. */
-            id?: string | null;
+            id: string | null;
             /**
              * Format: int64
              * @description The universe id of the attribute.
              */
             universeId?: number;
             /** @description The name of the attribute. */
-            name?: string | null;
+            name: string | null;
             dataType?: components['schemas']['MatchmakingAttributeDataType'];
             defaultValue?: components['schemas']['MatchmakingServerAttributeDefaultValue'];
             /**
@@ -58426,8 +53706,8 @@ export interface components {
              * Format: double
              * @description Weight of signal.
              */
-            weight?: number;
-            signalType?: components['schemas']['MatchmakingSignalType'];
+            weight: number;
+            signalType: components['schemas']['MatchmakingSignalType'];
         };
         /**
          * @description Async operation result for a `:calculateMde` call. When Done is true
@@ -58466,15 +53746,23 @@ export interface components {
              */
             minimumSampleSizeThreshold?: number;
         };
-        /** @description Represents the memory store of the universe. */
-        MemoryStore: {
+        /**
+         * @description This resource represents a long-running operation that is the result of a
+         *     network API call.
+         */
+        MemoryStoreFlushOperation: {
             /**
-             * @description The resource path of the memory store.
-             *
-             *     Format: `universes/{universe_id}/memory-store`
-             * @example universes/123/memory-store
+             * @description The server-assigned path, which is only unique within the same service that
+             *     originally returns it. If you use the default HTTP mapping, the
+             *     `path` should be a resource path ending with `operations/{unique_id}`.
              */
-            path?: string;
+            path?: string | null;
+            /**
+             * @description If the value is `false`, it means the operation is still in progress.
+             *     If `true`, the operation is completed.
+             * @example true
+             */
+            done?: boolean | null;
         };
         /** @description Represents an item within a queue structure. */
         MemoryStoreQueueItem: {
@@ -58485,28 +53773,25 @@ export interface components {
              *     `cloud/v2/universes/{universe_id}/memory-store/queues/{memory_store_queue_id}/items/{memory_store_queue_item_id}`
              * @example cloud/v2/universes/123/memory-store/queues/some-memory-store-queue-id/items/some-memory-store-queue-item-id
              */
-            path?: string;
+            path?: string | null;
             /** @description The value of the queue item. */
-            data?: components['schemas']['GoogleProtobufValue'];
+            data?: unknown;
             /**
              * Format: double
              * @description The priority of the queue item.
              */
             priority?: number;
             /**
-             * Format: duration
-             * @description The TTL for the item.
-             * @example 3s
-             */
-            ttl?: string;
-            /**
              * Format: date-time
              * @description The expiration time of the item.
              * @example 2023-07-05T12:34:56Z
              */
             readonly expireTime?: string;
-            /** @description The name of the item. */
-            readonly id?: string;
+            /**
+             * @description The TTL for the item.
+             * @example 3s
+             */
+            ttl?: string | null;
         };
         /** @description Represents an item within a sorted map structure. */
         MemoryStoreSortedMapItem: {
@@ -58517,32 +53802,37 @@ export interface components {
              *     `cloud/v2/universes/{universe_id}/memory-store/sorted-maps/{memory_store_sorted_map_id}/items/{memory_store_sorted_map_item_id}`
              * @example cloud/v2/universes/123/memory-store/sorted-maps/some-memory-store-sorted-map-id/items/some-memory-store-sorted-map-item-id
              */
-            path?: string;
+            path?: string | null;
             /** @description The value of the item. */
-            value?: components['schemas']['GoogleProtobufValue'];
-            /** @description The server generated tag of an item. */
-            readonly etag?: string;
+            value?: unknown;
             /**
-             * Format: duration
-             * @description The TTL for the item.
-             * @example 3s
+             * @description The server generated tag of an item.
+             *
+             *     When updating an item, if `etag` is provided, the update only succeeds if
+             *     it matches the current tag of the item.
              */
-            ttl?: string;
+            etag?: string | null;
             /**
              * Format: date-time
              * @description The expiration time of the item.
              * @example 2023-07-05T12:34:56Z
              */
-            readonly expireTime?: string;
+            readonly expireTime?: string | null;
+            /**
+             * @description Required on create and update. It must be a number ending in `s`, greater than 0 and at most `3888000s`.
+             *     The response reports expiration as `expireTime`, not `ttl`.
+             * @example 3s
+             */
+            ttl?: string | null;
             /** @description The name of the item. */
-            id?: string;
+            id?: string | null;
             /** @description The item will be sorted lexicographically according to this string. */
-            stringSortKey?: string;
+            stringSortKey?: string | null;
             /**
              * Format: double
              * @description The item will be sorted according to this number.
              */
-            numericSortKey?: number;
+            numericSortKey?: number | null;
         };
         /** @description Representation of a mesh asset. */
         MeshPart:
@@ -58569,6 +53859,11 @@ export interface components {
              */
             readonly count?: number;
         };
+        /**
+         * @description The time granularity of metric data points in a query.
+         * @enum {string}
+         */
+        MetricGranularity: 'OneMinute' | 'HalfHour' | 'OneHour' | 'OneDay' | 'OneWeek' | 'OneMonth' | 'None';
         /** @description MetricValue content of a query result. */
         MetricValue: {
             /**
@@ -58689,27 +53984,14 @@ export interface components {
             moderationState?: string;
         };
         /**
-         * @description Represents an amount of money with its currency type.
-         *
-         *     Examples:
-         *      - Five US dollars === `{currency_code: "USD" quantity: {significand: 5}}`
+         * @description The moderation status of a homepage thumbnail's image asset.
+         * @enum {string}
          */
+        ModerationStatus: 'Reviewing' | 'Rejected' | 'Approved' | 'Unspecified';
         Money: {
-            /**
-             * @description A currency code.
-             *
-             *     This may be a three-letter currency code defined in ISO 4217.
-             *
-             *     APIs may define additional currency codes that are not included in the ISO
-             *     4217 standard (for example, virtual currencies or cryptocurrencies). These
-             *     must start with `X-`, in order to distinguish them from potential future
-             *     ISO 4217 codes. For example, `"USD"` is the ISO 4217 code for United States
-             *     dollar.
-             */
-            currencyCode?: string;
-            /** @description The quantity of currency. */
-            quantity?: components['schemas']['Decimal'];
-        };
+            currencyCode?: string | null;
+            quantity?: components['schemas']['Decimal'] | null;
+        } | null;
         /** @description Representation of a music asset. */
         Music:
             | ({
@@ -58753,8 +54035,6 @@ export interface components {
             previousPageCursor?: string | null;
             data?: components['schemas']['MyPrivateServersData'][] | null;
         };
-        /** @enum {string} */
-        O18EligibilityTag: 'None' | 'O18Eligible' | 'O18EligibleAndPlus';
         /** @description This resource represents a long-running operation that is the result of a network API call. */
         'OCV1.Assets.Operation': {
             /** @description The server-assigned resource path. The default format is `operations/{operation_id}`. */
@@ -58839,6 +54119,177 @@ export interface components {
              */
             vertices?: number;
         } | null;
+        ObjectiveOption: {
+            /** @description Accepted targeting.audienceType values. Only ALL_PLAYERS for ENGAGEMENT, which rejects targeting restrictions. */
+            audienceTypes: ('ALL_PLAYERS' | 'NEW_USERS' | 'RETENTION' | 'REACTIVATION')[];
+            /** @description Whether the objective can currently be used. */
+            available: boolean;
+            /**
+             * @description The objective. Values can be `PLAYS`, `ENGAGEMENT`, or `ROBUX_SPEND`.
+             * @enum {string}
+             */
+            objective: 'PLAYS' | 'ENGAGEMENT' | 'ROBUX_SPEND';
+            /** @description Whether create accepts targeting restrictions for this objective. False only for `ENGAGEMENT`. */
+            supportsTargeting: boolean;
+            /** @description Why the objective is unavailable. Present only when available is false. */
+            unavailableReasons?: components['schemas']['Reason'][];
+        };
+        'OpenCloudUniversesService.Status': {
+            /** Format: int32 */
+            code?: number;
+            message?: string;
+            details?: components['schemas']['Any'][];
+        };
+        /** @description Represents a Roblox experience. */
+        'OpenCloudUniversesService.Universe': {
+            /**
+             * @description The resource path of the universe.
+             *
+             *     Format: `universes/{universe_id}`
+             * @example universes/123
+             */
+            path?: string;
+            /**
+             * Format: date-time
+             * @description The timestamp when the universe was created.
+             * @example 2023-07-05T12:34:56Z
+             */
+            readonly createTime?: string;
+            /**
+             * Format: date-time
+             * @description The timestamp when the universe was last updated.
+             * @example 2023-07-05T12:34:56Z
+             */
+            readonly updateTime?: string;
+            /**
+             * @description The name of the universe.
+             *
+             *     This field can be updated by updating the root place's name.
+             * @example ROBLOX Battle [OPEN]
+             */
+            readonly displayName?: string;
+            /**
+             * @description The description of the universe.
+             *
+             *     This field can be updated by updating the root place's description.
+             * @example OPEN SOURCE!
+             *      Feel free to check out how we made this game and ask us about it!
+             */
+            readonly description?: string;
+            /** @description The universe is user-owned. */
+            readonly user?: string;
+            /** @description The universe is group-owned. */
+            group?: string;
+            /**
+             * Format: enum
+             * @description Whether or not the universe is publicly accessible.
+             *
+             *     Possible values:
+             *
+             *       | Value | Description |
+             *       | --- | --- |
+             *       | VISIBILITY_UNSPECIFIED | Updates using this value will throw an error on the backend. |
+             *       | PUBLIC | The universe is public. |
+             *       | PRIVATE | The universe is private.  If a universe's visibility is set to PRIVATE, all active players will immediately be removed from all running servers. |
+             * @example VISIBILITY_UNSPECIFIED
+             * @enum {string}
+             */
+            readonly visibility?: 'VISIBILITY_UNSPECIFIED' | 'PUBLIC' | 'PRIVATE';
+            /** @description The Facebook social link. */
+            facebookSocialLink?: components['schemas']['Universe_SocialLink'];
+            /** @description The Twitter social link. */
+            twitterSocialLink?: components['schemas']['Universe_SocialLink'];
+            /** @description The Youtube social link. */
+            youtubeSocialLink?: components['schemas']['Universe_SocialLink'];
+            /** @description The Twitch social link. */
+            twitchSocialLink?: components['schemas']['Universe_SocialLink'];
+            /** @description The Discord social link. */
+            discordSocialLink?: components['schemas']['Universe_SocialLink'];
+            /** @description The Roblox group social link. */
+            robloxGroupSocialLink?: components['schemas']['Universe_SocialLink'];
+            /** @description The Guilded social link. */
+            guildedSocialLink?: components['schemas']['Universe_SocialLink'];
+            /**
+             * @description Whether or not voice chat is enabled for users in the Experience.
+             *
+             *     Updating this value will not affect active servers.
+             * @example true
+             */
+            voiceChatEnabled?: boolean;
+            /**
+             * Format: enum
+             * @description The age rating of this universe.
+             *
+             *     Possible values:
+             *
+             *       | Value | Description |
+             *       | --- | --- |
+             *       | AGE_RATING_UNSPECIFIED | The age rating is not set. |
+             *       | AGE_RATING_ALL | Supported for all users. |
+             *       | AGE_RATING_9_PLUS | Supported for users aged 9 and up. |
+             *       | AGE_RATING_13_PLUS | Supported for users aged 13 and up. |
+             *       | AGE_RATING_17_PLUS | Supported for users aged 17 and up. |
+             * @example AGE_RATING_UNSPECIFIED
+             * @enum {string}
+             */
+            readonly ageRating?:
+                | 'AGE_RATING_UNSPECIFIED'
+                | 'AGE_RATING_ALL'
+                | 'AGE_RATING_9_PLUS'
+                | 'AGE_RATING_13_PLUS'
+                | 'AGE_RATING_17_PLUS';
+            /**
+             * Format: int32
+             * @description Represents the price in Robux of private servers.
+             *
+             *     If unset, private servers are not supported for this universe.
+             *
+             *     Can only be disabled when using a field mask.
+             *
+             *     Setting to null will disable all active private servers.
+             *
+             *     Changing the price will cancel all private server subscriptions.
+             */
+            privateServerPriceRobux?: number;
+            /**
+             * @description Whether or not players can join the Experience via Desktop.
+             * @example true
+             */
+            desktopEnabled?: boolean;
+            /**
+             * @description Whether or not players can join the Experience via Mobile.
+             * @example true
+             */
+            mobileEnabled?: boolean;
+            /**
+             * @description Whether or not players can join the Experience via Tablet.
+             * @example true
+             */
+            tabletEnabled?: boolean;
+            /**
+             * @description Whether or not players can join the Experience via Console.
+             * @example true
+             */
+            consoleEnabled?: boolean;
+            /**
+             * @description Whether or not players can join the Experience via VR.
+             * @example true
+             */
+            vrEnabled?: boolean;
+            /**
+             * @description The resource path of the root place of this universe
+             *     Format: universes/{universe_id}/places/{place_id}
+             */
+            readonly rootPlace?: string;
+            /**
+             * @description The resource path of the template place, used for CreateUniverse.
+             *     The root place of the newly-created universe will be a clone of this
+             *     template. A list of the valid template places can be obtained from
+             *     ListTemplatePlaces. Format: universes/{universe_id}/places/{place_id}
+             * @example universes/{universe_id}/places/{place_id}
+             */
+            templateRootPlace: string;
+        };
         /**
          * @description This resource represents a long-running operation that is the result of a
          *     network API call.
@@ -58889,81 +54340,6 @@ export interface components {
             /** @description A list of messages that carry the error details.  There is a common set of message types for APIs to use. */
             details?: unknown[] | null;
         };
-        /** @description Represents any registered user of Roblox. */
-        'OpenCloudUsers.User': {
-            /**
-             * @description The resource path of the user.
-             *
-             *     Format: `users/{user_id}`
-             */
-            path?: string | null;
-            /**
-             * Format: date-time
-             * @description The timestamp at which the user was created.
-             */
-            readonly createTime?: string | null;
-            /** @description Unique ID that identifies a user in Roblox. */
-            readonly id?: string | null;
-            /** @description Unique username for a user in Roblox. */
-            name?: string | null;
-            /** @description Display name for the user. */
-            displayName?: string | null;
-            /** @description User-defined information about themselves. */
-            about?: string | null;
-            /** @description Current locale selected by the user. Returns IETF language code. */
-            locale?: string | null;
-            /** @description Whether the user is a premium user. */
-            readonly premium?: boolean;
-            /**
-             * @description Specifies if the user is identity-verified. Verification includes, but
-             *     isn't limited to, non-VoIP phone numbers or government IDs.
-             *
-             *     To access this data, you need an API key / OAuth token with the following
-             *     scope: user.advanced:read. The field is omitted from the response when the
-             *     caller is not authorized to read it.
-             */
-            readonly idVerified?: boolean | null;
-            /** @description User's social network profiles and visibility. */
-            socialNetworkProfiles?: components['schemas']['OpenCloudUsers.User_SocialNetworkProfiles'] | null;
-        };
-        /** @description Social network profiles of a user. */
-        'OpenCloudUsers.User_SocialNetworkProfiles': {
-            /** @description Facebook profile URI. */
-            facebook?: string | null;
-            /** @description Twitter profile URI. */
-            twitter?: string | null;
-            /** @description YouTube profile URI. */
-            youtube?: string | null;
-            /** @description Twitch profile URI. */
-            twitch?: string | null;
-            /** @description Guilded profile URI. */
-            guilded?: string | null;
-            /**
-             * @description Visibility of the social network profiles.
-             *
-             *     To access this data, you need an API key / OAuth token with the following
-             *     scope: user.social:read
-             *
-             *     Possible values:
-             *
-             *       | Value | Description |
-             *       | --- | --- |
-             *       | SOCIAL_NETWORK_VISIBILITY_UNSPECIFIED | Default SocialNetworkVisibility. |
-             *       | NO_ONE | No one |
-             *       | FRIENDS | Friends only |
-             *       | FRIENDS_AND_FOLLOWING | Friends and other users the user follows |
-             *       | FRIENDS_FOLLOWING_AND_FOLLOWERS | Friends, other users the user follows, and other users who follow the user |
-             *       | EVERYONE | Everyone |
-             * @enum {string}
-             */
-            visibility?:
-                | 'SOCIAL_NETWORK_VISIBILITY_UNSPECIFIED'
-                | 'NO_ONE'
-                | 'FRIENDS'
-                | 'FRIENDS_AND_FOLLOWING'
-                | 'FRIENDS_FOLLOWING_AND_FOLLOWERS'
-                | 'EVERYONE';
-        };
         /**
          * @description This resource represents a long-running operation that is the result of a
          *     network API call.
@@ -59003,11 +54379,28 @@ export interface components {
              */
             response?: components['schemas']['GoogleProtobufAny'];
         };
+        /** @description A completed long-running operation that failed with an error. */
+        OperationError: {
+            /** @description The server-assigned resource path. */
+            path?: string | null;
+            /** @description If false, the operation is still in progress. If true, the operation is completed. */
+            done?: boolean;
+            error?: components['schemas']['QueryError'];
+            metadata?: components['schemas']['OperationMetadata'];
+        };
         OperationErrorResponse: {
             /** Format: int32 */
             readonly code?: number;
             readonly error?: string | null;
             message?: string | null;
+        };
+        /** @description The metadata associated with a long-running operation. */
+        OperationMetadata: {
+            /**
+             * Format: date-time
+             * @description The time the operation was created.
+             */
+            createdTime?: string | null;
         };
         /** @description A long-running operation that is still in progress. */
         OperationPending: {
@@ -59015,7 +54408,7 @@ export interface components {
             path?: string | null;
             /** @description If false, the operation is still in progress. If true, the operation is completed. */
             done?: boolean;
-            metadata?: components['schemas']['AnalyticsQueryPublicApi.OperationMetadata'];
+            metadata?: components['schemas']['OperationMetadata'];
         };
         /**
          * @description Current operational status reported on an experiment or an async operation performed on one.
@@ -59109,11 +54502,6 @@ export interface components {
             /** @description Field on which model validation failed. */
             field?: string | null;
         };
-        /**
-         * @description Sort order for groups-api style paginated requests.
-         * @enum {string}
-         */
-        'OrganizationsServiceApi.SortOrder': 'Asc' | 'Desc';
         /** @description Paginated response for v3 LIST. Page tokens are null at the collection boundaries. */
         PaginatedGameEventsResponse: {
             gameEvents?: components['schemas']['GameEventResponse'][] | null;
@@ -59130,8 +54518,42 @@ export interface components {
             /** @description Gets or sets the total, tax-inclusive amount of the payment. */
             amount: components['schemas']['ServiceEfficiencyApi.Money'];
             /** @description Gets or sets the status of the payment. */
-            status: components['schemas']['ServiceEfficiencyApi.TransactionStatus'];
+            status: components['schemas']['TransactionStatus'];
         };
+        PaymentMethod: {
+            /**
+             * @description Normalized card brand; unrecognized networks use OTHER (v1.1).
+             * @enum {unknown}
+             */
+            cardBrand?: 'VISA' | 'MASTERCARD' | 'AMEX' | 'DISCOVER' | 'JCB' | 'DINERS' | 'UNIONPAY' | 'OTHER';
+            /** @description Masked human-readable label (for example, `Visa ending in 4242`). */
+            displayLabel: string;
+            /** @description Card expiration month (1-12). */
+            expirationMonth?: number;
+            /** @description Card expiration year (four-digit year). */
+            expirationYear?: number;
+            /** @description The payment method ID. */
+            id: string;
+            /** @description Last four digits of the card (v1.1). */
+            lastFourDigits?: string;
+            /**
+             * @description The current status of the payment method. Can be `ACTIVE`, `ACTION_REQUIRED`, `EXPIRED`, or `DISABLED`.
+             * @enum {string}
+             */
+            status: 'ACTIVE' | 'ACTION_REQUIRED' | 'EXPIRED' | 'DISABLED';
+            /**
+             * @description The payment method category. Can be `CARD` or `INVOICE`.
+             * @enum {string}
+             */
+            type: 'CARD' | 'INVOICE';
+            /**
+             * @description Card verification state, independent of expiration (v1.1).
+             * @enum {string}
+             */
+            verificationState?: 'VERIFIED' | 'UNVERIFIED' | 'CHALLENGE_PENDING';
+        };
+        /** @enum {string} */
+        PaymentMethodCardBrand: 'VISA' | 'MASTERCARD' | 'AMEX' | 'DISCOVER' | 'JCB' | 'DINERS' | 'UNIONPAY' | 'OTHER';
         /** @description Service Efficiency representation of a Payment Profile. */
         PaymentProfile: {
             /** @description Gets or sets the payment profile id. */
@@ -59414,14 +54836,14 @@ export interface components {
              * Format: int64
              * @description The placeId of the game update
              */
-            placeId?: number;
+            placeId: number;
             /** @description Which phase is the update in: BleedOff, Migrate, or Done */
-            phase?: string | null;
+            phase: string | null;
             /**
              * Format: date-time
              * @description When the update started
              */
-            startTime?: string;
+            startTime: string;
             /**
              * Format: date-time
              * @description When the update is expected to end, or null if it has not ended yet
@@ -59431,27 +54853,27 @@ export interface components {
              * Format: int32
              * @description Number of players in the game update initially, before any players are kicked
              */
-            startPlayersToBeKicked?: number;
+            startPlayersToBeKicked: number;
             /**
              * Format: int32
              * @description Number of instances that will be closed during the game update
              */
-            startInstancesToBeClosed?: number;
+            startInstancesToBeClosed: number;
             /**
              * Format: int32
              * @description How many players are remaining in instances that will be shut down according to the update configuration
              */
-            numPlayersToBeKicked?: number;
+            numPlayersToBeKicked: number;
             /**
              * Format: int32
              * @description Number of places that will be updated
              */
-            instancesToBeClosed?: number;
+            instancesToBeClosed: number;
             /**
              * Format: int32
              * @description The version of the place that is being updated
              */
-            placeVersion?: number;
+            placeVersion: number;
             /** @description The versions of the place that will be closed during the update */
             placeVersionsToBeClosed?: number[] | null;
         };
@@ -59524,6 +54946,12 @@ export interface components {
             /** @description Ordered list of video preview asset ids. */
             videoPreviewAssets?: number[] | null;
         } | null;
+        PreviewVideo: {
+            /** @description Whether the experience has a preview video eligible to be shown. */
+            available: boolean;
+            /** @description The preview video's asset ID, as a decimal string. Present only when available is true. */
+            videoAssetId?: string;
+        };
         /** @description Describes the price of a resource. */
         Price: {
             /** @description Cost of the resource. */
@@ -59620,26 +55048,6 @@ export interface components {
             active?: boolean | null;
             /** Format: int64 */
             price?: number | null;
-        };
-        'PrivateServersApi.GameServerResponse': {
-            /** Format: uuid */
-            id?: string | null;
-            /** Format: int32 */
-            maxPlayers?: number;
-            /** Format: int32 */
-            playing?: number;
-            playerTokens?: string[] | null;
-            players?: components['schemas']['PrivateServerPlayerResponse'][] | null;
-            /** Format: double */
-            fps?: number;
-            /** Format: int32 */
-            ping?: number;
-            name?: string | null;
-            /** Format: int64 */
-            vipServerId?: number | null;
-            /** Format: uuid */
-            accessCode?: string | null;
-            owner?: components['schemas']['VerifiedBadgeUserResponse'] | null;
         };
         /** @enum {string} */
         'PrivateServersApi.SortOrder': 'Asc' | 'Desc';
@@ -59763,6 +55171,23 @@ export interface components {
         PublicAllOneTimePayoutsResponseModel: {
             payouts?: components['schemas']['PublicOneTimePayoutResponseModel'][] | null;
         };
+        PublicError: {
+            /**
+             * @description A stable, machine-readable error code (for example, `INVALID_ARGUMENT`,
+             *     `NOT_FOUND`, `PERMISSION_DENIED`, or `RATE_LIMITED`).
+             */
+            code: string;
+            /** @description Request field path, when the error is tied to a specific field. */
+            field?: string;
+            /** @description A human-readable description of the error. */
+            message: string;
+            /** @description Specific machine-readable sub-reason, when applicable. */
+            reason?: string;
+            /** @description Actionable guidance for resolving the error. */
+            remediation?: string;
+            /** @description Whether the caller should retry the request. */
+            retryable?: boolean;
+        };
         /** @description A recurring payout in the public groups API contract. */
         PublicGroupUniversePayout: {
             /** Format: int64 */
@@ -59789,19 +55214,6 @@ export interface components {
             recipientUserId?: number;
             status?: components['schemas']['FetchStatus'];
             oneTimePayout?: components['schemas']['PublicOneTimePayout'];
-        };
-        /** @description A numeric-ID recurring payout split in the public groups API contract. */
-        PublicRecurringPayoutRequestModel: {
-            /**
-             * Format: int64
-             * @description The payout recipient user ID.
-             */
-            userId: number;
-            /**
-             * Format: int64
-             * @description The recipient's payout percentage.
-             */
-            percentage: number;
         };
         'PublicServerBrowserService.GameServerResponse': {
             /** Format: uuid */
@@ -59839,20 +55251,17 @@ export interface components {
          */
         'PublicServerBrowserService.SortOrder': 1 | 2;
         PublicUniverseEligibility: {
+            /** @description Structured reasons with remediation, one per entry in reasons. */
+            details?: components['schemas']['Reason'][];
             /** @description Whether the experience can currently be advertised. */
             eligible?: boolean;
             /**
              * @description The reasons the experience is not eligible. Omitted when eligible. Values can be
              *     `NO_PERMISSION` or `BLOCKED`.
              */
-            reasons?: ('NO_PERMISSION' | 'BLOCKED')[];
+            reasons?: ('NO_PERMISSION' | 'BLOCKED' | 'OBJECTIVE_NOT_SUPPORTED')[];
             /** @description The identifier of the experience that was checked. */
             universeId?: string;
-        };
-        /** @description Request for updating recurring payouts through the public groups API. */
-        PublicUpdateUniverseRecurringPayoutsRequestModel: {
-            /** @description The recurring payout splits to apply. */
-            payouts: components['schemas']['PublicRecurringPayoutRequestModel'][];
         };
         /** @description A payout-visible universe in the public groups API contract. */
         PublicUserUniversePayout: {
@@ -59919,6 +55328,16 @@ export interface components {
             /** @description The suggested spelling correction for the original search query. */
             suggestedQuery?: string | null;
         } | null;
+        /** @description The error returned from a query request. */
+        QueryError: {
+            /**
+             * Format: int32
+             * @description The error code.
+             */
+            code?: number;
+            /** @description The message associated with the query error. */
+            message: string;
+        };
         /** @description The facets of a query. */
         QueryFacets: {
             /** @description Facets that are already applied to the search. */
@@ -59926,14 +55345,52 @@ export interface components {
             /** @description The unused and still available facets. */
             availableFacets?: string[] | null;
         } | null;
+        /** @description A filter applied to a query dimension. */
+        QueryFilter: {
+            /** @description The dimension name to filter on. */
+            dimension: string;
+            /** @description The values to filter by. */
+            values?: string[];
+            operation: components['schemas']['FilterOperation'];
+        };
         /** @description A completed long-running query operation with results. */
         QueryOperationResult: {
             /** @description The server-assigned resource path. */
             path?: string | null;
             /** @description If false, the operation is still in progress. If true, the operation is completed. */
             done?: boolean;
-            response?: components['schemas']['AnalyticsQueryPublicApi.QueryResponse'];
-            metadata?: components['schemas']['AnalyticsQueryPublicApi.OperationMetadata'];
+            response?: components['schemas']['QueryResponse'];
+            metadata?: components['schemas']['OperationMetadata'];
+        };
+        /** @description A request to query time series metric data. */
+        QueryRequest: {
+            /** @description The metric to query. */
+            metric: string;
+            granularity: components['schemas']['MetricGranularity'];
+            /**
+             * Format: date-time
+             * @description The inclusive start of the query time range. Any UTC offset is accepted; results are always bucketed in UTC.
+             */
+            startTime: string;
+            /**
+             * Format: date-time
+             * @description The exclusive end of the query time range. Any UTC offset is accepted; results are always bucketed in UTC.
+             */
+            endTime: string;
+            /** @description The dimensions to group results by. Each entry is a single dimension name. */
+            breakdown?: string[];
+            /** @description Filters to apply to the query. */
+            filter?: components['schemas']['QueryFilter'][];
+            /**
+             * Format: int32
+             * @description Optional result limit. Omit to use the data source default; an explicit value must be positive.
+             */
+            limit?: number | null;
+        };
+        /** @description The response for a metric query. */
+        QueryResponse: {
+            /** @description The metric values returned by the query. */
+            values?: components['schemas']['AnalyticsQueryPublicApi.MetricValue'][];
         };
         /** @description QueryUniverseBenchmarkResponse is the response message for QueryUniverseBenchmark. */
         QueryUniverseBenchmarkResponse: {
@@ -59950,14 +55407,24 @@ export interface components {
         };
         /** @description Returns the specified number of items at the front of the queue. */
         ReadMemoryStoreQueueItemsResponse: {
+            /** @description The items read from the queue */
+            queueItems?: components['schemas']['MemoryStoreQueueItem'][] | null;
             /**
              * @description An identifier of the read operation
              *
-             *     This can be passed to `:discard` in order to mark the items as processed.
+             *     This can be passed to `:discard` as `readId` in order to mark the items as processed.
              */
-            readId?: string;
-            /** @description The items read from the queue */
-            items?: components['schemas']['MemoryStoreQueueItem'][];
+            id?: string | null;
+        };
+        Reason: {
+            /** @description A stable, machine-readable code. */
+            code: string;
+            /** @description A human-readable explanation. */
+            message: string;
+            /** @description What the caller can do to resolve it. */
+            remediation?: string;
+            /** @description The related resource, for example `billing-accounts/123`. */
+            resource?: string;
         };
         /** @enum {string} */
         RegexOperation: 'Invalid' | 'Ignore' | 'Group';
@@ -60611,7 +56078,10 @@ export interface components {
              * @enum {integer}
              */
             targetDeviceType?: 1 | 2 | 4 | 8 | 16 | 32;
-            /** @description The name of the Campaign / Ad */
+            /**
+             * @description The name of the Campaign / Ad
+             * @example "Unique campaign name"
+             */
             campaignName?: string;
             /**
              * Format: int64
@@ -60673,6 +56143,25 @@ export interface components {
             id?: number;
             /** @description The name of the universe */
             name?: string;
+        };
+        /** @description A request model for an ad click. */
+        'Roblox.AdConfiguration.Api.RecordClickRequest': {
+            /** @description The encrypted tracking data. IsRequired will be set to false temporarily until AdTrackingData is removed. */
+            encryptedAdTrackingData?: string;
+            /**
+             * Format: int32
+             * @description The campaign target type ['Undefined' = 0, 'Universe' = 1, 'Asset' = 2, 'ImmersiveAd' = 3]
+             * @enum {integer}
+             */
+            campaignTargetType?: 0 | 1 | 2 | 3;
+            /**
+             * Format: int32
+             * @description The placement location ['Undefined' = 1, 'GameSort' = 2, 'AvatarShop' = 4, 'ItemDetails' = 8, 'HomePage' = 16, 'Billboard300x250' = 32, 'Billboard600x300' = 64, 'Billboard300x600' = 128]
+             * @enum {integer}
+             */
+            placementLocation?: 1 | 2 | 4 | 8 | 16 | 32 | 64 | 128;
+            /** @description DO NOT USE. This field is temporary. Will be removed. */
+            adTrackingData?: string;
         };
         /** @description A response model represents an Ad with complete information, including infos from its associated campaign and ad set */
         'Roblox.AdConfiguration.Api.SponsoredCampaignModel': {
@@ -63143,6 +58632,318 @@ export interface components {
                 | 'AndroidTencentService'
                 | 'IOSPushKit';
         };
+        'Roblox.AppPagePlatform.Notifications.V1Beta1.StreamPageRequest': {
+            Cursor?: string;
+            /** Format: int32 */
+            MaxRows?: number;
+            NotificationId?: string;
+            readonly HasNotificationId?: boolean;
+            State?: string;
+            readonly HasState?: boolean;
+            ClientCapabilities?: components['schemas']['Roblox.AppPagePlatform.Shared.V1Beta1.ClientCapabilities'];
+            readonly CachedRobloxComponentToTemplateId?: {
+                [key: string]: string;
+            };
+            readonly ClientAttributes?: {
+                [key: string]: string;
+            };
+        };
+        'Roblox.AppPagePlatform.Shared.V1Beta1.ClientCapabilities': {
+            readonly EnabledCapabilities?: (
+                | 0
+                | 1
+                | 2
+                | 3
+                | 4
+                | 5
+                | 6
+                | 2000
+                | 2001
+                | 2002
+                | 2003
+                | 2004
+                | 2005
+                | 2006
+                | 2007
+                | 2008
+                | 2009
+                | 2010
+                | 3000
+                | 4000
+                | 5000
+                | 5001
+                | 5002
+                | 6000
+                | 7000
+            )[];
+            ProtoVersion?: string;
+            /**
+             * Format: int32
+             * @description ['Invalid' = 0, 'Web' = 1, 'App' = 2]
+             * @enum {integer}
+             */
+            Platform?: 0 | 1 | 2;
+            readonly RegisteredUiComponentTypes?: (
+                | 0
+                | 1
+                | 10
+                | 11
+                | 12
+                | 13
+                | 14
+                | 15
+                | 100
+                | 101
+                | 102
+                | 103
+                | 104
+                | 105
+                | 106
+                | 107
+                | 108
+                | 109
+                | 110
+                | 200
+                | 201
+                | 202
+                | 203
+                | 204
+                | 205
+                | 206
+                | 207
+                | 208
+                | 209
+                | 210
+                | 211
+                | 212
+                | 213
+                | 214
+                | 215
+                | 216
+                | 217
+                | 218
+                | 219
+                | 220
+                | 221
+                | 222
+                | 223
+                | 224
+                | 225
+                | 226
+                | 227
+                | 228
+                | 229
+                | 230
+                | 231
+                | 232
+                | 233
+                | 234
+                | 235
+                | 236
+                | 237
+                | 238
+                | 239
+                | 240
+                | 241
+                | 242
+                | 243
+                | 244
+                | 245
+                | 246
+                | 247
+                | 248
+                | 249
+                | 250
+                | 251
+                | 252
+                | 253
+                | 254
+                | 255
+                | 256
+                | 257
+                | 258
+                | 259
+                | 260
+                | 261
+                | 262
+                | 263
+                | 264
+                | 265
+                | 266
+                | 267
+                | 268
+                | 269
+                | 270
+                | 271
+                | 272
+                | 273
+                | 274
+                | 275
+                | 276
+                | 277
+                | 278
+                | 279
+                | 280
+                | 281
+                | 282
+                | 283
+                | 284
+                | 300
+                | 400
+                | 401
+                | 500
+                | 600
+                | 601
+                | 602
+                | 603
+                | 604
+                | 605
+                | 606
+                | 607
+                | 608
+                | 700
+                | 701
+                | 800
+                | 801
+                | 802
+                | 803
+                | 804
+                | 900
+                | 901
+                | 902
+                | 9999
+            )[];
+            readonly RegisteredActionTypes?: (
+                | 0
+                | 1
+                | 2
+                | 3
+                | 4
+                | 5
+                | 6
+                | 7
+                | 8
+                | 9
+                | 10
+                | 11
+                | 12
+                | 13
+                | 14
+                | 15
+                | 16
+                | 17
+                | 18
+                | 19
+                | 20
+                | 21
+                | 22
+                | 23
+                | 24
+                | 25
+                | 26
+                | 27
+                | 28
+                | 29
+                | 30
+                | 31
+                | 32
+                | 33
+                | 34
+                | 35
+                | 36
+                | 37
+                | 38
+                | 39
+                | 40
+                | 41
+                | 42
+                | 43
+                | 44
+                | 45
+                | 46
+                | 47
+                | 48
+                | 49
+                | 50
+                | 51
+                | 52
+                | 53
+                | 54
+                | 55
+                | 56
+                | 57
+                | 58
+                | 59
+                | 60
+                | 61
+                | 62
+                | 63
+                | 64
+                | 65
+                | 66
+                | 67
+                | 68
+                | 69
+                | 70
+                | 71
+                | 72
+                | 73
+                | 74
+                | 75
+                | 76
+                | 77
+                | 78
+                | 79
+                | 80
+                | 81
+                | 82
+                | 83
+                | 84
+                | 85
+                | 86
+                | 87
+                | 88
+                | 89
+                | 90
+                | 91
+                | 92
+                | 93
+                | 94
+                | 95
+                | 96
+                | 97
+                | 98
+                | 99
+                | 100
+                | 101
+                | 102
+                | 103
+                | 104
+                | 105
+                | 106
+                | 107
+                | 108
+                | 109
+                | 110
+                | 111
+                | 112
+                | 113
+                | 114
+                | 115
+                | 116
+                | 117
+                | 118
+                | 119
+                | 120
+                | 121
+                | 122
+                | 123
+                | 124
+            )[];
+            readonly RuntimeFlagValues?: {
+                [key: string]: boolean;
+            };
+        };
         'Roblox.Authentication.Api.Models.AccountLinkParameters': {
             /**
              * Format: int32
@@ -65154,6 +60955,156 @@ export interface components {
             /** @description Whether or not comments should be enabled. */
             commentsEnabled?: boolean;
         };
+        /** @description Chart data point. */
+        'Roblox.Economy.Api.ChartDataPointResponse': {
+            /**
+             * Format: int64
+             * @description The value of the data point.
+             */
+            value?: number;
+            /**
+             * Format: date-time
+             * @description The date associated with the data point.
+             */
+            date?: string;
+        };
+        /** @description GetGroupSnapshotRobuxResponse. */
+        'Roblox.Economy.Api.Models.GetGroupSnapshotRobuxResponse': {
+            /**
+             * Format: int64
+             * @description Snapshot robux at the given rate.
+             */
+            robuxAt35?: number;
+        };
+        'Roblox.Economy.Api.Models.LatestAddFundsResponse': {
+            /** @description Date of latest transfer */
+            transactionDate?: string;
+            /**
+             * Format: int64
+             * @description Days from the last transfer a new transfer is allowed
+             */
+            rateLimitInDays?: number;
+        };
+        /** @description Purchasable detail request model. */
+        'Roblox.Economy.Api.Models.PurchasableDetailResponse': {
+            /** @description Defines if the product is purchasable. */
+            purchasable?: boolean;
+            /**
+             * Format: int32
+             * @description Defines the reason for failure.
+             * @enum {integer}
+             */
+            reason?:
+                | 0
+                | 1
+                | 2
+                | 3
+                | 4
+                | 5
+                | 6
+                | 7
+                | 8
+                | 9
+                | 10
+                | 11
+                | 12
+                | 13
+                | 14
+                | 15
+                | 16
+                | 17
+                | 18
+                | 19
+                | 20
+                | 21
+                | 22
+                | 23
+                | 24
+                | 25
+                | 26;
+            /**
+             * Format: int64
+             * @description Reflects the requested product id for reference.
+             */
+            productId?: number;
+            /** Format: int32 */
+            statusCode?: number;
+            title?: string;
+            errorMsg?: string;
+            showDivId?: string;
+            /** Format: int64 */
+            shortfallPrice?: number;
+            /** Format: int64 */
+            balanceAfterSale?: number;
+            /** Format: int64 */
+            expectedPrice?: number;
+            /** Format: int32 */
+            currency?: number;
+            /** Format: int64 */
+            price?: number;
+            /** Format: int64 */
+            assetId?: number;
+            assetName?: string;
+            assetType?: string;
+            assetTypeDisplayName?: string;
+            assetIsWearable?: boolean;
+            sellerName?: string;
+            transactionVerb?: string;
+            isMultiPrivateSale?: boolean;
+            premiumPricing?: components['schemas']['Roblox.Economy.Api.PremiumPricingModel'];
+        };
+        /** @description The response model for M:Roblox.Economy.Api.Controllers.V1.GroupPayoutsController.GetUserGroupPayoutEligibility(System.Int64,System.Collections.Generic.ICollection{System.Int64},System.Threading.CancellationToken) */
+        'Roblox.Economy.Api.Models.UserGroupPayoutEligibilityResponseModel': {
+            /** @description Gets the dictionary of (userId, groupPayoutEligibility) mapping. */
+            usersGroupPayoutEligibility?: {
+                [key: string]: 'Undefined' | 'Eligible' | 'NotInGroup' | 'PayoutRestricted';
+            };
+        };
+        /** @description Defines the Premium pricing for a product */
+        'Roblox.Economy.Api.PremiumPricingModel': {
+            /**
+             * Format: int32
+             * @description The Premium discount percentage for a product
+             */
+            premiumDiscountPercentage?: number;
+            /**
+             * Format: int64
+             * @description The Premium price for a product
+             */
+            premiumPriceInRobux?: number;
+        };
+        /** @description Resale data for an item. */
+        'Roblox.Economy.Api.ResaleDataResponse': {
+            /**
+             * Format: int64
+             * @description The total number of this item that can be sold.
+             */
+            assetStock?: number;
+            /**
+             * Format: int64
+             * @description How many of the item have been sold.
+             */
+            sales?: number;
+            /**
+             * Format: int64
+             * @description How many of the item remain to be sold.
+             */
+            numberRemaining?: number;
+            /**
+             * Format: int64
+             * @description The recent average selling price of the item.
+             */
+            recentAveragePrice?: number;
+            /**
+             * Format: int64
+             * @description The original selling price for the item.
+             */
+            originalPrice?: number;
+            /** @description Price points for the past 180 days. */
+            priceDataPoints?: components['schemas']['Roblox.Economy.Api.ChartDataPointResponse'][];
+            /** @description Volume points for the past 180 days. */
+            volumeDataPoints?: components['schemas']['Roblox.Economy.Api.ChartDataPointResponse'][];
+        };
         /** @description The response model */
         'Roblox.EconomyCreatorStats.Api.Models.StatisticsResponse': {
             /**
@@ -65393,6 +61344,8 @@ export interface components {
              * @description The sender user Id.
              */
             senderId?: number;
+            /** @description Whether this trusted friend request is unseen by the recipient. */
+            isUnseen?: boolean;
         };
         /** @description A response model representing user presence information. */
         'Roblox.Friends.Api.Models.Response.UserPresenceResponse': {
@@ -66268,6 +62221,10 @@ export interface components {
              *     Omitted when hydration does not return a value.
              */
             creationSource?: string;
+            /** @description Whether the experience has an official brand license, as reported by hydration. */
+            isOfficiallyLicensed?: boolean;
+            /** @description Whether the experience has a community (third-party) brand license, as reported by hydration. */
+            isCommunityLicensed?: boolean;
         };
         /** @description Game favorite response model. */
         'Roblox.Games.Api.Models.Response.GameFavoriteResponse': {
@@ -66614,160 +62571,11 @@ export interface components {
             /** @description Localized body text for the upsell. */
             bodyText?: string;
         };
-        /** @description ApiPageResponse for blocked keywords */
-        'Roblox.Groups.Api.BlockedKeywordPageResponse_Roblox.Groups.Client.BlockedKeywordModel_': {
-            /**
-             * Format: int32
-             * @description Total number of active keywords in the group
-             */
-            totalActiveKeywordsCount?: number;
-            previousPageCursor?: string;
-            nextPageCursor?: string;
-            data?: components['schemas']['Roblox.Groups.Client.BlockedKeywordModel'][];
-        };
-        /** @description A request model for changing the group owner. */
-        'Roblox.Groups.Api.ChangeOwnerRequest': {
-            /**
-             * Format: int64
-             * @description The user id.
-             */
-            userId?: number;
-        };
-        /** @description Response model representing the freeze status of a community feature. */
-        'Roblox.Groups.Api.CommunityFeatureFreezeStatus': {
-            /** @description The community feature. */
-            feature?: string;
-            /** @description Whether the feature is currently disabled. */
-            isDisabled?: boolean;
-        };
-        'Roblox.Groups.Api.CreateBlockedKeywordsRequest': {
-            keywords?: string;
-            isPrivate?: boolean;
-        };
-        /** @description Response model for the community feature freezes endpoint. */
-        'Roblox.Groups.Api.GetCommunityFeatureFreezesResponse': {
-            /** @description The freeze status of each community feature. */
-            features?: components['schemas']['Roblox.Groups.Api.CommunityFeatureFreezeStatus'][];
-        };
-        /** @description Response model for the group features endpoint. */
-        'Roblox.Groups.Api.GetGroupFeaturesResponse': {
-            /** @description Whether the group is currently locked. */
-            isLocked?: boolean;
-            /** @description The freeze status of each feature for the group. */
-            features?: components['schemas']['Roblox.Groups.Api.GroupFeatureResponse'][];
-        };
-        /** @description A social link response from a create request */
-        'Roblox.Groups.Api.GetSocialLinkResponse': {
-            data?: components['schemas']['Roblox.Groups.Api.SocialLinkResponse'][];
-            /**
-             * Format: int32
-             * @enum {integer}
-             */
-            socialLinksVerificationStatus?: 0 | 1 | 2 | 3;
-        };
-        /** @description A group roles response model */
-        'Roblox.Groups.Api.GroupAllRolesResponse': {
-            /**
-             * Format: int64
-             * @description The group id
-             */
-            groupId?: number;
-            /** @description The roles in the group */
-            roles?: components['schemas']['Roblox.Groups.Api.GroupRoleResponse'][];
-        };
         /** @description ApiPageResponse for group audit log */
         'Roblox.Groups.Api.GroupAuditLogPageResponse_Roblox.Groups.Api.Models.Response.GroupAuditLogResponseItem_': {
             previousPageCursor?: string;
             nextPageCursor?: string;
             data?: components['schemas']['Roblox.Groups.Api.Models.Response.GroupAuditLogResponseItem'][];
-        };
-        /** @description A ban member from group response */
-        'Roblox.Groups.Api.GroupBanMemberResponse': {
-            user?: components['schemas']['Roblox.Groups.Api.Models.Response.UserModel'];
-            actingUser?: components['schemas']['Roblox.Groups.Api.UserGroupRoleResponse'];
-            /**
-             * Format: date-time
-             * @description The group ban's created time
-             */
-            created?: string;
-        };
-        /** @description A model for communication channel permissions. */
-        'Roblox.Groups.Api.GroupChannelPermissionsModel': {
-            /** @description Group Channel Id */
-            channelId?: string;
-            groupForumsPermissions?: components['schemas']['Roblox.Groups.Api.GroupForumsPermissionsModel'];
-        };
-        /** @description A detailed group response model */
-        'Roblox.Groups.Api.GroupConfigurationDetailsResponse': {
-            /**
-             * Format: int64
-             * @description The group id
-             */
-            groupId?: number;
-            /**
-             * Format: int64
-             * @description The group emblem id
-             */
-            emblemId?: number;
-            /**
-             * Format: int64
-             * @description The group cover photo id
-             */
-            coverPhotoId?: number;
-        };
-        /** @description A response model for group configuration */
-        'Roblox.Groups.Api.GroupConfigurationDisplayOptionsResponse': {
-            groupConfiguration?: components['schemas']['Roblox.Groups.Api.GroupConfigurationResponse'];
-            recurringPayoutsConfiguration?: components['schemas']['Roblox.Groups.Api.RecurringPayoutsConfigurationResponse'];
-            roleConfiguration?: components['schemas']['Roblox.Groups.Api.RoleConfigurationResponse'];
-            groupNameChangeConfiguration?: components['schemas']['Roblox.Groups.Api.GroupNameChangeConfigurationResponse'];
-            /** @description The configuration of premium payouts shows in Group Revenue Summary page */
-            isPremiumPayoutsEnabled?: boolean;
-            /**
-             * @description If set to true, default group emblem policies handled by GUAC will be enabled
-             *
-             *     If set to false, default group emblem policies will not be enabled
-             */
-            isDefaultEmblemPolicyEnabled?: boolean;
-        };
-        /** @description A response model for group configuration */
-        'Roblox.Groups.Api.GroupConfigurationResponse': {
-            /**
-             * Format: int32
-             * @description The maximum length of a group name
-             */
-            nameMaxLength?: number;
-            /**
-             * Format: int32
-             * @description The maximum length of a group description
-             */
-            descriptionMaxLength?: number;
-            /**
-             * Format: int32
-             * @description The maximum file size of the group icon in megabytes
-             */
-            iconMaxFileSizeMb?: number;
-            /**
-             * Format: int32
-             * @description The maximum file size of the group cover photo in megabytes
-             */
-            coverPhotoMaxFileSizeMb?: number;
-            /** @description The valid dimensions of the group cover photo in CSV format */
-            validCoverPhotoDimensions?: string;
-            /**
-             * Format: int64
-             * @description The cost of purchasing a group
-             */
-            cost?: number;
-            /** @description Should the frontend use the 2sv webview component (as opposed to the built-in 2sv pop up) */
-            isUsingTwoStepWebviewComponent?: boolean;
-        };
-        /** @description A model representing group content moderation permissions */
-        'Roblox.Groups.Api.GroupContentModerationPermissionsModel': {
-            /** @description Manage keyword block list permission */
-            manageKeywordBlockList?: boolean;
-            /** @description View keyword block list permission */
-            viewKeywordBlockList?: boolean;
         };
         'Roblox.Groups.Api.GroupDescriptionResponse': {
             /** @description The new description returned */
@@ -66808,227 +62616,6 @@ export interface components {
             hasSocialModules?: boolean;
             communityTier?: components['schemas']['Roblox.Groups.Client.CommunityTierInfoResponse'];
         };
-        /** @description A model representing data about an Roblox.Platform.Membership.IUser */
-        'Roblox.Groups.Api.GroupEconomyPermissionsModel': {
-            /** @description Spend group funds permission */
-            spendGroupFunds?: boolean;
-            /** @description Advertise group permission */
-            advertiseGroup?: boolean;
-            /** @description Create items permission */
-            createItems?: boolean;
-            /** @description Manage items permission */
-            manageItems?: boolean;
-            /** @description Add group places permission */
-            addGroupPlaces?: boolean;
-            /** @description Manage group games permission */
-            manageGroupGames?: boolean;
-            /** @description Manage group games permission */
-            viewGroupPayouts?: boolean;
-            /** @description Permission to view universe analytics from the creator dashboard. */
-            viewAnalytics?: boolean;
-        };
-        /** @description Response model representing the freeze status of a group feature. */
-        'Roblox.Groups.Api.GroupFeatureResponse': {
-            /**
-             * @description The feature type. ['Payouts' = 0, 'ContentUpload' = 1, 'GroupOwnershipTransfer' = 2, 'GameOwnershipTransfer' = 3, 'ForumRead' = 4, 'ForumWrite' = 5]
-             * @enum {string}
-             */
-            feature?:
-                | 'Payouts'
-                | 'ContentUpload'
-                | 'GroupOwnershipTransfer'
-                | 'GameOwnershipTransfer'
-                | 'ForumRead'
-                | 'ForumWrite';
-            /** @description Whether the feature is currently frozen. */
-            isFeatureBlocked?: boolean;
-            /**
-             * Format: date-time
-             * @description The UTC time at which the moderator-force expires, allowing the freeze to be deactivated upon request. Only present when the feature is forced frozen.
-             */
-            expiration?: string;
-        };
-        /** @description A model representing group posts permissions */
-        'Roblox.Groups.Api.GroupForumsPermissionsModel': {
-            /** @description View forums permission */
-            viewForums?: boolean;
-            /** @description Manage categories permission */
-            manageCategories?: boolean;
-            /** @description Create posts permission */
-            createPosts?: boolean;
-            /** @description Remove posts permission */
-            removePosts?: boolean;
-            /** @description Lock posts permission */
-            lockPosts?: boolean;
-            /** @description Pin posts permission */
-            pinPosts?: boolean;
-            /** @description Create comments permission */
-            createComments?: boolean;
-            /** @description Remove comments permission */
-            removeComments?: boolean;
-            /**
-             * @description Create bug reports (support ticket) permission. Only emitted when the permission is exposed
-             *     (Roblox.Groups.Api.Properties.IGroupsApiSettings.ExposeCreateBugReportsPermission).
-             */
-            createBugReports?: boolean;
-        };
-        /** @description Response model for a group join request */
-        'Roblox.Groups.Api.GroupJoinRequestResponse': {
-            requester?: components['schemas']['Roblox.Groups.Api.Models.Response.UserModel'];
-            /**
-             * Format: date-time
-             * @description The DateTime the request was created
-             */
-            created?: string;
-        };
-        /** @description A model representing data about an Roblox.Platform.Membership.IUser */
-        'Roblox.Groups.Api.GroupManagementPermissionsModel': {
-            /** @description Manage group relationships permission */
-            manageRelationships?: boolean;
-            /** @description Manage clan permission */
-            manageClan?: boolean;
-            /** @description View audit logs permission */
-            viewAuditLogs?: boolean;
-            /** @description Bypass slowmode permission. */
-            bypassSlowmode?: boolean;
-            /** @description View community analytics permission. */
-            viewCommunityAnalytics?: boolean;
-        };
-        /** @description A group membership response model */
-        'Roblox.Groups.Api.GroupMembershipDetailResponse': {
-            group?: components['schemas']['Roblox.Groups.Api.GroupDetailResponse'];
-            role?: components['schemas']['Roblox.Groups.Api.GroupRoleResponse'];
-            /** @description Whether the group is the user's Primary Group */
-            isPrimaryGroup?: boolean;
-            /** @description Whether the group notification preferences are enabled for the user */
-            isNotificationsEnabled?: boolean;
-            notificationPreferences?: components['schemas']['Roblox.Groups.Api.GroupNotificationPreferenceData'][];
-        };
-        /** @description A user's group membership metadata response model */
-        'Roblox.Groups.Api.GroupMembershipMetadataResponse': {
-            /**
-             * Format: int64
-             * @description The group id
-             */
-            groupId?: number;
-            /** @description Whether the group is primary */
-            isPrimary?: boolean;
-            /** @description Whether there has been a request to join this group */
-            isPendingJoin?: boolean;
-            userRole?: components['schemas']['Roblox.Groups.Api.UserGroupRoleResponse'];
-            permissions?: components['schemas']['Roblox.Groups.Api.GroupPermissionsModel'];
-            /** @description The users's permissions for each communication channel in the group */
-            channelPermissions?: components['schemas']['Roblox.Groups.Api.GroupChannelPermissionsModel'][];
-            /** @description Whether group games are visible */
-            areGroupGamesVisible?: boolean;
-            /** @description Whether group funds are visible */
-            areGroupFundsVisible?: boolean;
-            /** @description Whether enemies are allowed */
-            areEnemiesAllowed?: boolean;
-            /** @description If the user can configure the group */
-            canConfigure?: boolean;
-            /** @description Whether the group's notification preferences set to enabled for the user */
-            isNotificationsEnabled?: boolean;
-            notificationPreferences?: components['schemas']['Roblox.Groups.Api.GroupNotificationPreferenceData'][];
-            /** @description Whether the user is banned from the group */
-            isBannedFromGroup?: boolean;
-            /** @description Whether the user can view the group member list */
-            canViewMemberList?: boolean;
-            /** @description Whether the authenticated user is the owner of the group */
-            isOwner?: boolean;
-        };
-        /** @description A model representing data about an Roblox.Platform.Membership.IUser */
-        'Roblox.Groups.Api.GroupMembershipPermissionsModel': {
-            /** @description Update a member's role */
-            changeRank?: boolean;
-            /** @description Invite members to the group */
-            inviteMembers?: boolean;
-            /** @description Remove from group permission */
-            removeMembers?: boolean;
-            /** @description Ban from group permission */
-            banMembers?: boolean;
-        };
-        /** @description A basic group membership response model */
-        'Roblox.Groups.Api.GroupMembershipResponse': {
-            group?: components['schemas']['Roblox.Web.Responses.Groups.GroupBasicResponse'];
-            role?: components['schemas']['Roblox.Web.Responses.Groups.GroupRoleBasicResponse'];
-            /**
-             * @description Whether the group notification preferences are enabled for the user
-             *     TODO: Deprecate this field - it only returns if announcement notifications are enabled and that information is already returned in the NotificationPreferences list below
-             */
-            isNotificationsEnabled?: boolean;
-            notificationPreferences?: components['schemas']['Roblox.Groups.Api.GroupNotificationPreferenceData'][];
-        };
-        'Roblox.Groups.Api.GroupNameChangeConfigurationResponse': {
-            /**
-             * Format: int64
-             * @description The cost of renaming a group
-             */
-            cost?: number;
-            /**
-             * Format: int32
-             * @description The cooldown for group name changes in days
-             */
-            cooldownInDays?: number;
-            /**
-             * Format: int32
-             * @description The ownership cooldown for group name changes in days
-             */
-            ownershipCooldownInDays?: number;
-        };
-        'Roblox.Groups.Api.GroupNotificationPreferenceData': {
-            /**
-             * Format: int32
-             * @description ['AnnouncementCreatedNotification' = 0, 'ForumPostCreatedNotification' = 1, 'ForumCommentCreatedNotification' = 2, 'ForumCommentReplyCreatedNotification' = 3, 'ForumSubscriberNotification' = 4]
-             * @enum {integer}
-             */
-            type?: 0 | 1 | 2 | 3 | 4;
-            enabled?: boolean;
-            name?: string;
-            description?: string;
-        };
-        'Roblox.Groups.Api.GroupOpenCloudPermissionsModel': {
-            /** @description Permission to create and use API keys on the group's resources. */
-            useCloudAuthentication?: boolean;
-            /** @description Permission to administer all of the group's API keys. */
-            administerCloudAuthentication?: boolean;
-        };
-        /** @description A group payout response */
-        'Roblox.Groups.Api.GroupPayoutResponse': {
-            user?: components['schemas']['Roblox.Groups.Api.Models.Response.UserModel'];
-            /**
-             * Format: int32
-             * @description The group payout percentage for the user
-             */
-            percentage?: number;
-        };
-        /** @description Response model for Group Payout Restriction */
-        'Roblox.Groups.Api.GroupPayoutRestrictionResponse': {
-            /** @description Whether the group can use recurring payout feature. */
-            canUseRecurringPayout?: boolean;
-            /** @description Whether the group can use one-time payout feature. */
-            canUseOneTimePayout?: boolean;
-        };
-        /** @description A model for group permissions. */
-        'Roblox.Groups.Api.GroupPermissionsModel': {
-            groupPostsPermissions?: components['schemas']['Roblox.Groups.Api.GroupPostsPermissionsModel'];
-            groupForumsPermissions?: components['schemas']['Roblox.Groups.Api.GroupForumsPermissionsModel'];
-            groupContentModerationPermissions?: components['schemas']['Roblox.Groups.Api.GroupContentModerationPermissionsModel'];
-            groupMembershipPermissions?: components['schemas']['Roblox.Groups.Api.GroupMembershipPermissionsModel'];
-            groupManagementPermissions?: components['schemas']['Roblox.Groups.Api.GroupManagementPermissionsModel'];
-            groupEconomyPermissions?: components['schemas']['Roblox.Groups.Api.GroupEconomyPermissionsModel'];
-            groupOpenCloudPermissions?: components['schemas']['Roblox.Groups.Api.GroupOpenCloudPermissionsModel'];
-        };
-        /** @description A group role's permissions response model */
-        'Roblox.Groups.Api.GroupPermissionsResponse': {
-            /**
-             * Format: int64
-             * @description The group id
-             */
-            groupId?: number;
-            role?: components['schemas']['Roblox.Groups.Api.GroupRoleResponse'];
-            permissions?: components['schemas']['Roblox.Groups.Api.GroupPermissionsModel'];
-        };
         'Roblox.Groups.Api.GroupPoliciesResponse': {
             groups?: components['schemas']['Roblox.Groups.Api.GroupPolicyResponse'][];
         };
@@ -67039,78 +62626,6 @@ export interface components {
             canViewGroup?: boolean;
             /** Format: int64 */
             groupId?: number;
-        };
-        /** @description A model representing group posts permissions */
-        'Roblox.Groups.Api.GroupPostsPermissionsModel': {
-            /** @description View status permission */
-            viewStatus?: boolean;
-            /** @description Post to status permission */
-            postToStatus?: boolean;
-        };
-        /** @description A group relationships response model */
-        'Roblox.Groups.Api.GroupRelationshipsResponse': {
-            /**
-             * Format: int64
-             * @description The group id
-             */
-            groupId?: number;
-            /**
-             * Format: int32
-             * @description The group relationship type ['Allies' = 1, 'Enemies' = 2]
-             * @enum {integer}
-             */
-            relationshipType?: 1 | 2;
-            /**
-             * Format: int64
-             * @description The total number of groups for this relationship type
-             */
-            totalGroupCount?: number;
-            /** @description The related or requested groups */
-            relatedGroups?: components['schemas']['Roblox.Groups.Api.GroupDetailResponse'][];
-            /**
-             * Format: int64
-             * @description The index for the next page of related groups
-             */
-            nextRowIndex?: number;
-        };
-        'Roblox.Groups.Api.GroupRoleDetailResponse': {
-            /**
-             * Format: int64
-             * @description The id of the group the role belongs to
-             */
-            groupId?: number;
-            /**
-             * Format: int64
-             * @description The role id
-             */
-            id?: number;
-            /** @description The role name */
-            name?: string;
-            /** @description The role description */
-            description?: string;
-            /**
-             * Format: int32
-             * @description The role rank
-             */
-            rank?: number;
-            /**
-             * Format: int64
-             * @description The number of members in the role.
-             */
-            memberCount?: number;
-            /** @description Whether or not the role is the base role for the group */
-            isBase?: boolean;
-            /**
-             * Format: int32
-             * @description The role color. ['Invalid' = 0, 'Blue' = 1, 'Green' = 2, 'Purple' = 3, 'Yellow' = 4, 'Orange' = 5, 'Red' = 6, 'Magenta' = 7, 'Teal' = 8, 'Turquoise' = 9, 'Rust' = 10, 'Pistachio' = 11, 'Midnight' = 12, 'Lavender' = 13, 'Pink' = 14, 'Crimson' = 15, 'Plum' = 16]
-             * @enum {integer}
-             */
-            color?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16;
-            /**
-             * @description Whether the role is private (only visible to members with permission).
-             *     Omitted from the response when false.
-             */
-            isPrivate?: boolean;
         };
         /** @description A group role response model */
         'Roblox.Groups.Api.GroupRoleResponse': {
@@ -67146,59 +62661,6 @@ export interface components {
              *     Omitted from the response when false.
              */
             isPrivate?: boolean;
-        };
-        /** @description Response Model For Group Search Metadata Endpoint */
-        'Roblox.Groups.Api.GroupSearchMetadataResponse': {
-            /** @description Suggested Group Category translation keys */
-            SuggestedGroupKeywords?: string[];
-            /** @description Whether or not the Friends' Groups sort should show for the authenticated user */
-            ShowFriendsGroupsSort?: boolean;
-        };
-        /** @description ApiPageResponse for catalog search */
-        'Roblox.Groups.Api.GroupSearchPageResponse': {
-            /** @description Keyword used for search query */
-            keyword?: string;
-            /** Format: int64 */
-            totalResults?: number;
-            previousPageCursor?: string;
-            nextPageCursor?: string;
-            data?: components['schemas']['Roblox.Groups.Api.GroupSearchResponseItem'][];
-        };
-        /** @description A group search response */
-        'Roblox.Groups.Api.GroupSearchResponseItem': {
-            /**
-             * Format: int64
-             * @description The group id
-             */
-            id?: number;
-            /** @description The group name */
-            name?: string;
-            /** @description The group description */
-            description?: string;
-            /**
-             * Format: int32
-             * @description The number of members in the group
-             */
-            memberCount?: number;
-            /** @description The previous name of the group */
-            previousName?: string;
-            /**
-             * @description When true anyone can join the group. When false manual approval
-             *     is required to join the group
-             */
-            publicEntryAllowed?: boolean;
-            /**
-             * Format: date-time
-             * @description When the group was created
-             */
-            created?: string;
-            /**
-             * Format: date-time
-             * @description When the group was last updated
-             */
-            updated?: string;
-            /** @description The group's verified badge status */
-            hasVerifiedBadge?: boolean;
         };
         /** @description Response model for Group Settings */
         'Roblox.Groups.Api.GroupSettingsResponse': {
@@ -67246,102 +62708,6 @@ export interface components {
             hasLegacyAutoAssignRole?: boolean;
             communityTier?: components['schemas']['Roblox.Groups.Client.CommunityTierInfoResponse'];
         };
-        /** @description A group roles response model */
-        'Roblox.Groups.Api.GroupsDisplayOptionsResponse': {
-            /**
-             * Format: int32
-             * @description The user's builders club membership group limit
-             */
-            groupLimit?: number;
-            /**
-             * Format: int32
-             * @description The user's current group membership count
-             */
-            currentGroupCount?: number;
-            /**
-             * Format: int32
-             * @description The maximum length of a group status
-             */
-            groupStatusMaxLength?: number;
-            /**
-             * @description If set to true, groups showcase will not show on users profiles.
-             *
-             *     If set to false, group showcase will display on users profiles.
-             */
-            areProfileGroupsHidden?: boolean;
-            /**
-             * @description If set to true, group details will respect GUAC policies for group details
-             *
-             *     If set to false, group details will not respect GUAC policies
-             */
-            isGroupDetailsPolicyEnabled?: boolean;
-            /** @description Whether or not we should show previous names of this group */
-            showPreviousGroupNames?: boolean;
-            /** @description Whether or not group bans are enabled */
-            areGroupBansEnabled?: boolean;
-            /** @description Whether or not group notifications can be enabled */
-            canEnableGroupNotifications?: boolean;
-        };
-        /** @description Response model for the features/status endpoint. */
-        'Roblox.Groups.Api.HasGroupFeaturesBlockedResponse': {
-            /** @description Whether the group has any active feature freezes. */
-            hasFeaturesBlocked?: boolean;
-        };
-        /** @description A request model for joining group. */
-        'Roblox.Groups.Api.JoinGroupRequest': {
-            sessionId?: string;
-            redemptionToken?: string;
-            captchaId?: string;
-            captchaToken?: string;
-            captchaProvider?: string;
-            challengeId?: string;
-        };
-        'Roblox.Groups.Api.MembersRequest': {
-            /** @description The user ids being either accepted or declined */
-            UserIds?: number[];
-        };
-        'Roblox.Groups.Api.Models.Request.CreateRoleSetRequest': {
-            /** @description The name of the roleset. */
-            name?: string;
-            /** @description The description of the roleset. */
-            description?: string;
-            /**
-             * Format: int32
-             * @description The rank/positioning of the roleset.
-             */
-            rank?: number;
-            /** @description Setting to use group funds or not. */
-            usingGroupFunds?: boolean;
-            /**
-             * @description Optional. When true the role is only visible to members with permission to see private roles.
-             *     Defaults to false (public). Only accessible to group owners.
-             */
-            isPrivate?: boolean;
-        };
-        'Roblox.Groups.Api.Models.Request.UpdateRoleSetRequest': {
-            /** @description The name of the roleset. */
-            name?: string;
-            /** @description The description of the roleset. */
-            description?: string;
-            /**
-             * Format: int32
-             * @description The rank/positioning of the roleset.
-             */
-            rank?: number;
-            /**
-             * Format: int32
-             * @description Optional. The color of the roleset (GroupRoleSetColorType value, e.g. 0 = Invalid, 1 = Blue).
-             *     When omitted, only name and description are updated and the existing color is left unchanged.
-             *     When set, name, description, and color are updated via UpdateGroupRoleSetProperties.
-             */
-            color?: number;
-            /**
-             * @description Optional. When set, updates the visibility of the roleset.
-             *     Only accessible to group owners.
-             *     The base (guest) role cannot be made private.
-             */
-            isPrivate?: boolean;
-        };
         /** @description A group audit log response model */
         'Roblox.Groups.Api.Models.Response.GroupAuditLogResponseItem': {
             actor?: components['schemas']['Roblox.Groups.Api.UserGroupRoleResponse'];
@@ -67366,7 +62732,7 @@ export interface components {
             name?: string;
             /** @description The game description. */
             description?: string;
-            creator?: components['schemas']['GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Core.CreatorType_'];
+            creator?: components['schemas']['Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Core.CreatorType_'];
             rootPlace?: components['schemas']['GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_'];
             /**
              * Format: date-time
@@ -67384,16 +62750,6 @@ export interface components {
              */
             placeVisits?: number;
         };
-        /** @description A group name history response model */
-        'Roblox.Groups.Api.Models.Response.GroupNameHistoryResponseItem': {
-            /** @description The group name before the change */
-            name?: string;
-            /**
-             * Format: date-time
-             * @description Date the name change was applied
-             */
-            created?: string;
-        };
         /** @description A model representing data about an Roblox.Platform.Membership.IUser */
         'Roblox.Groups.Api.Models.Response.UserModel': {
             /**
@@ -67409,143 +62765,10 @@ export interface components {
             username?: string;
             displayName?: string;
         };
-        /** @description Response model for one-time payout requests. */
-        'Roblox.Groups.Api.OneTimePayoutResponse': {
-            /**
-             * Format: int32
-             * @description One-time payout status. ['NotHeld' = 0, 'Held' = 1]
-             * @enum {integer}
-             */
-            status?: 0 | 1;
-        };
-        /** @description A request model for paying out Robux. */
-        'Roblox.Groups.Api.PayoutRecipientRequest': {
-            /**
-             * Format: int64
-             * @description The recipient id.
-             */
-            recipientId?: number;
-            /**
-             * Format: int32
-             * @description The recipient type. ['User' = 0, 'Group' = 1]
-             * @enum {integer}
-             */
-            recipientType?: 0 | 1;
-            /**
-             * Format: int64
-             * @description The amount to payout.
-             */
-            amount?: number;
-        };
-        /** @description Multi-payout request information. */
-        'Roblox.Groups.Api.PayoutRequest': {
-            /**
-             * Format: int32
-             * @description The Roblox.Groups.Api.PayoutType. ['FixedAmount' = 1, 'Percentage' = 2]
-             * @enum {integer}
-             */
-            PayoutType?: 1 | 2;
-            /** @description The recipients of the payouts. */
-            Recipients?: components['schemas']['Roblox.Groups.Api.PayoutRecipientRequest'][];
-            /** @description The idempotency key of the payout request. */
-            IdempotencyKey?: string;
-            /** @description Optional watermark contributions for DevEx attribution tracking. */
-            WatermarkContributions?: components['schemas']['Roblox.Groups.Api.WatermarkContributionRequest'][];
-        };
         /** @description A request model for setting the authenticated user's primary group. */
         'Roblox.Groups.Api.PostGroupStatusRequest': {
             /** @description The message to set the group status to. */
             message?: string;
-        };
-        /** @description A request model for setting the authenticated user's primary group. */
-        'Roblox.Groups.Api.PrimaryGroupRequest': {
-            /**
-             * Format: int64
-             * @description The group id.
-             */
-            groupId?: number;
-        };
-        /** @description A response model for recurring payout configuration */
-        'Roblox.Groups.Api.RecurringPayoutsConfigurationResponse': {
-            /**
-             * Format: int32
-             * @description The maximum number of recurring payout partners
-             */
-            maxPayoutPartners?: number;
-        };
-        /** @description A response model for role configuration */
-        'Roblox.Groups.Api.RoleConfigurationResponse': {
-            /**
-             * Format: int32
-             * @description The maximum length of a role name
-             */
-            nameMaxLength?: number;
-            /**
-             * Format: int32
-             * @description The maximum length of a role description
-             */
-            descriptionMaxLength?: number;
-            /**
-             * Format: int32
-             * @description The maximum number of roles in a group
-             */
-            limit?: number;
-            /**
-             * Format: int64
-             * @description The cost of purchasing a role
-             */
-            cost?: number;
-            /**
-             * Format: int32
-             * @description The minimum rank a role can have
-             */
-            minRank?: number;
-            /**
-             * Format: int32
-             * @description The maximum rank a role can have
-             */
-            maxRank?: number;
-        };
-        /** @description Request model for setting the desired status of group features. */
-        'Roblox.Groups.Api.SetFeaturesRequestModel': {
-            /** @description Dictionary of features and their desired status. */
-            Features: {
-                /**
-                 * @description The desired status of a group feature. ['On' = 0, 'Blocked' = 1]
-                 * @enum {string}
-                 */
-                Payouts?: 'On' | 'Blocked';
-                /**
-                 * @description The desired status of a group feature. ['On' = 0, 'Blocked' = 1]
-                 * @enum {string}
-                 */
-                ContentUpload?: 'On' | 'Blocked';
-                /**
-                 * @description The desired status of a group feature. ['On' = 0, 'Blocked' = 1]
-                 * @enum {string}
-                 */
-                GroupOwnershipTransfer?: 'On' | 'Blocked';
-                /**
-                 * @description The desired status of a group feature. ['On' = 0, 'Blocked' = 1]
-                 * @enum {string}
-                 */
-                GameOwnershipTransfer?: 'On' | 'Blocked';
-                /**
-                 * @description The desired status of a group feature. ['On' = 0, 'Blocked' = 1]
-                 * @enum {string}
-                 */
-                ForumRead?: 'On' | 'Blocked';
-                /**
-                 * @description The desired status of a group feature. ['On' = 0, 'Blocked' = 1]
-                 * @enum {string}
-                 */
-                ForumWrite?: 'On' | 'Blocked';
-            };
-        };
-        /** @description Response model for setting the desired status of group features. */
-        'Roblox.Groups.Api.SetFeaturesResponseModel': {
-            /** @description Whether any features were updated. */
-            Updated: boolean;
         };
         'Roblox.Groups.Api.ShoutResponse': {
             /** @description The shout's message */
@@ -67562,54 +62785,10 @@ export interface components {
              */
             updated?: string;
         };
-        /** @description An update request for a social link */
-        'Roblox.Groups.Api.SocialLinkRequest': {
-            /**
-             * Format: int32
-             * @description What type of social media this points to
-             * @enum {integer}
-             */
-            type?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
-            /** @description The url of the link */
-            url?: string;
-            /** @description The title of the link */
-            title?: string;
-        };
-        /** @description A social link response from a create request */
-        'Roblox.Groups.Api.SocialLinkResponse': {
-            /**
-             * Format: int64
-             * @description The id of the social link
-             */
-            id?: number;
-            /**
-             * Format: int32
-             * @description What type of social media (including Roblox Group) this points to ['Facebook' = 0, 'Twitter' = 1, 'YouTube' = 2, 'Twitch' = 3, 'GooglePlus' = 4, 'Discord' = 5, 'RobloxGroup' = 6, 'Amazon' = 7, 'Guilded' = 8]
-             * @enum {integer}
-             */
-            type?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
-            /** @description The url of the link */
-            url?: string;
-            /** @description The title of the link */
-            title?: string;
-        };
-        'Roblox.Groups.Api.UpdateBlockedKeywordRequest': {
-            keyword?: string;
-            isPrivate?: boolean;
-        };
         /** @description A request model for setting a description for the group */
         'Roblox.Groups.Api.UpdateGroupDescriptionRequest': {
             /** @description The group description being set. */
             description?: string;
-        };
-        /** @description A request model for setting a name for the group */
-        'Roblox.Groups.Api.UpdateGroupNameRequest': {
-            /** @description The group name being set. */
-            name?: string;
-        };
-        'Roblox.Groups.Api.UpdateGroupNameResponse': {
-            /** @description The new description returned */
-            newName?: string;
         };
         /** @description A request model for updating a group's notification preference. */
         'Roblox.Groups.Api.UpdateGroupNotificationPreferenceRequest': {
@@ -67655,81 +62834,10 @@ export interface components {
             /** @description Whether the group member list is visible to public. */
             isMemberListVisibleToPublic?: boolean;
         };
-        /** @description A request model for updating a group's roleset's permissions. */
-        'Roblox.Groups.Api.UpdatePermissionsRequest': {
-            /** @description The permission-value pairs to be updated. */
-            permissions?: {
-                InviteMembers?: boolean;
-                PostToStatus?: boolean;
-                RemoveMembers?: boolean;
-                BanMembers?: boolean;
-                ViewStatus?: boolean;
-                ChangeRank?: boolean;
-                AdvertiseGroup?: boolean;
-                ManageRelationships?: boolean;
-                AddGroupPlaces?: boolean;
-                ViewAuditLogs?: boolean;
-                CreateItems?: boolean;
-                ManageItems?: boolean;
-                SpendGroupFunds?: boolean;
-                ManageClan?: boolean;
-                ManageGroupGames?: boolean;
-                UseCloudAuthentication?: boolean;
-                AdministerCloudAuthentication?: boolean;
-                ViewAnalytics?: boolean;
-                ViewForums?: boolean;
-                ManageCategories?: boolean;
-                CreatePosts?: boolean;
-                RemovePosts?: boolean;
-                LockPosts?: boolean;
-                PinPosts?: boolean;
-                CreateComments?: boolean;
-                RemoveComments?: boolean;
-                ManageKeywordBlockList?: boolean;
-                ViewKeywordBlockList?: boolean;
-                BypassSlowmode?: boolean;
-                ViewCommunityAnalytics?: boolean;
-                CreateBugReports?: boolean;
-            };
-        };
-        /** @description A request model for setting a users role in a group. */
-        'Roblox.Groups.Api.UpdateUserRoleRequest': {
-            /**
-             * Format: int64
-             * @description The role in the group the user should be put into.
-             */
-            roleId?: number;
-        };
-        /** @description A users group membership response model */
-        'Roblox.Groups.Api.UserGroupMembershipResponse': {
-            user?: components['schemas']['Roblox.Groups.Api.Models.Response.UserModel'];
-            /** @description The list of group memberships */
-            groups?: components['schemas']['Roblox.Groups.Api.GroupMembershipDetailResponse'][];
-        };
         /** @description A user group role response model */
         'Roblox.Groups.Api.UserGroupRoleResponse': {
             user?: components['schemas']['Roblox.Groups.Api.Models.Response.UserModel'];
             role?: components['schemas']['Roblox.Groups.Api.GroupRoleResponse'];
-        };
-        'Roblox.Groups.Api.WatermarkContributionRequest': {
-            /**
-             * @description ['Standard' = 1, 'O18Boosted' = 2]
-             * @enum {string}
-             */
-            balanceKey?: 'Standard' | 'O18Boosted';
-            /** Format: int64 */
-            amount?: number;
-        };
-        'Roblox.Groups.Client.BlockedKeywordModel': {
-            id?: string;
-            keyword?: string;
-            /** Format: int64 */
-            createdBy?: number;
-            isPrivate?: boolean;
-            /** Format: date-time */
-            createdAt?: string;
-            /** Format: date-time */
-            updatedAt?: string;
         };
         'Roblox.Groups.Client.CommunityTierInfoResponse': {
             /** Format: int64 */
@@ -67745,36 +62853,8 @@ export interface components {
             requirements?: components['schemas']['Roblox.Groups.Client.TierRequirement'][];
             capabilities?: components['schemas']['Roblox.Groups.Client.TierCapabilities'];
         };
-        'Roblox.Groups.Client.CreateBlockedKeywordsResponse': {
-            createdKeywords?: components['schemas']['Roblox.Groups.Client.BlockedKeywordModel'][];
-            hadModeratedKeywords?: boolean;
-            hadDuplicateKeywords?: boolean;
-        };
-        'Roblox.Groups.Client.EmoteModel': {
-            id?: string;
-            name?: string;
-        };
-        'Roblox.Groups.Client.EmoteSetModel': {
-            id?: string;
-            name?: string;
-            emotes?: components['schemas']['Roblox.Groups.Client.EmoteModel'][];
-        };
-        'Roblox.Groups.Client.GetGroupEmoteSetsResponse': {
-            emoteSets?: components['schemas']['Roblox.Groups.Client.EmoteSetModel'][];
-        };
-        'Roblox.Groups.Client.GroupFeaturedContentResponse': {
-            /** Format: int64 */
-            groupId?: number;
-            contentType?: string;
-            contentId?: string;
-        };
         'Roblox.Groups.Client.TierCapabilities': {
             isEligibleForUnrestrictedMessages: boolean;
-        };
-        'Roblox.Groups.Client.TierEvaluationResultResponse': {
-            tierInfo: components['schemas']['Roblox.Groups.Client.CommunityTierInfoResponse'];
-            passedSignals: string[];
-            requirements?: components['schemas']['Roblox.Groups.Client.TierRequirement'][];
         };
         'Roblox.Groups.Client.TierRequirement': {
             /**
@@ -68290,7 +63370,10 @@ export interface components {
             readonly id?: number;
             /** @description locale of supported locale. Example "en-us" */
             readonly locale?: string;
-            /** @description Name of supported locale. */
+            /**
+             * @description Name of supported locale.
+             * @example English (United States)
+             */
             name?: string;
             /** @description Name of supported locale in native language. Example "English" */
             readonly nativeName?: string;
@@ -68395,12 +63478,14 @@ export interface components {
         /**
          * @description A source asset (image) entry in a localization table, along with its per-locale asset
          *     translations. Unlike Roblox.LocalizationTables.Api.Entry, an asset entry is identified by its source asset
-         *     id and has no key/context/source; each translation's Roblox.LocalizationTables.Api.Translation.TranslationText
-         *     holds the translated asset id.
+         *     id and version and has no key/context/source; each translation's Roblox.LocalizationTables.Api.Translation.TranslationText
+         *     holds "{translatedAssetId}#{translatedAssetVersion}".
          */
         'Roblox.LocalizationTables.Api.AssetEntry': {
             /** Format: int64 */
             sourceAssetId?: number;
+            /** @description Source asset version; "" = bare (unpinned). */
+            sourceAssetVersion?: string;
             /** Format: int32 */
             assetType?: number;
             /** Format: int32 */
@@ -68874,6 +63959,15 @@ export interface components {
             totalPages?: number;
             /** Format: int32 */
             pageNumber?: number;
+            /**
+             * @description Numbered page window centered on the current page. Populated only in cursor mode. Each entry
+             *     carries an opaque Roblox.PrivateMessages.Api.Models.MessagePageEntry.PageToken the client echoes back to navigate.
+             */
+            pageWindow?: components['schemas']['Roblox.PrivateMessages.Api.Models.MessagePageEntry'][];
+            /** @description Opaque token for the first page. Populated only in cursor mode; backs the "first page" control. */
+            firstPageToken?: string;
+            /** @description Whether a next page exists. Populated only in cursor mode. */
+            hasMore?: boolean;
         };
         /** @description A message details response. */
         'Roblox.PrivateMessages.Api.Models.MessageDetailsResponse': {
@@ -68904,6 +63998,15 @@ export interface components {
             isSystemMessage?: boolean;
             /** @description Whether or not the abuse report link is displayed for the message. */
             isReportAbuseDisplayed?: boolean;
+        };
+        /**
+         * @description A single numbered page in the cursor-mode page window. Roblox.PrivateMessages.Api.Models.MessagePageEntry.PageToken is an opaque
+         *     token that fetches that page; clients echo it back as the `pageToken` query param.
+         */
+        'Roblox.PrivateMessages.Api.Models.MessagePageEntry': {
+            /** Format: int32 */
+            pageNumber?: number;
+            pageToken?: string;
         };
         'Roblox.PrivateMessages.Api.Models.UnreadMessagesCountResponse': {
             /** Format: int64 */
@@ -69470,12 +64573,12 @@ export interface components {
              */
             assigneeId?: number;
             /**
-             * @description The type of the assignee ['User' = 0, 'Group' = 1, 'GroupRole' = 2]
+             * @description The type of the assignee
              * @enum {string}
              */
             assigneeType?: 'user' | 'group' | 'groupRole';
             /**
-             * @description The role to be assigned or revoked ['Translator' = 0]
+             * @description The role to be assigned or revoked
              * @enum {string}
              */
             role?: 'translator';
@@ -70168,33 +65271,6 @@ export interface components {
              */
             placeVisits?: number;
         };
-        'Roblox.Web.Responses.Groups.GroupBasicResponse': {
-            /** Format: int64 */
-            id?: number;
-            name?: string;
-            /** Format: int64 */
-            memberCount?: number;
-            hasVerifiedBadge?: boolean;
-        };
-        'Roblox.Web.Responses.Groups.GroupResponseV2': {
-            /** Format: int64 */
-            id?: number;
-            name?: string;
-            description?: string;
-            owner?: components['schemas']['Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Web.Responses.Groups.GroupOwnerType_'];
-            /** Format: int64 */
-            memberCount?: number;
-            /** Format: date-time */
-            created?: string;
-            hasVerifiedBadge?: boolean;
-        };
-        'Roblox.Web.Responses.Groups.GroupRoleBasicResponse': {
-            /** Format: int64 */
-            id?: number;
-            name?: string;
-            /** Format: int32 */
-            rank?: number;
-        };
         /** @description Represents information about a plugin. */
         'Roblox.Web.Responses.Plugins.PluginResponse': {
             /**
@@ -70229,7 +65305,7 @@ export interface components {
             id?: number;
             /**
              * Format: int32
-             * @description ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94]
+             * @description ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95, 'ComputeFunction' = 96]
              * @enum {integer}
              */
             type?:
@@ -70319,7 +65395,9 @@ export interface components {
                 | 91
                 | 92
                 | 93
-                | 94;
+                | 94
+                | 95
+                | 96;
             name?: string;
         };
         'Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Badges.BadgeAwarderType_': {
@@ -70338,10 +65416,10 @@ export interface components {
             id?: number;
             /**
              * Format: int32
-             * @description ['User' = 0, 'Group' = 1]
+             * @description ['User' = 0, 'Group' = 1, 'Experience' = 2]
              * @enum {integer}
              */
-            type?: 0 | 1;
+            type?: 0 | 1 | 2;
             name?: string;
         };
         'Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Users.Client.AssociatedEntityType_': {
@@ -70353,17 +65431,6 @@ export interface components {
              * @enum {integer}
              */
             type?: 1 | 2;
-            name?: string;
-        };
-        'Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Web.Responses.Groups.GroupOwnerType_': {
-            /** Format: int64 */
-            id?: number;
-            /**
-             * Format: int32
-             * @description ['User' = 0]
-             * @enum {integer}
-             */
-            type?: 0;
             name?: string;
         };
         'Roblox.Web.Responses.Users.LegacyUserResponse': {
@@ -70460,24 +65527,6 @@ export interface components {
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupDetailResponse_': {
             data?: components['schemas']['Roblox.Groups.Api.GroupDetailResponse'][];
         };
-        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupMembershipDetailResponse_': {
-            data?: components['schemas']['Roblox.Groups.Api.GroupMembershipDetailResponse'][];
-        };
-        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupMembershipResponse_': {
-            data?: components['schemas']['Roblox.Groups.Api.GroupMembershipResponse'][];
-        };
-        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupPayoutResponse_': {
-            data?: components['schemas']['Roblox.Groups.Api.GroupPayoutResponse'][];
-        };
-        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupPermissionsResponse_': {
-            data?: components['schemas']['Roblox.Groups.Api.GroupPermissionsResponse'][];
-        };
-        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.GroupRoleDetailResponse_': {
-            data?: components['schemas']['Roblox.Groups.Api.GroupRoleDetailResponse'][];
-        };
-        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Groups.Api.UserGroupMembershipResponse_': {
-            data?: components['schemas']['Roblox.Groups.Api.UserGroupMembershipResponse'][];
-        };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Locale.Api.SupportedLocaleLocus_': {
             data?: components['schemas']['Roblox.Locale.Api.SupportedLocaleLocus'][];
         };
@@ -70492,12 +65541,6 @@ export interface components {
         };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Games.GameMediaItemResponseV2_': {
             data?: components['schemas']['Roblox.Web.Responses.Games.GameMediaItemResponseV2'][];
-        };
-        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Groups.GroupBasicResponse_': {
-            data?: components['schemas']['Roblox.Web.Responses.Groups.GroupBasicResponse'][];
-        };
-        'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Groups.GroupResponseV2_': {
-            data?: components['schemas']['Roblox.Web.Responses.Groups.GroupResponseV2'][];
         };
         'Roblox.Web.WebAPI.Models.ApiArrayResponse_Roblox.Web.Responses.Plugins.PluginResponse_': {
             data?: components['schemas']['Roblox.Web.Responses.Plugins.PluginResponse'][];
@@ -70563,35 +65606,10 @@ export interface components {
             nextPageCursor?: string;
             data?: components['schemas']['Roblox.Friends.Api.Models.Response.UserResponse'][];
         };
-        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.GroupBanMemberResponse_': {
-            previousPageCursor?: string;
-            nextPageCursor?: string;
-            data?: components['schemas']['Roblox.Groups.Api.GroupBanMemberResponse'][];
-        };
-        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.GroupJoinRequestResponse_': {
-            previousPageCursor?: string;
-            nextPageCursor?: string;
-            data?: components['schemas']['Roblox.Groups.Api.GroupJoinRequestResponse'][];
-        };
         'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.GroupExperienceResponse_': {
             previousPageCursor?: string;
             nextPageCursor?: string;
             data?: components['schemas']['Roblox.Groups.Api.Models.Response.GroupExperienceResponse'][];
-        };
-        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.GroupNameHistoryResponseItem_': {
-            previousPageCursor?: string;
-            nextPageCursor?: string;
-            data?: components['schemas']['Roblox.Groups.Api.Models.Response.GroupNameHistoryResponseItem'][];
-        };
-        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.Models.Response.UserModel_': {
-            previousPageCursor?: string;
-            nextPageCursor?: string;
-            data?: components['schemas']['Roblox.Groups.Api.Models.Response.UserModel'][];
-        };
-        'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Groups.Api.UserGroupRoleResponse_': {
-            previousPageCursor?: string;
-            nextPageCursor?: string;
-            data?: components['schemas']['Roblox.Groups.Api.UserGroupRoleResponse'][];
         };
         'Roblox.Web.WebAPI.Models.ApiPageResponse_Roblox.Inventory.Api.Models.CollectibleUserAssetModel_': {
             previousPageCursor?: string;
@@ -70661,6 +65679,87 @@ export interface components {
         'Roblox.Web.WebAPI.Models.ApiSuccessResponse': {
             success?: boolean;
         };
+        'Roblox2.Assetdelivery.V3.AssetIdentifier': {
+            /** Format: int64 */
+            assetId?: number;
+            hash?: string;
+            /** Format: int64 */
+            assetVersionId?: number;
+            assetName?: components['schemas']['Roblox2.Assetdelivery.V3.AssetNameIdentifier'];
+        };
+        'Roblox2.Assetdelivery.V3.AssetNameIdentifier': {
+            name: string;
+            /** Format: int64 */
+            universeId?: number;
+        };
+        'Roblox2.Assetdelivery.V3.AssetRequestItem': {
+            requestId: string;
+            asset: components['schemas']['Roblox2.Assetdelivery.V3.AssetIdentifier'];
+            version: components['schemas']['Roblox2.Assetdelivery.V3.VersionStrategy'];
+            assetType?: string;
+            representation?: components['schemas']['Roblox2.Assetdelivery.V3.RepresentationRequest'];
+            skipSigningScripts?: boolean;
+            permissionContext?: string;
+            options?: components['schemas']['Roblox2.Assetdelivery.V3.Options'];
+            insertContext?: components['schemas']['Roblox2.Assetdelivery.V3.InsertContext'];
+            assetResolutionMode?: string;
+            /**
+             * Format: int32
+             * @enum {integer}
+             */
+            dataModelMode?: 0 | 1 | 2;
+            usageContext?: string;
+            accessContext?: unknown;
+            thumbnailModerationAccessKey?: string;
+            /** Format: int64 */
+            placeId?: number;
+            /** Format: int64 */
+            modulePlaceId?: number;
+            /** Format: int64 */
+            xcachesplit?: number;
+        };
+        'Roblox2.Assetdelivery.V3.InsertContext': {
+            scriptInsert?: boolean;
+            clientInsert?: boolean;
+            /** Format: int64 */
+            serverPlaceId?: number;
+        };
+        'Roblox2.Assetdelivery.V3.LatestVersion': Record<string, never>;
+        'Roblox2.Assetdelivery.V3.Options': {
+            metadata?: unknown;
+        };
+        'Roblox2.Assetdelivery.V3.PinnedVersion': {
+            /** Format: int32 */
+            versionNumber?: number;
+        };
+        'Roblox2.Assetdelivery.V3.PrewarmPlaceTarget': {
+            /** Format: int64 */
+            placeId?: number;
+        };
+        'Roblox2.Assetdelivery.V3.PrewarmTarget': {
+            place?: components['schemas']['Roblox2.Assetdelivery.V3.PrewarmPlaceTarget'];
+        };
+        'Roblox2.Assetdelivery.V3.RepresentationItem': {
+            format?: string;
+            majorVersion?: string;
+            fidelity?: string;
+        };
+        'Roblox2.Assetdelivery.V3.RepresentationRequest': {
+            priorityList?: components['schemas']['Roblox2.Assetdelivery.V3.RepresentationItem'][];
+            doNotFallbackToBaseline?: boolean;
+        };
+        'Roblox2.Assetdelivery.V3.StableVersion': Record<string, never>;
+        'Roblox2.Assetdelivery.V3.V3BatchRequest': {
+            assets: components['schemas']['Roblox2.Assetdelivery.V3.AssetRequestItem'][];
+        };
+        'Roblox2.Assetdelivery.V3.V3PrewarmRequest': {
+            target: components['schemas']['Roblox2.Assetdelivery.V3.PrewarmTarget'];
+        };
+        'Roblox2.Assetdelivery.V3.VersionStrategy': {
+            stable?: components['schemas']['Roblox2.Assetdelivery.V3.StableVersion'];
+            pinned?: components['schemas']['Roblox2.Assetdelivery.V3.PinnedVersion'];
+            latest?: components['schemas']['Roblox2.Assetdelivery.V3.LatestVersion'];
+        };
         RobuxRateBreakdown: {
             /** Format: double */
             o18?: number | null;
@@ -70715,14 +65814,6 @@ export interface components {
             before?: string[] | null;
             after?: string[] | null;
         };
-        SalesReportDownloadRequest: {
-            /** Format: int64 */
-            targetId: number;
-            targetType: components['schemas']['CurrencyHolderType'];
-            startDate: string | null;
-            endDate: string | null;
-            transactionType?: components['schemas']['TransactionType'];
-        };
         /**
          * Format: int32
          * @enum {integer}
@@ -70733,6 +65824,27 @@ export interface components {
          * @enum {string}
          */
         SavesSortCategory: 'Name' | 'Creator' | 'Ratings' | 'TargetType' | 'DateSaved' | 'LastModified' | 'Price';
+        Schedule: {
+            /**
+             * @description How long the campaign runs from startTime, in days. Must not exceed 3650 (about
+             *     10 years).
+             */
+            durationInDays: number;
+            /**
+             * Format: date-time
+             * @description The instant the campaign stops, as an RFC 3339 UTC timestamp (read-only): one
+             *     second before local midnight at the end of day durationInDays in the account's
+             *     time zone. Not accepted on requests; supplying it returns 400. Use durationInDays
+             *     to set when the campaign ends.
+             */
+            readonly endTime?: string;
+            /**
+             * Format: date-time
+             * @description The time the campaign starts serving, as an RFC 3339 UTC timestamp. On a create
+             *     request it must not be in the past.
+             */
+            startTime: string;
+        };
         /**
          * @description Request body for
          *     `POST /v1/experimentation/universes/{universeId}/experiments/{experimentId}:schedule`.
@@ -70941,94 +66053,6 @@ export interface components {
          * @enum {integer}
          */
         ServerListSortOption: 0 | 1 | 2 | 3 | 4;
-        /** @description Response model for listing a Game Server */
-        'ServerManagementService.GameServer': {
-            /** @description The place ID this game server belongs to. */
-            placeId?: string | null;
-            /** @description The place version this game server belongs to. */
-            placeVersion?: string | null;
-            /** @description The unique ID for this server. */
-            jobId?: string | null;
-            /** @description The RCC Version the server is running */
-            engineVersion?: string | null;
-            /**
-             * Format: date-time
-             * @description The time this server was created.
-             */
-            createTime?: string;
-            /**
-             * Format: date-span
-             * @description How long this server has been running.
-             * @example 1.02:03:04
-             */
-            uptime?: string;
-            /**
-             * Format: int64
-             * @description The Memory Usage of the server in bytes.
-             */
-            memoryUsageBytes?: number;
-            /**
-             * Format: float
-             * @description The Server Frame Rate.
-             */
-            frameRate?: number | null;
-            /**
-             * Format: int32
-             * @description The current number of users in the server.
-             */
-            occupancy?: number;
-            /**
-             * Format: int32
-             * @description The maximum number of users in the server.
-             */
-            maxOccupancy?: number;
-            /** @description The Type of Server. */
-            type?: components['schemas']['ServerType'];
-            /** @description Whether the server is at max occupancy. */
-            full?: boolean;
-            /** @description Whether the server has been shutdown. */
-            shutDown?: boolean;
-            /** @description Creator-visible server status. */
-            status?: components['schemas']['ServerStatus'];
-            /**
-             * Format: date-time
-             * @description The time the server terminated. Null while ServerManagementService.V2.Models.GameServer.ShutDown is false.
-             */
-            terminationTime?: string | null;
-            /** @description The list of PlayerIds in the server */
-            playerIds?: number[] | null;
-        };
-        /** @description Response model for listing game servers. */
-        'ServerManagementService.ListGameServersResponse': {
-            /** @description The GameServers from the specified PlaceVersion. */
-            gameServers?: components['schemas']['ServerManagementService.GameServer'][] | null;
-            /**
-             * @description A token that you can send as a `pageToken` parameter to retrieve the next
-             *     page. If this field is omitted, there are no subsequent pages.
-             */
-            nextPageToken?: string | null;
-            /**
-             * @description A token that you can send as a `pageToken` parameter to retrieve the previous
-             *     page (reverse cursor). If this field is omitted, there are no prior pages.
-             */
-            previousPageToken?: string | null;
-            /**
-             * Format: int32
-             * @description Total matching rows across all pages. Combined active+shutdown queries return the sum of
-             *     each source total when both are known; omitted when a source failed or omitted its total.
-             */
-            totalCount?: number | null;
-            /**
-             * @description True when this page includes active rows but shutdown rows could not be fetched.
-             *     Results may be a partial slice of the globally ordered combined stream.
-             */
-            shutdownServersFetchError?: boolean | null;
-            /**
-             * @description True when this page includes shutdown rows but active rows could not be fetched.
-             *     Results may be a partial slice of the globally ordered combined stream.
-             */
-            activeServersFetchError?: boolean | null;
-        };
         'ServerManagementService.ProblemDetails': {
             type?: string | null;
             title?: string | null;
@@ -71114,11 +66138,6 @@ export interface components {
              */
             nanos?: number;
         };
-        /**
-         * @description Transaction Status for HTTP responses.
-         * @enum {string}
-         */
-        'ServiceEfficiencyApi.TransactionStatus': 'Invalid' | 'Pending' | 'Successful' | 'Failed';
         /** @description Usage of a service, e.g. Memory Stores */
         ServiceUsage: {
             /** @description Gets or sets service ID. */
@@ -71130,7 +66149,7 @@ export interface components {
         };
         /** @description Response to set the matchmaking scoring configuration. */
         SetMatchmakingScoringConfigurationResponse: {
-            scoringConfiguration?: components['schemas']['MatchmakingScoringConfiguration'];
+            scoringConfiguration: components['schemas']['MatchmakingScoringConfiguration'];
         };
         /** @description Request to set the matchmaking scoring configuration for a place. */
         SetPlaceMatchmakingScoringConfigurationRequest: {
@@ -71233,7 +66252,7 @@ export interface components {
              */
             latestSnapshotTime?: string;
         };
-        /** @description A social media link for the asset. Maximum of three per asset. Object name can be any of: <ul><li>`facebookSocialLink`</li><li>`twitterSocialLink`</li><li>`youtubeSocialLink`</li><li>`twitchSocialLink`</li><li>`discordSocialLink`</li><li>`githubSocialLink`</li><li>`robloxSocialLink`</li><li>`guildedSocialLink`</li><li>`devForumSocialLink`</li></ul>For syntax, see the sample request under [Update Asset](#PATCH-v1-assets-_assetId_). */
+        /** @description A social media link for the asset. Maximum of three per asset. Object name can be any of: <ul><li>`facebookSocialLink`</li><li>`twitterSocialLink`</li><li>`youtubeSocialLink`</li><li>`twitchSocialLink`</li><li>`discordSocialLink`</li><li>`githubSocialLink`</li><li>`robloxSocialLink`</li><li>`guildedSocialLink`</li><li>`devForumSocialLink`</li><li>`tryAssetSocialLink`</li></ul>For syntax, see the sample request under [Update Asset](#Assets_UpdateAsset). */
         SocialLink: {
             /** @description An optional title for the social media link. Not used on the Creator Hub. */
             title?: string;
@@ -71259,6 +66278,11 @@ export interface components {
          * @enum {string}
          */
         SortDirection: 'None' | 'Ascending' | 'Descending';
+        /**
+         * @description Sort order for groups-api style paginated requests.
+         * @enum {string}
+         */
+        SortOrder: 'Asc' | 'Desc';
         /** @description Representation of a sound effect asset. */
         SoundEffect:
             | ({
@@ -71318,10 +66342,6 @@ export interface components {
             /** Format: int32 */
             pageNumber?: number;
         };
-        StringStringIEnumerableKeyValuePair: {
-            key?: string | null;
-            value?: string[] | null;
-        };
         /**
          * @description Part of the ServerManagementService.V2.Models.GameServerLog and ServerManagementService.V2.Models.ClientLog response objects.
          *     Representing the metadata for a single frame in a structured stack trace.
@@ -71331,7 +66351,7 @@ export interface components {
              * Format: int32
              * @description The line number where the error occurred.
              */
-            line?: number;
+            line: number;
             /** @description The name of the function in which the error occurred. */
             function?: string | null;
             /** @description The data model path to the script where the error occurred. */
@@ -71520,6 +66540,57 @@ export interface components {
             /** @description Whether or not the request was successfully executed. */
             success: boolean;
         };
+        Targeting: {
+            /**
+             * @description The age brackets to deliver to. Empty means all ages. Values can be `AGE_13_17`,
+             *     `AGE_18_24`, or `AGE_25_PLUS`.
+             */
+            ageGroups?: ('AGE_13_17' | 'AGE_18_24' | 'AGE_25_PLUS')[];
+            /**
+             * @description Omitted or `ALL_PLAYERS` delivers to all players. Other values restrict delivery
+             *     to a retargeting audience of the target experience. For `ENGAGEMENT`, only
+             *     omission or `ALL_PLAYERS` is accepted; other targeting fields are rejected.
+             *     Available in v1.1; responses always include the resolved value in v1.1.
+             * @default ALL_PLAYERS
+             * @enum {string}
+             */
+            audienceType: 'ALL_PLAYERS' | 'NEW_USERS' | 'RETENTION' | 'REACTIVATION';
+            /**
+             * @description The ISO 3166-1 alpha-2 country codes to deliver to (for example, `US`). Empty
+             *     means all countries.
+             */
+            countries?: string[];
+            /**
+             * @description The device types to deliver to. Empty means all devices. Values can be `PHONE`,
+             *     `TABLET`, `DESKTOP`, or `CONSOLE`.
+             */
+            devices?: ('PHONE' | 'TABLET' | 'DESKTOP' | 'CONSOLE')[];
+            /**
+             * @description The geographic regions to deliver to. Empty means all regions. Values include
+             *     country-level and aggregate region codes, plus `ALL`.
+             */
+            regions?: (
+                | 'ALL'
+                | 'US'
+                | 'CA'
+                | 'GB'
+                | 'DE'
+                | 'FR'
+                | 'KR'
+                | 'JP'
+                | 'BR'
+                | 'WESTERN_EUROPE'
+                | 'EASTERN_EUROPE'
+                | 'EAST_ASIA'
+                | 'SOUTHEAST_ASIA'
+                | 'MIDDLE_EAST'
+                | 'LATIN_AMERICA'
+                | 'AFRICA'
+                | 'ANZ'
+                | 'ROW'
+                | 'UAC'
+            )[];
+        };
         /** @description Eligibility criteria scoping which users an experiment can apply to. */
         TargetingCriteria: {
             /**
@@ -71527,6 +66598,36 @@ export interface components {
              *     experiment. `null` means no targeting (every otherwise-eligible user is in scope).
              */
             rule?: components['schemas']['ConditionalRuleDefinition'] | null;
+        };
+        TargetingDimensions: {
+            /** @description The selectable age brackets. Values can be `AGE_13_17`, `AGE_18_24`, or `AGE_25_PLUS`. */
+            ageGroups?: ('AGE_13_17' | 'AGE_18_24' | 'AGE_25_PLUS')[];
+            /** @description The selectable ISO 3166-1 alpha-2 country codes (for example, `US`). */
+            countries?: string[];
+            /** @description The selectable device types. Values can be `PHONE`, `TABLET`, `DESKTOP`, or `CONSOLE`. */
+            devices?: ('PHONE' | 'TABLET' | 'DESKTOP' | 'CONSOLE')[];
+            /** @description The selectable geographic regions under v1.1, including country-level and aggregate region codes. */
+            regions?: (
+                | 'ALL'
+                | 'US'
+                | 'CA'
+                | 'GB'
+                | 'DE'
+                | 'FR'
+                | 'KR'
+                | 'JP'
+                | 'BR'
+                | 'WESTERN_EUROPE'
+                | 'EASTERN_EUROPE'
+                | 'EAST_ASIA'
+                | 'SOUTHEAST_ASIA'
+                | 'MIDDLE_EAST'
+                | 'LATIN_AMERICA'
+                | 'AFRICA'
+                | 'ANZ'
+                | 'ROW'
+                | 'UAC'
+            )[];
         };
         /**
          * @description Type of the tax id.
@@ -71553,10 +66654,71 @@ export interface components {
             placeId?: number | null;
         };
         /**
-         * @description The moderation status of a homepage thumbnail's image asset.
-         * @enum {string}
+         * @description This resource represents a long-running operation that is the result of a
+         *     network API call.
          */
-        'ThumbnailPersonalizationApi.ModerationStatus': 'Reviewing' | 'Rejected' | 'Approved' | 'Unspecified';
+        'TextToSpeechService.Operation': {
+            /**
+             * @description The server-assigned path, which is only unique within the same service that
+             *     originally returns it. If you use the default HTTP mapping, the
+             *     `path` should be a resource path ending with `operations/{unique_id}`.
+             */
+            path?: string;
+            /**
+             * @description Service-specific metadata associated with the operation.  It typically
+             *     contains progress information and common metadata such as create time.
+             *     Some services might not provide such metadata.  Any method that returns a
+             *     long-running operation should document the metadata type, if any.
+             */
+            metadata?: Record<string, never>;
+            /**
+             * @description If the value is `false`, it means the operation is still in progress.
+             *     If `true`, the operation is completed, and either `error` or `response` is
+             *     available.
+             * @example true
+             */
+            done?: boolean;
+            /** @description The error result of the operation in case of failure or cancellation. */
+            error?: components['schemas']['TextToSpeechService.Status'];
+            /**
+             * @description The normal response of the operation in case of success.  If the original
+             *     method returns no data on success, such as `Delete`, the response is
+             *     `google.protobuf.Empty`.  If the original method is standard
+             *     `Get`/`Create`/`Update`, the response should be the resource.  For other
+             *     methods, the response should have the type `XxxResponse`, where `Xxx`
+             *     is the original method name.  For example, if the original method name
+             *     is `TakeSnapshot()`, the inferred response type is
+             *     `TakeSnapshotResponse`.
+             */
+            response?: Record<string, never>;
+        };
+        /**
+         * @description The `Status` type defines a logical error model that is suitable for
+         *     different programming environments, including REST APIs and RPC APIs. It is
+         *     used by [gRPC](https://github.com/grpc). Each `Status` message contains
+         *     three pieces of data: error code, error message, and error details.
+         *
+         *     You can find out more about this error model and how to work with it in the
+         *     [API Design Guide](https://cloud.google.com/apis/design/errors).
+         */
+        'TextToSpeechService.Status': {
+            /**
+             * Format: int32
+             * @description The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+             */
+            code?: number;
+            /**
+             * @description A developer-facing error message, which should be in English. Any
+             *     user-facing error message should be localized and sent in the
+             *     [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+             */
+            message?: string;
+            /**
+             * @description A list of messages that carry the error details.  There is a common set of
+             *     message types for APIs to use.
+             */
+            details?: Record<string, never>[];
+        };
         /** @description A thumbnail personalization configuration. */
         ThumbnailPersonalizedConfig: {
             /** @description The unique identifier of the personalization configuration. */
@@ -71623,23 +66785,6 @@ export interface components {
              */
             categoryPath?: string | null;
         } | null;
-        /** @description The asset's creator store product information. */
-        'ToolboxService.CreatorStoreProduct': {
-            /** @description The price of the asset, including the currency code. */
-            purchasePrice: components['schemas']['ToolboxService.Money'] | null;
-            /** @description Whether or not the asset can be purchased in the Creator Store. */
-            purchasable: boolean;
-        } | null;
-        'ToolboxService.Decimal': {
-            /** Format: int64 */
-            significand?: number;
-            /** Format: int32 */
-            exponent?: number;
-        } | null;
-        'ToolboxService.Money': {
-            currencyCode?: string | null;
-            quantity?: components['schemas']['ToolboxService.Decimal'] | null;
-        } | null;
         TransactionDetailsResponse: Record<string, never>;
         TransactionRecordResponse: {
             /** Format: int64 */
@@ -71655,7 +66800,6 @@ export interface components {
             currency?: components['schemas']['GenericCurrencyResponse'] | null;
             purchaseToken?: string | null;
             transactionSubtype?: string | null;
-            o18EligibilityTag?: components['schemas']['O18EligibilityTag'] | null;
             robuxRateBreakdown?: components['schemas']['RobuxRateBreakdown'] | null;
         };
         TransactionRecordResponseApiPageResponse: {
@@ -71663,71 +66807,6 @@ export interface components {
             nextPageCursor?: string | null;
             data?: components['schemas']['TransactionRecordResponse'][] | null;
         };
-        /** @enum {string} */
-        'TransactionRecordsApi.CurrencyType': 'Robux' | 'Tickets';
-        /** @enum {string} */
-        'TransactionRecordsApi.HttpStatusCode':
-            | 'Continue'
-            | 'SwitchingProtocols'
-            | 'Processing'
-            | 'EarlyHints'
-            | 'OK'
-            | 'Created'
-            | 'Accepted'
-            | 'NonAuthoritativeInformation'
-            | 'NoContent'
-            | 'ResetContent'
-            | 'PartialContent'
-            | 'MultiStatus'
-            | 'AlreadyReported'
-            | 'IMUsed'
-            | 'MultipleChoices'
-            | 'MovedPermanently'
-            | 'Found'
-            | 'SeeOther'
-            | 'NotModified'
-            | 'UseProxy'
-            | 'Unused'
-            | 'RedirectKeepVerb'
-            | 'PermanentRedirect'
-            | 'BadRequest'
-            | 'Unauthorized'
-            | 'PaymentRequired'
-            | 'Forbidden'
-            | 'NotFound'
-            | 'MethodNotAllowed'
-            | 'NotAcceptable'
-            | 'ProxyAuthenticationRequired'
-            | 'RequestTimeout'
-            | 'Conflict'
-            | 'Gone'
-            | 'LengthRequired'
-            | 'PreconditionFailed'
-            | 'RequestEntityTooLarge'
-            | 'RequestUriTooLong'
-            | 'UnsupportedMediaType'
-            | 'RequestedRangeNotSatisfiable'
-            | 'ExpectationFailed'
-            | 'MisdirectedRequest'
-            | 'UnprocessableEntity'
-            | 'Locked'
-            | 'FailedDependency'
-            | 'UpgradeRequired'
-            | 'PreconditionRequired'
-            | 'TooManyRequests'
-            | 'RequestHeaderFieldsTooLarge'
-            | 'UnavailableForLegalReasons'
-            | 'InternalServerError'
-            | 'NotImplemented'
-            | 'BadGateway'
-            | 'ServiceUnavailable'
-            | 'GatewayTimeout'
-            | 'HttpVersionNotSupported'
-            | 'VariantAlsoNegotiates'
-            | 'InsufficientStorage'
-            | 'LoopDetected'
-            | 'NotExtended'
-            | 'NetworkAuthenticationRequired';
         /** @enum {string} */
         'TransactionRecordsApi.SortOrder': 'Asc' | 'Desc';
         TransactionResponse: {
@@ -71741,13 +66820,17 @@ export interface components {
             details?: components['schemas']['TransactionDetailsResponse'] | null;
             currency?: components['schemas']['GenericCurrencyResponse'] | null;
             purchaseToken?: string | null;
-            o18EligibilityTag?: components['schemas']['O18EligibilityTag'] | null;
         };
         TransactionResponseApiPageResponse: {
             previousPageCursor?: string | null;
             nextPageCursor?: string | null;
             data?: components['schemas']['TransactionResponse'][] | null;
         };
+        /**
+         * @description Transaction Status for HTTP responses.
+         * @enum {string}
+         */
+        TransactionStatus: 'Invalid' | 'Pending' | 'Successful' | 'Failed';
         TransactionTotalsResponse: {
             /** Format: int64 */
             salesTotal?: number;
@@ -71965,10 +67048,6 @@ export interface components {
             translations?: {
                 [key: string]: string;
             };
-        };
-        'TranslationRolesApi.Roblox.Web.WebAPI.ApiEmptyResponseModel': Record<string, never>;
-        'TranslationRolesApi.Roblox.Web.WebAPI.Models.ApiArrayResponse_System.String_': {
-            data?: string[];
         };
         /** @description Unassigns a role from the specified group membership. */
         UnassignRoleGroupMembershipRequest: {
@@ -72225,6 +67304,45 @@ export interface components {
             /** @description Gets or sets the account settings. */
             account: components['schemas']['Account'];
         };
+        UpdateBudget: {
+            /**
+             * @description The new budget amount in micro-USD, as a decimal string (for example,
+             *     `5000000` = $5.00). Money is sent as a string so large values keep full
+             *     precision in every client. Must be a numeric string of micro-USD.
+             */
+            amountMicros: string;
+        };
+        UpdateCampaignRequest: {
+            /** @description Turns automatic ad credit reload on or off. */
+            autoReloadAdCreditEnabled?: boolean;
+            /**
+             * @description A budget change. Only the amount is mutable; the budget type is fixed at
+             *     creation, so it is not part of this object. Sending `type` returns 400.
+             */
+            budget?: components['schemas']['UpdateBudget'];
+            /**
+             * @description New assets are appended to the campaign. Existing asset IDs are ignored.
+             *     These are Roblox asset IDs, the same values as Creative.assetId.
+             */
+            creativeAssetIds?: string[];
+            /** @description A new display name for the campaign. */
+            name?: string;
+            /** @description A partial schedule change. Allowed only before the campaign starts. */
+            schedule?: components['schemas']['UpdateSchedule'];
+            /**
+             * @description A lifecycle transition: `ACTIVE` to run or resume, `PAUSED` to pause, or
+             *     `CANCELLED` to cancel permanently.
+             * @enum {string}
+             */
+            status?: 'ACTIVE' | 'PAUSED' | 'CANCELLED';
+            /** @description Immutable; including it returns 400. */
+            targeting?: components['schemas']['Targeting'];
+            /**
+             * @description A new video setting for every ad. Allowed sources are listed by campaign-options
+             *     `video.sources`. Every ad is updated before the response returns.
+             */
+            video?: components['schemas']['CampaignVideo'];
+        };
         /** @description Request to update a custom matchmaking signal. */
         UpdateCustomMatchmakingSignalRequest: {
             /** @description The ID of the scoring configuration. */
@@ -72233,7 +67351,7 @@ export interface components {
         };
         /** @description Response to update a custom matchmaking signal. */
         UpdateCustomMatchmakingSignalResponse: {
-            scoringConfiguration?: components['schemas']['MatchmakingScoringConfiguration'];
+            scoringConfiguration: components['schemas']['MatchmakingScoringConfiguration'];
         };
         /** @description Request model for draft updates: PATCH uses a partial merge; PUT `draft:overwrite` treats the body as the full intended configuration after publish. */
         UpdateDraftRequest: {
@@ -72353,7 +67471,7 @@ export interface components {
         };
         /** @description The response for updating a matchmaking player attribute definition. */
         UpdateMatchmakingPlayerAttributeDefinitionResponse: {
-            playerAttributeDefinition?: components['schemas']['MatchmakingPlayerAttributeDefinition'];
+            playerAttributeDefinition: components['schemas']['MatchmakingPlayerAttributeDefinition'];
         };
         /** @description Request to update a custom matchmaking signal. */
         UpdateMatchmakingScoringConfigurationRequest: {
@@ -72386,12 +67504,12 @@ export interface components {
             } | null;
             /** @description The desired set of weights for custom signals. It is a map from custom signal name to its weight. */
             customSignalWeights?: {
-                [key: string]: number | null;
+                [key: string]: number;
             } | null;
         };
         /** @description Response to update a matchmaking scoring configuration. */
         UpdateMatchmakingScoringConfigurationResponse: {
-            scoringConfiguration?: components['schemas']['MatchmakingScoringConfiguration'];
+            scoringConfiguration: components['schemas']['MatchmakingScoringConfiguration'];
         };
         /** @description Request model to update an exising ServerAttributeDefinition. */
         UpdateMatchmakingServerAttributeDefinitionRequest: {
@@ -72401,7 +67519,7 @@ export interface components {
         };
         /** @description The response for updating a matchmaking server attribute definition. */
         UpdateMatchmakingServerAttributeDefinitionResponse: {
-            playerAttributeDefinition?: components['schemas']['MatchmakingServerAttributeDefinition'];
+            playerAttributeDefinition: components['schemas']['MatchmakingServerAttributeDefinition'];
         };
         UpdatePlaceVersionNotesRequest: {
             title?: string | null;
@@ -72409,6 +67527,20 @@ export interface components {
         };
         UpdatePlaceVersionNotesResponse: {
             placeVersion?: components['schemas']['PlaceVersion'] | null;
+        };
+        UpdateSchedule: {
+            /** @description The new duration from startTime, in days. Zero means the campaign has no end date. */
+            durationInDays?: number;
+            /**
+             * Format: date-time
+             * @description End time is read-only and is rejected when supplied in a request.
+             */
+            readonly endTime?: string;
+            /**
+             * Format: date-time
+             * @description The new campaign start time, as an RFC 3339 UTC timestamp.
+             */
+            startTime?: string;
         };
         /** @description The request to update a thumbnail personalization configuration. */
         UpdateThumbnailPersonalizationRequest: {
@@ -72438,7 +67570,7 @@ export interface components {
              */
             assetId?: number;
             /** @description The moderation status of the uploaded image asset. */
-            moderationStatus?: components['schemas']['ThumbnailPersonalizationApi.ModerationStatus'];
+            moderationStatus?: components['schemas']['ModerationStatus'];
         };
         /** @description The operations created for uploaded homepage thumbnail files. */
         UploadThumbnailsResponse: {
@@ -72455,6 +67587,43 @@ export interface components {
             uploadThumbnailStatusDict: {
                 [key: string]: components['schemas']['UploadThumbnailStatus'];
             };
+        };
+        /** @description Represents any registered user of Roblox. */
+        User: {
+            /**
+             * @description The resource path of the user.
+             *
+             *     Format: `users/{user_id}`
+             */
+            path?: string | null;
+            /**
+             * Format: date-time
+             * @description The timestamp at which the user was created.
+             */
+            readonly createTime?: string | null;
+            /** @description Unique ID that identifies a user in Roblox. */
+            readonly id?: string | null;
+            /** @description Unique username for a user in Roblox. */
+            name?: string | null;
+            /** @description Display name for the user. */
+            displayName?: string | null;
+            /** @description User-defined information about themselves. */
+            about?: string | null;
+            /** @description Current locale selected by the user. Returns IETF language code. */
+            locale?: string | null;
+            /** @description Whether the user is a premium user. */
+            readonly premium?: boolean;
+            /**
+             * @description Specifies if the user is identity-verified. Verification includes, but
+             *     isn't limited to, non-VoIP phone numbers or government IDs.
+             *
+             *     To access this data, you need an API key / OAuth token with the following
+             *     scope: user.advanced:read. The field is omitted from the response when the
+             *     caller is not authorized to read it.
+             */
+            readonly idVerified?: boolean | null;
+            /** @description User's social network profiles and visibility. */
+            socialNetworkProfiles?: components['schemas']['User_SocialNetworkProfiles'] | null;
         };
         UserGameVoteRequest: {
             vote?: boolean | null;
@@ -72762,6 +67931,44 @@ export interface components {
              */
             readonly inherited?: boolean;
         };
+        /** @description Social network profiles of a user. */
+        User_SocialNetworkProfiles: {
+            /** @description Facebook profile URI. */
+            facebook?: string | null;
+            /** @description Twitter profile URI. */
+            twitter?: string | null;
+            /** @description YouTube profile URI. */
+            youtube?: string | null;
+            /** @description Twitch profile URI. */
+            twitch?: string | null;
+            /** @description Guilded profile URI. */
+            guilded?: string | null;
+            /**
+             * @description Visibility of the social network profiles.
+             *
+             *     To access this data, you need an API key / OAuth token with the following
+             *     scope: user.social:read
+             *
+             *     Possible values:
+             *
+             *       | Value | Description |
+             *       | --- | --- |
+             *       | SOCIAL_NETWORK_VISIBILITY_UNSPECIFIED | Default SocialNetworkVisibility. |
+             *       | NO_ONE | No one |
+             *       | FRIENDS | Friends only |
+             *       | FRIENDS_AND_FOLLOWING | Friends and other users the user follows |
+             *       | FRIENDS_FOLLOWING_AND_FOLLOWERS | Friends, other users the user follows, and other users who follow the user |
+             *       | EVERYONE | Everyone |
+             * @enum {string}
+             */
+            visibility?:
+                | 'SOCIAL_NETWORK_VISIBILITY_UNSPECIFIED'
+                | 'NO_ONE'
+                | 'FRIENDS'
+                | 'FRIENDS_AND_FOLLOWING'
+                | 'FRIENDS_FOLLOWING_AND_FOLLOWERS'
+                | 'EVERYONE';
+        };
         /** @description Metadata shared by every experiment variant. */
         VariantMeta: {
             /**
@@ -72790,6 +67997,12 @@ export interface components {
             name?: string | null;
             displayName?: string | null;
             hasVerifiedBadge?: boolean;
+        };
+        VideoOptions: {
+            /** @description Whether the experience has a preview video. Present only when universeId was supplied. */
+            previewVideo?: components['schemas']['PreviewVideo'];
+            /** @description The values accepted in `CampaignVideo.source`. Values can be `IMAGE_ONLY` or `PREVIEW_VIDEO`. */
+            sources: ('IMAGE_ONLY' | 'PREVIEW_VIDEO')[];
         };
         'VirtualEventsApi.ProblemDetails': {
             type?: string | null;
@@ -72832,405 +68045,6 @@ export interface components {
              */
             upVotePercent?: number;
         } | null;
-        'internal_public_v1.AdFormat': {
-            /** @description The ad format name. */
-            format?: string;
-            /** @description The format height in pixels. */
-            height?: number;
-            /** @description The format width in pixels. */
-            width?: number;
-        };
-        'internal_public_v1.AdvertisableUniverse': {
-            /**
-             * @description The identifier of an experience the caller can advertise, as a decimal string.
-             *     Resolve its name via the Open Cloud Universe API.
-             */
-            universeId?: string;
-        };
-        'internal_public_v1.BatchGetStatusRequest': {
-            /** @description The campaign IDs to look up. Required. At most 100 per request. */
-            campaignIds: string[];
-        };
-        'internal_public_v1.BatchGetStatusResponse': {
-            /** @description The IDs that could not be resolved. Omitted when every ID resolved. */
-            failures?: components['schemas']['internal_public_v1.CampaignIDFailure'][];
-            /** @description One entry per successfully resolved campaign. */
-            statuses?: components['schemas']['internal_public_v1.CampaignStatus'][];
-        };
-        'internal_public_v1.Bid': {
-            /**
-             * @description The bidding strategy. v1 campaigns are always `AUTOMATED`.
-             * @enum {string}
-             */
-            strategy?: 'AUTOMATED';
-        };
-        'internal_public_v1.BillingAccount': {
-            /** @description The time the account was created, as an RFC 3339 UTC timestamp. */
-            createTime?: string;
-            /** @description The human-readable name of the account. */
-            displayName?: string;
-            /** @description The unique identifier of the billing account. Use it as the {id} path parameter. */
-            id?: string;
-            /** @description The identifier of the organization that owns the account. */
-            organizationId?: string;
-            /**
-             * @description The current state of the account. Can be `ACTIVE`, `DISABLED`, or `ARCHIVED`.
-             * @enum {string}
-             */
-            status?: 'ACTIVE' | 'DISABLED' | 'ARCHIVED';
-            /**
-             * @description The IANA time zone the account's reporting dates and budget schedules are
-             *     interpreted in. Example: `America/Los_Angeles`.
-             */
-            timeZone?: string;
-            /**
-             * @description The account category. External advertisers are always SELF_SERVICE; MANAGED and
-             *     INTERNAL are Roblox-operated accounts. Can be `SELF_SERVICE`, `MANAGED`, or `INTERNAL`.
-             * @enum {string}
-             */
-            type?: 'SELF_SERVICE' | 'MANAGED' | 'INTERNAL';
-            /** @description The time the account was last updated, as an RFC 3339 UTC timestamp. */
-            updateTime?: string;
-        };
-        'internal_public_v1.Budget': {
-            /**
-             * @description The budget amount in micro-USD, as a decimal string (for example, `5000000` =
-             *     $5.00). Money is sent and returned as a string so large values keep full
-             *     precision in every client. On a request it must be a numeric string of micro-USD.
-             */
-            amountMicros?: string;
-            /**
-             * @description The queued lower budget for a pending decrease, in micro-USD as a decimal string
-             *     (same format as amountMicros). A budget increase takes effect immediately, but a
-             *     decrease on a running campaign is applied at the next midnight in the account's
-             *     time zone; until then the campaign keeps serving on amountMicros (the current,
-             *     higher budget). Omitted when no decrease is pending.
-             */
-            scheduledAmountMicros?: string;
-            /**
-             * @description The time a pending budget decrease takes effect, as an RFC 3339 UTC timestamp.
-             *     Omitted when no decrease is pending.
-             */
-            scheduledEffectiveTime?: string;
-            /**
-             * @description The budget cadence. Fixed when the campaign is created. Can be `DAILY` or `LIFETIME`.
-             * @enum {string}
-             */
-            type?: 'DAILY' | 'LIFETIME';
-        };
-        'internal_public_v1.Campaign': {
-            bid?: components['schemas']['internal_public_v1.Bid'];
-            /** @description The billing account that owns and funds the campaign. */
-            billingAccountId?: string;
-            budget?: components['schemas']['internal_public_v1.Budget'];
-            /** @description The time the campaign was created, as an RFC 3339 UTC timestamp. */
-            createTime?: string;
-            /** @description The Open Cloud image asset IDs the campaign advertises, as decimal strings. */
-            creativeAssetIds?: string[];
-            /**
-             * @description The current serving state, derived by the system (read-only). Can be `SERVING`,
-             *     `IN_REVIEW`, `NOT_SERVING`, or `REJECTED`.
-             * @enum {string}
-             */
-            deliveryStatus?: 'SERVING' | 'IN_REVIEW' | 'NOT_SERVING' | 'REJECTED';
-            /**
-             * @description The reasons behind the current deliveryStatus, such as why a campaign is not
-             *     serving or was rejected, or `LEARNING` while a serving campaign ramps up. Omitted
-             *     when there are none.
-             */
-            deliveryStatusReasons?: (
-                | 'SCHEDULED'
-                | 'AUTO_PAUSED'
-                | 'PAUSED'
-                | 'INACTIVE'
-                | 'COMPLETED'
-                | 'EXPIRED'
-                | 'CANCELLED'
-                | 'MODERATED'
-                | 'CLICK_BAIT'
-                | 'GAME_FILTERED'
-                | 'PRIVATE'
-                | 'PLACE_JOIN_RESTRICTED'
-                | 'LEARNING'
-            )[];
-            /** @description The server-assigned unique identifier of the campaign. */
-            id?: string;
-            /** @description The display name of the campaign. */
-            name?: string;
-            /**
-             * @description The advertising goal of the campaign. `PLAYS` or `ENGAGEMENT` for campaigns created via this API; campaigns from other surfaces may report `AWARENESS`, `REACH`, `VIDEO_VIEWS`, or `ROBUX_SPEND`.
-             * @enum {string}
-             */
-            objective?: 'PLAYS' | 'ENGAGEMENT' | 'AWARENESS' | 'REACH' | 'VIDEO_VIEWS' | 'ROBUX_SPEND';
-            /**
-             * @description How the campaign is paid for. Fixed when the campaign is created. Can be
-             *     `CREDIT_CARD`, `ADS_CREDIT`, or `INVOICE`.
-             * @enum {string}
-             */
-            paymentType?: 'CREDIT_CARD' | 'ADS_CREDIT' | 'INVOICE';
-            schedule?: components['schemas']['internal_public_v1.Schedule'];
-            /**
-             * @description The lifecycle state you control through update requests. Can be `ACTIVE`,
-             *     `PAUSED`, or `CANCELLED`. `CANCELLED` is permanent.
-             * @enum {string}
-             */
-            status?: 'ACTIVE' | 'PAUSED' | 'CANCELLED';
-            /** @description The identifier of the experience the campaign advertises. */
-            targetUniverseId?: string;
-            targeting?: components['schemas']['internal_public_v1.Targeting'];
-            /** @description The time the campaign was last updated, as an RFC 3339 UTC timestamp. */
-            updateTime?: string;
-        };
-        'internal_public_v1.CampaignIDFailure': {
-            /** @description The campaign ID that could not be resolved. */
-            id?: string;
-            /**
-             * @description Why the ID could not be resolved. `NOT_FOUND` means the campaign does not exist
-             *     or is not owned by the caller.
-             * @enum {string}
-             */
-            reason?: 'NOT_FOUND';
-        };
-        'internal_public_v1.CampaignOptionsResponse': {
-            /** @description The supported creative formats and their pixel dimensions. */
-            adFormats?: components['schemas']['internal_public_v1.AdFormat'][];
-            /**
-             * @description The eligibility result for the requested experience. Present only when
-             *     universeId was supplied in the request.
-             */
-            eligibility?: components['schemas']['PublicUniverseEligibility'];
-            /** @description The campaign objectives you can create. Values can be `PLAYS` or `ENGAGEMENT`. */
-            objectives?: ('PLAYS' | 'ENGAGEMENT')[];
-            /**
-             * @description The payment types available for the caller's account. Values can be
-             *     `CREDIT_CARD`, `ADS_CREDIT`, or `INVOICE`.
-             */
-            paymentTypes?: ('CREDIT_CARD' | 'ADS_CREDIT' | 'INVOICE')[];
-            targetingDimensions?: components['schemas']['internal_public_v1.TargetingDimensions'];
-        };
-        'internal_public_v1.CampaignStatus': {
-            /**
-             * @description The current serving state. Can be `SERVING`, `IN_REVIEW`, `NOT_SERVING`, or `REJECTED`.
-             * @enum {string}
-             */
-            deliveryStatus?: 'SERVING' | 'IN_REVIEW' | 'NOT_SERVING' | 'REJECTED';
-            /** @description The reasons behind the current deliveryStatus. Omitted when there are none. */
-            deliveryStatusReasons?: (
-                | 'SCHEDULED'
-                | 'AUTO_PAUSED'
-                | 'PAUSED'
-                | 'INACTIVE'
-                | 'COMPLETED'
-                | 'EXPIRED'
-                | 'CANCELLED'
-                | 'MODERATED'
-                | 'CLICK_BAIT'
-                | 'GAME_FILTERED'
-                | 'PRIVATE'
-                | 'PLACE_JOIN_RESTRICTED'
-                | 'LEARNING'
-            )[];
-            /** @description The campaign identifier. */
-            id?: string;
-            /**
-             * @description The lifecycle state. Can be `ACTIVE`, `PAUSED`, or `CANCELLED`.
-             * @enum {string}
-             */
-            status?: 'ACTIVE' | 'PAUSED' | 'CANCELLED';
-        };
-        'internal_public_v1.CreateCampaignRequest': {
-            /** @description Optional bidding strategy. Only `AUTOMATED` is accepted in v1; may be omitted. */
-            bid?: components['schemas']['internal_public_v1.Bid'];
-            budget: components['schemas']['internal_public_v1.Budget'];
-            /**
-             * @description The Open Cloud image asset IDs to advertise, as decimal strings. Required. The
-             *     assets must already exist and be usable by the caller.
-             */
-            creativeAssetIds: string[];
-            /** @description The display name of the campaign. Required. */
-            name: string;
-            /**
-             * @description The advertising goal. Required. Can be `PLAYS` or `ENGAGEMENT`. `ENGAGEMENT`
-             *     does not support targeting and is not available for every experience.
-             * @enum {string}
-             */
-            objective: 'PLAYS' | 'ENGAGEMENT';
-            /**
-             * @description How the campaign is paid for. Required. Can be `CREDIT_CARD`, `ADS_CREDIT`, or
-             *     `INVOICE`, subject to what the billing account supports.
-             * @enum {string}
-             */
-            paymentType: 'CREDIT_CARD' | 'ADS_CREDIT' | 'INVOICE';
-            schedule: components['schemas']['internal_public_v1.Schedule'];
-            /** @description The identifier of the experience to advertise. Required. */
-            targetUniverseId: string;
-            /** @description Optional audience targeting. Omit it, or send an empty object, to reach all audiences. */
-            targeting?: components['schemas']['internal_public_v1.Targeting'];
-        };
-        'internal_public_v1.Creative': {
-            /** @description The Open Cloud image asset ID backing this creative, as a decimal string. */
-            assetId?: string;
-            /** @description The display name of the underlying asset. */
-            assetName?: string;
-            /**
-             * @description The media type of the asset. Only `IMAGE` is supported in v1.
-             * @enum {string}
-             */
-            assetType?: 'IMAGE';
-            /** @description The time the creative was added to the library, as an RFC 3339 UTC timestamp. */
-            createTime?: string;
-            /** @description The height of the asset in pixels. Omitted when unknown. */
-            height?: number;
-            /** @description The identifier of the creative library entry. This is distinct from assetId. */
-            id?: string;
-            /** @description Whether the creative has been archived (soft-deleted). */
-            isArchived?: boolean;
-            /**
-             * @description The content-review outcome for the asset. Can be `PENDING_REVIEW`, `APPROVED`, or `REJECTED`.
-             * @enum {string}
-             */
-            moderationStatus?: 'PENDING_REVIEW' | 'APPROVED' | 'REJECTED';
-            /**
-             * @description How the asset was produced. Can be `UPLOAD` or `IN_HOUSE_GEN_AI`.
-             * @enum {string}
-             */
-            source?: 'UPLOAD' | 'IN_HOUSE_GEN_AI';
-            /**
-             * @description The identifier of the experience the creative is associated with, if any, as a
-             *     decimal string. Omitted when not associated with an experience.
-             */
-            universeId?: string;
-            /** @description The time the creative was last updated, as an RFC 3339 UTC timestamp. */
-            updateTime?: string;
-            /** @description The width of the asset in pixels. Omitted when unknown. */
-            width?: number;
-        };
-        'internal_public_v1.ErrorEnvelope': {
-            /** @description A human-readable explanation of this specific failure. */
-            detail?: string;
-            /** @description The individual errors. There is at least one entry; each has a code and message. */
-            errors?: components['schemas']['internal_public_v1.PublicError'][];
-            /** @description The HTTP status code, repeated here for convenience. */
-            status?: number;
-            /** @description A short summary of the error class. */
-            title?: string;
-        };
-        'internal_public_v1.ListAdvertisableUniversesResponse': {
-            /**
-             * @description The complete set of experiences the caller can advertise. This endpoint is not
-             *     paginated; the full list is returned in one response.
-             */
-            advertisableUniverses?: components['schemas']['internal_public_v1.AdvertisableUniverse'][];
-        };
-        'internal_public_v1.ListBillingAccountsResponse': {
-            /** @description The page of billing accounts. */
-            billingAccounts?: components['schemas']['internal_public_v1.BillingAccount'][];
-            /**
-             * @description The cursor for the next page. Pass it as pageToken to fetch the next page.
-             *     Absent on the last page.
-             */
-            nextPageToken?: string;
-        };
-        'internal_public_v1.ListCampaignsResponse': {
-            /** @description The page of campaigns. */
-            campaigns?: components['schemas']['internal_public_v1.Campaign'][];
-            /**
-             * @description The cursor for the next page. Pass it as pageToken to fetch the next page.
-             *     Absent on the last page.
-             */
-            nextPageToken?: string;
-        };
-        'internal_public_v1.ListCreativesResponse': {
-            /** @description The page of creatives. */
-            creatives?: components['schemas']['internal_public_v1.Creative'][];
-            /**
-             * @description The cursor for the next page. Pass it as pageToken to fetch the next page.
-             *     Absent on the last page.
-             */
-            nextPageToken?: string;
-        };
-        'internal_public_v1.PublicError': {
-            /**
-             * @description A stable, machine-readable error code (for example, `INVALID_ARGUMENT`,
-             *     `NOT_FOUND`, `PERMISSION_DENIED`, or `RATE_LIMITED`).
-             */
-            code?: string;
-            /** @description A human-readable description of the error. */
-            message?: string;
-        };
-        'internal_public_v1.Schedule': {
-            /**
-             * @description How long the campaign runs from startTime, in days. Must not exceed 3650 (about
-             *     10 years).
-             */
-            durationInDays?: number;
-            /**
-             * @description Not accepted in v1 and never returned; supplying it returns 400. Use
-             *     durationInDays to set when the campaign ends. Reserved for a future objective.
-             */
-            endTime?: string;
-            /**
-             * @description The time the campaign starts serving, as an RFC 3339 UTC timestamp. On a create
-             *     request it must not be in the past.
-             */
-            startTime?: string;
-        };
-        'internal_public_v1.Targeting': {
-            /**
-             * @description The age brackets to deliver to. Empty means all ages. Values can be `AGE_13_17`,
-             *     `AGE_18_24`, or `AGE_25_PLUS`.
-             */
-            ageGroups?: ('AGE_13_17' | 'AGE_18_24' | 'AGE_25_PLUS')[];
-            /**
-             * @description The ISO 3166-1 alpha-2 country codes to deliver to (for example, `US`). Empty
-             *     means all countries.
-             */
-            countries?: string[];
-            /**
-             * @description The device types to deliver to. Empty means all devices. Values can be `PHONE`,
-             *     `TABLET`, `DESKTOP`, or `CONSOLE`.
-             */
-            devices?: ('PHONE' | 'TABLET' | 'DESKTOP' | 'CONSOLE')[];
-        };
-        'internal_public_v1.TargetingDimensions': {
-            /** @description The selectable age brackets. Values can be `AGE_13_17`, `AGE_18_24`, or `AGE_25_PLUS`. */
-            ageGroups?: ('AGE_13_17' | 'AGE_18_24' | 'AGE_25_PLUS')[];
-            /** @description The selectable ISO 3166-1 alpha-2 country codes (for example, `US`). */
-            countries?: string[];
-            /** @description The selectable device types. Values can be `PHONE`, `TABLET`, `DESKTOP`, or `CONSOLE`. */
-            devices?: ('PHONE' | 'TABLET' | 'DESKTOP' | 'CONSOLE')[];
-        };
-        'internal_public_v1.UpdateBudget': {
-            /**
-             * @description The new budget amount in micro-USD, as a decimal string (for example,
-             *     `5000000` = $5.00). Money is sent as a string so large values keep full
-             *     precision in every client. Must be a numeric string of micro-USD.
-             */
-            amountMicros?: string;
-        };
-        'internal_public_v1.UpdateCampaignRequest': {
-            /** @description Immutable in v1; including it returns 400. */
-            bid?: components['schemas']['internal_public_v1.Bid'];
-            /**
-             * @description A budget change. Only the amount is mutable; the budget type is fixed at
-             *     creation, so it is not part of this object. Sending `type` returns 400.
-             */
-            budget?: components['schemas']['internal_public_v1.UpdateBudget'];
-            /** @description Immutable in v1; including it returns 400. */
-            creativeAssetIds?: string[];
-            /** @description A new display name for the campaign. */
-            name?: string;
-            /** @description A schedule change. Allowed only before the campaign starts. */
-            schedule?: components['schemas']['internal_public_v1.Schedule'];
-            /**
-             * @description A lifecycle transition: `ACTIVE` to run or resume, `PAUSED` to pause, or
-             *     `CANCELLED` to cancel permanently.
-             * @enum {string}
-             */
-            status?: 'ACTIVE' | 'PAUSED' | 'CANCELLED';
-            /** @description Immutable in v1; including it returns 400. */
-            targeting?: components['schemas']['internal_public_v1.Targeting'];
-        };
         /** @description A simple container used to hold and organize Roblox instances. */
         'roblox.engine.Folder': Record<string, never>;
         /** @description Instance is the base class for all classes in the Roblox class hierarchy. */
@@ -73324,6 +68138,12 @@ export interface components {
     responses: never;
     parameters: never;
     requestBodies: {
+        /** @description Campaign creation request */
+        CreateCampaignRequest: {
+            content: {
+                'application/json': components['schemas']['CreateCampaignRequest'];
+            };
+        };
         /** @description Roblox.AccountInformation.Api.Models.PhoneRequest */
         'Roblox.AccountInformation.Api.Models.PhoneRequest': {
             content: {
@@ -73370,20 +68190,6 @@ export interface components {
             content: {
                 'application/json': components['schemas']['Roblox.Catalog.Api.MultigetItemDetailsRequestModel'];
                 'text/json': components['schemas']['Roblox.Catalog.Api.MultigetItemDetailsRequestModel'];
-            };
-        };
-        /** @description The Roblox.Groups.Api.MembersRequest. */
-        'Roblox.Groups.Api.MembersRequest': {
-            content: {
-                'application/json': components['schemas']['Roblox.Groups.Api.MembersRequest'];
-                'text/json': components['schemas']['Roblox.Groups.Api.MembersRequest'];
-            };
-        };
-        /** @description The Roblox.Groups.Api.PayoutRequest. */
-        'Roblox.Groups.Api.PayoutRequest': {
-            content: {
-                'application/json': components['schemas']['Roblox.Groups.Api.PayoutRequest'];
-                'text/json': components['schemas']['Roblox.Groups.Api.PayoutRequest'];
             };
         };
         /** @description The request body. */
@@ -73483,6 +68289,661 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    ListAdvertisableUniverses: {
+        parameters: {
+            query?: {
+                /** @description Use the group's advertising context instead of the caller's personal one. groupId selects the group ads account; absent groupId selects the personal ads account */
+                groupId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ListAdvertisableUniversesResponse'];
+                };
+            };
+            /** @description Invalid groupId */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Permission denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
+    ListBillingAccounts: {
+        parameters: {
+            query?: {
+                /** @description Group ID whose billing accounts to list. groupId selects the group ads account; absent groupId selects the personal ads account */
+                groupId?: string;
+                /** @description Maximum results per page (1-100, default 50) */
+                maxPageSize?: number;
+                /** @description Opaque cursor from a prior nextPageToken */
+                pageToken?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ListBillingAccountsResponse'];
+                };
+            };
+            /** @description Invalid groupId, maxPageSize, or pageToken */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Permission denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
+    GetBillingAccount: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Billing account ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['BillingAccount'];
+                };
+            };
+            /** @description Permission denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Billing account not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
+    GetCampaignOptions: {
+        parameters: {
+            query?: {
+                /** @description Universe ID to check eligibility for */
+                universeId?: string;
+                /** @description Objective filter (PLAYS, ENGAGEMENT, or ROBUX_SPEND) */
+                objective?: 'PLAYS' | 'ENGAGEMENT' | 'ROBUX_SPEND';
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['CampaignOptionsResponse'];
+                };
+            };
+            /** @description Invalid objective or universeId */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Permission denied, or the caller can't advertise the experience */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
+    ListCampaigns: {
+        parameters: {
+            query?: {
+                /** @description Use the group's billing account instead of the caller's personal one. Can't be combined with targetUniverseIds. groupId selects the group ads account; absent groupId selects the personal ads account */
+                groupId?: string;
+                /** @description List these experiences' campaigns across billing accounts (up to 50); requires permission to advertise each */
+                targetUniverseIds?: string[];
+                /** @description Maximum results per page (1-100, default 50) */
+                maxPageSize?: number;
+                /** @description Opaque cursor from a prior nextPageToken */
+                pageToken?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ListCampaignsResponse'];
+                };
+            };
+            /** @description Invalid maxPageSize or pageToken */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Permission denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
+    CreateCampaign: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description Idempotency key (UUID); 24h dedupe window. A replay returns the original campaign (200), even with a different body; a replay while the first request is in progress returns 429. */
+                'x-idempotency-key': string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: components['requestBodies']['CreateCampaignRequest'];
+        responses: {
+            /** @description Campaign created, or idempotent replay of a prior create with the same key */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Campaign'];
+                };
+            };
+            /** @description Validation error, invalid asset, endTime sent, or campaign limit reached */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Cannot manage account, universe not advertisable, or USE-permission denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Conflicting concurrent write */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Rate limit exceeded, or a replay of a request still in progress */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
+    GetCampaign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Campaign ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Campaign'];
+                };
+            };
+            /** @description Invalid campaign ID */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Permission denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Campaign not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
+    UpdateCampaign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Campaign ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        /** @description Fields to update */
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['UpdateCampaignRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Campaign'];
+                };
+            };
+            /** @description Validation error or immutable field supplied */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Permission denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Campaign not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Conflicting concurrent change, including a video change already in progress */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
+    BatchGetCampaignStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description List of campaign IDs (max 100) */
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['BatchGetStatusRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['BatchGetStatusResponse'];
+                };
+            };
+            /** @description Invalid request or exceeds 100 IDs */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Permission denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
+    ListCreatives: {
+        parameters: {
+            query?: {
+                /** @description Select the group ads account; absent groupId selects the personal ads account. Requires group advertising permission */
+                groupId?: string;
+                /** @description Filter the selected ads account's creatives by experience; requires permission to advertise it. Can be combined with groupId */
+                universeId?: string;
+                /** @description Filter by archived status */
+                isArchived?: boolean;
+                /** @description Asset type filter. Only IMAGE exists */
+                assetType?: 'IMAGE';
+                /** @description Maximum results per page (1-500, default 50) */
+                maxPageSize?: number;
+                /** @description Opaque cursor from a prior nextPageToken */
+                pageToken?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ListCreativesResponse'];
+                };
+            };
+            /** @description Invalid maxPageSize or pageToken */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Permission denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
     Assets_CreateAsset: {
         parameters: {
             query?: never;
@@ -73942,7 +69403,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['CreatorStoreProduct'];
+                'application/json': components['schemas']['MarketplaceFiatService.CreatorStoreProduct'];
             };
         };
         responses: {
@@ -73952,7 +69413,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['CreatorStoreProduct'];
+                    'application/json': components['schemas']['MarketplaceFiatService.CreatorStoreProduct'];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Google.Rpc.Status'];
                 };
             };
         };
@@ -73975,7 +69445,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['CreatorStoreProduct'];
+                    'application/json': components['schemas']['MarketplaceFiatService.CreatorStoreProduct'];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Google.Rpc.Status'];
                 };
             };
         };
@@ -73985,10 +69464,7 @@ export interface operations {
             query?: {
                 /** @description The list of fields to update. */
                 updateMask?: string;
-                /**
-                 * @description If set to true, and the creator store product is not found, a creator store
-                 *     product is created. In this situation, `update_mask` is ignored.
-                 */
+                /** @description If set to true, and the creator store product is not found, a creator store product is created. In this situation, `update_mask` is ignored. */
                 allowMissing?: boolean;
             };
             header?: never;
@@ -74000,7 +69476,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                'application/json': components['schemas']['CreatorStoreProduct'];
+                'application/json': components['schemas']['MarketplaceFiatService.CreatorStoreProduct'];
             };
         };
         responses: {
@@ -74010,7 +69486,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['CreatorStoreProduct'];
+                    'application/json': components['schemas']['MarketplaceFiatService.CreatorStoreProduct'];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Google.Rpc.Status'];
                 };
             };
         };
@@ -74516,7 +70001,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['Universe'];
+                    'application/json': components['schemas']['OpenCloudUniversesService.Universe'];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudUniversesService.Status'];
                 };
             };
         };
@@ -74534,9 +70028,19 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody: {
+        /**
+         * @description The universe to update.
+         *
+         *     The universe's `path` field is used to identify the universe to update.
+         *
+         *     Format: `universes/{universe_id}`
+         *
+         *     (-- api-linter: core::0140::prepositions=disabled
+         *         go/aip/not-precedent: The preposition comes from the resource name. --)
+         */
+        requestBody?: {
             content: {
-                'application/json': components['schemas']['Universe'];
+                'application/json': components['schemas']['OpenCloudUniversesService.Universe'];
             };
         };
         responses: {
@@ -74546,7 +70050,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['Universe'];
+                    'application/json': components['schemas']['OpenCloudUniversesService.Universe'];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudUniversesService.Status'];
                 };
             };
         };
@@ -75283,7 +70796,7 @@ export interface operations {
             header?: never;
             path: {
                 /** @description The universe ID. */
-                universe_id: string;
+                universe_id: number;
                 /** @description The operation ID. */
                 operation_id: string;
             };
@@ -75297,7 +70810,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['OCV2.Operations.Operation'];
+                    'application/json': components['schemas']['MemoryStoreFlushOperation'];
                 };
             };
         };
@@ -75308,15 +70821,18 @@ export interface operations {
             header?: never;
             path: {
                 /** @description The universe ID. */
-                universe_id: string;
+                universe_id: number;
                 /** @description The queue ID. */
                 queue_id: string;
             };
             cookie?: never;
         };
+        /** @description The queue item to create. */
         requestBody: {
             content: {
-                'application/json': components['schemas']['MemoryStoreQueueItem'];
+                'application/json': components['schemas']['CreateMemoryStoreQueueItemRequest'];
+                'text/json': components['schemas']['CreateMemoryStoreQueueItemRequest'];
+                'application/*+json': components['schemas']['CreateMemoryStoreQueueItemRequest'];
             };
         };
         responses: {
@@ -75337,15 +70853,18 @@ export interface operations {
             header?: never;
             path: {
                 /** @description The universe ID. */
-                universe_id: string;
+                universe_id: number;
                 /** @description The queue ID. */
                 queue_id: string;
             };
             cookie?: never;
         };
+        /** @description Discard memory store item request. */
         requestBody: {
             content: {
                 'application/json': components['schemas']['DiscardMemoryStoreQueueItemsRequest'];
+                'text/json': components['schemas']['DiscardMemoryStoreQueueItemsRequest'];
+                'application/*+json': components['schemas']['DiscardMemoryStoreQueueItemsRequest'];
             };
         };
         responses: {
@@ -75364,15 +70883,14 @@ export interface operations {
                 /**
                  * @description The number of items to read from the queue
                  *     If unspecified, 1 item will be returned.
-                 *     The maximum value is 200; values above 200 will be coerced to 200.
+                 *     The maximum value is 100; values above 100 are rejected.
                  */
                 count?: number;
                 /**
-                 * @description If `all_or_nothing` is true and the requested number of objects is not
-                 *     available, will return a 404 Error.
+                 * @description If `allOrNothing` is true and fewer than `count` items are available, the request returns a 404.
                  *
-                 *     Otherwise, will return the path and read_id of the read operation and a
-                 *     list of the MemoryStoreQueue items.
+                 *     If `allOrNothing` is false, the request returns up to `count` items. The request returns a 404 when no items are available.
+                 * @example true
                  */
                 allOrNothing?: boolean;
                 /**
@@ -75381,16 +70899,17 @@ export interface operations {
                  *     Items read are invisible in subsequent reads during the invisibility
                  *     window duration.
                  *
-                 *     It must be written in seconds greater than 0 and end with `s`.
+                 *     It must be a non-negative whole number of seconds ending with `s`, such as `0s` or `30s`.
                  *
                  *     Defaults to `30s`.
+                 * @example 3s
                  */
                 invisibilityWindow?: string;
             };
             header?: never;
             path: {
                 /** @description The universe ID. */
-                universe_id: string;
+                universe_id: number;
                 /** @description The queue ID. */
                 queue_id: string;
             };
@@ -75415,27 +70934,24 @@ export interface operations {
                 /**
                  * @description The maximum number of memory store sorted map items to return. The service
                  *     might return fewer than this value. If unspecified, at most 1 memory store
-                 *     sorted map items are returned. The maximum value is 100 and higher values
-                 *     are set to 100.
+                 *     sorted map items are returned. The maximum value is 200 and higher values
+                 *     are set to 200.
+                 * @example 1
                  */
                 maxPageSize?: number;
                 /**
                  * @description A page token, received from a previous call, to retrieve a subsequent page.
                  *
-                 *     When paginating, all other parameters provided to the subsequent call must
-                 *     match the call that provided the page token.
+                 *     When paginating, `orderBy` and `filter` must match the call that provided the page token.
+                 *     `maxPageSize` may change.
                  */
                 pageToken?: string;
                 /**
-                 * @description If specified, results are ordered according to the specified fields.
+                 * @description If specified, results are ordered in the specified direction.
                  *
-                 *     Values must be a comma-separated list of fields, with an optional,
-                 *     per-field " desc" suffix to sort by descending rather than ascending
-                 *     values. You can access subfields with a `.` operator.
+                 *     Values must be either `asc` (the default) or `desc`.
                  *
-                 *     Results may be ordered by the following fields: id.
-                 *
-                 *     Example: "id desc"
+                 *     Example: "desc"
                  */
                 orderBy?: string;
                 /**
@@ -75443,7 +70959,7 @@ export interface operations {
                  *
                  *     Filtering conforms to Common Expression Language (CEL). Only the `id`
                  *     and `sortKey` fields are supported. In terms of operators, only `<`, `>`
-                 *     and `&&` are allowed'
+                 *     and `&&` are allowed.
                  *
                  *     Example: `id > "key-001" && id < "key-100"`
                  */
@@ -75452,7 +70968,7 @@ export interface operations {
             header?: never;
             path: {
                 /** @description The universe ID. */
-                universe_id: string;
+                universe_id: number;
                 /** @description The sorted-map ID. */
                 sorted_map_id: string;
             };
@@ -75473,26 +70989,28 @@ export interface operations {
     };
     Cloud_CreateMemoryStoreSortedMapItem: {
         parameters: {
-            query?: {
+            query: {
                 /**
                  * @description The ID to use for the memory store sorted map item, which will become the
                  *     final component of the memory store sorted map item's resource path.
                  *
-                 *     This value should be a 1-127 character string that supports alphanumeric
+                 *     This value should be a 1-128 character string that supports alphanumeric
                  *     and special characters. This id is case sensitive. The id must be url
                  *     encoded if it contains any url breaking special characters.
+                 * @example Hello!
                  */
-                id?: string;
+                id: string;
             };
             header?: never;
             path: {
                 /** @description The universe ID. */
-                universe_id: string;
+                universe_id: number;
                 /** @description The sorted-map ID. */
                 sorted_map_id: string;
             };
             cookie?: never;
         };
+        /** @description The sorted map item to create. */
         requestBody: {
             content: {
                 'application/json': components['schemas']['MemoryStoreSortedMapItem'];
@@ -75516,7 +71034,7 @@ export interface operations {
             header?: never;
             path: {
                 /** @description The universe ID. */
-                universe_id: string;
+                universe_id: number;
                 /** @description The sorted-map ID. */
                 sorted_map_id: string;
                 /** @description The item ID. */
@@ -75543,7 +71061,7 @@ export interface operations {
             header?: never;
             path: {
                 /** @description The universe ID. */
-                universe_id: string;
+                universe_id: number;
                 /** @description The sorted-map ID. */
                 sorted_map_id: string;
                 /** @description The item ID. */
@@ -75568,13 +71086,14 @@ export interface operations {
                 /**
                  * @description If set to true, and the memory store sorted map item is not found, a memory
                  *     store sorted map item is created.
+                 * @example true
                  */
                 allowMissing?: boolean;
             };
             header?: never;
             path: {
                 /** @description The universe ID. */
-                universe_id: string;
+                universe_id: number;
                 /** @description The sorted-map ID. */
                 sorted_map_id: string;
                 /** @description The item ID. */
@@ -75582,6 +71101,7 @@ export interface operations {
             };
             cookie?: never;
         };
+        /** @description The sorted map item to update. */
         requestBody: {
             content: {
                 'application/json': components['schemas']['MemoryStoreSortedMapItem'];
@@ -75617,7 +71137,7 @@ export interface operations {
             header?: never;
             path: {
                 /** @description The universe ID. */
-                universe_id: string;
+                universe_id: number;
             };
             cookie?: never;
         };
@@ -75629,7 +71149,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['Operation'];
+                    'application/json': components['schemas']['MemoryStoreFlushOperation'];
                 };
             };
         };
@@ -75891,6 +71411,15 @@ export interface operations {
                     'application/json': components['schemas']['Place'];
                 };
             };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudUniversesService.Status'];
+                };
+            };
         };
     };
     Cloud_UpdatePlace: {
@@ -75908,7 +71437,17 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody: {
+        /**
+         * @description The place to update.
+         *
+         *     The place's `path` field is used to identify the place to update.
+         *
+         *     Format: `universes/{universe_id}/places/{place_id}`
+         *
+         *     (-- api-linter: core::0140::prepositions=disabled
+         *         go/aip/not-precedent: The preposition comes from the resource name. --)
+         */
+        requestBody?: {
             content: {
                 'application/json': components['schemas']['Place'];
             };
@@ -75921,6 +71460,15 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['Place'];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudUniversesService.Status'];
                 };
             };
         };
@@ -76572,7 +72120,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['Operation'];
+                    'application/json': components['schemas']['TextToSpeechService.Operation'];
                 };
             };
         };
@@ -76612,7 +72160,7 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody: {
+        requestBody?: {
             content: {
                 'application/json': components['schemas']['RestartUniverseServersRequest'];
             };
@@ -76627,9 +72175,18 @@ export interface operations {
                     'application/json': components['schemas']['RestartUniverseServersResponse'];
                 };
             };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudUniversesService.Status'];
+                };
+            };
         };
     };
-    'PolyglotApi.Cloud_TranslateText': {
+    Cloud_TranslateText: {
         parameters: {
             query?: never;
             header?: never;
@@ -76674,7 +72231,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['OpenCloudUsers.User'];
+                    'application/json': components['schemas']['User'];
                 };
             };
         };
@@ -79887,7 +75444,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -79969,13 +75526,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['ServerManagementService.ListGameServersResponse'];
+                    'application/json': components['schemas']['ListGameServersResponse'];
                 };
             };
             /** @description Bad Request */
@@ -80046,7 +75603,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -80096,7 +75653,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -80153,7 +75710,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -80203,7 +75760,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -81751,7 +77308,7 @@ export interface operations {
             };
         };
     };
-    'ThumbnailPersonalizationApi.HomepageThumbnail_FindThumbnailPersonalizations': {
+    HomepageThumbnail_FindThumbnailPersonalizations: {
         parameters: {
             query: {
                 /** @description The configuration status to return. */
@@ -81770,7 +77327,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -81806,7 +77363,7 @@ export interface operations {
                     'application/json': string;
                 };
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -81815,7 +77372,7 @@ export interface operations {
             };
         };
     };
-    'ThumbnailPersonalizationApi.HomepageThumbnail_CreateThumbnailPersonalization': {
+    HomepageThumbnail_CreateThumbnailPersonalization: {
         parameters: {
             query?: never;
             header?: never;
@@ -81835,7 +77392,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -81871,7 +77428,7 @@ export interface operations {
                     'application/json': string;
                 };
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -81880,7 +77437,7 @@ export interface operations {
             };
         };
     };
-    'ThumbnailPersonalizationApi.HomepageThumbnail_UpdateThumbnailPersonalization': {
+    HomepageThumbnail_UpdateThumbnailPersonalization: {
         parameters: {
             query?: never;
             header?: never;
@@ -81900,7 +77457,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -81943,7 +77500,7 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -81952,7 +77509,7 @@ export interface operations {
             };
         };
     };
-    'ThumbnailPersonalizationApi.HomepageThumbnail_GetHomepageThumbnails': {
+    HomepageThumbnail_GetHomepageThumbnails: {
         parameters: {
             query?: {
                 /** @description The maximum number of thumbnails to return. */
@@ -81969,7 +77526,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -82005,7 +77562,7 @@ export interface operations {
                     'application/json': string;
                 };
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -82014,7 +77571,7 @@ export interface operations {
             };
         };
     };
-    'ThumbnailPersonalizationApi.HomepageThumbnail_DeleteHomepageThumbnails': {
+    HomepageThumbnail_DeleteHomepageThumbnails: {
         parameters: {
             query: {
                 /** @description The identifiers of the homepage thumbnails to delete. */
@@ -82029,7 +77586,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -82067,7 +77624,7 @@ export interface operations {
                     'application/json': string;
                 };
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -82076,7 +77633,7 @@ export interface operations {
             };
         };
     };
-    'ThumbnailPersonalizationApi.HomepageThumbnail_UploadHomepageThumbnails': {
+    HomepageThumbnail_UploadHomepageThumbnails: {
         parameters: {
             query?: never;
             header?: never;
@@ -82089,12 +77646,13 @@ export interface operations {
         requestBody: {
             content: {
                 'multipart/form-data': {
+                    /** @description The image files to upload. */
                     files: string[];
                 };
             };
         };
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -82130,7 +77688,7 @@ export interface operations {
                     'application/json': string;
                 };
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -82139,7 +77697,7 @@ export interface operations {
             };
         };
     };
-    'ThumbnailPersonalizationApi.HomepageThumbnail_GetHomepageThumbnailsStatus': {
+    HomepageThumbnail_GetHomepageThumbnailsStatus: {
         parameters: {
             query: {
                 /** @description The upload operation IDs to query. */
@@ -82154,7 +77712,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -82190,7 +77748,7 @@ export interface operations {
                     'application/json': string;
                 };
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -82842,7 +78400,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['PrivateServersApi.GameServerResponse'];
+                    'application/json': components['schemas']['GameServerResponse'];
                 };
             };
         };
@@ -83390,33 +78948,6 @@ export interface operations {
             };
         };
     };
-    'TransactionRecordsApi.SalesReportDownload_PublishSalesReportDownloadMessage': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                'application/json-patch+json': components['schemas']['SalesReportDownloadRequest'];
-                'application/json': components['schemas']['SalesReportDownloadRequest'];
-                'text/json': components['schemas']['SalesReportDownloadRequest'];
-                'application/*+json': components['schemas']['SalesReportDownloadRequest'];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['HttpResponseMessage'];
-                };
-            };
-        };
-    };
     TransactionRecords_GetUserRevenueSummary: {
         parameters: {
             query?: {
@@ -83466,7 +78997,7 @@ export interface operations {
             };
         };
     };
-    'TransactionRecordsApi.TransactionRecords_GetUserTransactions': {
+    TransactionRecords_GetUserTransactions: {
         parameters: {
             query?: {
                 exclusiveStartCursor?: components['schemas']['Int64ExclusiveStartKeyCursor'];

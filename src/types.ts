@@ -28,7 +28,7 @@ export interface paths {
         };
         /**
          * List billing accounts
-         * @description Lists the billing accounts owned by the authenticated user, or by the group in groupId. Each account includes its type, status, time zone, create/update timestamps, creator, and funding state (paymentStatus, supportedPaymentTypes, balances, paymentMethods). Funding state belongs to the account, not to any experience, so this response alone answers whether each account can pay for campaigns; GET /campaign-options with universeId only narrows which of these accounts a campaign for that experience can use. Results are paginated with a cursor (pageToken).
+         * @description Lists the billing accounts owned by the authenticated user, or by the group in groupId. Each account includes its type, status, time zone, create/update timestamps, creator, and funding state (paymentStatus, supportedPaymentTypes, balances, paymentMethods). Group accounts support only ADS_CREDIT. Funding state belongs to the account, not to any experience, so this response alone answers whether each account can pay for campaigns; GET /campaign-options with universeId only narrows which of these accounts a campaign for that experience can use. Results are paginated with a cursor (pageToken).
          */
         get: operations['ListBillingAccounts'];
         put?: never;
@@ -48,7 +48,7 @@ export interface paths {
         };
         /**
          * Get a billing account
-         * @description Returns a single billing account accessible to the authenticated user (including group accounts where the caller has group advertising permission). In v1.1, includes masked card details, verification state, and a payment-status reason when the account is not ready. Returns 404 if the account does not exist or is not accessible to the caller.
+         * @description Returns a single billing account accessible to the authenticated user (including group accounts where the caller has group advertising permission). Includes masked card details, verification state, and a payment-status reason when the account is not ready. Returns 404 if the account does not exist or is not accessible to the caller.
          */
         get: operations['GetBillingAccount'];
         put?: never;
@@ -68,7 +68,7 @@ export interface paths {
         };
         /**
          * Get campaign options
-         * @description Returns the values accepted when creating a campaign: supported objectives, payment types, ad formats, and targeting dimensions. When universeId is supplied, the response also includes an eligibility block indicating whether that experience can currently be advertised, along with the reasons when it cannot. universeId is optional; without it, account-level options are returned without eligibility or billing-account resolution. A caller without permission to advertise the supplied experience gets 403 with reason UNIVERSE_NOT_ADVERTISABLE. It works without a billing account and lists in billingAccounts the accounts you can create a campaign for the experience in, each with the payment types it can use: CREDIT_CARD only for your own account with a card set up, and only ADS_CREDIT for a group's account. paymentTypes is then the payment types at least one of those accounts can use, and is empty when there are none. paymentTypes says which payment types a campaign may choose, not whether an account is funded; read paymentStatus from GET /billing-accounts for that.
+         * @description Returns the values accepted when creating a campaign: supported objectives, payment types, ad formats, and targeting dimensions. Call this before CreateCampaign. When universeId is supplied, the response also includes an eligibility block indicating whether that experience can currently be advertised, along with the reasons when it cannot. universeId is optional; without it, account-level options are returned without eligibility or billing-account resolution. A caller without permission to advertise the supplied experience gets 403 with reason UNIVERSE_NOT_ADVERTISABLE. It works without a billing account and lists in billingAccounts the accounts you can create a campaign for the experience in, each with the payment types it can use: CREDIT_CARD only for your own account with a card set up, and only ADS_CREDIT for a group's account. paymentTypes is then the payment types at least one of those accounts can use, and is empty when there are none. paymentTypes says which payment types a campaign may choose, not whether an account is funded; read paymentStatus from GET /billing-accounts for that. Sponsored video tiles follow the billing account's owner: video is present when the request's account or at least one listed billing account allows video, and mutableFields lists video only when a campaign's video can be changed.
          */
         get: operations['GetCampaignOptions'];
         put?: never;
@@ -88,13 +88,13 @@ export interface paths {
         };
         /**
          * List campaigns
-         * @description Lists the campaigns in the caller's billing account. Results are paginated with a cursor (pageToken); each page returns up to maxPageSize campaigns (default 50, max 100). groupId lists a group's billing account instead, and targetUniverseIds lists the campaigns of those experiences across billing accounts; campaigns that ended more than 730 days ago aren't included, and a page can hold fewer than maxPageSize campaigns while more remain.
+         * @description Lists the campaigns in the caller's billing account. Results are paginated with a cursor (pageToken); each page returns up to maxPageSize campaigns (default 50, max 100). groupId lists a group's billing account instead, and targetUniverseIds lists the campaigns of those experiences across billing accounts; campaigns that ended more than 730 days ago aren't included, and a page can hold fewer than maxPageSize campaigns while more remain. When nextPageToken is present, use it to continue even if the current page is empty.
          */
         get: operations['ListCampaigns'];
         put?: never;
         /**
          * Create a campaign
-         * @description Creates an ad campaign in the billing account. The creatives you reference must already exist as Open Cloud image assets that you have permission to use; they are validated and saved to your account's reusable creatives when the campaign is created. On success the campaign is returned with deliveryStatus IN_REVIEW, meaning it is queued for ad-policy review and not yet serving — poll the campaign (or campaigns:batchGetStatus) until this changes. budget.amountMicros is the budget in micro-USD as a decimal string (e.g. "5000000" = $5.00). It must be at least the minimum campaign budget; an amount below the minimum returns 400 with the required minimum stated in the error message. schedule.durationInDays must not exceed 3650 (~10 years). The x-idempotency-key header is required and must be a UUID: retrying the same key within 24 hours returns the original campaign (200) without creating another one, even if the body differs, so use a new key for a different campaign. A retry while the first request is still in progress returns 429.
+         * @description Creates an ad campaign in the billing account. Before creating, call GetCampaignOptions with universeId to confirm the experience is eligible and to choose values it accepts. The creatives you reference must already exist as Open Cloud image assets that you have permission to use; they are validated and saved to your account's reusable creatives when the campaign is created. On success the campaign is returned with deliveryStatus IN_REVIEW, meaning it is queued for ad-policy review and not yet serving — poll the campaign (or campaigns:batchGetStatus) until this changes. budget.amountMicros is the budget in micro-USD as a decimal string (e.g. "5000000" = $5.00). It must be at least the minimum campaign budget; an amount below the minimum returns 400 with the required minimum stated in the error message. schedule.durationInDays must not exceed 3650 (~10 years). The x-idempotency-key header is required and must be a UUID: retrying the same key within 24 hours returns the original campaign (200) without creating another one, even if the body differs, so use a new key for a different campaign. A retry while the first request is still in progress returns 429. A body field that the request does not define returns 400 with reason UNKNOWN_FIELD and the field path in field.
          */
         post: operations['CreateCampaign'];
         delete?: never;
@@ -122,7 +122,7 @@ export interface paths {
         head?: never;
         /**
          * Update a campaign
-         * @description Updates the mutable fields of a campaign. You can change: name, budget.amountMicros, schedule.startTime and schedule.durationInDays (schedule changes are only allowed before the campaign starts), status, and creativeAssetIds. New creative asset IDs are appended; IDs already attached to the campaign are ignored, and an empty list is a successful no-op. Set status to ACTIVE to run or resume the campaign, PAUSED to pause it, or CANCELLED to cancel it permanently. budget.type cannot be changed — only the amount. A budget increase takes effect immediately, but a budget decrease on a running campaign is scheduled for the next midnight in the account's time zone; while a decrease is pending, the response reports it in budget.scheduledAmountMicros and budget.scheduledEffectiveTime. The fields objective, paymentType, targeting, and bid are fixed after creation and return 400 if included. The updated campaign is returned with its recomputed deliveryStatus. You can also change video (every ad is updated before the response returns) and autoReloadAdCreditEnabled; billingAccountId and targetUniverseId are fixed after creation, and immutable-field errors carry field and reason IMMUTABLE_FIELD. A campaign owned by a group can be updated by any member with advertising permission on the campaign's experience, without groupId; raising the spend of another user's campaign is limited to its owner.
+         * @description Updates the mutable fields of a campaign. You can change: name, budget.amountMicros, schedule.startTime and schedule.durationInDays (schedule changes are only allowed before the campaign starts), status, and creativeAssetIds. New creative asset IDs are appended; IDs already attached to the campaign are ignored, and an empty list is a successful no-op. Set status to ACTIVE to run or resume the campaign, PAUSED to pause it, or CANCELLED to cancel it permanently. Setting CANCELLED on a campaign that is already cancelled returns the campaign unchanged, so a retried cancel succeeds; any other edit to a cancelled or ended campaign returns 400 FAILED_PRECONDITION. budget.type cannot be changed — only the amount. A budget increase takes effect immediately, but a budget decrease on a running campaign is scheduled for the next midnight in the account's time zone; while a decrease is pending, the response reports it in budget.scheduledAmountMicros and budget.scheduledEffectiveTime. The fields objective, paymentType, targeting, and bid are fixed after creation and return 400 if included. The updated campaign is returned with its recomputed deliveryStatus. You can also change video (every ad is updated before the response returns) and autoReloadAdCreditEnabled. Video availability follows the campaign's billing account, as on create, and a request with video returns 400 when the account doesn't allow it; billingAccountId and targetUniverseId are fixed after creation, and immutable-field errors carry field and reason IMMUTABLE_FIELD. A body field that the request does not define returns 400 with reason UNKNOWN_FIELD. A campaign owned by a group can be updated by any member with advertising permission on the campaign's experience, without groupId; raising the spend of another user's campaign is limited to its owner.
          */
         patch: operations['UpdateCampaign'];
         trace?: never;
@@ -716,6 +716,143 @@ export interface paths {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/analytics-custom-dashboards/v1/universes/{universeId}/custom-dashboard-documents/validate': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Validates a candidate dashboard document. */
+        post: operations['CustomDashboards_ValidateDashboardDocument'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/analytics-custom-dashboards/v1/universes/{universeId}/custom-dashboards': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Lists dashboard metadata for a universe. */
+        get: operations['CustomDashboards_ListDashboards'];
+        put?: never;
+        /** Creates a dashboard. */
+        post: operations['CustomDashboards_CreateDashboard'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/analytics-custom-dashboards/v1/universes/{universeId}/custom-dashboards/capabilities': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the latest published dashboard snapshot. */
+        get: operations['AnalyticsCustomDashboardsApi.CustomDashboards_GetDashboard'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/analytics-custom-dashboards/v1/universes/{universeId}/custom-dashboards/pinned': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the latest published dashboard snapshot. */
+        get: operations['CustomDashboards_GetDashboard'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/analytics-custom-dashboards/v1/universes/{universeId}/custom-dashboards/{dashboardId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the latest published dashboard snapshot. */
+        get: operations['CustomDashboards_GetDashboard1'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/analytics-custom-dashboards/v1/universes/{universeId}/custom-dashboards/{dashboardId}/delete': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Deletes a dashboard. */
+        post: operations['CustomDashboards_DeleteDashboard'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/analytics-custom-dashboards/v1/universes/{universeId}/custom-dashboards/{dashboardId}/metadata': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Updates dashboard metadata. */
+        patch: operations['CustomDashboards_UpdateDashboardMetadata'];
+        trace?: never;
+    };
+    '/analytics-custom-dashboards/v1/universes/{universeId}/custom-dashboards/{dashboardId}/publish': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Publishes a caller-provided dashboard document. */
+        post: operations['CustomDashboards_PublishDashboard'];
         delete?: never;
         options?: never;
         head?: never;
@@ -1427,7 +1564,7 @@ export interface paths {
         head?: never;
         /**
          * Updates an asset with provided content and metadata.
-         * @description Updates an asset with provided content and metadata, including the description, display name, icon, social links, and previews. Currently can only update the content body for **Models**. Icons and Previews must be **Image** assets. Icons must have square dimensions.
+         * @description Updates an asset's content, metadata, or both. Metadata includes the description, display name, icon, social links, and previews. Updating content creates a new asset version and is supported for **Models** and **Places**. For Places, set `published` to `true` to publish the new version. Icons and previews must be **Image** assets, and icons must have square dimensions.
          *
          *     Provide the `Asset`, binary asset file path, and [content type](/cloud/guides/usage-assets.md#supported-asset-types-and-limits) in the form data.
          */
@@ -1445,7 +1582,7 @@ export interface paths {
          * List Asset Versions of an Asset
          * @description List all versions of a specific asset, with optional pagination.
          */
-        get: operations['listAssetVersions'];
+        get: operations['Assets_ListAssetVersions'];
         put?: never;
         post?: never;
         delete?: never;
@@ -1487,7 +1624,7 @@ export interface paths {
          * Rollback an asset to a previous version.
          * @description Rollback an asset to a specific previous version.
          *
-         *      Provide the asset version path in the form data.
+         *     Provide the asset version path in the request body.
          */
         post: operations['Assets_RollbackAssetVersion'];
         delete?: never;
@@ -1516,6 +1653,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/assets/v1/assets/{assetId}:multipartUpload': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Starts a multipart upload operation to update assets. */
+        patch: operations['Assets_UpdateAssetWithMultipartUpload'];
+        trace?: never;
+    };
     '/assets/v1/assets/{assetId}:restore': {
         parameters: {
             query?: never;
@@ -1536,6 +1690,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/assets/v1/assets:multipartUpload': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Starts a multipart upload operation to create assets. */
+        post: operations['Assets_CreateAssetWithMultipartUpload'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/assets/v1/operations/{operationId}': {
         parameters: {
             query?: never;
@@ -1545,11 +1716,62 @@ export interface paths {
         };
         /**
          * Get the result of an asset creation or update.
-         * @description Get the result of an asset creation or update using the returned Operation ID. Requires **Read** for the API key permission and **asset:read** for OAuth 2.0 apps.
+         * @description Get the result of an asset creation or update using the returned Operation ID.
          */
         get: operations['Assets_GetOperation'];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/assets/v1/operations/{operationId}:multipartUpload': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Abort a multipart asset upload. */
+        delete: operations['Assets_MultipartUploadAbort'];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/assets/v1/operations/{operationId}:multipartUploadChunkComplete': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Records a chunk upload complete. */
+        post: operations['Assets_MultipartUploadChunkComplete'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/assets/v1/operations/{operationId}:multipartUploadComplete': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Records a multipart upload complete and returns a URL to poll the status. */
+        post: operations['Assets_MultipartUploadComplete'];
         delete?: never;
         options?: never;
         head?: never;
@@ -1878,6 +2100,59 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    '/cloud/v2/universes/{universeId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Universe
+         * @description Gets the specified universe.
+         */
+        get: operations['Cloud_GetUniverse'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update Universe
+         * @description Updates the specified universe.
+         *
+         *     This method is guaranteed to return all updated fields.
+         *     This method may additionally return the full resource.
+         */
+        patch: operations['Cloud_UpdateUniverse'];
+        trace?: never;
+    };
+    '/cloud/v2/universes/{universeId}/places/{placeId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Place
+         * @description Gets the specified place.
+         */
+        get: operations['Cloud_GetPlace'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update Place
+         * @description Updates the specified place. To avoid overwriting changes, this endpoint
+         *     responds with an HTTP 409 Conflict error if the place is open in an
+         *     active Team Create session.
+         */
+        patch: operations['Cloud_UpdatePlace'];
         trace?: never;
     };
     '/cloud/v2/universes/{universeId}/secrets': {
@@ -2239,27 +2514,26 @@ export interface paths {
         };
         trace?: never;
     };
-    '/cloud/v2/universes/{universe_id}': {
+    '/cloud/v2/universes/{universeId}:restartServers': {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** @description Gets the specified universe. */
-        get: operations['Cloud_GetUniverse'];
+        get?: never;
         put?: never;
-        post?: never;
+        /**
+         * Restart Universe Servers
+         * @description Restarts active servers for a specific universe. Defaults to only
+         *     restarting servers running older versions, but can be configured to restart
+         *     all servers regardless of version. Used for releasing experience updates.
+         */
+        post: operations['Cloud_RestartUniverseServers'];
         delete?: never;
         options?: never;
         head?: never;
-        /**
-         * @description Updates the specified universe.
-         *
-         *     This method is guaranteed to return all updated fields.
-         *     This method may additionally return the full resource.
-         */
-        patch: operations['Cloud_UpdateUniverse'];
+        patch?: never;
         trace?: never;
     };
     '/cloud/v2/universes/{universe_id}/data-stores': {
@@ -2990,28 +3264,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/cloud/v2/universes/{universe_id}/places/{place_id}': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Gets the specified place. */
-        get: operations['Cloud_GetPlace'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /**
-         * @description Updates the specified place. To avoid overwriting changes, this endpoint
-         *     responds with an HTTP 409 Conflict error if the place is open in an
-         *     active Team Create session.
-         */
-        patch: operations['Cloud_UpdatePlace'];
-        trace?: never;
-    };
     '/cloud/v2/universes/{universe_id}/places/{place_id}/instances/{instance_id}': {
         parameters: {
             query?: never;
@@ -3361,27 +3613,6 @@ export interface paths {
          *     [MessagingService](https://create.roblox.com/docs/reference/engine/classes/MessagingService).
          */
         post: operations['Cloud_PublishUniverseMessage'];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/cloud/v2/universes/{universe_id}:restartServers': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * @description Restarts active servers for a specific universe. Defaults to only
-         *     restarting servers running older versions, but can be configured to restart
-         *     all servers regardless of version. Used for releasing experience updates.
-         */
-        post: operations['Cloud_RestartUniverseServers'];
         delete?: never;
         options?: never;
         head?: never;
@@ -4411,6 +4642,7 @@ export interface paths {
                  *     6: Text moderated.
                  *     12: You do not have permission to manage this game's badges.
                  *     17: Insufficient funds.
+                 *     28: You do not have permission to spend this group's funds.
                  */
                 403: {
                     headers: {
@@ -10241,54 +10473,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/matchmaking-api/v1/game-instances/shutdown-all': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Shutdown all game instances. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    'multipart/form-data': {
-                        /**
-                         * Format: int64
-                         * @description The place ID to shut down.
-                         */
-                        PlaceId?: number;
-                        /** @description Whether to replace instances or not. */
-                        ReplaceInstances?: boolean;
-                    };
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['ShutdownAllGameInstancesResponse'];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/matchmaking-api/v1/matchmaking/player-attribute': {
         parameters: {
             query?: never;
@@ -11354,6 +11538,27 @@ export interface paths {
         put?: never;
         /** Endpoint used to modify the notes of a particular version for a place. */
         post: operations['PlaceVersion_UpdatePlaceVersionNotes'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/server-management/v1/universes/{universeId}/places/{placeId}/game-servers/{jobId}/client-sessions/{sessionId}/logs': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lists client log entries emitted during a play session on a game server.
+         * @description Requires an authenticated caller with read access to the universe. `sessionId` must be a
+         *     non-zero UUID. Results default to `message_timestamp desc` when `orderBy` is omitted.
+         */
+        get: operations['GameServers_ListClientLogs'];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -12903,7 +13108,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Lists a mapping for assets to category IDs to convert from inventory ID to catalog ID. Creates a mapping to link 'Get More' button in inventory page to the relevant catalog page. */
+        /**
+         * Lists a mapping for assets to category IDs to convert from inventory ID to catalog ID. Creates a mapping to link 'Get More' button in inventory page to the relevant catalog page.
+         * @deprecated
+         * @description This endpoint will be deprecated soon. No new features will be added.
+         */
         get: {
             parameters: {
                 query?: never;
@@ -12944,7 +13153,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Lists a mapping for assets to subcategory IDs to convert from inventory ID to catalog ID. Creates a mapping to link 'Get More' button in inventory page to the relevant catalog page. */
+        /**
+         * Lists a mapping for assets to subcategory IDs to convert from inventory ID to catalog ID. Creates a mapping to link 'Get More' button in inventory page to the relevant catalog page.
+         * @deprecated
+         * @description This endpoint will be deprecated soon. No new features will be added.
+         */
         get: {
             parameters: {
                 query?: never;
@@ -12967,6 +13180,158 @@ export interface paths {
                             [key: string]: number;
                         };
                     };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/asset-types/{assetType}/agents': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets agents of type requestModel.AgentType who are allowed to perform requestModel.ActionType for assetType. */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The asset type target of the specified action. */
+                    ActionType: 1 | 2;
+                    /** @description The agentType of the agents for whom a user can perform specified action. */
+                    AgentType: 1 | 2;
+                };
+                header?: never;
+                path: {
+                    /** @description ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95, 'ComputeFunction' = 96] */
+                    assetType:
+                        | 1
+                        | 2
+                        | 3
+                        | 4
+                        | 5
+                        | 6
+                        | 7
+                        | 8
+                        | 9
+                        | 10
+                        | 11
+                        | 12
+                        | 13
+                        | 16
+                        | 17
+                        | 18
+                        | 19
+                        | 21
+                        | 22
+                        | 24
+                        | 25
+                        | 26
+                        | 27
+                        | 28
+                        | 29
+                        | 30
+                        | 31
+                        | 32
+                        | 33
+                        | 34
+                        | 35
+                        | 37
+                        | 38
+                        | 39
+                        | 40
+                        | 41
+                        | 42
+                        | 43
+                        | 44
+                        | 45
+                        | 46
+                        | 47
+                        | 48
+                        | 49
+                        | 50
+                        | 51
+                        | 52
+                        | 53
+                        | 54
+                        | 55
+                        | 56
+                        | 59
+                        | 60
+                        | 61
+                        | 62
+                        | 63
+                        | 64
+                        | 65
+                        | 66
+                        | 67
+                        | 68
+                        | 69
+                        | 70
+                        | 71
+                        | 72
+                        | 73
+                        | 74
+                        | 75
+                        | 76
+                        | 77
+                        | 78
+                        | 79
+                        | 80
+                        | 81
+                        | 82
+                        | 83
+                        | 84
+                        | 85
+                        | 86
+                        | 87
+                        | 88
+                        | 89
+                        | 90
+                        | 91
+                        | 92
+                        | 93
+                        | 94
+                        | 95
+                        | 96;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.AllowedAgentsAssetTypeActionResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.AllowedAgentsAssetTypeActionResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Invalid parameters in request.
+                 *     2: Unsupported asset type.
+                 *     3: Unsupported agent type
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
                 };
             };
         };
@@ -14546,6 +14911,111 @@ export interface paths {
         };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/avatar-item-updates/create-context': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Mint an avatar item update context (parent operation) for an existing catalog item. Studio
+         *     threads the returned operationId as the ParentOperationId of the staging asset upload.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description The original asset id + asset type of the item being updated. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.AvatarItemUpdate.CreateAvatarItemUpdateContextRequest'];
+                    'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.AvatarItemUpdate.CreateAvatarItemUpdateContextRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.AvatarItemUpdate.CreateAvatarItemUpdateContextResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.AvatarItemUpdate.CreateAvatarItemUpdateContextResponse'];
+                    };
+                };
+                /**
+                 * @description 2: Invalid original asset id
+                 *     3: Invalid asset type
+                 *     4: The item is not a valid update target
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     5: The item is not owned by the authenticated user
+                 *     7: Missing authenticated user
+                 *     9: In-experience-created items can't be updated
+                 *     10: The item has not been approved by moderation
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 8: Request cancelled */
+                408: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 6: Updating a published item isn't available yet */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Unknown error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: Service Unavailable */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
@@ -16203,6 +16673,227 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/bundles': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create a new bundle with the provided information. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description containing all necessary information to create a new bundle. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.Bundle.CreateBundleRequest'];
+                    'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.Bundle.CreateBundleRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Bundle.CreateBundleResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Bundle.CreateBundleResponse'];
+                    };
+                };
+                /**
+                 * @description 2: Invalid Bundle Name
+                 *     3: Invalid AssetIds
+                 *     4: Invalid OperationId
+                 *     5: Invalid Bundle Type
+                 *     6: Invalid/Null Create Bundle Request
+                 *     7: Invalid Bundle Description
+                 *     11: Group Creator Not Supported
+                 *     13: Creation fee is invalid, must be a positive number
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     9: Item is not allowed to be part of a new bundle
+                 *     12: Creator mismatch
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 10: Invalid Bundle Creation State */
+                412: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 8: Unsupported Bundle Type */
+                501: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: Service Unavailable */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/bundles/create-context': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Generate bundle creation context which is necessary for the bundle creation process. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /**
+             * @description Request containing all of the client intent for items to be uploaded for the type of
+             *     bundle being created.
+             */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.Bundle.CreateBundleContextRequest'];
+                    'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.Bundle.CreateBundleContextRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Bundle.CreateBundleContextResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Bundle.CreateBundleContextResponse'];
+                    };
+                };
+                /**
+                 * @description 2: Invalid AssetQuantities
+                 *     3: Invalid Bundle Type
+                 *     4: Invalid/Null Create Bundle Request
+                 *     5: Invalid Bundle Description
+                 *     6: Invalid Bundle Name
+                 *     7: Inappropriate Bundle Description
+                 *     8: Inappropriate Bundle Name
+                 *     12: Invalid Body Scale
+                 *     13: Invalid Body Color Set
+                 *     14: Group creator not supported.
+                 *     15: Request is missing required asset.
+                 *     16: Asset counts must have non-zero, positive counts.
+                 *     17: Too many asset types provided.
+                 *     18: Creation fee is invalid.
+                 *     19: Invalid Token ID.
+                 *     20: Invalid Group ID.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Authorization has been denied for this request.
+                 *     10: User not found
+                 */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     9: User does not have bundle creation permission
+                 *     106: Missing ID verification.
+                 *     107: User's creation access is blocked.
+                 *     110: Missing CatalogItemCreator role.
+                 *     111: Missing Group Permission
+                 *     112: Item type is not allowed.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 11: Daily bundle creation limit reached
+                 *     21: Bundle upload quota exceeded for this bundle type.
+                 */
+                412: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 103: Publishing gateway returns denied without any reason
+                 *     104: Publishing gateway returns unexpected reason
+                 *     105: Publishing gateway returns unexpected access status
+                 */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: Service Unavailable */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/bundles/details': {
         parameters: {
             query?: never;
@@ -16234,6 +16925,132 @@ export interface paths {
                 };
                 /** @description 3: Cannot request so many bundles at once. */
                 400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/bundles/metadata': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get metadata for bundle creation and publishing. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Bundle.BundleMetadataResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Bundle.BundleMetadataResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Unknown error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/bundles/status/{creationStatusId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get status on the CreateBundle request that was previously queued up. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description an identifier associated with the create bundle request. */
+                    creationStatusId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Bundle.GetBundleCreationStatusResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Bundle.GetBundleCreationStatusResponse'];
+                    };
+                };
+                /** @description 2: Invalid Creation Status Id */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: Creation Status Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Unknown error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: Service Unavailable */
+                503: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -16547,7 +17364,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Lists Category Names and their Ids. */
+        /**
+         * Lists Category Names and their Ids.
+         * @deprecated
+         * @description This endpoint will be deprecated soon. No new features will be added.
+         */
         get: {
             parameters: {
                 query?: never;
@@ -16656,6 +17477,1924 @@ export interface paths {
         put?: never;
         post?: never;
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/collectibles': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Publishes a given target as a Collectible. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.PublishCollectibleItemRequest'];
+                    'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.PublishCollectibleItemRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.PublishCollectibleItemResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.PublishCollectibleItemResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Invalid target type
+                 *     4: Invalid Argument
+                 *     8: Missing/Null request parameters
+                 *     19: Item price is too low
+                 *     20: Item price is too high
+                 *     21: Asset Id is invalid
+                 *     26: The upload content Name or Description was moderated.
+                 *     32: Gateway could not publish item
+                 *     35: Quantity is invalid
+                 *     36: Specified SaleLocation is currently not supported.
+                 *     43: Quantity limit is currently not supported.
+                 *     44: Quantity limit is invalid.
+                 *     47: Resale restriction is currently not supported. Must be none or unset for now.
+                 *     48: Invalid resale restriction.
+                 *     59: Price offset is invalid.
+                 *     60: Minimum price is invalid.
+                 *     62: Invalid price configuration.
+                 *     65: Unexpected Place Ids.
+                 *     76: The item is delisted.
+                 *     111: Asset cannot be published because it has been used in Commerce products.
+                 *     119: Item is not a rentable type.
+                 *     122: Invalid name.
+                 *     123: Invalid description.
+                 *     146: Agreement is not publishable.
+                 *     147: Resale is not allowed by the license.
+                 *     148: Immediate on-sale is not allowed while the agreement is pending.
+                 *     149: OnSaleTime is outside the agreement window.
+                 *     150: OffSaleTime is outside the agreement window.
+                 *     151: OffSaleTime is required for this agreement.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Authorization has been denied for this request.
+                 *     66: Missing Authenticated User.
+                 */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 70: The user does not have enough Robux to pay */
+                402: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     10: Cannot release asset that is pending validation
+                 *     11: Cannot release asset that contains invalid content
+                 *     12: User does not have permission for the group owned asset
+                 *     13: Cannot release the associated asset type
+                 *     14: Cannot release asset that is pending review
+                 *     15: Asset is moderated
+                 *     16: Item is released
+                 *     17: User does not have permission to release
+                 *     18: User does not own the item
+                 *     28: Asset has already been released as a non-limited item.
+                 *     45: Asset is an exact copy of a published asset.
+                 *     46: ItemIsInBundle
+                 *     51: BundleType Cannot Be Released.
+                 *     57: Non-limited publishing is not supported.
+                 *     72: The Item is moderated.
+                 *     74: The item's type is not allowed.
+                 *     77: Resellable creation not allowed for user.
+                 *     80: Publishing InExperienceCreation item is blocked.
+                 *     94: Actor is moderated.
+                 *     101: Calendar quota exceeded
+                 *     102: Calendar quota is unavailable.
+                 *     106: Missing ID verification.
+                 *     107: User's creation access is blocked.
+                 *     108: Missing premium subscription tier.
+                 *     109: Group owner missing premium subscription tier.
+                 *     115: User is not authorized for this action.
+                 *     125: Missing two step verification.
+                 *     143: Publishing AI-generated item is blocked.
+                 *     146: Agreement is not publishable.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 3: Service Unavailable
+                 *     5: Not Found
+                 *     71: The Item is not found.
+                 *     134: Bundle not found.
+                 */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 75: The item has archived dependencies. */
+                412: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 9: Publishing Limit Exceeded
+                 *     34: Could not find initial user-owner asset
+                 *     121: Purchase failed due to flood-check.
+                 */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 32: Gateway could not publish item
+                 *     34: Could not find initial user-owner asset
+                 *     41: Publishing quota is unavailable.
+                 *     56: Publishing Gateway returns unexpected exception.
+                 *     67: Invalid creator type
+                 *     73: The Item's moderation status could not be determined.
+                 *     103: Publishing gateway returns denied without any reason
+                 *     104: Publishing gateway returns unexpected reason
+                 *     105: Publishing gateway returns unexpected access status
+                 *     144: Failed to get agreement.
+                 *     145: Failed to get license.
+                 */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 42: Failed to fetch marketplace fee. */
+                507: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/collectibles/bulk-update': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Updates some items in bulk. */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.Collectibles.BulkUpdateRequest'];
+                    'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.Collectibles.BulkUpdateRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: Service Unavailable */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/v1/collectibles/check-item-configuration-access': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Checks the configure access permissions. */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The type of the target item. */
+                    TargetType: 0 | 1 | 2 | 3;
+                    /** @description The id of the target item. */
+                    TargetId: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.CheckItemConfigurationAccessResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.CheckItemConfigurationAccessResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Invalid target type
+                 *     21: Asset Id is invalid
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 66: Missing Authenticated User.
+                 *     68: Permission provider not enabled
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: Service Unavailable */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 56: Publishing Gateway returns unexpected exception.
+                 *     67: Invalid creator type
+                 *     103: Publishing gateway returns denied without any reason
+                 *     104: Publishing gateway returns unexpected reason
+                 *     105: Publishing gateway returns unexpected access status
+                 */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/collectibles/check-item-publish-access': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Checks the publish access permissions. */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The type of the target item. */
+                    TargetType: 0 | 1 | 2 | 3;
+                    /** @description The id of the target item. */
+                    TargetId: number;
+                    /** @description The publishing type. */
+                    PublishingType: 0 | 1 | 2;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.CheckItemPublishAccessResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.CheckItemPublishAccessResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Invalid target type
+                 *     21: Asset Id is invalid
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 66: Missing Authenticated User.
+                 *     68: Permission provider not enabled
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: Service Unavailable */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 56: Publishing Gateway returns unexpected exception.
+                 *     67: Invalid creator type
+                 *     103: Publishing gateway returns denied without any reason
+                 *     104: Publishing gateway returns unexpected reason
+                 *     105: Publishing gateway returns unexpected access status
+                 */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/collectibles/check-item-upload-access': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Checks the upload access permissions. */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The type of the target item. */
+                    targetType: 0 | 1 | 2 | 3;
+                    /** @description The id of a group when uploading on the group behalf. */
+                    groupId?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.CheckItemUploadAccessResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.CheckItemUploadAccessResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Invalid target type
+                 *     69: Invalid group id.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 66: Missing Authenticated User.
+                 *     68: Permission provider not enabled
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: Service Unavailable */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 56: Publishing Gateway returns unexpected exception.
+                 *     103: Publishing gateway returns denied without any reason
+                 *     104: Publishing gateway returns unexpected reason
+                 *     105: Publishing gateway returns unexpected access status
+                 */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/collectibles/commission-rates': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get commission rates for collectibles. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.GetCommissionRatesResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.GetCommissionRatesResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: Service Unavailable */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 7: Failed to get commission rates */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/collectibles/metadata': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets metadata for Collectibles publishing. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.CollectiblesMetadataResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.CollectiblesMetadataResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/collectibles/price-floor': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get the price floor for a given item. */
+        get: {
+            parameters: {
+                query: {
+                    /** @description Target Type. */
+                    TargetType: 0 | 1 | 2 | 3;
+                    /** @description Target ID. */
+                    TargetId: number;
+                    /** @description Publishing type. */
+                    PublishingType: 0 | 1 | 2;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Collectibles.PriceFloorResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Collectibles.PriceFloorResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Invalid target type
+                 *     58: Invalid publishing type.
+                 *     113: Item Id is invalid.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Authorization has been denied for this request.
+                 *     66: Missing Authenticated User.
+                 */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 115: User is not authorized for this action. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 3: Service Unavailable
+                 *     114: Price floor not found.
+                 */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 2: Failed to fetch publishing fee */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/collectibles/publishing-fees': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the publishing fee required to publish a collectible item. */
+        get: {
+            parameters: {
+                query: {
+                    /** @description Target Type. */
+                    TargetType: 0 | 1 | 2 | 3;
+                    /** @description Target ID. */
+                    TargetID: number;
+                    /** @description Quantity. */
+                    Quantity: number;
+                    /** @description SaleLocation. */
+                    SaleLocation: 0 | 1 | 2 | 3 | 4;
+                    /** @description ResaleRestriction. */
+                    ResaleRestriction: 0 | 1 | 2;
+                    /** @description Is item is free. */
+                    IsFree: boolean;
+                    /** @description Publishing type. */
+                    PublishingType: 0 | 1 | 2;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.PublishingFeeResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.PublishingFeeResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Invalid target type
+                 *     35: Quantity is invalid
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: Service Unavailable */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 2: Failed to fetch publishing fee */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/collectibles/publishing-fees/preview': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Previews the publishing fee for an item type before the item exists, so the fee can be shown at
+         *     upload time. Takes the item's type directly instead of a target id.
+         */
+        get: {
+            parameters: {
+                query: {
+                    /**
+                     * @description Asset type of the item being uploaded. Mutually exclusive with BundleType; exactly one is required.
+                     *     Same generated types the existing upload-fee endpoint takes, so the two fee endpoints agree.
+                     */
+                    AssetType:
+                        | 0
+                        | 1
+                        | 2
+                        | 3
+                        | 4
+                        | 5
+                        | 6
+                        | 7
+                        | 8
+                        | 9
+                        | 10
+                        | 11
+                        | 12
+                        | 13
+                        | 16
+                        | 17
+                        | 18
+                        | 19
+                        | 21
+                        | 22
+                        | 24
+                        | 25
+                        | 26
+                        | 27
+                        | 28
+                        | 29
+                        | 30
+                        | 31
+                        | 32
+                        | 33
+                        | 34
+                        | 35
+                        | 37
+                        | 38
+                        | 39
+                        | 40
+                        | 41
+                        | 42
+                        | 43
+                        | 44
+                        | 45
+                        | 46
+                        | 47
+                        | 48
+                        | 49
+                        | 50
+                        | 51
+                        | 52
+                        | 53
+                        | 54
+                        | 55
+                        | 56
+                        | 59
+                        | 60
+                        | 61
+                        | 62
+                        | 63
+                        | 64
+                        | 65
+                        | 66
+                        | 67
+                        | 68
+                        | 69
+                        | 70
+                        | 71
+                        | 72
+                        | 73
+                        | 74
+                        | 75
+                        | 76
+                        | 77
+                        | 78
+                        | 79
+                        | 80
+                        | 81
+                        | 82
+                        | 83
+                        | 84
+                        | 85
+                        | 86
+                        | 87
+                        | 88
+                        | 89
+                        | 90
+                        | 91
+                        | 92
+                        | 93
+                        | 94
+                        | 95
+                        | 96
+                        | 97;
+                    /** @description Bundle type of the item being uploaded. Mutually exclusive with AssetType; exactly one is required. */
+                    BundleType: 0 | 1 | 2 | 3 | 4;
+                    /** @description Quantity. Must be 0 for non-limited publishing. */
+                    Quantity: number;
+                    /** @description Publishing type. */
+                    PublishingType: 0 | 1 | 2;
+                    /** @description Whether the item will be free. */
+                    IsFree: boolean;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.PublishingFeePreviewResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.PublishingFeePreviewResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Invalid target type
+                 *     4: Invalid Argument
+                 *     35: Quantity is invalid
+                 *     58: Invalid publishing type.
+                 *     64: Cannot be free.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Authorization has been denied for this request.
+                 *     66: Missing Authenticated User.
+                 */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 5: Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 2: Failed to fetch publishing fee */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/collectibles/regional-pricing/preview': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get the preview for regional prices. */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The type of the target item. */
+                    TargetType: 0 | 1 | 2 | 3;
+                    /** @description The id of the target item. */
+                    TargetId: number;
+                    /** @description The publishing type of the target item. */
+                    PublishingType: 0 | 1 | 2;
+                    /** @description The minimum price of the item in Robux. */
+                    MinimumPrice: number;
+                    /** @description The price offset of the item in Robux above the price floor. */
+                    PriceOffset: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.GetRegionalpricingPreviewResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.GetRegionalpricingPreviewResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Invalid target type
+                 *     58: Invalid publishing type.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 12: User does not have permission for the group owned asset
+                 *     18: User does not own the item
+                 *     66: Missing Authenticated User.
+                 *     72: The Item is moderated.
+                 *     106: Missing ID verification.
+                 *     108: Missing premium subscription tier.
+                 *     115: User is not authorized for this action.
+                 *     125: Missing two step verification.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 3: Service Unavailable
+                 *     71: The Item is not found.
+                 */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 56: Publishing Gateway returns unexpected exception. */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/collectibles/regional-pricing/representative-countries': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get the representative countries for regional pricing. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.GetRepresentativeCountriesResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.GetRepresentativeCountriesResponse'];
+                    };
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: Service Unavailable */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/collectibles/rental-pricing/preview': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the rental pricing preview for a collectible item. Can include regional pricing if enabled. */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The type of the target item. */
+                    TargetType: 0 | 1 | 2 | 3;
+                    /** @description The id of the target item. */
+                    TargetId: number;
+                    /** @description The publishing type of the target item. */
+                    PublishingType: 0 | 1 | 2;
+                    /** @description The minimum price of the item in Robux. */
+                    MinimumPrice: number;
+                    /** @description The price offset of the item in Robux above the price floor. */
+                    PriceOffset: number;
+                    /** @description Whether to include regional pricing in the preview response. */
+                    IncludeRegionalPricing: boolean;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.GetRentalPricingPreviewResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.GetRentalPricingPreviewResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Invalid target type
+                 *     58: Invalid publishing type.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 18: User does not own the item
+                 *     72: The Item is moderated.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 3: Service Unavailable
+                 *     71: The Item is not found.
+                 */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/collectibles/revenue-split': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Revenue Split for collectibles. */
+        get: {
+            parameters: {
+                query: {
+                    /** @description Target Type. */
+                    TargetType: 0 | 1 | 2 | 3;
+                    /** @description Target ID. */
+                    TargetID: string;
+                    /** @description Collectible item type. */
+                    CollectibleItemType: 0 | 1 | 2;
+                    /** @description Minimum Price. */
+                    MinimumPrice: number;
+                    /** @description Price offset. */
+                    PriceOffset: number;
+                    /** @description Purchase platform. */
+                    PurchasePlatform: 0 | 1 | 2;
+                    /**
+                     * @description License id of the agreement selected in the picker. When present, the response reflects the
+                     *     IP-holder royalty for that license; when absent, the split is unchanged.
+                     */
+                    LicenseId: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.Collectibles.RevenueSplitResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.Collectibles.RevenueSplitResponse'];
+                    };
+                };
+                /**
+                 * @description 1: Invalid target type
+                 *     113: Item Id is invalid.
+                 *     117: Transaction Type is invalid.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 115: User is not authorized for this action. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: Service Unavailable */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 116: Failed to get revenue splits. */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/collectibles/update-item-display-information': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update the display information of an item. */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.UpdateItemDisplayInformationRequest'];
+                    'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.UpdateItemDisplayInformationRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: Invalid target type
+                 *     1: Invalid target type
+                 *     4: Invalid Argument
+                 *     4: Invalid Argument
+                 *     8: Missing/Null request parameters
+                 *     21: Asset Id is invalid
+                 *     26: The upload content Name or Description was moderated.
+                 *     50: Bundle Id is Invalid.
+                 *     113: Item Id is invalid.
+                 *     122: Invalid name.
+                 *     123: Invalid description.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Authorization has been denied for this request.
+                 *     66: Missing Authenticated User.
+                 */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     12: User does not have permission for the group owned asset
+                 *     18: User does not own the item
+                 *     72: The Item is moderated.
+                 *     74: The item's type is not allowed.
+                 *     106: Missing ID verification.
+                 *     107: User's creation access is blocked.
+                 *     108: Missing premium subscription tier.
+                 *     109: Group owner missing premium subscription tier.
+                 *     125: Missing two step verification.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 3: Service Unavailable
+                 *     5: Not Found
+                 *     71: The Item is not found.
+                 */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 56: Publishing Gateway returns unexpected exception.
+                 *     67: Invalid creator type
+                 *     73: The Item's moderation status could not be determined.
+                 */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/v1/collectibles/{collectibleItemId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update product information about a published Collectible Item. */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    collectibleItemId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.UpdateCollectibleItemRequest'];
+                    'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.UpdateCollectibleItemRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 1: Invalid target type
+                 *     4: Invalid Argument
+                 *     8: Missing/Null request parameters
+                 *     23: No experiences were listed when trying to whitelist by Experience Ids
+                 *     26: The upload content Name or Description was moderated.
+                 *     37: Invalid CollectibleItemId.
+                 *     59: Price offset is invalid.
+                 *     60: Minimum price is invalid.
+                 *     61: Invalid sale status.
+                 *     65: Unexpected Place Ids.
+                 *     76: The item is delisted.
+                 *     79: Invalid Sale Location Update.
+                 *     82: Invalid scheduled sale status.
+                 *     85: OnSaleTime is in the past.
+                 *     86: OffSaleTime is in the past.
+                 *     87: OnSaleTime too far in the future.
+                 *     88: OffSaleTime too far in the future.
+                 *     89: OffSaleTime is before OnSaleTime.
+                 *     90: Scheduled Time On Sale too short.
+                 *     91: Scheduled Time Already Set.
+                 *     92: Scheduled Time cannot set item on sale again.
+                 *     93: Scheduled Time cannot set item off sale again.
+                 *     146: Agreement is not publishable.
+                 *     147: Resale is not allowed by the license.
+                 *     148: Immediate on-sale is not allowed while the agreement is pending.
+                 *     149: OnSaleTime is outside the agreement window.
+                 *     150: OffSaleTime is outside the agreement window.
+                 *     151: OffSaleTime is required for this agreement.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Authorization has been denied for this request.
+                 *     66: Missing Authenticated User.
+                 */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     12: User does not have permission for the group owned asset
+                 *     18: User does not own the item
+                 *     39: Group created items are currently not supported.
+                 *     72: The Item is moderated.
+                 *     74: The item's type is not allowed.
+                 *     77: Resellable creation not allowed for user.
+                 *     84: Scheduled publishing not enabled.
+                 *     106: Missing ID verification.
+                 *     107: User's creation access is blocked.
+                 *     108: Missing premium subscription tier.
+                 *     109: Group owner missing premium subscription tier.
+                 *     125: Missing two step verification.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 3: Service Unavailable
+                 *     5: Not Found
+                 *     37: Invalid CollectibleItemId.
+                 *     71: The Item is not found.
+                 */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 142: Resale is locked after restock. */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 75: The item has archived dependencies. */
+                412: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 38: Failed to get Collectible Item information.
+                 *     56: Publishing Gateway returns unexpected exception.
+                 *     67: Invalid creator type
+                 *     73: The Item's moderation status could not be determined.
+                 *     144: Failed to get agreement.
+                 *     145: Failed to get license.
+                 */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/v1/collectibles/{collectibleItemId}/restock': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Restock a published limited collectible item by adding additional quantity. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    collectibleItemId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.Collectibles.RestockCollectibleItemRequest'];
+                    'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.Collectibles.RestockCollectibleItemRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Collectibles.RestockCollectibleItemResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Collectibles.RestockCollectibleItemResponse'];
+                    };
+                };
+                /**
+                 * @description 37: Invalid CollectibleItemId.
+                 *     137: The agreed restocking fee is invalid.
+                 *     139: The additional quantity for restocking is invalid.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Authorization has been denied for this request.
+                 *     66: Missing Authenticated User.
+                 */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 70: The user does not have enough Robux to pay */
+                402: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     12: User does not have permission for the group owned asset
+                 *     18: User does not own the item
+                 *     94: Actor is moderated.
+                 *     106: Missing ID verification.
+                 *     107: User's creation access is blocked.
+                 *     108: Missing premium subscription tier.
+                 *     109: Group owner missing premium subscription tier.
+                 *     125: Missing two step verification.
+                 *     136: Item is not eligible for restocking because it has been resellable.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: Service Unavailable */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 38: Failed to get Collectible Item information.
+                 *     56: Publishing Gateway returns unexpected exception.
+                 *     103: Publishing gateway returns denied without any reason
+                 *     104: Publishing gateway returns unexpected reason
+                 *     105: Publishing gateway returns unexpected access status
+                 *     138: Failed to restock the collectible item.
+                 */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/collectibles/{collectibleItemId}/restock-eligibility': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Returns structured restock eligibility information for a given collectible item.
+         *     This is the single source of truth the frontend should use to determine whether
+         *     restocking is available, instead of re-deriving from individual flags.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    collectibleItemId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Collectibles.RestockEligibilityResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Collectibles.RestockEligibilityResponse'];
+                    };
+                };
+                /** @description 37: Invalid CollectibleItemId. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 12: User does not have permission for the group owned asset
+                 *     18: User does not own the item
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: Service Unavailable */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 38: Failed to get Collectible Item information.
+                 *     141: Failed to get restock eligibility.
+                 */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/collectibles/{collectibleItemId}/restocking-fees': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get the restocking fee for a given collectible item and additional quantity. */
+        get: {
+            parameters: {
+                query: {
+                    /** @description Number of additional units to add. */
+                    AdditionalQuantity: number;
+                };
+                header?: never;
+                path: {
+                    collectibleItemId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Collectibles.RestockingFeeResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Collectibles.RestockingFeeResponse'];
+                    };
+                };
+                /**
+                 * @description 37: Invalid CollectibleItemId.
+                 *     136: Item is not eligible for restocking because it has been resellable.
+                 *     139: The additional quantity for restocking is invalid.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 12: User does not have permission for the group owned asset
+                 *     18: User does not own the item
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 140: Failed to fetch restocking fee. */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/collectibles/{collectibleItemId}/sale-schedule': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Cancel the collectible item's scheduled on/off sale time. */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    collectibleItemId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.CancelScheduledSaleStatusResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.CancelScheduledSaleStatusResponse'];
+                    };
+                };
+                /**
+                 * @description 37: Invalid CollectibleItemId.
+                 *     83: Invalid cancel scheduled sale status request.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     66: Missing Authenticated User.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: Service Unavailable */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 56: Publishing Gateway returns unexpected exception.
+                 *     104: Publishing gateway returns unexpected reason
+                 */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         options?: never;
         head?: never;
         patch?: never;
@@ -16784,6 +19523,182 @@ export interface paths {
                 };
             };
         };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/content-metadata/appeal': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Creates a content metadata appeal for an asset. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.CreateContentMetadataAppealRequest'];
+                    'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.CreateContentMetadataAppealRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.CreateContentMetadataAppealResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.CreateContentMetadataAppealResponse'];
+                    };
+                };
+                /** @description 4: Invalid request parameters */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     3: Invalid user - user does not have permission
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 5: Target not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 2: Failed to create content metadata appeal */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 6: Service unavailable */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/content-metadata/appeal-status': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Checks the appeal status for an asset. */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The type of the target item. */
+                    TargetType: 0 | 1 | 2 | 3;
+                    /** @description The id of the target item. */
+                    TargetId: string;
+                    /** @description The type of the appeal. */
+                    AppealType: 0 | 1;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.GetAppealStatusResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.GetAppealStatusResponse'];
+                    };
+                };
+                /** @description 4: Invalid request parameters */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 3: Invalid user - user does not have permission */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 5: Target not found
+                 *     6: Service unavailable
+                 */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: Failed to get appeal status */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 6: Service unavailable */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -17012,6 +19927,83 @@ export interface paths {
         };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/delist-item': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Delists an item, permanently archiving it so it is no longer visible to any users on the marketplace. */
+        post: {
+            parameters: {
+                query: {
+                    /** @description The type of the target item. */
+                    TargetType: 0 | 1 | 2 | 3;
+                    /** @description The id of the target item. */
+                    TargetId: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 2: Invalid target argument (item type or item id).
+                 *     3: Attempted to delist an item that was created too recently.
+                 *     4: User request error and is blocked from delisting this item.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     1: Item not owned. The user/group does not have permission to delist the item.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Unknown */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
@@ -19477,6 +22469,609 @@ export interface paths {
         put?: never;
         post?: never;
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/folders': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets all folders belonging to the User or a Group. */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description The group ID if getting items for a group. */
+                    groupId?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Folder.GetFoldersResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Folder.GetFoldersResponse'];
+                    };
+                };
+                /** @description 13: Group ID is invalid. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Authorization has been denied for this request.
+                 *     7: The authenticated user is missing.
+                 */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 10: The user does not have permission to perform the operation. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 11: The service is unavailable. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /** Creates a new folder. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description The folder creation request. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.Folder.CreateFolderRequest'];
+                    'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.Folder.CreateFolderRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Folder.CreateFolderResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Folder.CreateFolderResponse'];
+                    };
+                };
+                /**
+                 * @description 2: The folder name is invalid.
+                 *     12: Missing/Null request parameters
+                 *     13: Group ID is invalid.
+                 *     14: Folder name is moderated.
+                 *     20: The folder limit has been reached.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Authorization has been denied for this request.
+                 *     7: The authenticated user is missing.
+                 */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     10: The user does not have permission to perform the operation.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 11: The service is unavailable. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/folders/{folderId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get a specific folder by its ID. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The ID of the folder. */
+                    folderId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Folder.Folder'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Folder.Folder'];
+                    };
+                };
+                /** @description 1: The folder ID is invalid. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Authorization has been denied for this request.
+                 *     7: The authenticated user is missing.
+                 */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 8: The user does not own the folder. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 5: The folder was not found. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 11: The service is unavailable. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        /** Deletes a folder. */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The ID of the folder to delete. */
+                    folderId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /** @description 1: The folder ID is invalid. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Authorization has been denied for this request.
+                 *     7: The authenticated user is missing.
+                 */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     8: The user does not own the folder.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 5: The folder was not found. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 11: The service is unavailable. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        /** Updates folder details. */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The ID of the folder to update. */
+                    folderId: string;
+                };
+                cookie?: never;
+            };
+            /** @description The request containing the new folder name. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.Folder.UpdateFolderRequest'];
+                    'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.Folder.UpdateFolderRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: The folder ID is invalid.
+                 *     2: The folder name is invalid.
+                 *     12: Missing/Null request parameters
+                 *     14: Folder name is moderated.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Authorization has been denied for this request.
+                 *     7: The authenticated user is missing.
+                 */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     8: The user does not own the folder.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 5: The folder was not found. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 11: The service is unavailable. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/v1/folders/{folderId}/items': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the contents of a specific folder. */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Number of items per page. */
+                    limit?: number;
+                    /** @description Pagination cursor from a previous response. Omit for the first page. */
+                    cursor?: string;
+                };
+                header?: never;
+                path: {
+                    /** @description The ID of the folder to get items from. */
+                    folderId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Folder.GetFolderItemsResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Folder.GetFolderItemsResponse'];
+                    };
+                };
+                /**
+                 * @description 1: The folder ID is invalid.
+                 *     16: The limit is invalid.
+                 *     17: The pagination cursor is invalid.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Authorization has been denied for this request.
+                 *     7: The authenticated user is missing.
+                 */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 8: The user does not own the folder. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 5: The folder was not found. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 11: The service is unavailable. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /** Adds one or more items to a folder. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The ID of the folder to add items to. */
+                    folderId: string;
+                };
+                cookie?: never;
+            };
+            /** @description The request containing item information. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.Folder.AddItemsRequest'];
+                    'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.Folder.AddItemsRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: The folder ID is invalid.
+                 *     3: The item ID is invalid.
+                 *     4: The item type is invalid.
+                 *     12: Missing/Null request parameters
+                 *     18: Too many items were passed in a single request.
+                 *     19: The folder item limit has been reached.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Authorization has been denied for this request.
+                 *     7: The authenticated user is missing.
+                 */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     8: The user does not own the folder.
+                 *     9: The user does not own the item.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 5: The folder was not found.
+                 *     6: The item was not found.
+                 */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 11: The service is unavailable. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        /** Removes one or more items from a folder. */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The ID of the folder to remove items from. */
+                    folderId: string;
+                };
+                cookie?: never;
+            };
+            /** @description The request containing item information. */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.Folder.DeleteItemsRequest'];
+                    'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.Folder.DeleteItemsRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                        'text/json': components['schemas']['Roblox.Web.WebAPI.ApiEmptyResponseModel'];
+                    };
+                };
+                /**
+                 * @description 1: The folder ID is invalid.
+                 *     3: The item ID is invalid.
+                 *     4: The item type is invalid.
+                 *     12: Missing/Null request parameters
+                 *     18: Too many items were passed in a single request.
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Authorization has been denied for this request.
+                 *     7: The authenticated user is missing.
+                 */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Token Validation Failed
+                 *     8: The user does not own the folder.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 5: The folder was not found. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 11: The service is unavailable. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         options?: never;
         head?: never;
         patch?: never;
@@ -23204,6 +26799,780 @@ export interface paths {
             responses: {
                 /** @description OK */
                 200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/items': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get an item by its id. */
+        get: {
+            parameters: {
+                query: {
+                    /** @description Target Type for a collectible item. ['Asset' = 0, 'Bundle' = 1, 'IecToken' = 2, 'Look' = 3] */
+                    itemType: 0 | 1 | 2 | 3;
+                    itemId: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.GetItemResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.GetItemResponse'];
+                    };
+                };
+                /** @description 0: Unknown issues with configuration */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: Service Unavailable */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Unknown issues with configuration */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/items/by-creator': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the marketplace items for a creator by item type (e.g. bundle, asset). */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description The type of bundles to get for the creator. */
+                    bundleType?: 0 | 1 | 2 | 3 | 4;
+                    /** @description The type of assets to get for the creator. */
+                    assetType?:
+                        | 0
+                        | 1
+                        | 2
+                        | 3
+                        | 4
+                        | 5
+                        | 6
+                        | 7
+                        | 8
+                        | 9
+                        | 10
+                        | 11
+                        | 12
+                        | 13
+                        | 16
+                        | 17
+                        | 18
+                        | 19
+                        | 21
+                        | 22
+                        | 24
+                        | 25
+                        | 26
+                        | 27
+                        | 28
+                        | 29
+                        | 30
+                        | 31
+                        | 32
+                        | 33
+                        | 34
+                        | 35
+                        | 37
+                        | 38
+                        | 39
+                        | 40
+                        | 41
+                        | 42
+                        | 43
+                        | 44
+                        | 45
+                        | 46
+                        | 47
+                        | 48
+                        | 49
+                        | 50
+                        | 51
+                        | 52
+                        | 53
+                        | 54
+                        | 55
+                        | 56
+                        | 59
+                        | 60
+                        | 61
+                        | 62
+                        | 63
+                        | 64
+                        | 65
+                        | 66
+                        | 67
+                        | 68
+                        | 69
+                        | 70
+                        | 71
+                        | 72
+                        | 73
+                        | 74
+                        | 75
+                        | 76
+                        | 77
+                        | 78
+                        | 79
+                        | 80
+                        | 81
+                        | 82
+                        | 83
+                        | 84
+                        | 85
+                        | 86
+                        | 87
+                        | 88
+                        | 89
+                        | 90
+                        | 91
+                        | 92
+                        | 93
+                        | 94
+                        | 95
+                        | 96
+                        | 97;
+                    /** @description Taxonomy category web_stable_id to filter by (mutually exclusive with bundleType/assetType). Passed through to AMPG, which resolves it server-side. */
+                    taxonomy?: string;
+                    /** @description The pagination cursor. */
+                    cursor?: string;
+                    /** @description The limit of the AMPG call. */
+                    limit?: number;
+                    /** @description The group id if getting items for a group. */
+                    groupId?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.GetItemsByCreatorResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.GetItemsByCreatorResponse'];
+                    };
+                };
+                /**
+                 * @description 0: Unknown issues with configuration
+                 *     3: The provided asset type or bundle type is not allowed
+                 *     4: Invalid limit
+                 *     5: Page size out of range
+                 *     6: Invalid cursor
+                 *     13: Both an asset type and a bundle type were provided or neither was provided
+                 *     18: The provided taxonomy was not found
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 2: User does not have necessary permissions for group */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Unknown issues with configuration */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: Service Unavailable */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/items/by-token': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the marketplace items for a token (i.e. an IEC avatar creation token). */
+        get: {
+            parameters: {
+                query: {
+                    /** @description The id of the creation token. */
+                    tokenId: string;
+                    /** @description The maximum number of items that will be returned. */
+                    limit: number;
+                    /** @description The pagination cursor. */
+                    cursor?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.GetItemsByTokenResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.GetItemsByTokenResponse'];
+                    };
+                };
+                /**
+                 * @description 0: Unknown issues with configuration
+                 *     3: The provided asset type or bundle type is not allowed
+                 *     4: Invalid limit
+                 *     5: Page size out of range
+                 *     6: Invalid cursor
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 2: User does not have necessary permissions for group
+                 *     9: The user is not authenticated
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 10: Item was not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Unknown issues with configuration */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: Service Unavailable */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/items/categories': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Gets a category hierarchy (by category domain) used to render category chips,
+         *     e.g. on the creator dashboard.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description The category domain to fetch, rejected unless CreatorDashboard. */
+                    categoryDomain?: 0 | 1 | 2 | 3;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.GetCategoriesResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.GetCategoriesResponse'];
+                    };
+                };
+                /**
+                 * @description 0: Unknown issues with configuration
+                 *     19: The provided category domain is not supported
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 1: Service Unavailable */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Unknown issues with configuration */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/items/price-floor': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get the price floor. */
+        get: {
+            parameters: {
+                query: {
+                    /** @description ['Invalid' = 0, 'Limited' = 1, 'NonLimited' = 2] */
+                    collectibleItemType: 0 | 1 | 2;
+                    /** @description The method by which an item is created. ['Invalid' = 0, 'Studio' = 1, 'InExperience' = 2] */
+                    creationType: 0 | 1 | 2;
+                    isPbr: boolean;
+                    isEmissive: boolean;
+                    assetType?:
+                        | 0
+                        | 1
+                        | 2
+                        | 3
+                        | 4
+                        | 5
+                        | 6
+                        | 7
+                        | 8
+                        | 9
+                        | 10
+                        | 11
+                        | 12
+                        | 13
+                        | 16
+                        | 17
+                        | 18
+                        | 19
+                        | 21
+                        | 22
+                        | 24
+                        | 25
+                        | 26
+                        | 27
+                        | 28
+                        | 29
+                        | 30
+                        | 31
+                        | 32
+                        | 33
+                        | 34
+                        | 35
+                        | 37
+                        | 38
+                        | 39
+                        | 40
+                        | 41
+                        | 42
+                        | 43
+                        | 44
+                        | 45
+                        | 46
+                        | 47
+                        | 48
+                        | 49
+                        | 50
+                        | 51
+                        | 52
+                        | 53
+                        | 54
+                        | 55
+                        | 56
+                        | 59
+                        | 60
+                        | 61
+                        | 62
+                        | 63
+                        | 64
+                        | 65
+                        | 66
+                        | 67
+                        | 68
+                        | 69
+                        | 70
+                        | 71
+                        | 72
+                        | 73
+                        | 74
+                        | 75
+                        | 76
+                        | 77
+                        | 78
+                        | 79
+                        | 80
+                        | 81
+                        | 82
+                        | 83
+                        | 84
+                        | 85
+                        | 86
+                        | 87
+                        | 88
+                        | 89
+                        | 90
+                        | 91
+                        | 92
+                        | 93
+                        | 94
+                        | 95
+                        | 96
+                        | 97;
+                    bundleType?: 0 | 1 | 2 | 3 | 4;
+                    categoryId?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.GetPriceFloorResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.GetPriceFloorResponse'];
+                    };
+                };
+                /**
+                 * @description 0: Unknown issues with configuration
+                 *     3: The provided asset type or bundle type is not allowed
+                 *     13: Both an asset type and a bundle type were provided or neither was provided
+                 *     15: Invalid creation type
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 1: Service Unavailable
+                 *     14: Failed to get the price floor
+                 */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Unknown issues with configuration */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/items/upload-fee': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get the upload fee for an item type. */
+        get: {
+            parameters: {
+                query?: {
+                    bundleType?: 0 | 1 | 2 | 3 | 4;
+                    assetType?:
+                        | 0
+                        | 1
+                        | 2
+                        | 3
+                        | 4
+                        | 5
+                        | 6
+                        | 7
+                        | 8
+                        | 9
+                        | 10
+                        | 11
+                        | 12
+                        | 13
+                        | 16
+                        | 17
+                        | 18
+                        | 19
+                        | 21
+                        | 22
+                        | 24
+                        | 25
+                        | 26
+                        | 27
+                        | 28
+                        | 29
+                        | 30
+                        | 31
+                        | 32
+                        | 33
+                        | 34
+                        | 35
+                        | 37
+                        | 38
+                        | 39
+                        | 40
+                        | 41
+                        | 42
+                        | 43
+                        | 44
+                        | 45
+                        | 46
+                        | 47
+                        | 48
+                        | 49
+                        | 50
+                        | 51
+                        | 52
+                        | 53
+                        | 54
+                        | 55
+                        | 56
+                        | 59
+                        | 60
+                        | 61
+                        | 62
+                        | 63
+                        | 64
+                        | 65
+                        | 66
+                        | 67
+                        | 68
+                        | 69
+                        | 70
+                        | 71
+                        | 72
+                        | 73
+                        | 74
+                        | 75
+                        | 76
+                        | 77
+                        | 78
+                        | 79
+                        | 80
+                        | 81
+                        | 82
+                        | 83
+                        | 84
+                        | 85
+                        | 86
+                        | 87
+                        | 88
+                        | 89
+                        | 90
+                        | 91
+                        | 92
+                        | 93
+                        | 94
+                        | 95
+                        | 96
+                        | 97;
+                    IsEmissive?: boolean;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.GetItemUploadFeeResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.GetItemUploadFeeResponse'];
+                    };
+                };
+                /**
+                 * @description 0: Unknown issues with configuration
+                 *     3: The provided asset type or bundle type is not allowed
+                 *     13: Both an asset type and a bundle type were provided or neither was provided
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 9: The user is not authenticated */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 1: Service Unavailable
+                 *     10: Item was not found
+                 */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 0: Unknown issues with configuration
+                 *     11: Failed to get the item upload fee
+                 *     12: Failed to get the robux balance of the authenticated user
+                 */
+                500: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -27044,6 +31413,275 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/permissions/action-allowed-for-item-type': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Returns whether the authenticated user (or group on their behalf) may perform the given marketplace action
+         *     for a specific asset, bundle, or look type.
+         */
+        get: {
+            parameters: {
+                query: {
+                    /** @description Actions that a user can perform on a given marketplace item on behalf of either themselves or a group. ['Invalid' = 0, 'Upload' = 1, 'Publish' = 2, 'IecCreation' = 3, 'PublishDurable' = 4, 'PublishRental' = 5, 'PublishToMarketplace' = 6] */
+                    action: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+                    groupId?: number;
+                    assetType?:
+                        | 0
+                        | 1
+                        | 2
+                        | 3
+                        | 4
+                        | 5
+                        | 6
+                        | 7
+                        | 8
+                        | 9
+                        | 10
+                        | 11
+                        | 12
+                        | 13
+                        | 16
+                        | 17
+                        | 18
+                        | 19
+                        | 21
+                        | 22
+                        | 24
+                        | 25
+                        | 26
+                        | 27
+                        | 28
+                        | 29
+                        | 30
+                        | 31
+                        | 32
+                        | 33
+                        | 34
+                        | 35
+                        | 37
+                        | 38
+                        | 39
+                        | 40
+                        | 41
+                        | 42
+                        | 43
+                        | 44
+                        | 45
+                        | 46
+                        | 47
+                        | 48
+                        | 49
+                        | 50
+                        | 51
+                        | 52
+                        | 53
+                        | 54
+                        | 55
+                        | 56
+                        | 59
+                        | 60
+                        | 61
+                        | 62
+                        | 63
+                        | 64
+                        | 65
+                        | 66
+                        | 67
+                        | 68
+                        | 69
+                        | 70
+                        | 71
+                        | 72
+                        | 73
+                        | 74
+                        | 75
+                        | 76
+                        | 77
+                        | 78
+                        | 79
+                        | 80
+                        | 81
+                        | 82
+                        | 83
+                        | 84
+                        | 85
+                        | 86
+                        | 87
+                        | 88
+                        | 89
+                        | 90
+                        | 91
+                        | 92
+                        | 93
+                        | 94
+                        | 95
+                        | 96
+                        | 97;
+                    bundleType?: 0 | 1 | 2 | 3 | 4;
+                    lookType?: 0 | 1 | 2 | 3 | 4;
+                    trustedCreatorCheck?: boolean;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.IsActionAllowedForItemTypeResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.IsActionAllowedForItemTypeResponse'];
+                    };
+                };
+                /** @description 1: Invalid parameters in request. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Unknown issues. */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/permissions/groups': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Returns a list of allowed groups for a given Roblox.ItemConfiguration.Api.Enums.MarketplaceAction. */
+        get: {
+            parameters: {
+                query: {
+                    /** @description Actions that a user can perform on a given marketplace item on behalf of either themselves or a group. ['Invalid' = 0, 'Upload' = 1, 'Publish' = 2, 'IecCreation' = 3, 'PublishDurable' = 4, 'PublishRental' = 5, 'PublishToMarketplace' = 6] */
+                    action: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.AllowedGroupsForActionResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.AllowedGroupsForActionResponse'];
+                    };
+                };
+                /** @description 1: Invalid parameters in request. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/permissions/item-types': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets item types which the requested action can be performed on. */
+        get: {
+            parameters: {
+                query: {
+                    /** @description Actions that a user can perform on a given marketplace item on behalf of either themselves or a group. ['Invalid' = 0, 'Upload' = 1, 'Publish' = 2, 'IecCreation' = 3, 'PublishDurable' = 4, 'PublishRental' = 5, 'PublishToMarketplace' = 6] */
+                    action: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+                    targetTypes: (0 | 1 | 2 | 3)[];
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.AllowedItemTypesForActionResponse'];
+                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.AllowedItemTypesForActionResponse'];
+                    };
+                };
+                /** @description 1: Invalid parameters in request. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/phone': {
         parameters: {
             query?: never;
@@ -29282,7 +33920,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Lists Subcategory Names and their Ids. */
+        /**
+         * Lists Subcategory Names and their Ids.
+         * @deprecated
+         * @description This endpoint will be deprecated soon. No new features will be added.
+         */
         get: {
             parameters: {
                 query?: never;
@@ -31692,6 +36334,7 @@ export interface paths {
                  *     6: Text moderated.
                  *     12: You do not have permission to manage this game's badges.
                  *     17: Insufficient funds.
+                 *     28: You do not have permission to spend this group's funds.
                  */
                 403: {
                     headers: {
@@ -39686,6 +44329,13 @@ export interface paths {
                 };
                 /** @description Forbidden */
                 403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 22: Too many attempts */
+                429: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -47887,12 +52537,6 @@ export interface components {
             /** @description The name associated with this address. */
             name?: string | null;
         };
-        'AdsManagementApi.Creator': {
-            /** @description The creator group's ID. */
-            groupId?: string;
-            /** @description The creator user's ID. */
-            userId?: string;
-        };
         AdvertisableUniverse: {
             /**
              * @description The identifier of an experience the caller can advertise, as a decimal string.
@@ -48341,44 +52985,53 @@ export interface components {
             [key: string]: unknown;
         };
         ApiEmptyResponseModel: Record<string, never>;
-        /** @description Represents an asset. */
+        /** @description Representation of an asset. */
         Asset: {
             /**
-             * Format: enum
-             * @description The asset type. Required for [Create Asset](#Assets_CreateAsset).
-             */
-            assetType?: string;
-            /**
              * Format: int64
-             * @description The unique identifier of the asset. Required for [Update Asset](#Assets_UpdateAsset).
+             * @description The unique identifier of the asset.
              */
-            assetId?: number;
-            creationContext?: components['schemas']['CreationContext'];
-            /** @description The description of the asset. Limit to 1000 characters. Required for [Create Asset](#Assets_CreateAsset). */
-            description?: string;
-            /** @description Display name of the asset. Required for [Create Asset](#Assets_CreateAsset). */
-            displayName?: string;
-            /** @description The returned resource path of the asset. Format: `assets/{assetId}`. Example: `assets/2205400862`. */
-            path?: string;
-            /** @description Revision ID of the asset. Equivalent to `versionNumber`. Every change of the asset automatically commits a new version. The format is an integer string. Example: `1`. */
-            readonly revisionId?: string;
+            id?: number;
+            /** @description The name of the asset. */
+            name?: string | null;
+            /** @description The description of the asset. */
+            description?: string | null;
+            /**
+             * Format: int32
+             * @description The type that the asset belongs to.
+             */
+            assetTypeId?: number | null;
+            /** @description The social links associated with the asset. */
+            socialLinks?: components['schemas']['SocialLinkModel'][] | null;
+            /** @description The asset's preview asset ids grouped by asset type. */
+            previewAssets?: components['schemas']['PreviewAssetsModel'] | null;
             /**
              * Format: date-time
-             * @description The creation timestamp of the current revision.
+             * @description The time the asset was created.
              */
-            readonly revisionCreateTime?: string;
-            readonly moderationResult?: components['schemas']['ModerationResult'];
-            /** @description Whether to publish the asset version created by the request. To check whether the current revision is published, see `isPublished`. */
-            published?: boolean;
-            /** @description Whether the current revision of the asset is published. */
-            readonly isPublished?: boolean;
-            /** @description The resource path for the icon. */
-            icon?: string;
-            /** @description A list of previews, each with an asset path and alt text. Previews must be **Image** assets. */
-            previews?: components['schemas']['Preview'][];
-            state?: components['schemas']['State'];
-            socialLink?: components['schemas']['SocialLink'];
-        };
+            createTime?: string | null;
+            /**
+             * Format: date-time
+             * @description The time the asset was last updated.
+             */
+            updateTime?: string | null;
+            /**
+             * Format: int64
+             * @description Universe ID if the asset was created within a specific universe.
+             */
+            creatingUniverseId?: number | null;
+            /**
+             * @description Category Path of the asset, if it exists.
+             *     e.g. "3d__characters"
+             */
+            categoryPath?: string | null;
+            /**
+             * @description The latest revision ID of the asset. The format is an integer string.
+             *     A new revision is committed whenever the asset is changed in any way.
+             *     Omitted when unknown.
+             */
+            revisionId?: string | null;
+        } | null;
         /**
          * @description Asset permission actions that can be granted.
          *
@@ -48458,7 +53111,7 @@ export interface components {
          * @description The privacy setting of the asset. Requested asset privacy is only applicable to asset types that allow privacy override. For more details see [Asset Privacy](/projects/assets/privacy.md).
          * @enum {string}
          */
-        AssetPrivacy: 'default' | 'restricted' | 'openUse';
+        AssetPrivacy: 'Unspecified' | 'Default' | 'OpenUse' | 'Restricted';
         /**
          * @description Represents a quota for an asset-related action.
          *
@@ -48483,31 +53136,27 @@ export interface components {
              *     Format: `users/{user_id}/asset-quotas/{asset_quota_id}`
              * @example users/123/asset-quotas/some-asset-quota
              */
-            path?: string;
+            path?: string | null;
             /**
-             * Format: enum
              * @description Type of quota.
              *
              *     Possible values:
              *
              *       | Value | Description |
              *       | --- | --- |
-             *       | QUOTA_TYPE_UNSPECIFIED | The default quota type. |
+             *       | UNSPECIFIED | The default quota type. |
              *       | RATE_LIMIT_UPLOAD | Rate limit on how often one can upload an asset. |
              *       | RATE_LIMIT_CREATOR_STORE_DISTRIBUTE | Rate limit on how often one can distribute an asset on the Creator Store. |
-             * @example QUOTA_TYPE_UNSPECIFIED
-             * @enum {string}
              */
-            quotaType?: 'QUOTA_TYPE_UNSPECIFIED' | 'RATE_LIMIT_UPLOAD' | 'RATE_LIMIT_CREATOR_STORE_DISTRIBUTE';
+            quotaType?: components['schemas']['QuotaType'];
             /**
-             * Format: enum
              * @description The asset type the quota is for.
              *
              *     Possible values:
              *
              *       | Value | Description |
              *       | --- | --- |
-             *       | ASSET_TYPE_UNSPECIFIED | The default asset type. |
+             *       | UNSPECIFIED | The default asset type. |
              *       | IMAGE | Image |
              *       | TSHIRT | Tshirt |
              *       | AUDIO | Audio |
@@ -48573,76 +53222,8 @@ export interface components {
              *       | DYNAMIC_HEAD | Dynamic Head |
              *       | CODE_SNIPPET | Code Snippet |
              *       | ADS_VIDEO | Ads Video |
-             * @example ASSET_TYPE_UNSPECIFIED
-             * @enum {string}
              */
-            assetType?:
-                | 'ASSET_TYPE_UNSPECIFIED'
-                | 'IMAGE'
-                | 'TSHIRT'
-                | 'AUDIO'
-                | 'MESH'
-                | 'LUA'
-                | 'HAT'
-                | 'PLACE'
-                | 'MODEL'
-                | 'SHIRT'
-                | 'PANTS'
-                | 'DECAL'
-                | 'HEAD'
-                | 'FACE'
-                | 'GEAR'
-                | 'ANIMATION'
-                | 'TORSO'
-                | 'RIGHT_ARM'
-                | 'LEFT_ARM'
-                | 'LEFT_LEG'
-                | 'RIGHT_LEG'
-                | 'YOUTUBE_VIDEO'
-                | 'APP'
-                | 'CODE'
-                | 'PLUGIN'
-                | 'SOLID_MODEL'
-                | 'MESH_PART'
-                | 'HAIR_ACCESSORY'
-                | 'FACE_ACCESSORY'
-                | 'NECK_ACCESSORY'
-                | 'SHOULDER_ACCESSORY'
-                | 'FRONT_ACCESSORY'
-                | 'BACK_ACCESSORY'
-                | 'WAIST_ACCESSORY'
-                | 'CLIMB_ANIMATION'
-                | 'DEATH_ANIMATION'
-                | 'FALL_ANIMATION'
-                | 'IDLE_ANIMATION'
-                | 'JUMP_ANIMATION'
-                | 'RUN_ANIMATION'
-                | 'SWIM_ANIMATION'
-                | 'WALK_ANIMATION'
-                | 'POSE_ANIMATION'
-                | 'LOCALIZATION_TABLE_MANIFEST'
-                | 'LOCALIZATION_TABLE_TRANSLATION'
-                | 'EMOTE_ANIMATION'
-                | 'VIDEO'
-                | 'TEXTURE_PACK'
-                | 'TSHIRT_ACCESSORY'
-                | 'SHIRT_ACCESSORY'
-                | 'PANTS_ACCESSORY'
-                | 'JACKET_ACCESSORY'
-                | 'SWEATER_ACCESSORY'
-                | 'SHORTS_ACCESSORY'
-                | 'LEFT_SHOE_ACCESSORY'
-                | 'RIGHT_SHOE_ACCESSORY'
-                | 'DRESS_SKIRT_ACCESSORY'
-                | 'FONT_FAMILY'
-                | 'FONT_FACE'
-                | 'MESH_HIDDEN_SURFACE_REMOVAL'
-                | 'EYEBROW_ACCESSORY'
-                | 'EYELASH_ACCESSORY'
-                | 'MOOD_ANIMATION'
-                | 'DYNAMIC_HEAD'
-                | 'CODE_SNIPPET'
-                | 'ADS_VIDEO';
+            assetType?: components['schemas']['Roblox.OpenCloud.Cloud.V2.AssetType'];
             /**
              * Format: int64
              * @description The current usage of the quota.
@@ -48654,40 +53235,214 @@ export interface components {
              */
             capacity?: number;
             /**
-             * Format: enum
              * @description The period of time the quota is for.
              *
              *     Possible values:
              *
              *       | Value | Description |
              *       | --- | --- |
-             *       | PERIOD_UNSPECIFIED | The default period, which is invalid. Specify another value. |
+             *       | UNSPECIFIED | The default period, which is invalid. Specify another value. |
              *       | MONTH | Month |
              *       | DAY | Day |
-             * @example PERIOD_UNSPECIFIED
-             * @enum {string}
              */
-            period?: 'PERIOD_UNSPECIFIED' | 'MONTH' | 'DAY';
+            period?: components['schemas']['Period'];
             /**
              * Format: date-time
              * @description The time the usage will reset for this quota.
              * @example 2023-07-05T12:34:56Z
              */
-            usageResetTime?: string;
+            usageResetTime?: string | null;
         };
+        /**
+         * @description Type of the Asset.
+         * @enum {string}
+         */
+        AssetType:
+            | 'Unspecified'
+            | 'Image'
+            | 'Tshirt'
+            | 'Audio'
+            | 'Mesh'
+            | 'Lua'
+            | 'Html'
+            | 'Text'
+            | 'Hat'
+            | 'Place'
+            | 'Model'
+            | 'Shirt'
+            | 'Pants'
+            | 'Decal'
+            | 'Avatar'
+            | 'Head'
+            | 'Face'
+            | 'Gear'
+            | 'Badge'
+            | 'GroupEmblem'
+            | 'Animation'
+            | 'Arms'
+            | 'Legs'
+            | 'Torso'
+            | 'RightArm'
+            | 'LeftArm'
+            | 'LeftLeg'
+            | 'RightLeg'
+            | 'Package'
+            | 'YoutubeVideo'
+            | 'GamePass'
+            | 'App'
+            | 'Code'
+            | 'Plugin'
+            | 'SolidModel'
+            | 'MeshPart'
+            | 'HairAccessory'
+            | 'FaceAccessory'
+            | 'NeckAccessory'
+            | 'ShoulderAccessory'
+            | 'FrontAccessory'
+            | 'BackAccessory'
+            | 'WaistAccessory'
+            | 'ClimbAnimation'
+            | 'DeathAnimation'
+            | 'FallAnimation'
+            | 'IdleAnimation'
+            | 'JumpAnimation'
+            | 'RunAnimation'
+            | 'SwimAnimation'
+            | 'WalkAnimation'
+            | 'PoseAnimation'
+            | 'LocalizationTableManifest'
+            | 'LocalizationTableTranslation'
+            | 'EmoteAnimation'
+            | 'Video'
+            | 'TexturePack'
+            | 'TshirtAccessory'
+            | 'ShirtAccessory'
+            | 'PantsAccessory'
+            | 'JacketAccessory'
+            | 'SweaterAccessory'
+            | 'ShortsAccessory'
+            | 'LeftShoeAccessory'
+            | 'RightShoeAccessory'
+            | 'DressSkirtAccessory'
+            | 'FontFamily'
+            | 'FontFace'
+            | 'MeshHiddenSurfaceRemoval'
+            | 'EyebrowAccessory'
+            | 'EyelashAccessory'
+            | 'MoodAnimation'
+            | 'DynamicHead'
+            | 'CodeSnippet'
+            | 'AdsVideo'
+            | 'OtaUpdate'
+            | 'Screenshot'
+            | 'RuntimePropertySet'
+            | 'StorePreviewVideo'
+            | 'GamePreviewVideo'
+            | 'CreatorExperienceConfig'
+            | 'FaceMakeup'
+            | 'LipMakeup'
+            | 'EyeMakeup'
+            | 'VoxelFragment'
+            | 'AvatarBackground'
+            | 'TextDocument'
+            | 'Post'
+            | 'AnimatedImage'
+            | 'ComputeFunction'
+            | 'Voice';
         /** @description An asset version. */
         AssetVersion: {
-            readonly creationContext?: components['schemas']['CreationContext'];
-            /** @description The returned resource path of the asset version. Format: `assets/{assetId}/versions/{version}`. Example: `assets/2205400862/versions/1`. */
-            path?: string;
+            /**
+             * @description The returned resource path of the asset version. Format: `assets/{assetId}/versions/{version}`.
+             * @example assets/123/versions/123
+             */
+            path?: string | null;
             /**
              * Format: date-time
              * @description The timestamp when the asset version was created.
              */
-            readonly createTime?: string;
+            readonly createTime?: string | null;
+            readonly creationContext?: components['schemas']['CreationContext'];
             readonly moderationResult?: components['schemas']['ModerationResult'];
-            /** @description Indicates if the asset version is published or not. */
+            /** @description Indicates whether the asset version is published. If omitted, the version is not published. */
             published?: boolean;
+        };
+        /** @description Represents an asset. */
+        'AssetsUploadApi.Asset': {
+            /**
+             * @description The returned resource path of the asset. Format: `assets/{assetId}`. Example: `assets/2205400862`.
+             * @example assets/123
+             */
+            path?: string | null;
+            /** @description Revision ID of the asset. Equivalent to `versionNumber`. Every change of the asset automatically commits a new version. The format is an integer string. Example: `1`. */
+            readonly revisionId?: string | null;
+            /**
+             * Format: date-time
+             * @description The creation timestamp of the current revision.
+             */
+            readonly revisionCreateTime?: string | null;
+            /**
+             * Format: int64
+             * @description The unique identifier of the asset. Required for [Update Asset](#Assets_UpdateAsset).
+             */
+            assetId?: number;
+            /** @description Display name of the asset. Required for [Create Asset](#Assets_CreateAsset). */
+            displayName?: string | null;
+            /** @description The description of the asset. Limit to 1000 characters. Required for [Create Asset](#Assets_CreateAsset). */
+            description?: string | null;
+            /** @description The asset type. Required for [Create Asset](#Assets_CreateAsset). */
+            assetType?: components['schemas']['AssetType'];
+            creationContext?: components['schemas']['CreationContext'];
+            readonly moderationResult?: components['schemas']['ModerationResult'];
+            /** @description Whether to publish the asset version created by the request. To check whether the current revision is published, see `isPublished`. */
+            published?: boolean;
+            readonly hasPublished?: boolean;
+            /** @description The resource path for the icon. */
+            icon?: string | null;
+            /** @description A list of previews, each with an asset path and alt text. Previews must be **Image** assets. */
+            previews?: components['schemas']['Preview'][] | null;
+            state?: components['schemas']['State'];
+            facebookSocialLink?: components['schemas']['SocialLink'];
+            twitterSocialLink?: components['schemas']['SocialLink'];
+            youtubeSocialLink?: components['schemas']['SocialLink'];
+            twitchSocialLink?: components['schemas']['SocialLink'];
+            discordSocialLink?: components['schemas']['SocialLink'];
+            githubSocialLink?: components['schemas']['SocialLink'];
+            robloxSocialLink?: components['schemas']['SocialLink'];
+            guildedSocialLink?: components['schemas']['SocialLink'];
+            devForumSocialLink?: components['schemas']['SocialLink'];
+            tryAssetSocialLink?: components['schemas']['SocialLink'];
+            /** @description Whether the current revision of the asset is published. */
+            readonly isPublished?: boolean;
+        };
+        /** @description Represents a creator. Only one creator ID is set, according to the creator type. */
+        'AssetsUploadApi.Creator': {
+            /** @description The user ID as a decimal string. Set when the asset is owned by a user. */
+            userId?: string | null;
+            /** @description The group ID as a decimal string. Set when the asset is owned by a group. */
+            groupId?: string | null;
+            /** Format: int64 */
+            experienceId?: number | null;
+        };
+        /** @description This resource represents a long-running operation that is the result of a network API call. */
+        'AssetsUploadApi.Operation': {
+            /**
+             * @description The server-assigned resource path. The default format is `operations/{operation_id}`.
+             * @example operations/some-operation
+             */
+            path?: string | null;
+            operationId: string;
+            /** @description If `false`, the operation is still in progress. If `true`, the operation is completed. */
+            done?: boolean;
+            error?: components['schemas']['AssetsUploadApi.Status'];
+            response?: components['schemas']['AssetsUploadApi.Asset'];
+        };
+        /** @description The logical error model explaining the error status. */
+        'AssetsUploadApi.Status': {
+            /** @description The error code. */
+            code?: string | null;
+            /** @description The error message. */
+            message?: string | null;
+            details?: components['schemas']['ErrorInfo'][];
         };
         /** @description Assigns a role to the specified group membership. */
         AssignRoleGroupMembershipRequest: {
@@ -48721,7 +53476,7 @@ export interface components {
                   artist?: string | null;
                   /** @description The audio title. */
                   title?: string | null;
-              } & components['schemas']['ToolboxService.Asset'])
+              } & components['schemas']['Asset'])
             | null;
         /** @description Audio-specific search filter parameters. */
         AudioSearchFilters: {
@@ -48917,7 +53672,7 @@ export interface components {
              */
             createTime?: string;
             /** @description The user or group that created the account. */
-            creator?: components['schemas']['AdsManagementApi.Creator'];
+            creator?: components['schemas']['Creator'];
             /** @description The human-readable name of the account. */
             displayName?: string;
             /** @description Total of failed credit card charges in micro-USD, as a decimal string. */
@@ -48938,7 +53693,7 @@ export interface components {
              */
             paymentStatus?: 'READY' | 'ACTION_REQUIRED' | 'PAST_DUE' | 'DISABLED';
             /**
-             * @description Machine-readable reason for a paymentStatus other than READY (v1.1).
+             * @description Machine-readable reason for a paymentStatus other than READY.
              * @enum {string}
              */
             paymentStatusReason?: 'PROFILE_NOT_VERIFIED' | 'TRANSACTION_FAILURE' | 'ACCOUNT_DISABLED';
@@ -48947,7 +53702,7 @@ export interface components {
              * @enum {string}
              */
             status?: 'ACTIVE' | 'DISABLED' | 'ARCHIVED';
-            /** @description Campaign payment types usable right now. */
+            /** @description Campaign payment types usable right now. Group accounts support only ADS_CREDIT. */
             supportedPaymentTypes?: ('CREDIT_CARD' | 'ADS_CREDIT' | 'INVOICE')[];
             /**
              * @description The IANA time zone the account's reporting dates and budget schedules are
@@ -48973,19 +53728,26 @@ export interface components {
              *     has no threshold.
              */
             billingThresholdMicros?: string;
-            /** @description Highest daily budget any single campaign on this account may use, in micro-USD. */
+            /**
+             * @description The maximum daily budget for CREDIT_CARD campaigns in this account, in micro-USD.
+             *     A non-positive value means no positive CREDIT_CARD budget is allowed.
+             *     For LIFETIME, multiply by the schedule's number of days.
+             *     Omitted when the account does not offer CREDIT_CARD; does not limit ADS_CREDIT
+             *     or INVOICE campaigns.
+             */
             maximumDailyBudgetMicros?: string;
         };
         BillingAccountOption: {
             /** @description The user or group that created the account. */
-            creator: components['schemas']['AdsManagementApi.Creator'];
+            creator: components['schemas']['Creator'];
             /** @description The human-readable name of the account. */
             displayName: string;
             /** @description The billing account ID. Pass it as billingAccountId when creating a campaign. */
             id: string;
             /**
-             * @description The maximum daily budget for CREDIT_CARD campaigns in this
-             *     account, in micro-USD. For LIFETIME, multiply by the schedule's number of days.
+             * @description The maximum daily budget for CREDIT_CARD campaigns in this account, in micro-USD.
+             *     A non-positive value means no positive CREDIT_CARD budget is allowed.
+             *     For LIFETIME, multiply by the schedule's number of days.
              *     Omitted when the account does not offer CREDIT_CARD; does not limit ADS_CREDIT
              *     or INVOICE campaigns.
              */
@@ -49041,6 +53803,10 @@ export interface components {
              * @description The budget amount in micro-USD, as a decimal string (for example, `5000000` =
              *     $5.00). Money is sent and returned as a string so large values keep full
              *     precision in every client. On a request it must be a numeric string of micro-USD.
+             *     For ADS_CREDIT, the daily budget must not exceed the available ad credit balance
+             *     after unbilled spend. For LIFETIME, compare amountMicros divided by the number of
+             *     campaign days with that balance. maximumDailyBudgetMicros does not limit
+             *     ADS_CREDIT or INVOICE campaigns.
              */
             amountMicros: string;
             /**
@@ -49168,6 +53934,8 @@ export interface components {
              *     These are the same values as Creative.assetId.
              */
             creativeAssetIds?: string[];
+            /** @description The user who created the campaign (read-only). */
+            readonly creator?: components['schemas']['Creator'];
             /**
              * @description The current serving state, derived by the system (read-only). Can be `SERVING`,
              *     `IN_REVIEW`, `NOT_SERVING`, or `REJECTED`.
@@ -49181,7 +53949,7 @@ export interface components {
              */
             deliveryStatusReasons?: (
                 | 'SCHEDULED'
-                | 'AUTO_PAUSED'
+                | 'INSUFFICIENT_AD_CREDIT'
                 | 'PAUSED'
                 | 'INACTIVE'
                 | 'COMPLETED'
@@ -49193,6 +53961,7 @@ export interface components {
                 | 'PRIVATE'
                 | 'PLACE_JOIN_RESTRICTED'
                 | 'LEARNING'
+                | 'QPP_AUTO_PAUSED'
             )[];
             /** @description The server-assigned unique identifier of the campaign. */
             id?: string;
@@ -49269,7 +54038,10 @@ export interface components {
              *     universeId was supplied in the request.
              */
             eligibility?: components['schemas']['PublicUniverseEligibility'];
-            /** @description The campaign fields accepted by UpdateCampaign. */
+            /**
+             * @description The campaign fields accepted by UpdateCampaign. Lists `video` only when the video
+             *     of a campaign can be changed.
+             */
             mutableFields?: string[];
             /**
              * @description Per-objective availability and targeting support. Filtered to the objective
@@ -49289,7 +54061,8 @@ export interface components {
             targetingDimensions?: components['schemas']['TargetingDimensions'];
             /**
              * @description The sponsored video tile capability. Omitted when sponsored video tiles aren't
-             *     enabled for the advertising context.
+             *     enabled for the advertising context. With universeId, present when at least one
+             *     of billingAccounts allows video.
              */
             video?: components['schemas']['VideoOptions'];
         };
@@ -49302,7 +54075,7 @@ export interface components {
             /** @description The reasons behind the current deliveryStatus. Omitted when there are none. */
             deliveryStatusReasons?: (
                 | 'SCHEDULED'
-                | 'AUTO_PAUSED'
+                | 'INSUFFICIENT_AD_CREDIT'
                 | 'PAUSED'
                 | 'INACTIVE'
                 | 'COMPLETED'
@@ -49314,6 +54087,7 @@ export interface components {
                 | 'PRIVATE'
                 | 'PLACE_JOIN_RESTRICTED'
                 | 'LEARNING'
+                | 'QPP_AUTO_PAUSED'
             )[];
             /** @description The campaign identifier. */
             id?: string;
@@ -49327,7 +54101,8 @@ export interface components {
             /**
              * @description When source is `PREVIEW_VIDEO`, the experience's current preview video asset ID,
              *     as a decimal string (read-only). Omitted when the experience has no eligible
-             *     preview video, in which case the tile shows the image creative.
+             *     preview video, in which case the tile shows the image creative. Also omitted
+             *     when sponsored video tiles aren't enabled for the campaign's billing account.
              */
             readonly previewVideoAssetId?: string;
             /**
@@ -49352,10 +54127,148 @@ export interface components {
             /** Format: int32 */
             rank?: number;
         };
+        /** @description ChartOverlays toggles optional chart adornments (display only, not query inputs). */
+        ChartOverlays: {
+            /** @default false */
+            genreBenchmark: boolean | null;
+            /** @default false */
+            similarExperienceBenchmark: boolean | null;
+            /** @default false */
+            topExperienceBenchmark: boolean | null;
+            /**
+             * @description Legacy enablement bit. Writers that set previous_period_config must also
+             *     set this field so older readers continue to render a default comparison.
+             * @default false
+             */
+            previousPeriod: boolean | null;
+            /** @default false */
+            quota: boolean | null;
+            /**
+             * @description DashboardPreviousPeriodConfig stores an authored previous-period comparison.
+             *     relative_offset and custom_start_time are optional independently so the
+             *     contract can losslessly preserve Creator Hub editor state.
+             */
+            previousPeriodConfig?: components['schemas']['DashboardPreviousPeriodConfig'] | (never | null);
+        };
+        /** @description ChartTile is a chart body tile. */
+        ChartTile: {
+            /** @default  */
+            tileId: string | null;
+            /** @default  */
+            title: string | null;
+            /** @description DashboardChartDataSpec carries chart query inputs synthesized into RAQI requests. */
+            dataSpec?: components['schemas']['DashboardChartDataSpec'] | (never | null);
+            /** @description DashboardChartSpec carries chart renderer options (not query/data inputs). */
+            chartSpec?: components['schemas']['DashboardChartSpec'] | (never | null);
+        };
+        /**
+         * @description ChartTileMetric is one rendered series, table column, or metric input on a
+         *     chart tile. `metric` is required. `series_key` is required and must be unique
+         *     within a tile; renderers use it for stable color, legend, and column
+         *     identity across edits. If `aggregation` is set and not INVALID it overrides
+         *     `DashboardChartDataSpec.aggregation` for this series; otherwise the tile-level
+         *     value applies.
+         */
+        ChartTileMetric: {
+            /**
+             * @description DashboardMetricReference identifies either a catalog metric or an inline
+             *     computed metric. A future saved custom metric key can be added to this oneof
+             *     without changing tile/document layout.
+             */
+            metric?: components['schemas']['DashboardMetricReference'] | (never | null);
+            /**
+             * @description Stable per-tile handle used for series identity, color assignment, and table
+             *     column ordering.
+             * @default
+             */
+            seriesKey: string | null;
+            /**
+             * @description Optional per-series aggregation override.
+             * @default DASHBOARD_AGGREGATION_INVALID
+             */
+            aggregation:
+                | (
+                      | (
+                            | 'DASHBOARD_AGGREGATION_INVALID'
+                            | 'DASHBOARD_AGGREGATION_SUM'
+                            | 'DASHBOARD_AGGREGATION_COUNT'
+                            | 'DASHBOARD_AGGREGATION_AVERAGE'
+                            | 'DASHBOARD_AGGREGATION_MIN'
+                            | 'DASHBOARD_AGGREGATION_MAX'
+                            | 'DASHBOARD_AGGREGATION_DISTINCT_COUNT'
+                            | 'DASHBOARD_AGGREGATION_UNIQUE_COUNT'
+                            | 'DASHBOARD_AGGREGATION_PERCENTILE_AVG'
+                            | 'DASHBOARD_AGGREGATION_PERCENTILE_P10'
+                            | 'DASHBOARD_AGGREGATION_PERCENTILE_P50'
+                            | 'DASHBOARD_AGGREGATION_PERCENTILE_P90'
+                            | 'DASHBOARD_AGGREGATION_TOTAL'
+                            | 'DASHBOARD_AGGREGATION_AVERAGE_OVER_TIME_PERIOD'
+                            | 'DASHBOARD_AGGREGATION_MOST_RECENT_DATA_POINT'
+                            | 'DASHBOARD_AGGREGATION_MEDIAN'
+                            | 'DASHBOARD_AGGREGATION_CUMULATIVE'
+                            | 'DASHBOARD_AGGREGATION_AVERAGE_PER_UNIQUE_USER'
+                        )
+                      | number
+                  )
+                | (never | null);
+            /**
+             * @description Optional filters scoped to this series or table column. These are combined
+             *     conjunctively with ChartTile.data_spec.filters and, for computed metrics,
+             *     the referenced source filters. Filters with the same dimension_key are
+             *     also conjunctive; values within one TileFilter are alternatives (OR).
+             */
+            filters?: components['schemas']['TileFilter'][] | null;
+        };
         /** @description Response object for Roblox.CloudPricing.ServiceEfficiencyApi.Operations.CheckEligibilityOperation */
         CheckEligibilityResponse: {
             /** @description Gets or sets the eligibility requirement results for the provided creator. */
             eligibilityRequirementResults?: components['schemas']['EligibilityRequirementResult'][] | null;
+        };
+        /** @description A log entry emitted by a client during a play session. */
+        ClientLog: {
+            /**
+             * Format: date-time
+             * @description The UTC timestamp when the logging system received the entry.
+             */
+            messageTimestampMs: string;
+            /**
+             * Format: int64
+             * @description The universe that contains the play session.
+             */
+            universeId: number;
+            /** @description The place that emitted the entry. */
+            placeId: string | null;
+            /** @description The version of the place that emitted the entry. */
+            placeVersion: string | null;
+            /** @description The UUID that identifies the client play session. */
+            sessionId: string | null;
+            /** @description The severity: output (0), info (1), warning (2), or error (3). */
+            severity: components['schemas']['LogSeverity'];
+            /** @description The log message. */
+            message: string | null;
+            /** @description The stack trace attached to the entry. */
+            stackTrace: string | null;
+            /** @description The optional message template from structured logging. */
+            messageTemplate?: string | null;
+            /** @description The optional structured logging context. */
+            context?: string | null;
+            /** @description The full path of the logger that emitted the log entry. */
+            loggerFullPath?: string | null;
+            /**
+             * Format: int32
+             * @description The number of duplicate messages coalesced into this entry.
+             */
+            skippedCount: number;
+            /**
+             * Format: int32
+             * @description The number of messages suppressed after rate limiting.
+             */
+            rateLimitedCount: number;
+            /**
+             * @description A list of ServerManagementService.V2.Models.StructuredStackFrame metadata, identifying the script that errored when combined
+             *     with the ServerManagementService.V2.Models.ClientLog.PlaceVersion
+             */
+            structuredStackTrace?: components['schemas']['StructuredStackFrame'][] | null;
         };
         /** @description Get Client Status request. */
         ClientStatusGetRequest: {
@@ -49393,6 +54306,29 @@ export interface components {
         CompleteExperimentResponse: {
             /** @description The async operation that completed the experiment. */
             operation?: components['schemas']['ExperimentOperation'] | null;
+        };
+        /**
+         * @description ComputedMetricFilter is an authoring-time source filter. Keep this message
+         *     wire-compatible with TileFilter for schema-v1 computed sources.
+         */
+        ComputedMetricFilter: {
+            /** @default  */
+            dimensionKey: string | null;
+            values?: string[] | null;
+        };
+        /**
+         * @description ComputedMetricVariantSelection selects one source metric variant. Keep this
+         *     message wire-compatible with DashboardMetricVariantSelection for schema-v1
+         *     computed sources.
+         */
+        ComputedMetricVariantSelection: {
+            /** @default  */
+            pseudoDimensionKey: string | null;
+            /**
+             * @description Same stable-key identity as DashboardMetricVariantSelection in schema v3.
+             * @default
+             */
+            variantKey: string | null;
         };
         /** @description JSON shape of an RPN conditional rule in public API requests. */
         ConditionalRuleDefinition: {
@@ -49605,7 +54541,9 @@ export interface components {
             autoReloadAdCreditEnabled?: boolean;
             /**
              * @description The billing account to create the campaign in: your own, or one owned by a group
-             *     where you have advertising permission. Optional; defaults to your own account.
+             *     where you have advertising permission. Optional; defaults to your own account,
+             *     also for a group-owned experience. To pay with the group's ad credit, pass the
+             *     group's account from campaign-options `billingAccounts`.
              *     For a group's account, targetUniverseId must be an experience the group owns.
              */
             billingAccountId?: string;
@@ -49652,6 +54590,10 @@ export interface components {
         /** @description Response to create a custom matchmaking signal. */
         CreateCustomMatchmakingSignalResponse: {
             scoringConfiguration: components['schemas']['MatchmakingScoringConfiguration'];
+        };
+        CreateDashboardResponse: {
+            /** @description CustomDashboard is the full dashboard response shape. */
+            dashboard?: components['schemas']['CustomDashboard'] | (never | null);
         };
         /** @description Creates a new entry with the value provided. */
         CreateEntryRequest: {
@@ -49895,14 +54837,16 @@ export interface components {
         };
         /** @description The context of creation that is not part of the asset content, such as metadata and creator information. Required for [Create Asset](#Assets_CreateAsset). */
         CreationContext: {
-            /** @description Desired privacy setting for the asset on creation. Only applies to asset types that support privacy override. */
-            assetPrivacy?: components['schemas']['AssetPrivacy'];
-            creator?: components['schemas']['Creator'];
+            creator?: components['schemas']['AssetsUploadApi.Creator'];
             /**
              * Format: int64
              * @description Expected asset upload fee in Robux. When the actual price is more than expected, the operation fails with a 400 error.
              */
             expectedPrice?: number;
+            /** Format: int64 */
+            readonly creatingUniverseId?: number | null;
+            /** @description Desired privacy setting for the asset on creation. Only applies to asset types that support privacy override. */
+            assetPrivacy?: components['schemas']['AssetPrivacy'];
         };
         Creative: {
             /**
@@ -49964,18 +54908,11 @@ export interface components {
             /** @description The fewest creatives a campaign can have. */
             minimumCount?: number;
         };
-        /** @description Represents a creator. */
         Creator: {
-            /**
-             * Format: int64
-             * @description The User ID the creator. Required if the asset is individual-user-owned.
-             */
-            userId?: number;
-            /**
-             * Format: int64
-             * @description The Group ID. Required if the asset is group-owned.
-             */
-            groupId?: number;
+            /** @description The creator group's ID. */
+            groupId?: string;
+            /** @description The creator user's ID. */
+            userId?: string;
         };
         /**
          * @description Sort direction for list queries.
@@ -50027,7 +54964,7 @@ export interface components {
             /** @description The asset information. */
             asset:
                 | (
-                      | components['schemas']['ToolboxService.Asset']
+                      | components['schemas']['Asset']
                       | components['schemas']['Audio']
                       | components['schemas']['Decal']
                       | components['schemas']['MeshPart']
@@ -50057,6 +54994,88 @@ export interface components {
         CurrencyType: 'Robux' | 'Tickets';
         /** @enum {string} */
         CursorPagingDirection: 'Forward' | 'Backward';
+        /** @description CustomDashboard is the full dashboard response shape. */
+        CustomDashboard: {
+            /**
+             * @description DashboardMetadata is the metadata-only shape returned by list calls.
+             *     It intentionally omits the document body so list views do not load dashboard payloads.
+             */
+            metadata?: components['schemas']['DashboardMetadata'] | (never | null);
+            /**
+             * @description CustomDashboardDocument is the dashboard authoring document persisted as the
+             *     latest published content. Draft edits remain local client state until the
+             *     caller sends this document to create or publish a dashboard.
+             */
+            document?: components['schemas']['CustomDashboardDocument'] | (never | null);
+            /** @description DashboardDocumentVersion identifies the latest persisted content returned by the backend. */
+            version?: components['schemas']['DashboardDocumentVersion'] | (never | null);
+        };
+        /**
+         * @description CustomDashboardConfig is the renderer-owned dashboard authoring model. It is
+         *     intentionally a normalized dashboard document rather than a direct mirror of
+         *     Creator Hub RAQI TypeScript config types. Creator Hub adapters may generate
+         *     TS from this proto and map it into the current RAQI renderer.
+         */
+        CustomDashboardConfig: {
+            /** @description DashboardPage models page shell behavior separately from surface layout. */
+            page?: components['schemas']['DashboardPage'] | (never | null);
+        };
+        /** @description CustomDashboardConflictDetails describes an optimistic concurrency failure. */
+        CustomDashboardConflictDetails: {
+            /** @default  */
+            expectedHeadEtag: string | null;
+            /** @default  */
+            actualHeadEtag: string | null;
+        };
+        /**
+         * @description CustomDashboardDocument is the dashboard authoring document persisted as the
+         *     latest published content. Draft edits remain local client state until the
+         *     caller sends this document to create or publish a dashboard.
+         */
+        CustomDashboardDocument: {
+            /**
+             * Format: int32
+             * @default 0
+             */
+            schemaVersion: number | null;
+            /**
+             * @description CustomDashboardConfig is the renderer-owned dashboard authoring model. It is
+             *     intentionally a normalized dashboard document rather than a direct mirror of
+             *     Creator Hub RAQI TypeScript config types. Creator Hub adapters may generate
+             *     TS from this proto and map it into the current RAQI renderer.
+             */
+            config?: components['schemas']['CustomDashboardConfig'] | (never | null);
+        };
+        /** @description CustomDashboardValidationIssue identifies a document field/path and the failed rule. */
+        CustomDashboardValidationIssue: {
+            /** @default  */
+            fieldPath: string | null;
+            /**
+             * @description CustomDashboardValidationIssueReason categorizes a single validation failure.
+             * @default CUSTOM_DASHBOARD_VALIDATION_ISSUE_REASON_INVALID
+             */
+            reason:
+                | (
+                      | (
+                            | 'CUSTOM_DASHBOARD_VALIDATION_ISSUE_REASON_INVALID'
+                            | 'CUSTOM_DASHBOARD_VALIDATION_ISSUE_REASON_REQUIRED_FIELD_MISSING'
+                            | 'CUSTOM_DASHBOARD_VALIDATION_ISSUE_REASON_VALUE_INVALID'
+                            | 'CUSTOM_DASHBOARD_VALIDATION_ISSUE_REASON_TOO_LONG'
+                            | 'CUSTOM_DASHBOARD_VALIDATION_ISSUE_REASON_TOO_MANY_ITEMS'
+                            | 'CUSTOM_DASHBOARD_VALIDATION_ISSUE_REASON_DUPLICATE_ID'
+                            | 'CUSTOM_DASHBOARD_VALIDATION_ISSUE_REASON_UNSUPPORTED_METRIC'
+                            | 'CUSTOM_DASHBOARD_VALIDATION_ISSUE_REASON_UNSUPPORTED_DIMENSION'
+                            | 'CUSTOM_DASHBOARD_VALIDATION_ISSUE_REASON_INCOMPATIBLE_QUERY_INPUT'
+                            | 'CUSTOM_DASHBOARD_VALIDATION_ISSUE_REASON_DOCUMENT_TOO_LARGE'
+                            | 'CUSTOM_DASHBOARD_VALIDATION_ISSUE_REASON_MODERATION_REJECTED'
+                        )
+                      | number
+                  )
+                | (never | null);
+            /** @default  */
+            message: string | null;
+            rejectedValues?: string[] | null;
+        };
         /** @description The custom signal configuration using a developer created attribute. */
         CustomSignalConfiguration: {
             /** @description The name of the signal. */
@@ -50079,6 +55098,790 @@ export interface components {
          * @enum {string}
          */
         CustomSignalType: 'Invalid' | 'PlayerCategorical' | 'ServerCategorical' | 'ServerNumerical' | 'PlayerNumerical';
+        /** @description DashboardActor identifies a user responsible for creating or mutating dashboard state. */
+        DashboardActor: {
+            /**
+             * @description Signed 64-bit integer encoded as a decimal string.
+             * @default 0
+             */
+            userId: string | null;
+        };
+        /** @description DashboardAnnotationOptions defines annotation controls for a dashboard surface. */
+        DashboardAnnotationOptions: {
+            defaultAnnotationTypeKeys?: string[] | null;
+            /** @default false */
+            showAnnotationsControl: boolean | null;
+        };
+        /**
+         * @description DashboardAtomicMetric is retained solely to deserialize schema-v1 dashboard
+         *     documents and clients. It is not part of the current authoring interface.
+         */
+        DashboardAtomicMetric: {
+            metricKey?: string | null;
+            /** @description DashboardCustomEventMetric is the legacy custom-event source representation. */
+            customEventMetric?: components['schemas']['DashboardCustomEventMetric'] | (never | null);
+        } & unknown;
+        /** @description DashboardBreakdownTabPage renders tabs generated from breakdown values. */
+        DashboardBreakdownTabPage: {
+            /** @description DashboardPageMetadata carries localized metadata for a dashboard page. */
+            metadata?: components['schemas']['DashboardPageMetadata'] | (never | null);
+            /** @default  */
+            tabBreakdownDimensionKey: string | null;
+            /**
+             * @description DashboardSurface is a renderable analytics surface. It owns page-wide
+             *     analytics context/controls as well as the layout nodes rendered inside that
+             *     context.
+             */
+            tabSurface?: components['schemas']['DashboardSurface'] | (never | null);
+            /**
+             * @description DashboardSurface is a renderable analytics surface. It owns page-wide
+             *     analytics context/controls as well as the layout nodes rendered inside that
+             *     context.
+             */
+            noTabEmptyState?: components['schemas']['DashboardSurface'] | (never | null);
+            preTabNodes?: components['schemas']['DashboardLayoutNode'][] | null;
+        };
+        /**
+         * @description DashboardCapabilities describes what the calling creator may do in a universe
+         *     and the limits the service enforces on writes. Limits can change without a
+         *     client update. Open Cloud credential scopes are enforced separately by API
+         *     Gateway. These booleans describe creator permissions, not credential scopes.
+         */
+        DashboardCapabilities: {
+            /**
+             * @description Signed 64-bit integer encoded as a decimal string.
+             * @default 0
+             */
+            universeId: string | null;
+            /**
+             * @description True when the caller may create a new dashboard in this universe.
+             * @default false
+             */
+            canCreate: boolean | null;
+            /**
+             * @description True when the caller may change dashboard metadata.
+             * @default false
+             */
+            canEdit: boolean | null;
+            /**
+             * @description True when the caller may replace a dashboard's published document.
+             * @default false
+             */
+            canPublish: boolean | null;
+            /**
+             * @description True when the caller may soft-delete a dashboard.
+             * @default false
+             */
+            canDelete: boolean | null;
+            /**
+             * @description DashboardLimits mirrors the write-time caps enforced by this service. Values
+             *     are resolved per request, so they reflect the current runtime configuration
+             *     rather than the values present at deploy time. A limit of 0 means the cap is
+             *     disabled and the service does not enforce it.
+             *
+             *     Clients should treat these as upper bounds and may apply a stricter
+             *     presentation limit of their own; the effective cap for a client is the
+             *     minimum of the two.
+             */
+            limits?: components['schemas']['DashboardLimits'] | (never | null);
+        };
+        /** @description DashboardChartDataSpec carries chart query inputs synthesized into RAQI requests. */
+        DashboardChartDataSpec: {
+            /**
+             * @description Cardinality rules for `metrics`:
+             *       - `metrics` MUST be non-empty.
+             *       - `DASHBOARD_CHART_TYPE_TABLE` accepts one or more metrics (one per rendered column).
+             *       - All other chart types accept exactly one metric in v1beta1.
+             */
+            metrics?: components['schemas']['ChartTileMetric'][] | null;
+            /**
+             * @description Default aggregation for metrics without a per-series override.
+             * @default DASHBOARD_AGGREGATION_INVALID
+             */
+            aggregation:
+                | (
+                      | (
+                            | 'DASHBOARD_AGGREGATION_INVALID'
+                            | 'DASHBOARD_AGGREGATION_SUM'
+                            | 'DASHBOARD_AGGREGATION_COUNT'
+                            | 'DASHBOARD_AGGREGATION_AVERAGE'
+                            | 'DASHBOARD_AGGREGATION_MIN'
+                            | 'DASHBOARD_AGGREGATION_MAX'
+                            | 'DASHBOARD_AGGREGATION_DISTINCT_COUNT'
+                            | 'DASHBOARD_AGGREGATION_UNIQUE_COUNT'
+                            | 'DASHBOARD_AGGREGATION_PERCENTILE_AVG'
+                            | 'DASHBOARD_AGGREGATION_PERCENTILE_P10'
+                            | 'DASHBOARD_AGGREGATION_PERCENTILE_P50'
+                            | 'DASHBOARD_AGGREGATION_PERCENTILE_P90'
+                            | 'DASHBOARD_AGGREGATION_TOTAL'
+                            | 'DASHBOARD_AGGREGATION_AVERAGE_OVER_TIME_PERIOD'
+                            | 'DASHBOARD_AGGREGATION_MOST_RECENT_DATA_POINT'
+                            | 'DASHBOARD_AGGREGATION_MEDIAN'
+                            | 'DASHBOARD_AGGREGATION_CUMULATIVE'
+                            | 'DASHBOARD_AGGREGATION_AVERAGE_PER_UNIQUE_USER'
+                        )
+                      | number
+                  )
+                | (never | null);
+            /**
+             * @description Ordered breakdown dimension keys. Synthesis maps to `QueryBreakdown` in
+             *     `universe_analytics_query.proto` / RAQI breakdown lists.
+             */
+            breakdownDimensionKeys?: string[] | null;
+            /**
+             * @description Time bucketing for chart queries.
+             * @default DASHBOARD_GRANULARITY_INVALID
+             */
+            granularity:
+                | (
+                      | (
+                            | 'DASHBOARD_GRANULARITY_INVALID'
+                            | 'DASHBOARD_GRANULARITY_CUMULATIVE'
+                            | 'DASHBOARD_GRANULARITY_MINUTE'
+                            | 'DASHBOARD_GRANULARITY_HALF_HOUR'
+                            | 'DASHBOARD_GRANULARITY_HOUR'
+                            | 'DASHBOARD_GRANULARITY_DAY'
+                            | 'DASHBOARD_GRANULARITY_WEEK'
+                            | 'DASHBOARD_GRANULARITY_MONTH'
+                        )
+                      | number
+                  )
+                | (never | null);
+            filters?: components['schemas']['TileFilter'][] | null;
+        };
+        /** @description DashboardChartSpec carries chart renderer options (not query/data inputs). */
+        DashboardChartSpec: {
+            /**
+             * @description DashboardChartType is the visual renderer requested by a chart tile.
+             * @default DASHBOARD_CHART_TYPE_INVALID
+             */
+            chartType:
+                | (
+                      | (
+                            | 'DASHBOARD_CHART_TYPE_INVALID'
+                            | 'DASHBOARD_CHART_TYPE_SPLINE'
+                            | 'DASHBOARD_CHART_TYPE_AREA'
+                            | 'DASHBOARD_CHART_TYPE_BAR'
+                            | 'DASHBOARD_CHART_TYPE_COLUMN'
+                            | 'DASHBOARD_CHART_TYPE_PIE'
+                            | 'DASHBOARD_CHART_TYPE_TABLE'
+                            | 'DASHBOARD_CHART_TYPE_DURATION_SPLINE'
+                            | 'DASHBOARD_CHART_TYPE_DURATION_AREA'
+                        )
+                      | number
+                  )
+                | (never | null);
+            /** @description ChartOverlays toggles optional chart adornments (display only, not query inputs). */
+            overlays?: components['schemas']['ChartOverlays'] | (never | null);
+            /**
+             * @description DashboardChartSmoothing controls optional chart smoothing.
+             * @default DASHBOARD_CHART_SMOOTHING_INVALID
+             */
+            smoothing:
+                | (
+                      | (
+                            | 'DASHBOARD_CHART_SMOOTHING_INVALID'
+                            | 'DASHBOARD_CHART_SMOOTHING_NONE'
+                            | 'DASHBOARD_CHART_SMOOTHING_WEEKLY'
+                        )
+                      | number
+                  )
+                | (never | null);
+        };
+        /** @description DashboardChartTab defines one chart tab and its chart tile. */
+        DashboardChartTab: {
+            /** @default  */
+            tabKey: string | null;
+            /** @default  */
+            labelKey: string | null;
+            /** @description ChartTile is a chart body tile. */
+            chart?: components['schemas']['ChartTile'] | (never | null);
+        };
+        /** @description DashboardComponent wraps each renderable dashboard body component. */
+        DashboardComponent: {
+            /** @description A chart component. */
+            chart?: components['schemas']['ChartTile'] | (never | null);
+            /** @description A tabbed chart; Creator Hub does not yet support authoring this component. */
+            tabbedChart?: components['schemas']['DashboardTabbedChart'] | (never | null);
+            /** @description A table component. Creator Hub currently authors tables through ChartTile instead. */
+            table?: components['schemas']['DashboardTable'] | (never | null);
+            /** @description A tabbed table; Creator Hub does not yet support authoring this component. */
+            tabbedTable?: components['schemas']['DashboardTabbedTable'] | (never | null);
+            /** @description A summary card component. */
+            summaryCard?: components['schemas']['SummaryCardTile'] | (never | null);
+            /** @description Controls applied to a component. */
+            controlledSubcontext?: components['schemas']['DashboardControlledSubcontext'] | (never | null);
+        } & (unknown &
+            unknown &
+            unknown &
+            unknown &
+            unknown &
+            unknown &
+            unknown &
+            unknown &
+            unknown &
+            unknown &
+            unknown &
+            unknown &
+            unknown &
+            unknown &
+            unknown);
+        /**
+         * @description DashboardComputedMetric is an inline dashboard authoring definition. It has
+         *     no standalone resource or persistence lifecycle.
+         */
+        DashboardComputedMetric: {
+            sources?: components['schemas']['DashboardComputedMetricSource'][] | null;
+            /** @default  */
+            formula: string | null;
+            /** @default  */
+            displayName: string | null;
+            /** @default false */
+            l7Smoothing: boolean | null;
+        };
+        /** @description DashboardComputedMetricSource describes one named formula source. */
+        DashboardComputedMetricSource: {
+            /** @default  */
+            sourceKey: string | null;
+            /**
+             * @description Keep this message wire-compatible with TileFilter because field 3 is
+             *     retained for schema-v1 documents.
+             */
+            filters?: components['schemas']['ComputedMetricFilter'][] | null;
+            /**
+             * @description Keep this message wire-compatible with DashboardMetricVariantSelection
+             *     because field 4 is retained for schema-v1 documents.
+             */
+            variantSelections?: components['schemas']['ComputedMetricVariantSelection'][] | null;
+            /** @default  */
+            metricKey: string | null;
+            /**
+             * @description Compatibility-only wire field for schema-v1 documents and already-compiled
+             *     protobuf clients. New authors must use metric_key, filters, and
+             *     variant_selections instead.
+             */
+            metric?: components['schemas']['DashboardAtomicMetric'] | (never | null);
+        };
+        /**
+         * @description DashboardControlledSubcontext mirrors RAQI controlled subcontexts as a
+         *     component wrapper, not a layout primitive. It applies local controls/context
+         *     overrides to exactly one chart/table-like body.
+         */
+        DashboardControlledSubcontext: {
+            /** @description DashboardDimensionFilterAndBreakdownSubcontext applies local dimension controls to a component. */
+            dimensionFilterAndBreakdown?:
+                | components['schemas']['DashboardDimensionFilterAndBreakdownSubcontext']
+                | (never | null);
+            /** @description DashboardTimeRangeSubcontext applies a local time range control to a component. */
+            timeRange?: components['schemas']['DashboardTimeRangeSubcontext'] | (never | null);
+            /** @description DashboardControlledSubcontextBody stores the chart or table controlled by a local subcontext. */
+            body?: components['schemas']['DashboardControlledSubcontextBody'] | (never | null);
+        } & unknown;
+        /** @description DashboardControlledSubcontextBody stores the chart or table controlled by a local subcontext. */
+        DashboardControlledSubcontextBody: {
+            /** @description ChartTile is a chart body tile. */
+            chart?: components['schemas']['ChartTile'] | (never | null);
+            /** @description DashboardTabbedChart renders chart tiles behind chart-specific tabs. */
+            tabbedChart?: components['schemas']['DashboardTabbedChart'] | (never | null);
+            /** @description DashboardTable renders a table from dashboard chart data inputs. */
+            table?: components['schemas']['DashboardTable'] | (never | null);
+            /** @description DashboardTabbedTable renders table components behind table-specific tabs. */
+            tabbedTable?: components['schemas']['DashboardTabbedTable'] | (never | null);
+        } & (unknown & unknown & unknown & unknown & unknown & unknown);
+        /** @description DashboardCustomDateRange stores an explicit start and end time. */
+        DashboardCustomDateRange: {
+            startTime?: components['schemas']['Timestamp'] | (never | null);
+            endTime?: components['schemas']['Timestamp'] | (never | null);
+        };
+        /** @description DashboardCustomEventMetric is the legacy custom-event source representation. */
+        DashboardCustomEventMetric: {
+            /** @default  */
+            metricKey: string | null;
+            /** @default  */
+            customEventName: string | null;
+            /**
+             * @description DashboardAggregation is the aggregation applied to a tile or series.
+             *     Enum names follow proto conventions; synthesis adapters map to Creator Hub
+             *     aggregation literal strings (`RAQIV2AggregationType`, summary-card literals,
+             *     and `RAQIV2PercentileType`). Arbitrary `Percentile{N}` literals are not
+             *     represented here and require a future contract extension.
+             * @default DASHBOARD_AGGREGATION_INVALID
+             */
+            aggregation:
+                | (
+                      | (
+                            | 'DASHBOARD_AGGREGATION_INVALID'
+                            | 'DASHBOARD_AGGREGATION_SUM'
+                            | 'DASHBOARD_AGGREGATION_COUNT'
+                            | 'DASHBOARD_AGGREGATION_AVERAGE'
+                            | 'DASHBOARD_AGGREGATION_MIN'
+                            | 'DASHBOARD_AGGREGATION_MAX'
+                            | 'DASHBOARD_AGGREGATION_DISTINCT_COUNT'
+                            | 'DASHBOARD_AGGREGATION_UNIQUE_COUNT'
+                            | 'DASHBOARD_AGGREGATION_PERCENTILE_AVG'
+                            | 'DASHBOARD_AGGREGATION_PERCENTILE_P10'
+                            | 'DASHBOARD_AGGREGATION_PERCENTILE_P50'
+                            | 'DASHBOARD_AGGREGATION_PERCENTILE_P90'
+                            | 'DASHBOARD_AGGREGATION_TOTAL'
+                            | 'DASHBOARD_AGGREGATION_AVERAGE_OVER_TIME_PERIOD'
+                            | 'DASHBOARD_AGGREGATION_MOST_RECENT_DATA_POINT'
+                            | 'DASHBOARD_AGGREGATION_MEDIAN'
+                            | 'DASHBOARD_AGGREGATION_CUMULATIVE'
+                            | 'DASHBOARD_AGGREGATION_AVERAGE_PER_UNIQUE_USER'
+                        )
+                      | number
+                  )
+                | (never | null);
+        };
+        /** @description DashboardDateRangeDefault selects the initial date range for a surface. */
+        DashboardDateRangeDefault: {
+            relativeRangeKey?: string | null;
+            /** @description DashboardCustomDateRange stores an explicit start and end time. */
+            customRange?: components['schemas']['DashboardCustomDateRange'] | (never | null);
+        } & unknown;
+        /** @description DashboardDateRangeOptions defines date range control behavior for a surface. */
+        DashboardDateRangeOptions: {
+            /** @description DashboardDateRangeDefault selects the initial date range for a surface. */
+            defaultSelection?: components['schemas']['DashboardDateRangeDefault'] | (never | null);
+        };
+        /** @description DashboardDimensionFilterAndBreakdownControl defines one local dimension filter and breakdown control. */
+        DashboardDimensionFilterAndBreakdownControl: {
+            /** @default  */
+            filterDimensionKey: string | null;
+            breakdownDimensionKeys?: string[] | null;
+            /** @default  */
+            defaultFilterDimensionValue: string | null;
+            /** @description DashboardUnfilteredEntry defines the unfiltered selector option for a dimension control. */
+            unfilteredEntry?: components['schemas']['DashboardUnfilteredEntry'] | (never | null);
+        };
+        /** @description DashboardDimensionFilterAndBreakdownSubcontext applies local dimension controls to a component. */
+        DashboardDimensionFilterAndBreakdownSubcontext: {
+            controls?: components['schemas']['DashboardDimensionFilterAndBreakdownControl'][] | null;
+        };
+        /** @description DashboardDocumentVersion identifies the latest persisted content returned by the backend. */
+        DashboardDocumentVersion: {
+            /** @default  */
+            publishedDocumentId: string | null;
+            /**
+             * @description Signed 64-bit integer encoded as a decimal string.
+             * @default 0
+             */
+            publishedVersion: string | null;
+            /** @default  */
+            contentHash: string | null;
+        };
+        /** @description DashboardFixedGranularity fixes a surface to one granularity. */
+        DashboardFixedGranularity: {
+            /**
+             * @description DashboardGranularity is the time bucketing for chart and summary-card queries.
+             *     Synthesis maps each value to Creator Hub `TimeInterval` literals and then to
+             *     `MetricGranularity` in RAQI. INVALID is rejected on write.
+             * @default DASHBOARD_GRANULARITY_INVALID
+             */
+            granularity:
+                | (
+                      | (
+                            | 'DASHBOARD_GRANULARITY_INVALID'
+                            | 'DASHBOARD_GRANULARITY_CUMULATIVE'
+                            | 'DASHBOARD_GRANULARITY_MINUTE'
+                            | 'DASHBOARD_GRANULARITY_HALF_HOUR'
+                            | 'DASHBOARD_GRANULARITY_HOUR'
+                            | 'DASHBOARD_GRANULARITY_DAY'
+                            | 'DASHBOARD_GRANULARITY_WEEK'
+                            | 'DASHBOARD_GRANULARITY_MONTH'
+                        )
+                      | number
+                  )
+                | (never | null);
+        };
+        /** @description DashboardFixedTab defines one tab in a fixed-tab dashboard page. */
+        DashboardFixedTab: {
+            /** @default  */
+            tabKey: string | null;
+            /** @default  */
+            labelKey: string | null;
+            /**
+             * @description DashboardSurface is a renderable analytics surface. It owns page-wide
+             *     analytics context/controls as well as the layout nodes rendered inside that
+             *     context.
+             */
+            surface?: components['schemas']['DashboardSurface'] | (never | null);
+        };
+        /** @description DashboardFixedTabPage renders a dashboard with a fixed set of tabs. */
+        DashboardFixedTabPage: {
+            /** @description DashboardPageMetadata carries localized metadata for a dashboard page. */
+            metadata?: components['schemas']['DashboardPageMetadata'] | (never | null);
+            tabs?: components['schemas']['DashboardFixedTab'][] | null;
+            /**
+             * @description Optional explicit ordering by `DashboardFixedTab.tab_key`. If omitted,
+             *     adapters use the order of `tabs`.
+             */
+            tabOrder?: string[] | null;
+        };
+        /** @description DashboardFlexLayout is the fixed row/wrap flex layout supported by Creator Hub custom dashboards. */
+        DashboardFlexLayout: {
+            children?: components['schemas']['DashboardLayoutNode'][] | null;
+        };
+        /** @description DashboardLayoutNode is the normalized custom-dashboard layout AST. */
+        DashboardLayoutNode: {
+            /** @description A renderable dashboard component. */
+            component?: components['schemas']['DashboardComponent'] | (never | null);
+            /** @description DashboardStackLayout is the vertical stack supported by Creator Hub custom dashboards. */
+            stack?: components['schemas']['DashboardStackLayout'] | (never | null);
+            /** @description DashboardFlexLayout is the fixed row/wrap flex layout supported by Creator Hub custom dashboards. */
+            flex?: components['schemas']['DashboardFlexLayout'] | (never | null);
+            /** @description DashboardResponsiveGridLayout is the one-or-two-column grid supported by Creator Hub custom dashboards. */
+            grid?: components['schemas']['DashboardResponsiveGridLayout'] | (never | null);
+        } & (unknown & unknown & unknown & unknown & unknown & unknown);
+        /**
+         * @description DashboardLimits mirrors the write-time caps enforced by this service. Values
+         *     are resolved per request, so they reflect the current runtime configuration
+         *     rather than the values present at deploy time. A limit of 0 means the cap is
+         *     disabled and the service does not enforce it.
+         *
+         *     Clients should treat these as upper bounds and may apply a stricter
+         *     presentation limit of their own; the effective cap for a client is the
+         *     minimum of the two.
+         */
+        DashboardLimits: {
+            /**
+             * Format: int32
+             * @description Maximum active dashboards per universe, enforced by the quota guard.
+             * @default 0
+             */
+            maxDashboardsPerUniverse: number | null;
+            /**
+             * Format: int32
+             * @description Maximum encoded dashboard document payload size in bytes.
+             * @default 0
+             */
+            maxDocumentPayloadBytes: number | null;
+            /**
+             * Format: int32
+             * @description Maximum summary card tiles in one dashboard document.
+             * @default 0
+             */
+            maxSummaryCardsPerDashboard: number | null;
+            /**
+             * Format: int32
+             * @description Maximum chart tiles in one dashboard document.
+             * @default 0
+             */
+            maxChartTilesPerDashboard: number | null;
+            /**
+             * Format: int32
+             * @description Maximum metric columns in a single table chart tile.
+             * @default 0
+             */
+            maxTableMetricColumns: number | null;
+            /**
+             * Format: int32
+             * @description Maximum dashboard name length in characters.
+             * @default 0
+             */
+            maxDashboardNameLength: number | null;
+            /**
+             * Format: int32
+             * @description Maximum dashboard description length in characters.
+             * @default 0
+             */
+            maxDashboardDescriptionLength: number | null;
+            /**
+             * Format: int32
+             * @description Maximum tile title length in characters.
+             * @default 0
+             */
+            maxTileTitleLength: number | null;
+            /**
+             * Format: int32
+             * @description Maximum pinned dashboards per universe, enforced by the quota guard.
+             * @default 0
+             */
+            maxPinnedDashboardsPerUniverse: number | null;
+            /**
+             * Format: int32
+             * @description Maximum `CreateDashboardRequest.idempotency_key` length in characters accepted for a new
+             *     create. Because the key is client-supplied and this cap is runtime-configurable, clients
+             *     should read it here rather than assuming a fixed length. Lowering it does not invalidate
+             *     keys that are already bound: those keep replaying at their original length.
+             * @default 0
+             */
+            maxIdempotencyKeyLength: number | null;
+        };
+        /**
+         * @description DashboardMetadata is the metadata-only shape returned by list calls.
+         *     It intentionally omits the document body so list views do not load dashboard payloads.
+         */
+        DashboardMetadata: {
+            /** @default  */
+            dashboardId: string | null;
+            /**
+             * @description Signed 64-bit integer encoded as a decimal string.
+             * @default 0
+             */
+            universeId: string | null;
+            /** @default  */
+            name: string | null;
+            /** @default  */
+            description: string | null;
+            /**
+             * @description DashboardLifecycleState describes whether a dashboard is visible to normal reads.
+             * @default DASHBOARD_LIFECYCLE_STATE_INVALID
+             */
+            lifecycleState:
+                | (
+                      | (
+                            | 'DASHBOARD_LIFECYCLE_STATE_INVALID'
+                            | 'DASHBOARD_LIFECYCLE_STATE_ACTIVE'
+                            | 'DASHBOARD_LIFECYCLE_STATE_DELETED'
+                        )
+                      | number
+                  )
+                | (never | null);
+            /** @default false */
+            isPinned: boolean | null;
+            pinnedTime?: components['schemas']['Timestamp'] | (never | null);
+            createdTime?: components['schemas']['Timestamp'] | (never | null);
+            /** @description DashboardActor identifies a user responsible for creating or mutating dashboard state. */
+            createdBy?: components['schemas']['DashboardActor'] | (never | null);
+            updatedTime?: components['schemas']['Timestamp'] | (never | null);
+            /** @description DashboardActor identifies a user responsible for creating or mutating dashboard state. */
+            updatedBy?: components['schemas']['DashboardActor'] | (never | null);
+            publishedTime?: components['schemas']['Timestamp'] | (never | null);
+            /** @description DashboardActor identifies a user responsible for creating or mutating dashboard state. */
+            publishedBy?: components['schemas']['DashboardActor'] | (never | null);
+            deletedTime?: components['schemas']['Timestamp'] | (never | null);
+            /** @description DashboardActor identifies a user responsible for creating or mutating dashboard state. */
+            deletedBy?: components['schemas']['DashboardActor'] | (never | null);
+            /**
+             * @description Optimistic concurrency token for metadata, publish, and delete mutations.
+             * @default
+             */
+            headEtag: string | null;
+            /**
+             * @description Identifier for the latest persisted dashboard document. Latest-only content
+             *     wins; older document payloads are not exposed for backend restore.
+             * @default
+             */
+            latestPublishedDocumentId: string | null;
+            /**
+             * @description Monotonically increasing version for latest persisted content.
+             * @default 0
+             */
+            latestPublishedVersion: string | null;
+        };
+        /** @description DashboardMetadataPatch updates dashboard metadata without exposing storage rows. */
+        DashboardMetadataPatch: {
+            name?: string | null;
+            description?: string | null;
+            isPinned?: boolean | null;
+        };
+        /**
+         * @description DashboardMetricReference identifies either a catalog metric or an inline
+         *     computed metric. A future saved custom metric key can be added to this oneof
+         *     without changing tile/document layout.
+         */
+        DashboardMetricReference: {
+            metricKey?: string | null;
+            /**
+             * @description DashboardComputedMetric is an inline dashboard authoring definition. It has
+             *     no standalone resource or persistence lifecycle.
+             */
+            computedMetric?: components['schemas']['DashboardComputedMetric'] | (never | null);
+            variantSelections?: components['schemas']['DashboardMetricVariantSelection'][] | null;
+        } & unknown;
+        /**
+         * @description DashboardMetricVariantSelection selects one metric variant for a pseudo-dimension.
+         *     Keep this message wire-compatible with ComputedMetricVariantSelection for
+         *     schema-v1 computed sources.
+         */
+        DashboardMetricVariantSelection: {
+            /** @default  */
+            pseudoDimensionKey: string | null;
+            /**
+             * @description Schema v3 uses AFC's stable key (e.g. SUM, COUNT_USER, AVERAGE), not its catalog
+             *     value (e.g. Sum, CountUser, AVG). Older documents are normalized on migration.
+             * @default
+             */
+            variantKey: string | null;
+        };
+        /** @description DashboardNoTimeRangeOptions disables time range controls for a surface. */
+        DashboardNoTimeRangeOptions: Record<string, never>;
+        /** @description DashboardPage models page shell behavior separately from surface layout. */
+        DashboardPage: {
+            /** @description DashboardUntabbedPage renders a dashboard page without tabs. */
+            untabbed?: components['schemas']['DashboardUntabbedPage'] | (never | null);
+            /** @description A fixed-tab page; Creator Hub does not yet support authoring this page type. */
+            fixedTab?: components['schemas']['DashboardFixedTabPage'] | (never | null);
+            /** @description A breakdown-tab page; Creator Hub does not yet support authoring this page type. */
+            breakdownTab?: components['schemas']['DashboardBreakdownTabPage'] | (never | null);
+        } & (unknown & unknown & unknown);
+        /** @description DashboardPageMetadata carries localized metadata for a dashboard page. */
+        DashboardPageMetadata: {
+            /** @default  */
+            titleKey: string | null;
+        };
+        /**
+         * @description DashboardPreviousPeriodConfig stores an authored previous-period comparison.
+         *     relative_offset and custom_start_time are optional independently so the
+         *     contract can losslessly preserve Creator Hub editor state.
+         */
+        DashboardPreviousPeriodConfig: {
+            /**
+             * @description DashboardComparisonRelativeOffset selects a fixed lookback for a configured
+             *     previous-period comparison.
+             * @default DASHBOARD_COMPARISON_RELATIVE_OFFSET_INVALID
+             */
+            relativeOffset:
+                | (
+                      | (
+                            | 'DASHBOARD_COMPARISON_RELATIVE_OFFSET_INVALID'
+                            | 'DASHBOARD_COMPARISON_RELATIVE_OFFSET_SEVEN_DAYS'
+                            | 'DASHBOARD_COMPARISON_RELATIVE_OFFSET_FOURTEEN_DAYS'
+                            | 'DASHBOARD_COMPARISON_RELATIVE_OFFSET_TWENTY_EIGHT_DAYS'
+                        )
+                      | number
+                  )
+                | (never | null);
+            customStartTime?: components['schemas']['Timestamp'] | (never | null);
+        };
+        /** @description DashboardResponsiveGridLayout is the one-or-two-column grid supported by Creator Hub custom dashboards. */
+        DashboardResponsiveGridLayout: {
+            /**
+             * Format: int32
+             * @default 0
+             */
+            columnCount: number | null;
+            children?: components['schemas']['DashboardLayoutNode'][] | null;
+        };
+        /** @description DashboardStackLayout is the vertical stack supported by Creator Hub custom dashboards. */
+        DashboardStackLayout: {
+            children?: components['schemas']['DashboardLayoutNode'][] | null;
+        };
+        /**
+         * @description DashboardSurface is a renderable analytics surface. It owns page-wide
+         *     analytics context/controls as well as the layout nodes rendered inside that
+         *     context.
+         */
+        DashboardSurface: {
+            resourceTypeKeys?:
+                | (('DASHBOARD_RESOURCE_TYPE_KEY_INVALID' | 'DASHBOARD_RESOURCE_TYPE_KEY_UNIVERSE') | number)[]
+                | null;
+            /** @description DashboardSurfaceControls defines the page-wide controls for a dashboard surface. */
+            controls?: components['schemas']['DashboardSurfaceControls'] | (never | null);
+            /** @description Main recursive layout tree. */
+            bodyNodes?: components['schemas']['DashboardLayoutNode'][] | null;
+        };
+        /** @description DashboardSurfaceControls defines the page-wide controls for a dashboard surface. */
+        DashboardSurfaceControls: {
+            /** @description DashboardTimeRangeOptions defines the available time range behavior for a surface. */
+            timeRangeOptions?: components['schemas']['DashboardTimeRangeOptions'] | (never | null);
+            filterDimensionKeys?: string[] | null;
+            defaultFilters?: components['schemas']['TileFilter'][] | null;
+            breakdownDimensionKeys?: string[] | null;
+            defaultBreakdownDimensionKeys?: string[] | null;
+            /** @description DashboardSurfaceGranularity defines granularity behavior for a dashboard surface. */
+            granularity?: components['schemas']['DashboardSurfaceGranularity'] | (never | null);
+            /** @description DashboardAnnotationOptions defines annotation controls for a dashboard surface. */
+            annotationOptions?: components['schemas']['DashboardAnnotationOptions'] | (never | null);
+        };
+        /** @description DashboardSurfaceGranularity defines granularity behavior for a dashboard surface. */
+        DashboardSurfaceGranularity: {
+            /** @description DashboardFixedGranularity fixes a surface to one granularity. */
+            fixed?: components['schemas']['DashboardFixedGranularity'] | (never | null);
+        };
+        /** @description DashboardTabbedChart renders chart tiles behind chart-specific tabs. */
+        DashboardTabbedChart: {
+            /** @default  */
+            componentId: string | null;
+            /** @default  */
+            title: string | null;
+            tabs?: components['schemas']['DashboardChartTab'][] | null;
+        };
+        /** @description DashboardTabbedTable renders table components behind table-specific tabs. */
+        DashboardTabbedTable: {
+            /** @default  */
+            componentId: string | null;
+            /** @default  */
+            title: string | null;
+            tabs?: components['schemas']['DashboardTableTab'][] | null;
+        };
+        /** @description DashboardTable renders a table from dashboard chart data inputs. */
+        DashboardTable: {
+            /** @default  */
+            componentId: string | null;
+            /** @default  */
+            title: string | null;
+            /** @description DashboardChartDataSpec carries chart query inputs synthesized into RAQI requests. */
+            dataSpec?: components['schemas']['DashboardChartDataSpec'] | (never | null);
+        };
+        /** @description DashboardTableTab defines one table tab and its table component. */
+        DashboardTableTab: {
+            /** @default  */
+            tabKey: string | null;
+            /** @default  */
+            labelKey: string | null;
+            /** @description DashboardTable renders a table from dashboard chart data inputs. */
+            table?: components['schemas']['DashboardTable'] | (never | null);
+        };
+        /** @description DashboardTimeRangeOptions defines the available time range behavior for a surface. */
+        DashboardTimeRangeOptions: {
+            /** @description DashboardNoTimeRangeOptions disables time range controls for a surface. */
+            none?: components['schemas']['DashboardNoTimeRangeOptions'] | (never | null);
+            /** @description DashboardDateRangeOptions defines date range control behavior for a surface. */
+            dateRange?: components['schemas']['DashboardDateRangeOptions'] | (never | null);
+        } & unknown;
+        /** @description DashboardTimeRangeSubcontext applies a local time range control to a component. */
+        DashboardTimeRangeSubcontext: {
+            /**
+             * @description DashboardTimeRangeControlMode describes how time range controls are exposed.
+             * @default DASHBOARD_TIME_RANGE_CONTROL_MODE_INVALID
+             */
+            controlMode:
+                | (
+                      | (
+                            | 'DASHBOARD_TIME_RANGE_CONTROL_MODE_INVALID'
+                            | 'DASHBOARD_TIME_RANGE_CONTROL_MODE_DATE_RANGE_DROPDOWN'
+                            | 'DASHBOARD_TIME_RANGE_CONTROL_MODE_ZOOM_RESET_ONLY'
+                        )
+                      | number
+                  )
+                | (never | null);
+            dateRangeKeys?: string[] | null;
+            /** @default  */
+            defaultDateRangeKey: string | null;
+            granularityByDateRange?: {
+                [key: string]:
+                    | (
+                          | 'DASHBOARD_GRANULARITY_INVALID'
+                          | 'DASHBOARD_GRANULARITY_CUMULATIVE'
+                          | 'DASHBOARD_GRANULARITY_MINUTE'
+                          | 'DASHBOARD_GRANULARITY_HALF_HOUR'
+                          | 'DASHBOARD_GRANULARITY_HOUR'
+                          | 'DASHBOARD_GRANULARITY_DAY'
+                          | 'DASHBOARD_GRANULARITY_WEEK'
+                          | 'DASHBOARD_GRANULARITY_MONTH'
+                      )
+                    | number;
+            } | null;
+        };
+        /** @description DashboardUnfilteredEntry defines the unfiltered selector option for a dimension control. */
+        DashboardUnfilteredEntry: {
+            /** @default  */
+            textKey: string | null;
+            breakdownDimensionKeys?: string[] | null;
+        };
+        /** @description DashboardUntabbedPage renders a dashboard page without tabs. */
+        DashboardUntabbedPage: {
+            /** @description DashboardPageMetadata carries localized metadata for a dashboard page. */
+            metadata?: components['schemas']['DashboardPageMetadata'] | (never | null);
+            /**
+             * @description DashboardSurface is a renderable analytics surface. It owns page-wide
+             *     analytics context/controls as well as the layout nodes rendered inside that
+             *     context.
+             */
+            surface?: components['schemas']['DashboardSurface'] | (never | null);
+        };
         /** @description DataPoint dataPoints in the resulting query. */
         DataPoint: {
             /** @description The date of the benchmark value. */
@@ -50261,7 +56064,12 @@ export interface components {
                    * @description The texture id of the decal.
                    */
                   textureId?: number;
-              } & components['schemas']['ToolboxService.Asset'])
+                  /**
+                   * @description The Version Number of the texture that this decal version references, as a string to match the Open Cloud Assets API.
+                   *     Omitted when unknown.
+                   */
+                  textureRevisionId?: string | null;
+              } & components['schemas']['Asset'])
             | null;
         Decimal: {
             /** Format: int64 */
@@ -50274,6 +56082,13 @@ export interface components {
         /** @description Response to delete a custom matchmaking signal. */
         DeleteCustomMatchmakingSignalResponse: {
             scoringConfiguration: components['schemas']['MatchmakingScoringConfiguration'];
+        };
+        DeleteDashboardResponse: {
+            /**
+             * @description DashboardMetadata is the metadata-only shape returned by list calls.
+             *     It intentionally omits the document body so list views do not load dashboard payloads.
+             */
+            metadata?: components['schemas']['DashboardMetadata'] | (never | null);
         };
         /** @description Request model for deleting/resetting a draft. */
         DeleteDraftRequest: {
@@ -50541,6 +56356,13 @@ export interface components {
             status: number;
             /** @description A short summary of the error class. */
             title: string;
+        };
+        ErrorInfo: {
+            reason?: string | null;
+            domain?: string | null;
+            readonly metadata?: {
+                [key: string]: string | null;
+            } | null;
         };
         /** @description error log detail */
         ErrorLogDetail: {
@@ -51014,11 +56836,25 @@ export interface components {
          * @enum {string}
          */
         FetchStatus: 'Failure' | 'Success';
+        /** @description A file to be uploaded */
+        File: {
+            /** @description MIME type of the file content. */
+            contentType?: string | null;
+            /**
+             * Format: int64
+             * @description Size of the file.
+             */
+            filesize?: number;
+            /** @description MD5 checksum of the file. */
+            md5Checksum?: string | null;
+            /** @description A list of chunk lengths. */
+            chunkPlan?: number[] | null;
+        };
         /**
          * @description Enum describing the different available filter fields.
          * @enum {string}
          */
-        FilterField: 'EngineVersion' | 'PlaceVersion' | 'ALL';
+        FilterField: 'EngineVersion' | 'PlaceVersion' | 'ALL' | 'ServerRegion';
         /** @description Describes the metadata and available values for a single filter field. */
         FilterFieldInfo: {
             /** @description The technical name of the field. */
@@ -51047,6 +56883,7 @@ export interface components {
                 EngineVersion?: components['schemas']['FilterFieldInfo'];
                 PlaceVersion?: components['schemas']['FilterFieldInfo'];
                 ALL?: components['schemas']['FilterFieldInfo'];
+                ServerRegion?: components['schemas']['FilterFieldInfo'];
             } | null;
         };
         /**
@@ -51285,6 +57122,8 @@ export interface components {
             terminationTime: string | null;
             /** @description The list of PlayerIds in the server */
             playerIds: number[] | null;
+            /** @description The region of the server, as nearest Airport Code (Metro) */
+            serverRegion?: string | null;
         };
         /** @description Response model for listing a game server log */
         GameServerLog: {
@@ -51474,6 +57313,10 @@ export interface components {
             /** @description Gets or sets the account settings. */
             account: components['schemas']['Account'];
         };
+        GetDashboardResponse: {
+            /** @description CustomDashboard is the full dashboard response shape. */
+            dashboard?: components['schemas']['CustomDashboard'] | (never | null);
+        };
         /**
          * @description Response body for
          *     `GET /v1/experimentation/universes/{universeId}/operations/{operationId}`.
@@ -51580,6 +57423,12 @@ export interface components {
         'Google.Protobuf.WellKnownTypes.Any': {
             typeUrl?: string | null;
             value?: number[] | null;
+        };
+        'Google.Protobuf.WellKnownTypes.Timestamp': {
+            /** Format: int64 */
+            Seconds?: number;
+            /** Format: int32 */
+            Nanos?: number;
         };
         'Google.Rpc.Status': {
             /** Format: int32 */
@@ -52146,107 +57995,6 @@ export interface components {
              */
             bypassSlowMode?: boolean;
         };
-        'GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_': {
-            /** Format: int64 */
-            id?: number;
-            /**
-             * Format: int32
-             * @description ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95, 'ComputeFunction' = 96, 'AvatarEffect' = 97]
-             * @enum {integer}
-             */
-            type?:
-                | 1
-                | 2
-                | 3
-                | 4
-                | 5
-                | 6
-                | 7
-                | 8
-                | 9
-                | 10
-                | 11
-                | 12
-                | 13
-                | 16
-                | 17
-                | 18
-                | 19
-                | 21
-                | 22
-                | 24
-                | 25
-                | 26
-                | 27
-                | 28
-                | 29
-                | 30
-                | 31
-                | 32
-                | 33
-                | 34
-                | 35
-                | 37
-                | 38
-                | 39
-                | 40
-                | 41
-                | 42
-                | 43
-                | 44
-                | 45
-                | 46
-                | 47
-                | 48
-                | 49
-                | 50
-                | 51
-                | 52
-                | 53
-                | 54
-                | 55
-                | 56
-                | 59
-                | 60
-                | 61
-                | 62
-                | 63
-                | 64
-                | 65
-                | 66
-                | 67
-                | 68
-                | 69
-                | 70
-                | 71
-                | 72
-                | 73
-                | 74
-                | 75
-                | 76
-                | 77
-                | 78
-                | 79
-                | 80
-                | 81
-                | 82
-                | 83
-                | 84
-                | 85
-                | 86
-                | 87
-                | 88
-                | 89
-                | 90
-                | 91
-                | 92
-                | 93
-                | 94
-                | 95
-                | 96
-                | 97;
-            name?: string;
-        };
         /** @description A homepage thumbnail associated with a universe. */
         HomepageThumbnail: {
             /** @description The unique identifier of the homepage thumbnail. */
@@ -52664,12 +58412,19 @@ export interface components {
         /** @description A list of AssetQuotas in the parent collection. */
         ListAssetQuotasResponse: {
             /** @description The AssetQuotas from the specified User. */
-            assetQuotas?: components['schemas']['AssetQuota'][];
+            readonly assetQuotas?: components['schemas']['AssetQuota'][] | null;
             /**
              * @description A token that you can send as a `pageToken` parameter to retrieve the next
              *     page. If this field is omitted, there are no subsequent pages.
              */
-            nextPageToken?: string;
+            nextPageToken?: string | null;
+        };
+        /** @description A list of AssetVersions in the parent collection. */
+        ListAssetVersionsResponse: {
+            /** @description The asset versions on this page. May be omitted when empty. */
+            readonly assetVersions?: components['schemas']['AssetVersion'][] | null;
+            /** @description Pass this token as `pageToken` to retrieve the next page. If omitted, there are no subsequent pages. */
+            nextPageToken?: string | null;
         };
         ListBillingAccountsResponse: {
             /** @description The page of billing accounts. */
@@ -52689,6 +58444,13 @@ export interface components {
              */
             nextPageToken?: string;
         };
+        /** @description A page of client log entries from one play session. */
+        ListClientLogsResponse: {
+            /** @description The client log entries in this page. */
+            clientLogs?: components['schemas']['ClientLog'][] | null;
+            /** @description An opaque token for the next page. Omitted when there are no more entries. */
+            nextPageToken?: string | null;
+        };
         ListCreativesResponse: {
             /** @description The page of creatives. */
             creatives?: components['schemas']['Creative'][];
@@ -52697,6 +58459,18 @@ export interface components {
              *     Absent on the last page.
              */
             nextPageToken?: string;
+        };
+        ListDashboardsResponse: {
+            dashboards?: components['schemas']['DashboardMetadata'][] | null;
+            /** @default  */
+            nextPageToken: string | null;
+            /**
+             * @description Capabilities and limits for the calling user in `ListDashboardsRequest.universe_id`.
+             *     Identical to what `GetDashboardCapabilities` returns for the same caller and
+             *     universe; both are populated by one shared implementation. Present on every
+             *     page so a manage page does not need a second round trip.
+             */
+            capabilities?: components['schemas']['DashboardCapabilities'] | (never | null);
         };
         /** @description A list of DataStoreEntries in the parent collection. */
         ListDataStoreEntriesResponse: {
@@ -53847,7 +59621,17 @@ export interface components {
                    * @description The texture id of the meshpart.
                    */
                   textureId?: number;
-              } & components['schemas']['ToolboxService.Asset'])
+                  /**
+                   * @description The Version Number of the mesh that this meshpart version references, as a string to match the Open Cloud Assets API.
+                   *     Omitted when unknown.
+                   */
+                  meshRevisionId?: string | null;
+                  /**
+                   * @description The Version Number of the texture that this meshpart version references, as a string to match the Open Cloud Assets API.
+                   *     Omitted when unknown.
+                   */
+                  textureRevisionId?: string | null;
+              } & components['schemas']['Asset'])
             | null;
         /** @description Represents the reaction to a message. */
         MessageReaction: {
@@ -53957,7 +59741,7 @@ export interface components {
                   instanceCounts?: components['schemas']['InstanceCounts'] | null;
                   /** @description Script capabilities for the asset (sandboxing) */
                   capabilities?: components['schemas']['CreatorStoreCapabilitiesModel'] | null;
-              } & components['schemas']['ToolboxService.Asset'])
+              } & components['schemas']['Asset'])
             | null;
         /**
          * @description A list of model instance types. See Toolbox.Service.Models.Internal.InstanceCounts and [Instance](https://create.roblox.com/docs/reference/engine/classes/Instance) for more details.
@@ -53981,8 +59765,13 @@ export interface components {
         /** @description The moderation result of the asset. */
         ModerationResult: {
             /** @description The moderation state of the asset. Can be `Reviewing`, `Rejected`, or `Approved`. */
-            moderationState?: string;
+            moderationState?: components['schemas']['ModerationState'];
         };
+        /**
+         * @description The moderation state of the asset.
+         * @enum {string}
+         */
+        ModerationState: 'Unspecified' | 'Reviewing' | 'Rejected' | 'Approved';
         /**
          * @description The moderation status of a homepage thumbnail's image asset.
          * @enum {string}
@@ -53992,6 +59781,32 @@ export interface components {
             currencyCode?: string | null;
             quantity?: components['schemas']['Decimal'] | null;
         } | null;
+        /** @description Request of Roblox.AssetsManagement.AssetsUploadApi.MultipartUploadChunkCompleteOperation */
+        MultipartUploadChunkCompleteRequest: {
+            /**
+             * Format: int32
+             * @description The number of this Chunk.
+             */
+            chunkNum?: number;
+            /** @description ETag of this chunk. */
+            eTag?: string | null;
+        };
+        /** @description Request of Roblox.AssetsManagement.AssetsUploadApi.MultipartUploadStartOperation */
+        MultipartUploadStartRequest: {
+            asset?: components['schemas']['AssetsUploadApi.Asset'];
+            file?: components['schemas']['File'];
+            /** @description Optional: Additional parameters to be sent with the request can be included here. */
+            additionalParameters?: {
+                [key: string]: string;
+            } | null;
+        };
+        /** @description Response of Roblox.AssetsManagement.AssetsUploadApi.MultipartUploadStartOperation */
+        MultipartUploadStartResponse: {
+            /** @description ID of the operation. */
+            operationPath?: string | null;
+            /** @description A list of upload urls to upload chunks. */
+            uploadUrls?: components['schemas']['PreSignedUploadUrl'][] | null;
+        };
         /** @description Representation of a music asset. */
         Music:
             | ({
@@ -54034,25 +59849,6 @@ export interface components {
             nextPageCursor?: string | null;
             previousPageCursor?: string | null;
             data?: components['schemas']['MyPrivateServersData'][] | null;
-        };
-        /** @description This resource represents a long-running operation that is the result of a network API call. */
-        'OCV1.Assets.Operation': {
-            /** @description The server-assigned resource path. The default format is `operations/{operation_id}`. */
-            path?: string;
-            /** @description If `false`, the operation is still in progress. If `true`, the operation is completed. */
-            done?: boolean;
-            error?: components['schemas']['OCV1.Assets.Status'];
-            response?: components['schemas']['Asset'];
-        };
-        /** @description The logical error model explaining the error status. */
-        'OCV1.Assets.Status': {
-            /**
-             * Format: int32
-             * @description The HTTP status code.
-             */
-            code?: number;
-            /** @description The error message. */
-            message?: string;
         };
         /** @description The data store object with its name and created time. */
         'OCV1.DataStores.DataStore': {
@@ -54134,11 +59930,44 @@ export interface components {
             /** @description Why the objective is unavailable. Present only when available is false. */
             unavailableReasons?: components['schemas']['Reason'][];
         };
-        'OpenCloudUniversesService.Status': {
+        OpenCloudErrorOfCustomDashboardError: {
             /** Format: int32 */
-            code?: number;
-            message?: string;
-            details?: components['schemas']['Any'][];
+            code: number;
+            message: string | null;
+            /** @description CustomDashboardError is the structured error detail for API failures. */
+            details?: {
+                /** @default CUSTOM_DASHBOARD_ERROR_REASON_INVALID */
+                reason:
+                    | (
+                          | (
+                                | 'CUSTOM_DASHBOARD_ERROR_REASON_INVALID'
+                                | 'CUSTOM_DASHBOARD_ERROR_REASON_VALIDATION_FAILED'
+                                | 'CUSTOM_DASHBOARD_ERROR_REASON_VERSION_CONFLICT'
+                                | 'CUSTOM_DASHBOARD_ERROR_REASON_NOT_FOUND'
+                                | 'CUSTOM_DASHBOARD_ERROR_REASON_PERMISSION_DENIED'
+                                | 'CUSTOM_DASHBOARD_ERROR_REASON_QUOTA_EXCEEDED'
+                                | 'CUSTOM_DASHBOARD_ERROR_REASON_STORAGE_UNAVAILABLE'
+                                | 'CUSTOM_DASHBOARD_ERROR_REASON_INTERNAL_FAILURE'
+                                | 'CUSTOM_DASHBOARD_ERROR_REASON_UNSUPPORTED_SCHEMA_VERSION'
+                                | 'CUSTOM_DASHBOARD_ERROR_REASON_MIGRATION_FAILED'
+                                | 'CUSTOM_DASHBOARD_ERROR_REASON_IDEMPOTENCY_KEY_CONSUMED'
+                            )
+                          | number
+                      )
+                    | (never | null);
+                /** @default  */
+                dashboardId: string | null;
+                /** @default  */
+                message: string | null;
+                validationIssues?: components['schemas']['CustomDashboardValidationIssue'][] | null;
+                conflictDetails?: components['schemas']['CustomDashboardConflictDetails'] | (never | null);
+            };
+            referenceId?: string | null;
+        } & {
+            [key: string]: unknown;
+        };
+        OpenCloudErrorResponseOfCustomDashboardError: {
+            errors: components['schemas']['OpenCloudErrorOfCustomDashboardError'][] | null;
         };
         /** @description Represents a Roblox experience. */
         'OpenCloudUniversesService.Universe': {
@@ -54146,98 +59975,58 @@ export interface components {
              * @description The resource path of the universe.
              *
              *     Format: `universes/{universe_id}`
-             * @example universes/123
              */
             path?: string;
             /**
              * Format: date-time
              * @description The timestamp when the universe was created.
-             * @example 2023-07-05T12:34:56Z
              */
             readonly createTime?: string;
             /**
              * Format: date-time
              * @description The timestamp when the universe was last updated.
-             * @example 2023-07-05T12:34:56Z
              */
             readonly updateTime?: string;
             /**
              * @description The name of the universe.
              *
              *     This field can be updated by updating the root place's name.
-             * @example ROBLOX Battle [OPEN]
              */
             readonly displayName?: string;
             /**
              * @description The description of the universe.
              *
              *     This field can be updated by updating the root place's description.
-             * @example OPEN SOURCE!
-             *      Feel free to check out how we made this game and ask us about it!
              */
             readonly description?: string;
             /** @description The universe is user-owned. */
             readonly user?: string;
             /** @description The universe is group-owned. */
             group?: string;
-            /**
-             * Format: enum
-             * @description Whether or not the universe is publicly accessible.
-             *
-             *     Possible values:
-             *
-             *       | Value | Description |
-             *       | --- | --- |
-             *       | VISIBILITY_UNSPECIFIED | Updates using this value will throw an error on the backend. |
-             *       | PUBLIC | The universe is public. |
-             *       | PRIVATE | The universe is private.  If a universe's visibility is set to PRIVATE, all active players will immediately be removed from all running servers. |
-             * @example VISIBILITY_UNSPECIFIED
-             * @enum {string}
-             */
-            readonly visibility?: 'VISIBILITY_UNSPECIFIED' | 'PUBLIC' | 'PRIVATE';
+            /** @description Whether or not the universe is publicly accessible. */
+            visibility?: components['schemas']['Universe_Visibility'];
             /** @description The Facebook social link. */
-            facebookSocialLink?: components['schemas']['Universe_SocialLink'];
+            facebookSocialLink?: components['schemas']['OpenCloudUniversesService.Universe_SocialLink'];
             /** @description The Twitter social link. */
-            twitterSocialLink?: components['schemas']['Universe_SocialLink'];
+            twitterSocialLink?: components['schemas']['OpenCloudUniversesService.Universe_SocialLink'];
             /** @description The Youtube social link. */
-            youtubeSocialLink?: components['schemas']['Universe_SocialLink'];
+            youtubeSocialLink?: components['schemas']['OpenCloudUniversesService.Universe_SocialLink'];
             /** @description The Twitch social link. */
-            twitchSocialLink?: components['schemas']['Universe_SocialLink'];
+            twitchSocialLink?: components['schemas']['OpenCloudUniversesService.Universe_SocialLink'];
             /** @description The Discord social link. */
-            discordSocialLink?: components['schemas']['Universe_SocialLink'];
+            discordSocialLink?: components['schemas']['OpenCloudUniversesService.Universe_SocialLink'];
             /** @description The Roblox group social link. */
-            robloxGroupSocialLink?: components['schemas']['Universe_SocialLink'];
+            robloxGroupSocialLink?: components['schemas']['OpenCloudUniversesService.Universe_SocialLink'];
             /** @description The Guilded social link. */
-            guildedSocialLink?: components['schemas']['Universe_SocialLink'];
+            guildedSocialLink?: components['schemas']['OpenCloudUniversesService.Universe_SocialLink'];
             /**
              * @description Whether or not voice chat is enabled for users in the Experience.
              *
              *     Updating this value will not affect active servers.
-             * @example true
              */
             voiceChatEnabled?: boolean;
-            /**
-             * Format: enum
-             * @description The age rating of this universe.
-             *
-             *     Possible values:
-             *
-             *       | Value | Description |
-             *       | --- | --- |
-             *       | AGE_RATING_UNSPECIFIED | The age rating is not set. |
-             *       | AGE_RATING_ALL | Supported for all users. |
-             *       | AGE_RATING_9_PLUS | Supported for users aged 9 and up. |
-             *       | AGE_RATING_13_PLUS | Supported for users aged 13 and up. |
-             *       | AGE_RATING_17_PLUS | Supported for users aged 17 and up. |
-             * @example AGE_RATING_UNSPECIFIED
-             * @enum {string}
-             */
-            readonly ageRating?:
-                | 'AGE_RATING_UNSPECIFIED'
-                | 'AGE_RATING_ALL'
-                | 'AGE_RATING_9_PLUS'
-                | 'AGE_RATING_13_PLUS'
-                | 'AGE_RATING_17_PLUS';
+            /** @description The age rating of this universe. */
+            ageRating?: components['schemas']['Universe_AgeRating'];
             /**
              * Format: int32
              * @description Represents the price in Robux of private servers.
@@ -54251,30 +60040,15 @@ export interface components {
              *     Changing the price will cancel all private server subscriptions.
              */
             privateServerPriceRobux?: number;
-            /**
-             * @description Whether or not players can join the Experience via Desktop.
-             * @example true
-             */
+            /** @description Whether or not players can join the Experience via Desktop. */
             desktopEnabled?: boolean;
-            /**
-             * @description Whether or not players can join the Experience via Mobile.
-             * @example true
-             */
+            /** @description Whether or not players can join the Experience via Mobile. */
             mobileEnabled?: boolean;
-            /**
-             * @description Whether or not players can join the Experience via Tablet.
-             * @example true
-             */
+            /** @description Whether or not players can join the Experience via Tablet. */
             tabletEnabled?: boolean;
-            /**
-             * @description Whether or not players can join the Experience via Console.
-             * @example true
-             */
+            /** @description Whether or not players can join the Experience via Console. */
             consoleEnabled?: boolean;
-            /**
-             * @description Whether or not players can join the Experience via VR.
-             * @example true
-             */
+            /** @description Whether or not players can join the Experience via VR. */
             vrEnabled?: boolean;
             /**
              * @description The resource path of the root place of this universe
@@ -54286,9 +60060,19 @@ export interface components {
              *     The root place of the newly-created universe will be a clone of this
              *     template. A list of the valid template places can be obtained from
              *     ListTemplatePlaces. Format: universes/{universe_id}/places/{place_id}
-             * @example universes/{universe_id}/places/{place_id}
              */
             templateRootPlace: string;
+        };
+        /**
+         * @description A social link that may be associated with the universe.
+         *
+         *     Can only be removed when using a field mask.
+         */
+        'OpenCloudUniversesService.Universe_SocialLink': {
+            /** @description The title of the social link. */
+            title?: string;
+            /** @description The uri of the social link. */
+            uri?: string;
         };
         /**
          * @description This resource represents a long-running operation that is the result of a
@@ -54522,7 +60306,7 @@ export interface components {
         };
         PaymentMethod: {
             /**
-             * @description Normalized card brand; unrecognized networks use OTHER (v1.1).
+             * @description Normalized card brand; unrecognized networks use OTHER.
              * @enum {unknown}
              */
             cardBrand?: 'VISA' | 'MASTERCARD' | 'AMEX' | 'DISCOVER' | 'JCB' | 'DINERS' | 'UNIONPAY' | 'OTHER';
@@ -54534,7 +60318,7 @@ export interface components {
             expirationYear?: number;
             /** @description The payment method ID. */
             id: string;
-            /** @description Last four digits of the card (v1.1). */
+            /** @description Last four digits of the card. */
             lastFourDigits?: string;
             /**
              * @description The current status of the payment method. Can be `ACTIVE`, `ACTION_REQUIRED`, `EXPIRED`, or `DISABLED`.
@@ -54547,7 +60331,7 @@ export interface components {
              */
             type: 'CARD' | 'INVOICE';
             /**
-             * @description Card verification state, independent of expiration (v1.1).
+             * @description Card verification state, independent of expiration.
              * @enum {string}
              */
             verificationState?: 'VERIFIED' | 'UNVERIFIED' | 'CHALLENGE_PENDING';
@@ -54575,6 +60359,11 @@ export interface components {
              */
             expYear?: number | null;
         };
+        /**
+         * @description Period of time the quota is for.
+         * @enum {string}
+         */
+        Period: 'UNSPECIFIED' | 'MONTH' | 'DAY';
         /**
          * @description The lifecycle status of a thumbnail personalization configuration.
          * @enum {string}
@@ -54607,31 +60396,21 @@ export interface components {
              * @description The resource path of the place.
              *
              *     Format: `universes/{universe_id}/places/{place_id}`
-             * @example universes/123/places/123
              */
             path?: string;
             /**
              * Format: date-time
              * @description The timestamp at which the place was created.
-             * @example 2023-07-05T12:34:56Z
              */
             readonly createTime?: string;
             /**
              * Format: date-time
              * @description The timestamp at which the place was updated.
-             * @example 2023-07-05T12:34:56Z
              */
             readonly updateTime?: string;
-            /**
-             * @description The name of the place.
-             * @example ROBLOX Battle [OPEN]
-             */
+            /** @description The name of the place. */
             displayName?: string;
-            /**
-             * @description The description of the place.
-             * @example OPEN SOURCE!
-             *      Feel free to check out how we made this game and ask us about it!
-             */
+            /** @description The description of the place. */
             description?: string;
             /**
              * Format: int32
@@ -54641,14 +60420,12 @@ export interface components {
             /**
              * @description Whether this place is its parent universe's root place or not.
              *     Each universe has exactly one root place.
-             * @example true
              */
             readonly root?: boolean;
             /**
              * @description Whether this place was created through in-experience creation.
              *     If true, the place was created by calling AssetService::CreatePlaceAsync()
              *     from a script.
-             * @example true
              */
             readonly universeRuntimeCreation?: boolean;
             /**
@@ -54657,7 +60434,6 @@ export interface components {
              *     The newly created place will be a clone of this template.
              *     A list of the valid template places can be obtained from
              *     ListTemplatePlaces. Format: universes/{universe_id}/places/{place_id}
-             * @example universes/{universe_id}/places/{place_id}
              */
             templatePlace: string;
         };
@@ -54922,8 +60698,40 @@ export interface components {
                    * @description The number of scripts that are in the plugin.
                    */
                   scriptCount?: number;
-              } & components['schemas']['ToolboxService.Asset'])
+              } & components['schemas']['Asset'])
             | null;
+        /**
+         * @description A pre-signed upload URL which allows anyone with this URL to upload a file with limited HTTP method and file size.
+         *
+         *     Example curl command to upload with a pre-signed PUT url:
+         *     curl -v {pre-signed url} -T {filepath}
+         */
+        PreSignedUploadUrl: {
+            /** @description HTTP Verb to use with the given url. */
+            httpVerb?: string | null;
+            /** @description Pre signed url used to upload. */
+            url?: string | null;
+            /**
+             * Format: int64
+             * @description Expiration of pre signed url.
+             */
+            expirationTimeMs?: number;
+            /**
+             * Format: int32
+             * @description Num of file chunk to upload corresponding to the ChunkPlan in the start request.
+             */
+            chunkNum?: number;
+            /**
+             * Format: int64
+             * @description Start position of this chunk.
+             */
+            contentStart?: number;
+            /**
+             * Format: int64
+             * @description Length of this chunk.
+             */
+            contentLength?: number;
+        };
         'PresenceApi.ErrorResponse': {
             errors?: components['schemas']['Error'][] | null;
         };
@@ -54935,9 +60743,9 @@ export interface components {
         /** @description An asset preview. */
         Preview: {
             /** @description The preview asset path. */
-            asset?: string;
+            asset?: string | null;
             /** @description Alt text for the preview asset. */
-            altText?: string;
+            altText?: string | null;
         };
         /** @description Grouped preview asset ids for an item, separated by media type. */
         PreviewAssetsModel: {
@@ -55270,6 +61078,10 @@ export interface components {
             /** Format: int64 */
             percentage?: number;
         };
+        PublishDashboardResponse: {
+            /** @description CustomDashboard is the full dashboard response shape. */
+            dashboard?: components['schemas']['CustomDashboard'] | (never | null);
+        };
         /** @description Request model for publishing a draft. */
         PublishDraftRequest: {
             /** @description The draft hash for concurrency control. If provided, the publish will fail if it doesn't match. */
@@ -55405,6 +61217,11 @@ export interface components {
              */
             objective?: 'BENCHMARK_OBJECTIVE_INVALID' | 'BENCHMARK_OBJECTIVE_MAXIMIZE' | 'BENCHMARK_OBJECTIVE_MINIMIZE';
         };
+        /**
+         * @description Quota type.
+         * @enum {string}
+         */
+        QuotaType: 'UNSPECIFIED' | 'RATE_LIMIT_UPLOAD' | 'RATE_LIMIT_CREATOR_STORE_DISTRIBUTE';
         /** @description Returns the specified number of items at the front of the queue. */
         ReadMemoryStoreQueueItemsResponse: {
             /** @description The items read from the queue */
@@ -55532,6 +61349,12 @@ export interface components {
         /** @description Restarts all of the universe's servers. */
         RestartUniverseServersRequest: {
             /**
+             * @description The path of the universe.
+             *
+             *     Format: `universes/{universe_id}`
+             */
+            path?: string;
+            /**
              * @description The place IDs to update. If none are specified, all active places in the
              *     universe will be updated.
              */
@@ -55540,7 +61363,6 @@ export interface components {
              * @description If true, players from servers running both old and new place versions will
              *     be restarted. If false, restarts all active servers for a specific universe
              *     if and only if a new version of the experience has been published.
-             * @example true
              */
             closeAllVersions?: boolean;
             /**
@@ -55548,14 +61370,12 @@ export interface components {
              *     bleed_off_duration_minutes before shutting down.
              *     This setting gives players time to naturally migrate to the newer version.
              *     If false, servers will immediately start shutting down.
-             * @example true
              */
             bleedOffServers?: boolean;
             /**
              * Format: int32
              * @description If bleed_off_servers is true, how long (in minutes) old servers are allowed
              *     to stay up before shutting them down. Valid values: 1-60 minutes.
-             * @example 10
              */
             bleedOffDurationMinutes?: number;
         };
@@ -59570,6 +65390,49 @@ export interface components {
             accountBlob?: string;
             accountLinkParameters?: components['schemas']['Roblox.Authentication.Api.Models.AccountLinkParameters'];
         };
+        'Roblox.AvatarMarketplacePublishing.AvatarMarketplacePublishingGateway.V1Beta1.DynamicPriceConfiguration': {
+            /** Format: int64 */
+            MinimumPrice?: number;
+            /** Format: int64 */
+            PriceOffset?: number;
+            IsOptOutRegionalPricing?: boolean;
+        };
+        'Roblox.AvatarMarketplacePublishing.AvatarMarketplacePublishingGateway.V1Beta1.ItemDelistingStatus': {
+            Target?: components['schemas']['Roblox.AvatarMarketplacePublishing.AvatarMarketplacePublishingGateway.V1Beta1.Target'];
+            /**
+             * Format: int32
+             * @description ['Invalid' = 0, 'Delisted' = 1, 'NotDelisted' = 2]
+             * @enum {integer}
+             */
+            Status?: 0 | 1 | 2;
+        };
+        'Roblox.AvatarMarketplacePublishing.AvatarMarketplacePublishingGateway.V1Beta1.Target': {
+            /**
+             * Format: int32
+             * @description ['Invalid' = 0, 'Asset' = 1, 'Bundle' = 2, 'AvatarMarketplaceToken' = 3, 'Look' = 4]
+             * @enum {integer}
+             */
+            TargetType?: 0 | 1 | 2 | 3 | 4;
+            Id?: string;
+        };
+        'Roblox.AvatarMarketplacePublishing.Shared.V1Beta1.Creator': {
+            User?: components['schemas']['Roblox.AvatarMarketplacePublishing.Shared.V1Beta1.Creator.Types.User'];
+            Group?: components['schemas']['Roblox.AvatarMarketplacePublishing.Shared.V1Beta1.Creator.Types.Group'];
+            /**
+             * Format: int32
+             * @description ['None' = 0, 'User' = 1, 'Group' = 2]
+             * @enum {integer}
+             */
+            readonly KindCase?: 0 | 1 | 2;
+        };
+        'Roblox.AvatarMarketplacePublishing.Shared.V1Beta1.Creator.Types.Group': {
+            /** Format: int64 */
+            GroupId?: number;
+        };
+        'Roblox.AvatarMarketplacePublishing.Shared.V1Beta1.Creator.Types.User': {
+            /** Format: int64 */
+            UserId?: number;
+        };
         /** @description The result of being awarded a badge. */
         'Roblox.Badges.Api.BadgeAwardResponse': {
             /**
@@ -59970,7 +65833,8 @@ export interface components {
                 | 93
                 | 94
                 | 95
-                | 96;
+                | 96
+                | 97;
             /**
              * Format: int32
              * @description The Roblox.Platform.Bundles.Core.BundleType serialized if item is a bundle.
@@ -60181,7 +66045,8 @@ export interface components {
                 | 93
                 | 94
                 | 95
-                | 96;
+                | 96
+                | 97;
             /**
              * Format: int32
              * @description The Roblox.Platform.Bundles.Core.BundleType serialized if item is a bundle.
@@ -60400,7 +66265,8 @@ export interface components {
                 | 93
                 | 94
                 | 95
-                | 96;
+                | 96
+                | 97;
             /**
              * Format: int32
              * @description The Roblox.Platform.Bundles.Core.BundleType serialized if item is a bundle.
@@ -60914,6 +66780,10 @@ export interface components {
              *     If the channel is not flag-only, this is omitted.
              */
             isFlagOnly?: boolean;
+        };
+        'Roblox.Collectibles.Shared.V1.ScheduledRelease': {
+            OnSaleTime?: components['schemas']['Google.Protobuf.WellKnownTypes.Timestamp'];
+            OffSaleTime?: components['schemas']['Google.Protobuf.WellKnownTypes.Timestamp'];
         };
         'Roblox.Contacts.Api.Request.GetUserTagsRequestModel': {
             targetUserIds?: number[];
@@ -62733,7 +68603,7 @@ export interface components {
             /** @description The game description. */
             description?: string;
             creator?: components['schemas']['Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Core.CreatorType_'];
-            rootPlace?: components['schemas']['GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_'];
+            rootPlace?: components['schemas']['Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_'];
             /**
              * Format: date-time
              * @description When the game was created.
@@ -63171,6 +69041,22 @@ export interface components {
              */
             created?: string;
         };
+        /** @description The agent model. */
+        'Roblox.ItemConfiguration.Api.AgentModel': {
+            /**
+             * Format: int32
+             * @description ['User' = 1, 'Group' = 2]
+             * @enum {integer}
+             */
+            readonly type?: 1 | 2;
+            /** Format: int64 */
+            readonly id?: number;
+            readonly name?: string;
+        };
+        'Roblox.ItemConfiguration.Api.AllowedAgentsAssetTypeActionResponse': {
+            /** @description The allowed agents for whom a user can perform specified action. */
+            agents?: components['schemas']['Roblox.ItemConfiguration.Api.AgentModel'][];
+        };
         'Roblox.ItemConfiguration.Api.AssetCreationsDetailsRequest': {
             AssetIds?: number[];
         };
@@ -63232,6 +69118,1431 @@ export interface components {
             /** @description The asset name. */
             name?: string;
         };
+        /** @description The asset details. */
+        'Roblox.ItemConfiguration.Api.AssetDetails': {
+            /**
+             * Format: int32
+             * @description The asset type. ['Invalid' = 0, 'Image' = 1, 'Tshirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'Html' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YoutubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TshirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95, 'ComputeFunction' = 96, 'AvatarSpawnEffect' = 97]
+             * @enum {integer}
+             */
+            assetType?:
+                | 0
+                | 1
+                | 2
+                | 3
+                | 4
+                | 5
+                | 6
+                | 7
+                | 8
+                | 9
+                | 10
+                | 11
+                | 12
+                | 13
+                | 16
+                | 17
+                | 18
+                | 19
+                | 21
+                | 22
+                | 24
+                | 25
+                | 26
+                | 27
+                | 28
+                | 29
+                | 30
+                | 31
+                | 32
+                | 33
+                | 34
+                | 35
+                | 37
+                | 38
+                | 39
+                | 40
+                | 41
+                | 42
+                | 43
+                | 44
+                | 45
+                | 46
+                | 47
+                | 48
+                | 49
+                | 50
+                | 51
+                | 52
+                | 53
+                | 54
+                | 55
+                | 56
+                | 59
+                | 60
+                | 61
+                | 62
+                | 63
+                | 64
+                | 65
+                | 66
+                | 67
+                | 68
+                | 69
+                | 70
+                | 71
+                | 72
+                | 73
+                | 74
+                | 75
+                | 76
+                | 77
+                | 78
+                | 79
+                | 80
+                | 81
+                | 82
+                | 83
+                | 84
+                | 85
+                | 86
+                | 87
+                | 88
+                | 89
+                | 90
+                | 91
+                | 92
+                | 93
+                | 94
+                | 95
+                | 96
+                | 97;
+        };
+        /** @description The bundle details. */
+        'Roblox.ItemConfiguration.Api.BundleDetails': {
+            /**
+             * Format: int32
+             * @description The bundle type. ['Invalid' = 0, 'Body' = 1, 'DynamicHead' = 2, 'Shoes' = 3, 'AvatarAnimations' = 4]
+             * @enum {integer}
+             */
+            bundleType?: 0 | 1 | 2 | 3 | 4;
+        };
+        /** @description Defines the response model for the DELETE M:Roblox.ItemConfiguration.Api.CollectiblesController.CancelScheduledSaleStatusAsync(System.String,System.Threading.CancellationToken). */
+        'Roblox.ItemConfiguration.Api.CancelScheduledSaleStatusResponse': Record<string, never>;
+        /** @description Defines the response model for the GET v1/collectibles/check-item-configuration-access. */
+        'Roblox.ItemConfiguration.Api.CheckItemConfigurationAccessResponse': {
+            /** @description Whether or not the access is allowed. */
+            isAllowed?: boolean;
+            /**
+             * Format: int32
+             * @description Denied reason when the access is rejected.
+             *     Can return the following denied reasons
+             *     (MissingIdVerification, MissingTwoStepVerification, CreationAccessBlocked, MissingPremiumSubscriptionTier,
+             *     GroupOwnerMissingPremiumSubscriptionTier, MissingCicRoleset). ['Unknown' = 0, 'InvalidTargetType' = 1, 'FailedToFetchPublishingFee' = 2, 'ServiceUnavailable' = 3, 'InvalidArgument' = 4, 'NotFound' = 5, 'FailedToGetCollectibleItemId' = 6, 'FailedToGetCommissionRates' = 7, 'NullParameterRequest' = 8, 'PublishLimitExceeded' = 9, 'AssetIsPendingValidation' = 10, 'AssetContainsInvalidContent' = 11, 'UserDoesNotHavePermissionsForGroupAsset' = 12, 'AssetTypeCannotBeReleased' = 13, 'AssetIsPendingReview' = 14, 'AssetIsModerated' = 15, 'ItemIsReleased' = 16, 'UserDoesNotHavePermissionToRelease' = 17, 'UserDoesNotOwnTheItem' = 18, 'ItemPriceTooLow' = 19, 'ItemPriceTooHigh' = 20, 'InvalidAssetId' = 21, 'InvalidAgent' = 22, 'NoExperiencesListed' = 23, 'NameIsModerated' = 24, 'DescriptionIsModerated' = 25, 'TextIsModerated' = 26, 'FailedToFilterText' = 27, 'AssetAlreadyReleasedAsUnlimited' = 28, 'AssetInDelayedRelease' = 29, 'InvalidIdempotencyToken' = 30, 'InvalidAgreedPublishingFee' = 31, 'GatewayCouldNotPublishItem' = 32, 'GroupAssetNotSupported' = 33, 'CouldNotFindInitialUserAsset' = 34, 'InvalidQuantity' = 35, 'SaleLocationCurrentlyNotSupported' = 36, 'InvalidCollectibleItemId' = 37, 'FailedToGetCollectibleItemInformation' = 38, 'GroupItemsNotSupported' = 39, 'FailedToUpdateCollectibleItem' = 40, 'PublishQuotaUnavailable' = 41, 'FailedToFetchMarketplaceFee' = 42, 'QuantityLimitCurrentlyNotSupported' = 43, 'InvalidQuantityLimit' = 44, 'ExactCopyOfAssetHasBeenPublished' = 45, 'ItemIsInBundle' = 46, 'ResaleRestrictionCurrentlyNotSupported' = 47, 'InvalidResaleRestriction' = 48, 'FailedToUpdateCollectibleDescription' = 49, 'InvalidBundleId' = 50, 'BundleTypeCannotBeReleased' = 51, 'BundleIsModerated' = 52, 'BundleAlreadyReleasedAsUnlimited' = 53, 'BundlesGatewayUnexpectedErrorCode' = 54, 'CissUnexpectedException' = 55, 'PublishingGatewayUnexpectedException' = 56, 'NonLimitedPublishingNotSupported' = 57, 'InvalidPublishingType' = 58, 'InvalidPriceOffset' = 59, 'InvalidMinimumPrice' = 60, 'InvalidSaleStatus' = 61, 'InvalidPriceConfiguration' = 62, 'FailedToGetPriceConfiguration' = 63, 'CannotBeFree' = 64, 'UnexpectedPlaceIds' = 65, 'MissingAuthenticatedUser' = 66, 'InvalidCreatorType' = 67, 'PermissionProviderNotEnabled' = 68, 'InvalidGroupId' = 69, 'InsufficientRobux' = 70, 'ItemNotFound' = 71, 'ItemIsModerated' = 72, 'ItemModerationUnknown' = 73, 'InvalidItemType' = 74, 'ItemHasArchivedDependencies' = 75, 'ItemIsDelisted' = 76, 'ResellableCreationNotAllowed' = 77, 'PolicyError' = 78, 'InvalidSaleLocationUpdate' = 79, 'InExperienceCreationPublishingBlocked' = 80, 'TokenServiceUnexpectedException' = 81, 'InvalidScheduledSaleStatus' = 82, 'InvalidCancelScheduledSaleStatus' = 83, 'ScheduledPublishingNotEnabled' = 84, 'OnSaleTimeInThePast' = 85, 'OffSaleTimeInThePast' = 86, 'OnSaleTimeTooFarInTheFuture' = 87, 'OffSaleTimeTooFarInTheFuture' = 88, 'OffSaleTimeBeforeOnSaleTime' = 89, 'ScheduledTimeOnSaleTooShort' = 90, 'ScheduledTimeAlreadySet' = 91, 'ScheduledTimeCannotSetItemOnSaleAgain' = 92, 'ScheduledTimeCannotSetItemOffSaleAgain' = 93, 'ActorIsModerated' = 94, 'CalendarQuotaExceeded' = 101, 'CalendarQuotaUnavailable' = 102, 'PublishingGatewayMissingReason' = 103, 'PublishingGatewayUnexpectedReason' = 104, 'PublishingGatewayUnexpectedAccessStatus' = 105, 'MissingIdVerification' = 106, 'CreationAccessBlocked' = 107, 'MissingPremiumSubscriptionTier' = 108, 'GroupOwnerMissingPremiumSubscriptionTier' = 109, 'MissingCicRoleset' = 110, 'AssetRestrictedByCommerce' = 111, 'DisallowedItemType' = 112, 'InvalidTargetId' = 113, 'PriceFloorNotFound' = 114, 'UserNotAuthorizedForAction' = 115, 'FailedToGetRevenueSplit' = 116, 'InvalidTransactionType' = 117, 'GrantedItemCannotBePublished' = 118, 'InvalidRentableType' = 119, 'LimitedItemsCannotBeRentable' = 120, 'TooManyPurchaseAttempts' = 121, 'InvalidName' = 122, 'InvalidDescription' = 123, 'RequestCancelled' = 124, 'MissingTwoStepVerification' = 125, 'FreeAvatarSystemNotEnabled' = 126, 'LookNotLinkedToUniverse' = 127, 'FreeAvatarMaxUniversesExceeded' = 128, 'LookItemCreatorMismatch' = 130, 'LookContainsLimitedItem' = 131, 'LookItemCollectibleDelisted' = 133, 'BundleNotFound' = 134, 'RestockingNotEnabled' = 135, 'ItemNotEligibleForRestocking' = 136, 'InvalidAgreedRestockingFee' = 137, 'FailedToRestockCollectibleItem' = 138, 'InvalidRestockQuantity' = 139, 'FailedToFetchRestockingFee' = 140, 'FailedToGetRestockEligibility' = 141, 'ResaleLockedAfterRestock' = 142, 'AiGeneratedItemPublishingBlocked' = 143, 'FailedToGetAgreement' = 144, 'FailedToGetLicense' = 145, 'AgreementNotPublishable' = 146, 'ResaleNotAllowedByLicense' = 147, 'ImmediateOnSaleNotAllowedForPendingAgreement' = 148, 'OnSaleTimeOutsideAgreementWindow' = 149, 'OffSaleTimeOutsideAgreementWindow' = 150, 'OffSaleTimeRequiredForAgreement' = 151]
+             * @enum {integer}
+             */
+            deniedReason?:
+                | 0
+                | 1
+                | 2
+                | 3
+                | 4
+                | 5
+                | 6
+                | 7
+                | 8
+                | 9
+                | 10
+                | 11
+                | 12
+                | 13
+                | 14
+                | 15
+                | 16
+                | 17
+                | 18
+                | 19
+                | 20
+                | 21
+                | 22
+                | 23
+                | 24
+                | 25
+                | 26
+                | 27
+                | 28
+                | 29
+                | 30
+                | 31
+                | 32
+                | 33
+                | 34
+                | 35
+                | 36
+                | 37
+                | 38
+                | 39
+                | 40
+                | 41
+                | 42
+                | 43
+                | 44
+                | 45
+                | 46
+                | 47
+                | 48
+                | 49
+                | 50
+                | 51
+                | 52
+                | 53
+                | 54
+                | 55
+                | 56
+                | 57
+                | 58
+                | 59
+                | 60
+                | 61
+                | 62
+                | 63
+                | 64
+                | 65
+                | 66
+                | 67
+                | 68
+                | 69
+                | 70
+                | 71
+                | 72
+                | 73
+                | 74
+                | 75
+                | 76
+                | 77
+                | 78
+                | 79
+                | 80
+                | 81
+                | 82
+                | 83
+                | 84
+                | 85
+                | 86
+                | 87
+                | 88
+                | 89
+                | 90
+                | 91
+                | 92
+                | 93
+                | 94
+                | 101
+                | 102
+                | 103
+                | 104
+                | 105
+                | 106
+                | 107
+                | 108
+                | 109
+                | 110
+                | 111
+                | 112
+                | 113
+                | 114
+                | 115
+                | 116
+                | 117
+                | 118
+                | 119
+                | 120
+                | 121
+                | 122
+                | 123
+                | 124
+                | 125
+                | 126
+                | 127
+                | 128
+                | 130
+                | 131
+                | 133
+                | 134
+                | 135
+                | 136
+                | 137
+                | 138
+                | 139
+                | 140
+                | 141
+                | 142
+                | 143
+                | 144
+                | 145
+                | 146
+                | 147
+                | 148
+                | 149
+                | 150
+                | 151;
+        };
+        /** @description Defines the response model for the GET v1/collectibles/check-item-publish-access. */
+        'Roblox.ItemConfiguration.Api.CheckItemPublishAccessResponse': {
+            /** @description Whether or not the access is allowed. */
+            isAllowed?: boolean;
+            /**
+             * Format: int32
+             * @description Denied reason when the access is rejected.
+             *     Can return the following denied reasons
+             *     (MissingIdVerification, MissingTwoStepVerification, CreationAccessBlocked, MissingPremiumSubscriptionTier,
+             *     GroupOwnerMissingPremiumSubscriptionTier, MissingCicRoleset). ['Unknown' = 0, 'InvalidTargetType' = 1, 'FailedToFetchPublishingFee' = 2, 'ServiceUnavailable' = 3, 'InvalidArgument' = 4, 'NotFound' = 5, 'FailedToGetCollectibleItemId' = 6, 'FailedToGetCommissionRates' = 7, 'NullParameterRequest' = 8, 'PublishLimitExceeded' = 9, 'AssetIsPendingValidation' = 10, 'AssetContainsInvalidContent' = 11, 'UserDoesNotHavePermissionsForGroupAsset' = 12, 'AssetTypeCannotBeReleased' = 13, 'AssetIsPendingReview' = 14, 'AssetIsModerated' = 15, 'ItemIsReleased' = 16, 'UserDoesNotHavePermissionToRelease' = 17, 'UserDoesNotOwnTheItem' = 18, 'ItemPriceTooLow' = 19, 'ItemPriceTooHigh' = 20, 'InvalidAssetId' = 21, 'InvalidAgent' = 22, 'NoExperiencesListed' = 23, 'NameIsModerated' = 24, 'DescriptionIsModerated' = 25, 'TextIsModerated' = 26, 'FailedToFilterText' = 27, 'AssetAlreadyReleasedAsUnlimited' = 28, 'AssetInDelayedRelease' = 29, 'InvalidIdempotencyToken' = 30, 'InvalidAgreedPublishingFee' = 31, 'GatewayCouldNotPublishItem' = 32, 'GroupAssetNotSupported' = 33, 'CouldNotFindInitialUserAsset' = 34, 'InvalidQuantity' = 35, 'SaleLocationCurrentlyNotSupported' = 36, 'InvalidCollectibleItemId' = 37, 'FailedToGetCollectibleItemInformation' = 38, 'GroupItemsNotSupported' = 39, 'FailedToUpdateCollectibleItem' = 40, 'PublishQuotaUnavailable' = 41, 'FailedToFetchMarketplaceFee' = 42, 'QuantityLimitCurrentlyNotSupported' = 43, 'InvalidQuantityLimit' = 44, 'ExactCopyOfAssetHasBeenPublished' = 45, 'ItemIsInBundle' = 46, 'ResaleRestrictionCurrentlyNotSupported' = 47, 'InvalidResaleRestriction' = 48, 'FailedToUpdateCollectibleDescription' = 49, 'InvalidBundleId' = 50, 'BundleTypeCannotBeReleased' = 51, 'BundleIsModerated' = 52, 'BundleAlreadyReleasedAsUnlimited' = 53, 'BundlesGatewayUnexpectedErrorCode' = 54, 'CissUnexpectedException' = 55, 'PublishingGatewayUnexpectedException' = 56, 'NonLimitedPublishingNotSupported' = 57, 'InvalidPublishingType' = 58, 'InvalidPriceOffset' = 59, 'InvalidMinimumPrice' = 60, 'InvalidSaleStatus' = 61, 'InvalidPriceConfiguration' = 62, 'FailedToGetPriceConfiguration' = 63, 'CannotBeFree' = 64, 'UnexpectedPlaceIds' = 65, 'MissingAuthenticatedUser' = 66, 'InvalidCreatorType' = 67, 'PermissionProviderNotEnabled' = 68, 'InvalidGroupId' = 69, 'InsufficientRobux' = 70, 'ItemNotFound' = 71, 'ItemIsModerated' = 72, 'ItemModerationUnknown' = 73, 'InvalidItemType' = 74, 'ItemHasArchivedDependencies' = 75, 'ItemIsDelisted' = 76, 'ResellableCreationNotAllowed' = 77, 'PolicyError' = 78, 'InvalidSaleLocationUpdate' = 79, 'InExperienceCreationPublishingBlocked' = 80, 'TokenServiceUnexpectedException' = 81, 'InvalidScheduledSaleStatus' = 82, 'InvalidCancelScheduledSaleStatus' = 83, 'ScheduledPublishingNotEnabled' = 84, 'OnSaleTimeInThePast' = 85, 'OffSaleTimeInThePast' = 86, 'OnSaleTimeTooFarInTheFuture' = 87, 'OffSaleTimeTooFarInTheFuture' = 88, 'OffSaleTimeBeforeOnSaleTime' = 89, 'ScheduledTimeOnSaleTooShort' = 90, 'ScheduledTimeAlreadySet' = 91, 'ScheduledTimeCannotSetItemOnSaleAgain' = 92, 'ScheduledTimeCannotSetItemOffSaleAgain' = 93, 'ActorIsModerated' = 94, 'CalendarQuotaExceeded' = 101, 'CalendarQuotaUnavailable' = 102, 'PublishingGatewayMissingReason' = 103, 'PublishingGatewayUnexpectedReason' = 104, 'PublishingGatewayUnexpectedAccessStatus' = 105, 'MissingIdVerification' = 106, 'CreationAccessBlocked' = 107, 'MissingPremiumSubscriptionTier' = 108, 'GroupOwnerMissingPremiumSubscriptionTier' = 109, 'MissingCicRoleset' = 110, 'AssetRestrictedByCommerce' = 111, 'DisallowedItemType' = 112, 'InvalidTargetId' = 113, 'PriceFloorNotFound' = 114, 'UserNotAuthorizedForAction' = 115, 'FailedToGetRevenueSplit' = 116, 'InvalidTransactionType' = 117, 'GrantedItemCannotBePublished' = 118, 'InvalidRentableType' = 119, 'LimitedItemsCannotBeRentable' = 120, 'TooManyPurchaseAttempts' = 121, 'InvalidName' = 122, 'InvalidDescription' = 123, 'RequestCancelled' = 124, 'MissingTwoStepVerification' = 125, 'FreeAvatarSystemNotEnabled' = 126, 'LookNotLinkedToUniverse' = 127, 'FreeAvatarMaxUniversesExceeded' = 128, 'LookItemCreatorMismatch' = 130, 'LookContainsLimitedItem' = 131, 'LookItemCollectibleDelisted' = 133, 'BundleNotFound' = 134, 'RestockingNotEnabled' = 135, 'ItemNotEligibleForRestocking' = 136, 'InvalidAgreedRestockingFee' = 137, 'FailedToRestockCollectibleItem' = 138, 'InvalidRestockQuantity' = 139, 'FailedToFetchRestockingFee' = 140, 'FailedToGetRestockEligibility' = 141, 'ResaleLockedAfterRestock' = 142, 'AiGeneratedItemPublishingBlocked' = 143, 'FailedToGetAgreement' = 144, 'FailedToGetLicense' = 145, 'AgreementNotPublishable' = 146, 'ResaleNotAllowedByLicense' = 147, 'ImmediateOnSaleNotAllowedForPendingAgreement' = 148, 'OnSaleTimeOutsideAgreementWindow' = 149, 'OffSaleTimeOutsideAgreementWindow' = 150, 'OffSaleTimeRequiredForAgreement' = 151]
+             * @enum {integer}
+             */
+            deniedReason?:
+                | 0
+                | 1
+                | 2
+                | 3
+                | 4
+                | 5
+                | 6
+                | 7
+                | 8
+                | 9
+                | 10
+                | 11
+                | 12
+                | 13
+                | 14
+                | 15
+                | 16
+                | 17
+                | 18
+                | 19
+                | 20
+                | 21
+                | 22
+                | 23
+                | 24
+                | 25
+                | 26
+                | 27
+                | 28
+                | 29
+                | 30
+                | 31
+                | 32
+                | 33
+                | 34
+                | 35
+                | 36
+                | 37
+                | 38
+                | 39
+                | 40
+                | 41
+                | 42
+                | 43
+                | 44
+                | 45
+                | 46
+                | 47
+                | 48
+                | 49
+                | 50
+                | 51
+                | 52
+                | 53
+                | 54
+                | 55
+                | 56
+                | 57
+                | 58
+                | 59
+                | 60
+                | 61
+                | 62
+                | 63
+                | 64
+                | 65
+                | 66
+                | 67
+                | 68
+                | 69
+                | 70
+                | 71
+                | 72
+                | 73
+                | 74
+                | 75
+                | 76
+                | 77
+                | 78
+                | 79
+                | 80
+                | 81
+                | 82
+                | 83
+                | 84
+                | 85
+                | 86
+                | 87
+                | 88
+                | 89
+                | 90
+                | 91
+                | 92
+                | 93
+                | 94
+                | 101
+                | 102
+                | 103
+                | 104
+                | 105
+                | 106
+                | 107
+                | 108
+                | 109
+                | 110
+                | 111
+                | 112
+                | 113
+                | 114
+                | 115
+                | 116
+                | 117
+                | 118
+                | 119
+                | 120
+                | 121
+                | 122
+                | 123
+                | 124
+                | 125
+                | 126
+                | 127
+                | 128
+                | 130
+                | 131
+                | 133
+                | 134
+                | 135
+                | 136
+                | 137
+                | 138
+                | 139
+                | 140
+                | 141
+                | 142
+                | 143
+                | 144
+                | 145
+                | 146
+                | 147
+                | 148
+                | 149
+                | 150
+                | 151;
+        };
+        /** @description Defines the response model for the GET v1/collectibles/check-item-upload-access. */
+        'Roblox.ItemConfiguration.Api.CheckItemUploadAccessResponse': {
+            /** @description Whether or not the access is allowed. */
+            isAllowed?: boolean;
+            /**
+             * Format: int32
+             * @description Denied reason when the access is rejected.
+             *     Can return the following denied reasons
+             *     (MissingIdVerification, MissingTwoStepVerification, CreationAccessBlocked, MissingPremiumSubscriptionTier, MissingCicRoleset). ['Unknown' = 0, 'InvalidTargetType' = 1, 'FailedToFetchPublishingFee' = 2, 'ServiceUnavailable' = 3, 'InvalidArgument' = 4, 'NotFound' = 5, 'FailedToGetCollectibleItemId' = 6, 'FailedToGetCommissionRates' = 7, 'NullParameterRequest' = 8, 'PublishLimitExceeded' = 9, 'AssetIsPendingValidation' = 10, 'AssetContainsInvalidContent' = 11, 'UserDoesNotHavePermissionsForGroupAsset' = 12, 'AssetTypeCannotBeReleased' = 13, 'AssetIsPendingReview' = 14, 'AssetIsModerated' = 15, 'ItemIsReleased' = 16, 'UserDoesNotHavePermissionToRelease' = 17, 'UserDoesNotOwnTheItem' = 18, 'ItemPriceTooLow' = 19, 'ItemPriceTooHigh' = 20, 'InvalidAssetId' = 21, 'InvalidAgent' = 22, 'NoExperiencesListed' = 23, 'NameIsModerated' = 24, 'DescriptionIsModerated' = 25, 'TextIsModerated' = 26, 'FailedToFilterText' = 27, 'AssetAlreadyReleasedAsUnlimited' = 28, 'AssetInDelayedRelease' = 29, 'InvalidIdempotencyToken' = 30, 'InvalidAgreedPublishingFee' = 31, 'GatewayCouldNotPublishItem' = 32, 'GroupAssetNotSupported' = 33, 'CouldNotFindInitialUserAsset' = 34, 'InvalidQuantity' = 35, 'SaleLocationCurrentlyNotSupported' = 36, 'InvalidCollectibleItemId' = 37, 'FailedToGetCollectibleItemInformation' = 38, 'GroupItemsNotSupported' = 39, 'FailedToUpdateCollectibleItem' = 40, 'PublishQuotaUnavailable' = 41, 'FailedToFetchMarketplaceFee' = 42, 'QuantityLimitCurrentlyNotSupported' = 43, 'InvalidQuantityLimit' = 44, 'ExactCopyOfAssetHasBeenPublished' = 45, 'ItemIsInBundle' = 46, 'ResaleRestrictionCurrentlyNotSupported' = 47, 'InvalidResaleRestriction' = 48, 'FailedToUpdateCollectibleDescription' = 49, 'InvalidBundleId' = 50, 'BundleTypeCannotBeReleased' = 51, 'BundleIsModerated' = 52, 'BundleAlreadyReleasedAsUnlimited' = 53, 'BundlesGatewayUnexpectedErrorCode' = 54, 'CissUnexpectedException' = 55, 'PublishingGatewayUnexpectedException' = 56, 'NonLimitedPublishingNotSupported' = 57, 'InvalidPublishingType' = 58, 'InvalidPriceOffset' = 59, 'InvalidMinimumPrice' = 60, 'InvalidSaleStatus' = 61, 'InvalidPriceConfiguration' = 62, 'FailedToGetPriceConfiguration' = 63, 'CannotBeFree' = 64, 'UnexpectedPlaceIds' = 65, 'MissingAuthenticatedUser' = 66, 'InvalidCreatorType' = 67, 'PermissionProviderNotEnabled' = 68, 'InvalidGroupId' = 69, 'InsufficientRobux' = 70, 'ItemNotFound' = 71, 'ItemIsModerated' = 72, 'ItemModerationUnknown' = 73, 'InvalidItemType' = 74, 'ItemHasArchivedDependencies' = 75, 'ItemIsDelisted' = 76, 'ResellableCreationNotAllowed' = 77, 'PolicyError' = 78, 'InvalidSaleLocationUpdate' = 79, 'InExperienceCreationPublishingBlocked' = 80, 'TokenServiceUnexpectedException' = 81, 'InvalidScheduledSaleStatus' = 82, 'InvalidCancelScheduledSaleStatus' = 83, 'ScheduledPublishingNotEnabled' = 84, 'OnSaleTimeInThePast' = 85, 'OffSaleTimeInThePast' = 86, 'OnSaleTimeTooFarInTheFuture' = 87, 'OffSaleTimeTooFarInTheFuture' = 88, 'OffSaleTimeBeforeOnSaleTime' = 89, 'ScheduledTimeOnSaleTooShort' = 90, 'ScheduledTimeAlreadySet' = 91, 'ScheduledTimeCannotSetItemOnSaleAgain' = 92, 'ScheduledTimeCannotSetItemOffSaleAgain' = 93, 'ActorIsModerated' = 94, 'CalendarQuotaExceeded' = 101, 'CalendarQuotaUnavailable' = 102, 'PublishingGatewayMissingReason' = 103, 'PublishingGatewayUnexpectedReason' = 104, 'PublishingGatewayUnexpectedAccessStatus' = 105, 'MissingIdVerification' = 106, 'CreationAccessBlocked' = 107, 'MissingPremiumSubscriptionTier' = 108, 'GroupOwnerMissingPremiumSubscriptionTier' = 109, 'MissingCicRoleset' = 110, 'AssetRestrictedByCommerce' = 111, 'DisallowedItemType' = 112, 'InvalidTargetId' = 113, 'PriceFloorNotFound' = 114, 'UserNotAuthorizedForAction' = 115, 'FailedToGetRevenueSplit' = 116, 'InvalidTransactionType' = 117, 'GrantedItemCannotBePublished' = 118, 'InvalidRentableType' = 119, 'LimitedItemsCannotBeRentable' = 120, 'TooManyPurchaseAttempts' = 121, 'InvalidName' = 122, 'InvalidDescription' = 123, 'RequestCancelled' = 124, 'MissingTwoStepVerification' = 125, 'FreeAvatarSystemNotEnabled' = 126, 'LookNotLinkedToUniverse' = 127, 'FreeAvatarMaxUniversesExceeded' = 128, 'LookItemCreatorMismatch' = 130, 'LookContainsLimitedItem' = 131, 'LookItemCollectibleDelisted' = 133, 'BundleNotFound' = 134, 'RestockingNotEnabled' = 135, 'ItemNotEligibleForRestocking' = 136, 'InvalidAgreedRestockingFee' = 137, 'FailedToRestockCollectibleItem' = 138, 'InvalidRestockQuantity' = 139, 'FailedToFetchRestockingFee' = 140, 'FailedToGetRestockEligibility' = 141, 'ResaleLockedAfterRestock' = 142, 'AiGeneratedItemPublishingBlocked' = 143, 'FailedToGetAgreement' = 144, 'FailedToGetLicense' = 145, 'AgreementNotPublishable' = 146, 'ResaleNotAllowedByLicense' = 147, 'ImmediateOnSaleNotAllowedForPendingAgreement' = 148, 'OnSaleTimeOutsideAgreementWindow' = 149, 'OffSaleTimeOutsideAgreementWindow' = 150, 'OffSaleTimeRequiredForAgreement' = 151]
+             * @enum {integer}
+             */
+            deniedReason?:
+                | 0
+                | 1
+                | 2
+                | 3
+                | 4
+                | 5
+                | 6
+                | 7
+                | 8
+                | 9
+                | 10
+                | 11
+                | 12
+                | 13
+                | 14
+                | 15
+                | 16
+                | 17
+                | 18
+                | 19
+                | 20
+                | 21
+                | 22
+                | 23
+                | 24
+                | 25
+                | 26
+                | 27
+                | 28
+                | 29
+                | 30
+                | 31
+                | 32
+                | 33
+                | 34
+                | 35
+                | 36
+                | 37
+                | 38
+                | 39
+                | 40
+                | 41
+                | 42
+                | 43
+                | 44
+                | 45
+                | 46
+                | 47
+                | 48
+                | 49
+                | 50
+                | 51
+                | 52
+                | 53
+                | 54
+                | 55
+                | 56
+                | 57
+                | 58
+                | 59
+                | 60
+                | 61
+                | 62
+                | 63
+                | 64
+                | 65
+                | 66
+                | 67
+                | 68
+                | 69
+                | 70
+                | 71
+                | 72
+                | 73
+                | 74
+                | 75
+                | 76
+                | 77
+                | 78
+                | 79
+                | 80
+                | 81
+                | 82
+                | 83
+                | 84
+                | 85
+                | 86
+                | 87
+                | 88
+                | 89
+                | 90
+                | 91
+                | 92
+                | 93
+                | 94
+                | 101
+                | 102
+                | 103
+                | 104
+                | 105
+                | 106
+                | 107
+                | 108
+                | 109
+                | 110
+                | 111
+                | 112
+                | 113
+                | 114
+                | 115
+                | 116
+                | 117
+                | 118
+                | 119
+                | 120
+                | 121
+                | 122
+                | 123
+                | 124
+                | 125
+                | 126
+                | 127
+                | 128
+                | 130
+                | 131
+                | 133
+                | 134
+                | 135
+                | 136
+                | 137
+                | 138
+                | 139
+                | 140
+                | 141
+                | 142
+                | 143
+                | 144
+                | 145
+                | 146
+                | 147
+                | 148
+                | 149
+                | 150
+                | 151;
+        };
+        'Roblox.ItemConfiguration.Api.CollectiblesMetadataResponse': {
+            /** @description Determines if the Collectibles controller and its APIs are enabled. */
+            isCollectiblesControllerEnabled?: boolean;
+            /** @description Determines if publishing Collectible Items is enabled. */
+            isCollectiblesPublishingEnabled?: boolean;
+            /** @description Determines if other sale locations are enabled. */
+            isCollectiblesPublishingLocationTypeEnabled?: boolean;
+            /** @description The list of available SaleLocations for collectible items. */
+            allowedCollectibleSaleLocations?: (0 | 1 | 2 | 3 | 4)[];
+            /** @description Whether or not publishing free Collectibles is allowed. */
+            IsCollectibleFreeItemPublishingAvailable?: boolean;
+            /** @description Whether or not publishing Collectibles for groups is allowed. */
+            isCollectibleGroupPublishingAvailable?: boolean;
+            /** @description Whether or not resale restrictions for Collectibles are enabled. */
+            isCollectibleResaleRestrictionsEnabled?: boolean;
+            /** @description Whether or not minimum quantity for Collectibles are enabled. */
+            isCollectiblePublishMinQuantityEnabled?: boolean;
+            /** @description Flag whether the new UI is enabled. */
+            IsUgc4AllUIEnabled?: boolean;
+            /**
+             * Format: int32
+             * @description The maximum quantity for limited item publishing.
+             */
+            LimitedMaxQuantity?: number;
+            /**
+             * Format: int32
+             * @description The maximum price for a collectible item.
+             */
+            MaxCollectiblePrice?: number;
+            /** @description Determines whether limited collectible bundles publishing is enabled. */
+            IsLimitedCollectibleBundlesPublishingEnabled?: boolean;
+            /** @description Whether or not publishing resellable items is enabled. */
+            IsResellabilityEnabled?: boolean;
+            /** @description Whether or not dpf bundle UI is enabled. */
+            IsNewBundleUIEnabled?: boolean;
+            /** @description Whether or not collectible 2D publishing is enabled. */
+            IsCollectible2DPublishingEnabled?: boolean;
+            /**
+             * @description Whether or not the avatar creation tokens page
+             *     should be displayed.
+             */
+            IsAvatarCreationTokensUIEnabled?: boolean;
+            /** @description Whether or not scheduled publishing is enabled. */
+            IsScheduledPublishingEnabled?: boolean;
+            ScheduledPublishingSettings?: components['schemas']['Roblox.ItemConfiguration.Api.ScheduledPublishingSettings'];
+            /** @description Determines whether GetPriceFloorAsync endpoint is enabled. */
+            isGetPriceFloorEnabled?: boolean;
+            /** @description Whether regional pricing is enabled. */
+            isRegionalPricingEnabled?: boolean;
+            /** @description Whether revenue split endpoint is enabled. */
+            isRevenueSplitEnabled?: boolean;
+            /** @description List of revenue split tiers for purchase. */
+            revenueSplitTiersForPurchase?: components['schemas']['Roblox.ItemConfiguration.Api.RevenueSplitTier'][];
+            /** @description Whether content metadata appeal endpoint is enabled. */
+            isContentMetadataAppealEnabled?: boolean;
+            /** @description List of asset types that are bodysuit eligible. */
+            bodysuitEligibleAssetTypes?: number[];
+            /** @description Whether the new configure UI is enabled for 2D assets. */
+            unifyConfigureUI?: boolean;
+            /** @description Whether restocking of limited collectible items is enabled. */
+            isRestockingEnabled?: boolean;
+            /**
+             * Format: int64
+             * @description Duration in seconds that resale remains locked after a restock. The FE computes the
+             *     unlock time as lastRestockedTime + this duration.
+             */
+            restockResaleLockDurationSeconds?: number;
+            /**
+             * @description Whether the Avatar Item Licensing feature (UCP-1792) is enabled. The frontend shows/hides the
+             *     licensing UI (e.g. the agreement picker) off this value, which mirrors the same server-side
+             *     gate used to enable the licensing behavior.
+             */
+            isAvatarItemLicensingEnabled?: boolean;
+            /** @description Whether the marketplace affiliate link UI is enabled for the authenticated user. */
+            isMarketplaceAffiliateLinkUiEnabled?: boolean;
+        };
+        /** @description Defines the response model for the GET v1/content-metadata/appeal-status. */
+        'Roblox.ItemConfiguration.Api.GetAppealStatusResponse': {
+            /**
+             * Format: int32
+             * @description The current status of the appeal
+             *     Can return the following states
+             *     Not submitted, Under review, Reviewed. ['Unknown' = 0, 'NotAppealed' = 1, 'InReview' = 2, 'Reviewed' = 3, 'AlreadyOverwritten' = 4]
+             * @enum {integer}
+             */
+            appealStatus?: 0 | 1 | 2 | 3 | 4;
+        };
+        /** @description Defines the response model for the v1/collectibles/commission-rates. */
+        'Roblox.ItemConfiguration.Api.GetCommissionRatesResponse': {
+            /**
+             * Format: int32
+             * @description Creator fees percentage.
+             */
+            creatorFeesPercentage?: number;
+            /**
+             * Format: int32
+             * @description Marketplace fees percentage.
+             */
+            marketplaceFeesPercentage?: number;
+            /**
+             * Format: int32
+             * @description Reseller fees percentage.
+             */
+            resellerFeesPercentage?: number;
+            /**
+             * Format: int32
+             * @description Seller fees percentage.
+             */
+            sellerFeesPercentage?: number;
+        };
+        /** @description Defines the response model for the GET v1/marketplace-items/get-item. */
+        'Roblox.ItemConfiguration.Api.GetItemResponse': {
+            item?: components['schemas']['Roblox.ItemConfiguration.Api.MarketplaceItem'];
+        };
+        /** @description Defines the response model for the GET v1/items/upload-fee endpoint. */
+        'Roblox.ItemConfiguration.Api.GetItemUploadFeeResponse': {
+            /** @description Whether the user can afford the upload fee with their current balance. */
+            canAfford?: boolean;
+            /**
+             * Format: int64
+             * @description The upload fee.
+             */
+            price?: number;
+            /**
+             * Format: int64
+             * @description The user's current robux balance.
+             */
+            balance?: number;
+        };
+        /** @description Defines the response model for the GET v2/creations/get-items-by-creator. */
+        'Roblox.ItemConfiguration.Api.GetItemsByCreatorResponse': {
+            /** @description The list of marketplace items. */
+            items?: components['schemas']['Roblox.ItemConfiguration.Api.MarketplaceItem'][];
+            /** @description The next cursor. */
+            nextCursor?: string;
+            /** @description The previous cursor. */
+            prevCursor?: string;
+        };
+        /** @description Defines the response model for the POST v1/collectibles/regional-pricing/preview. */
+        'Roblox.ItemConfiguration.Api.GetRegionalpricingPreviewResponse': {
+            /** @description List of representative countries. */
+            regionalPrices?: components['schemas']['Roblox.ItemConfiguration.Api.RegionalPrice'][];
+        };
+        /** @description Defines the response model for the GET v1/collectibles/regional-pricing/representative-countries. */
+        'Roblox.ItemConfiguration.Api.GetRepresentativeCountriesResponse': {
+            /** @description List of representative countries. */
+            countryIso2Codes?: string[];
+        };
+        'Roblox.ItemConfiguration.Api.MarketplaceItem': {
+            /** @description The id of the item. */
+            id?: string;
+            marketplaceItemDetails?: components['schemas']['Roblox.ItemConfiguration.Api.MarketplaceItemDetails'];
+            /**
+             * Format: date-time
+             * @description The created time.
+             */
+            createdTime?: string;
+            /** @description The name of the item. */
+            name?: string;
+            /** @description The description of the item. */
+            description?: string;
+            creator?: components['schemas']['Roblox.AvatarMarketplacePublishing.Shared.V1Beta1.Creator'];
+            /**
+             * Format: int32
+             * @description The moderation status of the item. ['Invalid' = 0, 'Pending' = 1, 'Moderated' = 2, 'Approved' = 3, 'RequiresIntervention' = 4]
+             * @enum {integer}
+             */
+            moderationStatus?: 0 | 1 | 2 | 3 | 4;
+            /**
+             * @description Whether the item currently has an in-flight Catalog Asset Update (a submitted update whose
+             *     staging content is still being created / validated / moderated). The creator dashboard renders
+             *     such an item as "pending" — the same treatment as an item still under moderation review.
+             */
+            isUpdating?: boolean;
+            /**
+             * Format: int64
+             * @description The price of the item.
+             *     If price = 0 => free, if price = null => unset.
+             */
+            price?: number;
+            /**
+             * Format: int32
+             * @description The sale status of the item. ['OnSale' = 0, 'OffSale' = 1, 'Free' = 2]
+             * @enum {integer}
+             */
+            saleStatus?: 0 | 1 | 2;
+            /**
+             * Format: int32
+             * @description The collectible item type.
+             *     If null => item has not been published into collectible system. ['Invalid' = 0, 'Limited' = 1, 'NonLimited' = 2]
+             * @enum {integer}
+             */
+            collectibleItemType?: 0 | 1 | 2;
+            /**
+             * Format: int64
+             * @description The creation universe id.
+             *     Used for IEC items.
+             */
+            creationUniverseId?: number;
+            delistingStatus?: components['schemas']['Roblox.AvatarMarketplacePublishing.AvatarMarketplacePublishingGateway.V1Beta1.ItemDelistingStatus'];
+            scheduledRelease?: components['schemas']['Roblox.Collectibles.Shared.V1.ScheduledRelease'];
+            /**
+             * Format: int32
+             * @description The cannot be published reason.
+             *     If Invalid, the item CAN be published. ['Invalid' = 0, 'None' = 1, 'Iec' = 2, 'AssetPartOfBundle' = 3, 'Delisted' = 4, 'RealWorldCommerce' = 5, 'AiGenerated' = 6]
+             * @enum {integer}
+             */
+            cannotBePublishedReason?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+            dynamicPriceConfiguration?: components['schemas']['Roblox.AvatarMarketplacePublishing.AvatarMarketplacePublishingGateway.V1Beta1.DynamicPriceConfiguration'];
+            /** @description Whether the item is opted into rental. */
+            isRentalOptIn?: boolean;
+            /** @description All rental options for the collectible item. Empty if the item is not opted in for rental. */
+            rentalOptions?: components['schemas']['Roblox.ItemConfiguration.Api.RentalOption'][];
+            taxonomyDetails?: components['schemas']['Roblox.ItemConfiguration.Api.Models.MarketplaceItem.TaxonomyDetails'];
+            /** @description Whether the item is HD. */
+            isHD?: boolean;
+            discoverabilityDetails?: components['schemas']['Roblox.ItemConfiguration.Api.Models.MarketplaceItem.DiscoverabilityDetails'];
+            /** @description Whether the item has emissive properties. */
+            isEmissive?: boolean;
+            /** @description Whether the item is a collectible (i.e. it has been published into the collectible system). */
+            isCollectible?: boolean;
+            saleLocation?: components['schemas']['Roblox.ItemConfiguration.Api.Models.MarketplaceItem.SaleLocation'];
+            collectibleDetails?: components['schemas']['Roblox.ItemConfiguration.Api.Models.MarketplaceItem.CollectibleDetails'];
+        };
+        /**
+         * @description The marketplace item details.
+         *     Only one of the AssetDetails and BundleDetails will be set.
+         */
+        'Roblox.ItemConfiguration.Api.MarketplaceItemDetails': {
+            assetDetails?: components['schemas']['Roblox.ItemConfiguration.Api.AssetDetails'];
+            bundleDetails?: components['schemas']['Roblox.ItemConfiguration.Api.BundleDetails'];
+        };
+        /** @description The body color set of the associated Outfit for the body. */
+        'Roblox.ItemConfiguration.Api.Models.Bundle.BodyColorSet': {
+            /** @description The head color of the avatar. */
+            headColor3?: string;
+            /** @description The torso color of the avatar. */
+            torsoColor3?: string;
+            /** @description The left arm color of the avatar. */
+            leftArmColor3?: string;
+            /** @description The right arm color of the avatar. */
+            rightArmColor3?: string;
+            /** @description The left leg color of the avatar. */
+            leftLegColor3?: string;
+            /** @description The right leg color of the avatar. */
+            rightLegColor3?: string;
+        };
+        /** @description The body scale of the bundle. */
+        'Roblox.ItemConfiguration.Api.Models.Bundle.BodyScale': {
+            /**
+             * Format: double
+             * @description Determines by what factor the height (top-to-bottom distance) is scaled.
+             *     Range 0.9-1.05.
+             */
+            height?: number;
+            /**
+             * Format: double
+             * @description Determines by what factor the width (left-to-right distance) is
+             *     scaled. Range: 0.7-1.0.
+             */
+            width?: number;
+            /**
+             * Format: double
+             * @description Determines by what factor the Head is scaled. Range 0.95-1.0.
+             */
+            head?: number;
+            /**
+             * Format: double
+             * @description Determines by which the shape of a Humanoid rig is interpolated. Range
+             *     0.0-1.0.
+             */
+            bodyType?: number;
+            /**
+             * Format: double
+             * @description Determines how wide (0) or narrow (1) a Humanoid rig. Range 0.0-1.0.
+             */
+            proportion?: number;
+        };
+        /** @description Information about a folder. */
+        'Roblox.ItemConfiguration.Api.Models.Folder.Folder': {
+            /** @description The unique identifier for the folder. */
+            folderId?: string;
+            /** @description The name of the folder. */
+            name?: string;
+            /** @description The ID of the parent folder. Null for root folders. */
+            parentFolderId?: string;
+        };
+        /** @description Represents an identifier for an item in a folder. */
+        'Roblox.ItemConfiguration.Api.Models.Folder.FolderItem': {
+            /** @description The unique identifier for the item. */
+            id?: string;
+            /**
+             * @description The type of the item to be added to the folder. ['Unknown' = 0, 'Asset' = 1, 'Bundle' = 2, 'IECToken' = 3, 'Folder' = 4]
+             * @enum {string}
+             */
+            itemType?: 'Unknown' | 'Asset' | 'Bundle' | 'IECToken' | 'Folder';
+        };
+        /** @description Represents an item in a folder that can be either a MarketplaceItem or a Folder. */
+        'Roblox.ItemConfiguration.Api.Models.Folder.FolderItemDetails': {
+            /** @description The unique identifier for the item. */
+            id?: string;
+            marketplaceItem?: components['schemas']['Roblox.ItemConfiguration.Api.MarketplaceItem'];
+            folder?: components['schemas']['Roblox.ItemConfiguration.Api.Models.Folder.Folder'];
+        };
+        /** @description Details specific to a collectible item. Set only when the item is a collectible. */
+        'Roblox.ItemConfiguration.Api.Models.MarketplaceItem.CollectibleDetails': {
+            /** @description The collectible item id. */
+            collectibleItemId?: string;
+            /**
+             * Format: int32
+             * @description The max number of instances of the collectible item a user can own. Null if there is no limit.
+             */
+            quantityLimitPerUser?: number;
+            /**
+             * Format: int64
+             * @description The total quantity that has been restocked for the collectible item.
+             */
+            totalRestockedQuantity?: number;
+            /**
+             * Format: date-time
+             * @description The time the collectible item was last restocked.
+             */
+            lastRestockedTime?: string;
+            /** @description Whether the collectible item is resellable. */
+            isResellable?: boolean;
+            /**
+             * Format: int64
+             * @description The total quantity available for the collectible item.
+             */
+            totalQuantity?: number;
+            licensingInfo?: components['schemas']['Roblox.ItemConfiguration.Api.Models.MarketplaceItem.LicensingInfo'];
+        };
+        /** @description The discoverability-related details of an item. */
+        'Roblox.ItemConfiguration.Api.Models.MarketplaceItem.DiscoverabilityDetails': {
+            isDiscoverabilityReduced?: boolean;
+            isCoreContentGated?: boolean;
+        };
+        /** @description Licensing info for the collectible item. */
+        'Roblox.ItemConfiguration.Api.Models.MarketplaceItem.LicensingInfo': {
+            /**
+             * Format: int32
+             * @description The licensing state. See Roblox.ItemConfiguration.Api.Models.MarketplaceItem.LicensingState. ['Invalid' = 0, 'NotLicensed' = 1, 'Licensed' = 2, 'Expired' = 3, 'Terminated' = 4]
+             * @enum {integer}
+             */
+            state?: 0 | 1 | 2 | 3 | 4;
+            /**
+             * @description The id of the license backing the agreement. Empty unless Roblox.ItemConfiguration.Api.Models.MarketplaceItem.LicensingInfo.State is
+             *     Roblox.ItemConfiguration.Api.Models.MarketplaceItem.LicensingState.Licensed, Roblox.ItemConfiguration.Api.Models.MarketplaceItem.LicensingState.Expired, or
+             *     Roblox.ItemConfiguration.Api.Models.MarketplaceItem.LicensingState.Terminated.
+             */
+            licenseId?: string;
+            /**
+             * @description The id of the agreement backing the license. Empty unless Roblox.ItemConfiguration.Api.Models.MarketplaceItem.LicensingInfo.State is
+             *     Roblox.ItemConfiguration.Api.Models.MarketplaceItem.LicensingState.Licensed, Roblox.ItemConfiguration.Api.Models.MarketplaceItem.LicensingState.Expired, or
+             *     Roblox.ItemConfiguration.Api.Models.MarketplaceItem.LicensingState.Terminated.
+             */
+            agreementId?: string;
+        };
+        /** @description The rental prices for a specific region. */
+        'Roblox.ItemConfiguration.Api.Models.MarketplaceItem.RegionalRentalPrice': {
+            /** @description The ISO2 code of the country. */
+            countryIso2Code?: string;
+            /** @description The rental prices available in the region. */
+            rentalPrices?: components['schemas']['Roblox.ItemConfiguration.Api.RentalOption'][];
+        };
+        /** @description The collectible sale location. */
+        'Roblox.ItemConfiguration.Api.Models.MarketplaceItem.SaleLocation': {
+            /**
+             * Format: int32
+             * @description The sale location type. ['SALE_LOCATION_TYPE_INVALID' = 0, 'SALE_LOCATION_TYPE_SHOP_AND_ALL_EXPERIENCES' = 1, 'SALE_LOCATION_EXPERIENCES_AND_DEV_API_ONLY' = 2, 'SALE_LOCATION_TYPE_SHOP_ONLY' = 3, 'SALE_LOCATION_TYPE_SHOP_AND_EXPERIENCES_BY_ID' = 4]
+             * @enum {integer}
+             */
+            saleLocationType?: 0 | 1 | 2 | 3 | 4;
+            /** @description The universe ids the collectible item may be sold in. */
+            universeIds?: number[];
+        };
+        /** @description The taxonomy-related details of an item. */
+        'Roblox.ItemConfiguration.Api.Models.MarketplaceItem.TaxonomyDetails': {
+            dpfTaxonomyName?: string;
+            dpfTaxonomyId?: string;
+            dpfTaxonomyIsDefaultTaxonomy?: boolean;
+        };
+        /** @description The response DTO for the allowed groups for a specified Roblox.ItemConfiguration.Api.Enums.MarketplaceAction. */
+        'Roblox.ItemConfiguration.Api.Models.Request.AllowedGroupsForActionResponse': {
+            /** @description The list of groups allowed for the user for the given action. */
+            allowedGroups?: components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.GroupInfo'][];
+        };
+        /**
+         * @description DTO of the incoming request from the client to create an avatar item update context, which mints
+         *     the parent update operation for an existing catalog avatar item.
+         */
+        'Roblox.ItemConfiguration.Api.Models.Request.AvatarItemUpdate.CreateAvatarItemUpdateContextRequest': {
+            /**
+             * Format: int64
+             * @description The asset id of the existing catalog item being updated.
+             */
+            originalAssetId?: number;
+            /**
+             * Format: int32
+             * @description The asset type of the item being updated. Must match the original item's asset type: an
+             *     update swaps content on the same item, it cannot change the item's type. ['Invalid' = 0, 'Image' = 1, 'Tshirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'Html' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YoutubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TshirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95, 'ComputeFunction' = 96, 'AvatarSpawnEffect' = 97]
+             * @enum {integer}
+             */
+            assetType?:
+                | 0
+                | 1
+                | 2
+                | 3
+                | 4
+                | 5
+                | 6
+                | 7
+                | 8
+                | 9
+                | 10
+                | 11
+                | 12
+                | 13
+                | 16
+                | 17
+                | 18
+                | 19
+                | 21
+                | 22
+                | 24
+                | 25
+                | 26
+                | 27
+                | 28
+                | 29
+                | 30
+                | 31
+                | 32
+                | 33
+                | 34
+                | 35
+                | 37
+                | 38
+                | 39
+                | 40
+                | 41
+                | 42
+                | 43
+                | 44
+                | 45
+                | 46
+                | 47
+                | 48
+                | 49
+                | 50
+                | 51
+                | 52
+                | 53
+                | 54
+                | 55
+                | 56
+                | 59
+                | 60
+                | 61
+                | 62
+                | 63
+                | 64
+                | 65
+                | 66
+                | 67
+                | 68
+                | 69
+                | 70
+                | 71
+                | 72
+                | 73
+                | 74
+                | 75
+                | 76
+                | 77
+                | 78
+                | 79
+                | 80
+                | 81
+                | 82
+                | 83
+                | 84
+                | 85
+                | 86
+                | 87
+                | 88
+                | 89
+                | 90
+                | 91
+                | 92
+                | 93
+                | 94
+                | 95
+                | 96
+                | 97;
+        };
+        /**
+         * @description DTO of incoming request from the client to create bundle context
+         *     which is necessary for bundle creation.
+         */
+        'Roblox.ItemConfiguration.Api.Models.Request.Bundle.CreateBundleContextRequest': {
+            /**
+             * @description The collection of AssetTypes and their corresponding quantities that are
+             *     being requested to be uploaded by the client.
+             */
+            assetQuantities?: {
+                [key: string]: number;
+            };
+            /** @description Description for the particular bundle that is about to be created. */
+            bundleDescription?: string;
+            /** @description Name for the particular bundle that is about to be created. */
+            bundleName?: string;
+            /**
+             * @description The bundle type target of the specified action. ['Unknown' = 0, 'Body' = 1, 'DynamicHead' = 2, 'Shoes' = 3, 'AvatarAnimations' = 4]
+             * @enum {string}
+             */
+            bundleType?: 'Unknown' | 'Body' | 'DynamicHead' | 'Shoes' | 'AvatarAnimations';
+            bodyScale?: components['schemas']['Roblox.ItemConfiguration.Api.Models.Bundle.BodyScale'];
+            bodyColorSet?: components['schemas']['Roblox.ItemConfiguration.Api.Models.Bundle.BodyColorSet'];
+            /**
+             * Format: int64
+             * @description The group id that the bundle is meant to belong to.
+             */
+            groupId?: number;
+            /** @description Whether the bundle is expected to contain emissive content. */
+            isEmissive?: boolean;
+        };
+        /** @description DTO of incoming request from the client to create a bundle. */
+        'Roblox.ItemConfiguration.Api.Models.Request.Bundle.CreateBundleRequest': {
+            /**
+             * @description The bundle type target for the bundle creation. ['Unknown' = 0, 'Body' = 1, 'DynamicHead' = 2, 'Shoes' = 3, 'AvatarAnimations' = 4]
+             * @enum {string}
+             */
+            bundleType?: 'Unknown' | 'Body' | 'DynamicHead' | 'Shoes' | 'AvatarAnimations';
+            /** @description Name of the bundle to be created. */
+            name?: string;
+            /** @description Description of the bundle. */
+            description?: string;
+            /**
+             * @description List of asset ids which are to be part of this bundle.
+             *     These asset ids must include only the allowed asset types for the particular
+             *     bundle type that is being created.
+             */
+            assetIds?: number[];
+            /** @description Operation ID of the original intent that was created to start bundle creation. */
+            operationId?: string;
+            /**
+             * Format: int32
+             * @description Fee in Robux to create bundle.
+             *     It needs to be the same as the actual price on the upload fee product entity.
+             *     Otherwise, the bundle will fail to be created.
+             */
+            agreedCreationFee?: number;
+        };
+        /** @description Payload model for bulk updating items. */
+        'Roblox.ItemConfiguration.Api.Models.Request.Collectibles.BulkUpdatePayload': {
+            /** @description The Rental Opt in status to be applied to the items. */
+            rentalOptIn?: boolean;
+        };
+        /** @description Request model for bulk updating items. */
+        'Roblox.ItemConfiguration.Api.Models.Request.Collectibles.BulkUpdateRequest': {
+            /** @description Idempotency key for the bulk update request. */
+            idempotencyKey?: string;
+            /**
+             * Format: int64
+             * @description The group id, if the update is for a group.
+             */
+            groupId?: number;
+            updateTargets?: components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.Collectibles.BulkUpdateTargets'];
+            updatePayload?: components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.Collectibles.BulkUpdatePayload'];
+        };
+        /** @description Targets model for bulk update. */
+        'Roblox.ItemConfiguration.Api.Models.Request.Collectibles.BulkUpdateTargets': {
+            /** @description The asset type for which we should update all items. */
+            assetType?: (
+                | 0
+                | 1
+                | 2
+                | 3
+                | 4
+                | 5
+                | 6
+                | 7
+                | 8
+                | 9
+                | 10
+                | 11
+                | 12
+                | 13
+                | 16
+                | 17
+                | 18
+                | 19
+                | 21
+                | 22
+                | 24
+                | 25
+                | 26
+                | 27
+                | 28
+                | 29
+                | 30
+                | 31
+                | 32
+                | 33
+                | 34
+                | 35
+                | 37
+                | 38
+                | 39
+                | 40
+                | 41
+                | 42
+                | 43
+                | 44
+                | 45
+                | 46
+                | 47
+                | 48
+                | 49
+                | 50
+                | 51
+                | 52
+                | 53
+                | 54
+                | 55
+                | 56
+                | 59
+                | 60
+                | 61
+                | 62
+                | 63
+                | 64
+                | 65
+                | 66
+                | 67
+                | 68
+                | 69
+                | 70
+                | 71
+                | 72
+                | 73
+                | 74
+                | 75
+                | 76
+                | 77
+                | 78
+                | 79
+                | 80
+                | 81
+                | 82
+                | 83
+                | 84
+                | 85
+                | 86
+                | 87
+                | 88
+                | 89
+                | 90
+                | 91
+                | 92
+                | 93
+                | 94
+                | 95
+                | 96
+                | 97
+            )[];
+            /** @description A specific target to update. */
+            target?: components['schemas']['Roblox.ItemConfiguration.Api.TargetModel'][];
+        };
+        /** @description Request model for restocking a collectible item. */
+        'Roblox.ItemConfiguration.Api.Models.Request.Collectibles.RestockCollectibleItemRequest': {
+            /**
+             * Format: int64
+             * @description The new total quantity for the item after restocking.
+             */
+            newTotalQuantity?: number;
+            /**
+             * Format: int64
+             * @description The restocking fee the user agreed to pay.
+             */
+            agreedRestockingFee?: number;
+        };
+        /** @description Response model for Revenue Split. */
+        'Roblox.ItemConfiguration.Api.Models.Request.Collectibles.RevenueSplitResponse': {
+            RevenueSplit?: components['schemas']['Roblox.ItemConfiguration.Api.RevenueSplit'];
+        };
+        /** @description Model for Sale Location of Collectible Items. */
+        'Roblox.ItemConfiguration.Api.Models.Request.CollectiblesSaleLocationConfigurationModel': {
+            /**
+             * Format: int32
+             * @description Roblox.ItemConfiguration.Api.Models.Request.CollectiblesSaleLocationConfigurationModel.CollectiblesSaleLocationType. ['SALE_LOCATION_TYPE_INVALID' = 0, 'SALE_LOCATION_TYPE_SHOP_AND_ALL_EXPERIENCES' = 1, 'SALE_LOCATION_EXPERIENCES_AND_DEV_API_ONLY' = 2, 'SALE_LOCATION_TYPE_SHOP_ONLY' = 3, 'SALE_LOCATION_TYPE_SHOP_AND_EXPERIENCES_BY_ID' = 4]
+             * @enum {integer}
+             */
+            saleLocationType?: 0 | 1 | 2 | 3 | 4;
+            /**
+             * @description The list of PlaceIds this item is allowed to be sold in.
+             *     This will be translated to UniverseIds inside the Collectibles Gateway.
+             *     Requires Roblox.ItemConfiguration.Api.Models.Request.CollectiblesSaleLocationConfigurationModel.CollectiblesSaleLocationType set to ExperiencesById.
+             */
+            places?: number[];
+        };
+        /** @description Request model to create content metadata appeal for an asset. */
+        'Roblox.ItemConfiguration.Api.Models.Request.CreateContentMetadataAppealRequest': {
+            /**
+             * Format: int32
+             * @description The type of the target item. ['Asset' = 0, 'Bundle' = 1, 'IecToken' = 2, 'Look' = 3]
+             * @enum {integer}
+             */
+            targetType?: 0 | 1 | 2 | 3;
+            /** @description The id of the target item. */
+            targetId?: string;
+            /**
+             * Format: int32
+             * @description The type of the appeal. ['Unknown' = 0, 'BodysuitAppeal' = 1]
+             * @enum {integer}
+             */
+            appealType?: 0 | 1;
+        };
+        /** @description Request model for adding one or more items to a folder. */
+        'Roblox.ItemConfiguration.Api.Models.Request.Folder.AddItemsRequest': {
+            /** @description The items to add to the folder. */
+            items?: components['schemas']['Roblox.ItemConfiguration.Api.Models.Folder.FolderItem'][];
+        };
+        /** @description Request model for creating a new folder. */
+        'Roblox.ItemConfiguration.Api.Models.Request.Folder.CreateFolderRequest': {
+            /** @description The name of the folder to create. */
+            name?: string;
+            /** @description The ID of the parent folder. Null for root folders. */
+            parentFolderId?: string;
+            /**
+             * Format: int64
+             * @description The group id that the folder will to belong to.
+             */
+            groupId?: number;
+        };
+        /** @description Request model for removing one or more items from a folder via the bulk DELETE endpoint. */
+        'Roblox.ItemConfiguration.Api.Models.Request.Folder.DeleteItemsRequest': {
+            /** @description The items to remove from the folder. */
+            items?: components['schemas']['Roblox.ItemConfiguration.Api.Models.Folder.FolderItem'][];
+        };
+        /** @description Request model for updating a folder name. */
+        'Roblox.ItemConfiguration.Api.Models.Request.Folder.UpdateFolderRequest': {
+            /** @description The new name for the folder. */
+            name?: string;
+        };
+        /** @description Request model to publish a new CollectibleItem. */
+        'Roblox.ItemConfiguration.Api.Models.Request.PublishCollectibleItemRequest': {
+            /** @description Whether the item is opted into rental. */
+            isRentalOptIn?: boolean;
+            /** @description Idempotency token for publishing purposes. */
+            idempotencyToken?: string;
+            /**
+             * Format: int64
+             * @description Target item's Id.
+             */
+            targetId?: number;
+            /**
+             * Format: int32
+             * @description Target item's type. ['Asset' = 0, 'Bundle' = 1, 'IecToken' = 2, 'Look' = 3]
+             * @enum {integer}
+             */
+            targetType?: 0 | 1 | 2 | 3;
+            /**
+             * Format: int32
+             * @description Publishing type of the CollectibleItem. ['Invalid' = 0, 'Limited' = 1, 'NonLimited' = 2]
+             * @enum {integer}
+             */
+            publishingType?: 0 | 1 | 2;
+            /**
+             * Format: int64
+             * @description The publishing fee seen by the end-user.
+             */
+            agreedPublishingFee?: number;
+            /**
+             * Format: int64
+             * @description The UserId of the creator if the creator is a user.
+             */
+            creatorUserId?: number;
+            /**
+             * Format: int64
+             * @description The GroupId of the creator if the creator is a group.
+             */
+            creatorGroupId?: number;
+            /**
+             * Format: int64
+             * @description The UserId of the publisher who pays the publishing fee.
+             *     This should only be set if the creator is a group.
+             */
+            publisherUserId?: number;
+            /**
+             * Format: int32
+             * @description The total number of instances for the CollectibleItem.
+             */
+            quantity?: number;
+            /**
+             * Format: int32
+             * @description The max number of instances for the CollectibleItem a user can own.
+             */
+            quantityLimitPerUser?: number;
+            /**
+             * Format: int32
+             * @description The resale restriction of the CollectibleItem. ['INVALID' = 0, 'NONE' = 1, 'DISABLED' = 2]
+             * @enum {integer}
+             */
+            resaleRestriction?: 0 | 1 | 2;
+            /**
+             * Format: int64
+             * @description The sale price of the CollectibleItem and it will be used as minimum price for DPF.
+             */
+            priceInRobux?: number;
+            /**
+             * Format: int64
+             * @description Gets or sets the price offset of the item in Robux above the price floor.
+             */
+            priceOffset?: number;
+            /** @description Whether to opt out of the regional pricing. */
+            optOutFromRegionalPricing?: boolean;
+            /** @description Gets or sets if the item is free. */
+            isFree?: boolean;
+            saleLocationConfiguration?: components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.CollectiblesSaleLocationConfigurationModel'];
+            /** @description The desired name of the CollectibleItem. If not set, will use the underlying itemname. */
+            name?: string;
+            /** @description The desired description of the CollectibleItem. If not set, will use the underlying itemname. */
+            description?: string;
+            /**
+             * Format: date-time
+             * @description Scheduled on sale time for publishing the item.
+             */
+            onSaleTime?: string;
+            /**
+             * Format: date-time
+             * @description Scheduled off sale time for publishing the item.
+             */
+            offSaleTime?: string;
+            /**
+             * @description Optional. Content-licensing agreement id for a licensed publish.
+             *     If unset, publishing behavior is unchanged. Not persisted on the collectible.
+             */
+            agreementId?: string;
+        };
         'Roblox.ItemConfiguration.Api.Models.Request.PublishingPreferences.CreatePublishingPreferencesRequest': {
             /** Format: int64 */
             creatorUserId?: number;
@@ -63284,6 +70595,338 @@ export interface components {
             isRentalOptIn?: boolean;
             autoPublishEnabled?: boolean;
         };
+        /** @description Api request to update a collectible item. */
+        'Roblox.ItemConfiguration.Api.Models.Request.UpdateCollectibleItemRequest': {
+            saleLocationConfiguration?: components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.CollectiblesSaleLocationConfigurationModel'];
+            /** @description Whether the item is opted into rental. */
+            isRentalOptIn?: boolean;
+            /**
+             * Format: int32
+             * @description The new sale status for the associated CollectibleItem.
+             *     OnSale and OffSale are the only valid values. ['OnSale' = 0, 'OffSale' = 1, 'Free' = 2]
+             * @enum {integer}
+             */
+            saleStatus?: 0 | 1 | 2;
+            /**
+             * Format: int32
+             * @description The max number of instances for the CollectibleItem a user can own.
+             */
+            quantityLimitPerUser?: number;
+            /**
+             * Format: int32
+             * @description The resale restriction of the CollectibleItem. ['INVALID' = 0, 'NONE' = 1, 'DISABLED' = 2]
+             * @enum {integer}
+             */
+            resaleRestriction?: 0 | 1 | 2;
+            /**
+             * Format: int64
+             * @description The minimum price of the CollectibleItem.
+             */
+            priceInRobux?: number;
+            /**
+             * Format: int64
+             * @description The price offset of the item in Robux above the price floor.
+             */
+            priceOffset?: number;
+            /** @description Whether to opt out of the regional pricing. */
+            optOutFromRegionalPricing?: boolean;
+            /**
+             * @description Whether or not the item is free.
+             *     If it's free, the MinimumPrice and PriceOffset values are ignored.
+             */
+            isFree?: boolean;
+            /**
+             * Format: date-time
+             * @description Scheduled on sale time for publishing the item.
+             */
+            onSaleTime?: string;
+            /**
+             * Format: date-time
+             * @description Scheduled off sale time for publishing the item.
+             */
+            offSaleTime?: string;
+        };
+        /** @description Api request to update the display information of an item. */
+        'Roblox.ItemConfiguration.Api.Models.Request.UpdateItemDisplayInformationRequest': {
+            /**
+             * Format: int32
+             * @description The type of the item. ['Asset' = 0, 'Bundle' = 1, 'IecToken' = 2, 'Look' = 3]
+             * @enum {integer}
+             */
+            targetType?: 0 | 1 | 2 | 3;
+            /** @description The id of the item. */
+            targetId?: string;
+            /** @description The name of the item. Null means no update. */
+            name?: string;
+            /** @description The description for the item. Null means no update. */
+            description?: string;
+        };
+        'Roblox.ItemConfiguration.Api.Models.Response.AllowedItemTypesForActionResponse': {
+            /** @description The list of asset types allowed for the user for the given Roblox.ItemConfiguration.Api.Enums.MarketplaceAction. */
+            allowedAssetTypes?: string[];
+            /** @description The list of bundle types allowed for the user for the given Roblox.ItemConfiguration.Api.Enums.MarketplaceAction. */
+            allowedBundleTypes?: string[];
+        };
+        /** @description Response DTO for the create avatar item update context endpoint. */
+        'Roblox.ItemConfiguration.Api.Models.Response.AvatarItemUpdate.CreateAvatarItemUpdateContextResponse': {
+            /**
+             * @description The minted parent operation id. Studio threads this as the ParentOperationId of the staging
+             *     asset upload so the backend can tie the new content back to the original item.
+             */
+            operationId?: string;
+        };
+        /**
+         * @description This class encapsulates the settings for each asset type which
+         *     is being added to the given bundle.
+         */
+        'Roblox.ItemConfiguration.Api.Models.Response.Bundle.AllowedBundleAssetTypeSettingsMetadata': {
+            /**
+             * Format: int32
+             * @description This is the minimum number of this particular asset types that must
+             *     exist in this bundle.
+             */
+            minimumQuantity?: number;
+            /**
+             * Format: int32
+             * @description This is the maximum number of this particular asset types that must
+             *     exist in this bundle.
+             */
+            maximumQuantity?: number;
+            /**
+             * @description Boolean flag which indicates whether this particular item is allowed
+             *     to have a new upload by the user.
+             */
+            isEligibleForUpload?: boolean;
+            /** @description List of string specifying allowed file extensions for upload. */
+            allowedFileExtensions?: string[];
+        };
+        /** @description Detailed metadata settings for a bundle type. */
+        'Roblox.ItemConfiguration.Api.Models.Response.Bundle.AllowedBundleTypeSettingsMetadata': {
+            /**
+             * @description For this particular bundle type, provides a map containing allowed asset type and its
+             *     appropriate settings.
+             */
+            allowedAssetTypeSettings?: {
+                [
+                    key: string
+                ]: components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Bundle.AllowedBundleAssetTypeSettingsMetadata'];
+            };
+            /**
+             * Format: int32
+             * @description The marketplace fee for uploading this particular bundle type.
+             */
+            marketplaceFeePercentage?: number;
+            allowedPriceRange?: components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Bundle.PriceRange'];
+        };
+        /** @description Metadata response for Bundle. */
+        'Roblox.ItemConfiguration.Api.Models.Response.Bundle.BundleMetadataResponse': {
+            /** @description Indicates whether the entire controller is allowed to be accessed. */
+            isBundlesControllerEnabled?: boolean;
+            /** @description Indicates whether bundles creation is allowed. */
+            isBundlesCreationEnabled?: boolean;
+            /** @description Indicates whether bundles publishing is allowed. */
+            isBundlesPublishingEnabled?: boolean;
+            /** @description A map containing allowed bundle type to all of its settings metadata. */
+            allowedBundleTypeSettings?: {
+                [
+                    key: string
+                ]: components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.Bundle.AllowedBundleTypeSettingsMetadata'];
+            };
+            /** @description Whether group bundle upload is enabled. */
+            isGroupBundlesUploadEnabled?: boolean;
+        };
+        /** @description Response DTO for create bundle context endpoint. */
+        'Roblox.ItemConfiguration.Api.Models.Response.Bundle.CreateBundleContextResponse': {
+            /** @description ID that was generated for the given bundle create request. */
+            operationId?: string;
+        };
+        /** @description DTO response for the create bundle request. */
+        'Roblox.ItemConfiguration.Api.Models.Response.Bundle.CreateBundleResponse': {
+            /**
+             * @description ID associated with the corresponding create bundle request.
+             *     This ID is used to query for bundle creation status endpoint.
+             */
+            creationStatusId?: string;
+        };
+        /** @description DTO response containing create bundle status. */
+        'Roblox.ItemConfiguration.Api.Models.Response.Bundle.GetBundleCreationStatusResponse': {
+            /**
+             * Format: int64
+             * @description Bundle ID associated with the creation request if it had a successful status.
+             */
+            bundleId?: number;
+            /**
+             * Format: int32
+             * @description Current status for the given creationStatusId. ['Unknown' = 0, 'InProgress' = 1, 'Success' = 2, 'ValidationFailed' = 3, 'InsufficientFunds' = 4, 'Failed' = 5, 'CreationFeeMismatch' = 6, 'MetadataMismatch' = 7]
+             * @enum {integer}
+             */
+            status?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+        };
+        /** @description DTO containing price range. */
+        'Roblox.ItemConfiguration.Api.Models.Response.Bundle.PriceRange': {
+            /**
+             * Format: int64
+             * @description The minimum allowed price in Robux.
+             */
+            minimumPrice?: number;
+            /**
+             * Format: int64
+             * @description The maximum allowed price in Robux.
+             */
+            maximumPrice?: number;
+        };
+        /** @description A single node in the category hierarchy returned by Roblox.ItemConfiguration.Api.Models.Response.GetCategoriesResponse. */
+        'Roblox.ItemConfiguration.Api.Models.Response.CategoryNode': {
+            /**
+             * @description The public, tree-stable identifier for the node.
+             *     Callers pass this back as the category filter; it is expanded to leaf uuids server-side.
+             */
+            webStableId?: string;
+            /** @description The internal taxonomy node identifier (Synapse branch id or leaf label id). */
+            id?: string;
+            /** @description The canonical (English) display name of the category. */
+            name?: string;
+            /** @description Whether the category is publishable by UGC creators. */
+            isPublishable?: boolean;
+            /** @description Default asset type ids backing this node. */
+            assetTypeIds?: number[];
+            /** @description Default bundle type ids backing this node. */
+            bundleTypeIds?: number[];
+            /** @description Child category nodes; empty for leaves. */
+            children?: components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.CategoryNode'][];
+        };
+        /** @description Price floor response. */
+        'Roblox.ItemConfiguration.Api.Models.Response.Collectibles.PriceFloorResponse': {
+            /**
+             * Format: int64
+             * @description Price floor in Robux.
+             */
+            priceFloorInRobux?: number;
+            /** @description Optional display name for the price floor. */
+            displayName?: string;
+        };
+        /** @description Response model for restocking a collectible item. */
+        'Roblox.ItemConfiguration.Api.Models.Response.Collectibles.RestockCollectibleItemResponse': {
+            /**
+             * Format: int64
+             * @description The new total quantity after restock.
+             */
+            newTotalQuantity?: number;
+        };
+        /** @description Structured eligibility response so the frontend does not need to re-derive restocking eligibility. */
+        'Roblox.ItemConfiguration.Api.Models.Response.Collectibles.RestockEligibilityResponse': {
+            /** @description Whether the restocking feature is globally enabled. */
+            isRestockingEnabled?: boolean;
+            /** @description Whether the item is eligible for restocking right now. */
+            isEligible?: boolean;
+            /**
+             * Format: int32
+             * @description Why the item is ineligible for restocking. Serialized as PascalCase enum name
+             *     (e.g. "NotLimited", "NotFree"). Null/omitted when the item is eligible.
+             * @enum {integer}
+             */
+            ineligibilityReason?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+            /** @description Whether the item has been restocked before (derived from TotalRestockedQuantity > 0). */
+            hasBeenRestocked?: boolean;
+            /**
+             * Format: int64
+             * @description Cumulative restocked quantity so far.
+             */
+            totalRestockedQuantity?: number;
+            /**
+             * Format: int64
+             * @description Maximum additional quantity allowed in a single restock operation.
+             */
+            maxRestockQuantityPerOperation?: number;
+        };
+        /** @description Response model for getting the restocking fee. */
+        'Roblox.ItemConfiguration.Api.Models.Response.Collectibles.RestockingFeeResponse': {
+            /**
+             * Format: int64
+             * @description The total restocking fee in Robux.
+             */
+            restockingFeeInRobux?: number;
+            /**
+             * Format: int64
+             * @description The per-unit restocking fee in Robux.
+             */
+            unitRestockingFeeInRobux?: number;
+        };
+        /** @description Defines the response model for creating content metadata appeal. */
+        'Roblox.ItemConfiguration.Api.Models.Response.CreateContentMetadataAppealResponse': {
+            /** @description Indicates whether the appeal was created successfully. */
+            success?: boolean;
+        };
+        /** @description Response model for creating a folder. */
+        'Roblox.ItemConfiguration.Api.Models.Response.Folder.CreateFolderResponse': {
+            /** @description The ID of the created folder. */
+            folderId?: string;
+        };
+        /** @description Response model for getting folder items. */
+        'Roblox.ItemConfiguration.Api.Models.Response.Folder.GetFolderItemsResponse': {
+            /** @description The list of items in the folder. */
+            items?: components['schemas']['Roblox.ItemConfiguration.Api.Models.Folder.FolderItemDetails'][];
+            nextCursor?: string;
+            prevCursor?: string;
+        };
+        /** @description Response model for getting folders. */
+        'Roblox.ItemConfiguration.Api.Models.Response.Folder.GetFoldersResponse': {
+            /** @description The list of folders for the authenticated user. */
+            folders?: components['schemas']['Roblox.ItemConfiguration.Api.Models.Folder.Folder'][];
+        };
+        /** @description Defines the response model for GET v1/items/categories. */
+        'Roblox.ItemConfiguration.Api.Models.Response.GetCategoriesResponse': {
+            /** @description The version id of the tree the categories were resolved from. */
+            categoriesVersionId?: string;
+            /** @description The root category nodes of the hierarchy. */
+            categories?: components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.CategoryNode'][];
+        };
+        /** @description Defines the response model for the GET v1/items/by-token. */
+        'Roblox.ItemConfiguration.Api.Models.Response.GetItemsByTokenResponse': {
+            /** @description The list of marketplace items. */
+            items?: components['schemas']['Roblox.ItemConfiguration.Api.MarketplaceItem'][];
+            /** @description The next cursor. */
+            nextCursor?: string;
+            /** @description The previous cursor. */
+            prevCursor?: string;
+        };
+        /** @description Defines the response model for the GET v1/items/price-floor endpoint. */
+        'Roblox.ItemConfiguration.Api.Models.Response.GetPriceFloorResponse': {
+            /**
+             * Format: int64
+             * @description The price floor.
+             */
+            priceFloor?: number;
+        };
+        /** @description Defines the response model for the POST v1/collectibles/rental-pricing/preview. */
+        'Roblox.ItemConfiguration.Api.Models.Response.GetRentalPricingPreviewResponse': {
+            /** @description Rental prices for the given target. */
+            rentalPrices?: components['schemas']['Roblox.ItemConfiguration.Api.RentalOption'][];
+            /** @description The regional rental prices for the given target. */
+            regionalRentalPrices?: components['schemas']['Roblox.ItemConfiguration.Api.Models.MarketplaceItem.RegionalRentalPrice'][];
+        };
+        /** @description High level group information. */
+        'Roblox.ItemConfiguration.Api.Models.Response.GroupInfo': {
+            /**
+             * Format: int64
+             * @description Group id.
+             */
+            id?: number;
+            /** @description Group name. */
+            name?: string;
+        };
+        /** @description Result of checking whether a marketplace action is allowed for a specific item type for the agent. */
+        'Roblox.ItemConfiguration.Api.Models.Response.IsActionAllowedForItemTypeResponse': {
+            /** @description Whether the action is allowed for the given item type and agent. */
+            isActionAllowed?: boolean;
+            /**
+             * @description Permissions for configured metadata values. Key is MetadataName string (e.g., "EmissiveResult").
+             *     Absent keys are unrestricted (allowed). Null when metadata permissions are not available.
+             */
+            metadataPermissions?: {
+                [key: string]: boolean;
+            };
+        };
         'Roblox.ItemConfiguration.Api.Models.Response.PublishingPreferences.PublishingPreferencesResponse': {
             id?: string;
             /** Format: int64 */
@@ -63315,6 +70958,139 @@ export interface components {
             created?: string;
             /** Format: date-time */
             updated?: string;
+        };
+        /** @description Response model for publishing a new CollectibleItem. */
+        'Roblox.ItemConfiguration.Api.PublishCollectibleItemResponse': {
+            /**
+             * Format: int32
+             * @description The status of the collectible being published. ['Succeeded' = 0, 'Failed' = 1, 'InProgress' = 2]
+             * @enum {integer}
+             */
+            status?: 0 | 1 | 2;
+        };
+        /** @description Response Model for a previewed Collectibles publishing fee. */
+        'Roblox.ItemConfiguration.Api.PublishingFeePreviewResponse': {
+            /**
+             * Format: int64
+             * @description Publishing fee in Robux for a Collectible.
+             */
+            publishingFeeInRobux?: number;
+            /**
+             * Format: int32
+             * @description The type of the publishing fee. ['Invalid' = 0, 'PayPerInstance' = 1, 'PayInTotal' = 2]
+             * @enum {integer}
+             */
+            publishingFeeType?: 0 | 1 | 2;
+        };
+        /** @description Response Model for Collectibles Publishing Fee request. */
+        'Roblox.ItemConfiguration.Api.PublishingFeeResponse': {
+            /**
+             * Format: int64
+             * @description Publishing fee in Robux for a Collectible.
+             */
+            publishingFeeInRobux?: number;
+            /**
+             * Format: int64
+             * @description Publishing fee per-unit in Robux for a Collectible.
+             */
+            unitPublishingFeeInRobux?: number;
+            /** @description Whether the publishing fee is using a dynamically set value. */
+            isDynamicFeeEnabled?: boolean;
+            /**
+             * Format: int32
+             * @description The type of the publishing fee. ['Invalid' = 0, 'PayPerInstance' = 1, 'PayInTotal' = 2]
+             * @enum {integer}
+             */
+            publishingFeeType?: 0 | 1 | 2;
+        };
+        /** @description Defines a country and its regional price. */
+        'Roblox.ItemConfiguration.Api.RegionalPrice': {
+            /**
+             * Format: int64
+             * @description The price in the country in robux.
+             */
+            priceInRobux?: number;
+            /** @description The ISO2 code of the country. */
+            countryIso2Code?: string;
+        };
+        /** @description Rental options for a collectible item. */
+        'Roblox.ItemConfiguration.Api.RentalOption': {
+            /**
+             * Format: int32
+             * @description The duration of the rental in days. null is the permanent purchase price.
+             */
+            rentalDays?: number;
+            /**
+             * Format: int64
+             * @description The price of the rental in Robux.
+             */
+            priceInRobux?: number;
+        };
+        /** @description Revenue split model. */
+        'Roblox.ItemConfiguration.Api.RevenueSplit': {
+            /**
+             * Format: int32
+             * @description Creator split percentage.
+             */
+            creatorSplitPercentage?: number;
+            /**
+             * Format: int32
+             * @description Seller split percentage.
+             */
+            sellerSplitPercentage?: number;
+            /**
+             * Format: int32
+             * @description Marketplace split percentage.
+             */
+            marketplaceSplitPercentage?: number;
+            /**
+             * Format: int32
+             * @description Reseller split percentage.
+             */
+            resellerSplitPercentage?: number;
+            /**
+             * Format: int32
+             * @description IP-holder split percentage. Non-zero only when the request carries a LicenseId with a royalty;
+             *     rounded up and subtracted from Roblox.ItemConfiguration.Api.RevenueSplit.CreatorSplitPercentage. Defaults to 0.
+             */
+            ipHolderSplitPercentage?: number;
+        };
+        /** @description Tiered revenue split model. */
+        'Roblox.ItemConfiguration.Api.RevenueSplitTier': {
+            /**
+             * Format: float
+             * @description Lower bound of the price floor multiplier for which this tier is applicable.
+             */
+            priceFloorMultiplierLowerBound?: number;
+            /**
+             * Format: float
+             * @description Upper bound of the price floor multiplier for which this tier is applicable.
+             */
+            priceFloorMultiplierUpperBound?: number;
+            revenueSplits?: components['schemas']['Roblox.ItemConfiguration.Api.RevenueSplit'];
+        };
+        'Roblox.ItemConfiguration.Api.ScheduledPublishingSettings': {
+            /**
+             * Format: date-span
+             * @description The maximum time in the future that a scheduled publish can be set.
+             */
+            scheduledPublishMaxTimeInAdvanceTimeSpan?: string;
+            /**
+             * Format: date-span
+             * @description The minimum time in between scheduled publishes.
+             */
+            scheduledPublishMinDurationTimeSpan?: string;
+        };
+        /** @description An item target model. */
+        'Roblox.ItemConfiguration.Api.TargetModel': {
+            /**
+             * Format: int32
+             * @description The asset type of the target. ['Asset' = 0, 'Bundle' = 1, 'IecToken' = 2, 'Look' = 3]
+             * @enum {integer}
+             */
+            targetType?: 0 | 1 | 2 | 3;
+            /** @description The id of the target. */
+            targetId?: string;
         };
         /** @description Model for Country Regions */
         'Roblox.Locale.Api.CountryRegion': {
@@ -63879,6 +71655,77 @@ export interface components {
             /** Format: int32 */
             Code?: number;
         };
+        /**
+         * @description Type of the Asset.
+         * @enum {string}
+         */
+        'Roblox.OpenCloud.Cloud.V2.AssetType':
+            | 'UNSPECIFIED'
+            | 'IMAGE'
+            | 'TSHIRT'
+            | 'AUDIO'
+            | 'MESH'
+            | 'LUA'
+            | 'HAT'
+            | 'PLACE'
+            | 'MODEL'
+            | 'SHIRT'
+            | 'PANTS'
+            | 'DECAL'
+            | 'HEAD'
+            | 'FACE'
+            | 'GEAR'
+            | 'ANIMATION'
+            | 'TORSO'
+            | 'RIGHT_ARM'
+            | 'LEFT_ARM'
+            | 'LEFT_LEG'
+            | 'RIGHT_LEG'
+            | 'YOUTUBE_VIDEO'
+            | 'APP'
+            | 'CODE'
+            | 'PLUGIN'
+            | 'SOLID_MODEL'
+            | 'MESH_PART'
+            | 'HAIR_ACCESSORY'
+            | 'FACE_ACCESSORY'
+            | 'NECK_ACCESSORY'
+            | 'SHOULDER_ACCESSORY'
+            | 'FRONT_ACCESSORY'
+            | 'BACK_ACCESSORY'
+            | 'WAIST_ACCESSORY'
+            | 'CLIMB_ANIMATION'
+            | 'DEATH_ANIMATION'
+            | 'FALL_ANIMATION'
+            | 'IDLE_ANIMATION'
+            | 'JUMP_ANIMATION'
+            | 'RUN_ANIMATION'
+            | 'SWIM_ANIMATION'
+            | 'WALK_ANIMATION'
+            | 'POSE_ANIMATION'
+            | 'LOCALIZATION_TABLE_MANIFEST'
+            | 'LOCALIZATION_TABLE_TRANSLATION'
+            | 'EMOTE_ANIMATION'
+            | 'VIDEO'
+            | 'TEXTURE_PACK'
+            | 'TSHIRT_ACCESSORY'
+            | 'SHIRT_ACCESSORY'
+            | 'PANTS_ACCESSORY'
+            | 'JACKET_ACCESSORY'
+            | 'SWEATER_ACCESSORY'
+            | 'SHORTS_ACCESSORY'
+            | 'LEFT_SHOE_ACCESSORY'
+            | 'RIGHT_SHOE_ACCESSORY'
+            | 'DRESS_SKIRT_ACCESSORY'
+            | 'FONT_FAMILY'
+            | 'FONT_FACE'
+            | 'MESH_HIDDEN_SURFACE_REMOVAL'
+            | 'EYEBROW_ACCESSORY'
+            | 'EYELASH_ACCESSORY'
+            | 'MOOD_ANIMATION'
+            | 'DYNAMIC_HEAD'
+            | 'CODE_SNIPPET'
+            | 'ADS_VIDEO';
         'Roblox.Paging.CursoredPagedResult_Roblox.Friends.Api.Models.Response.FriendResponse_': {
             PreviousCursor?: string;
             PageItems?: components['schemas']['Roblox.Friends.Api.Models.Response.FriendResponse'][];
@@ -65053,7 +72900,7 @@ export interface components {
         };
         /** @description A user response model specific to getting a user from user search. */
         'Roblox.Users.Api.SearchGetUserResponse': {
-            /** @description Previous usernames for a user. */
+            /** @description Previous usernames for a user. Omitted when history is suppressed for the result owner. */
             previousUsernames?: string[];
             /** @description The user's verified badge status. */
             hasVerifiedBadge?: boolean;
@@ -65305,7 +73152,7 @@ export interface components {
             id?: number;
             /**
              * Format: int32
-             * @description ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95, 'ComputeFunction' = 96]
+             * @description ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95, 'ComputeFunction' = 96, 'AvatarSpawnEffect' = 97]
              * @enum {integer}
              */
             type?:
@@ -65397,7 +73244,8 @@ export interface components {
                 | 93
                 | 94
                 | 95
-                | 96;
+                | 96
+                | 97;
             name?: string;
         };
         'Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Badges.BadgeAwarderType_': {
@@ -65766,6 +73614,11 @@ export interface components {
             /** Format: double */
             standard?: number | null;
         };
+        /** @description Request to roll back an asset to a previous version. */
+        RollbackAssetVersionRequest: {
+            /** @description The asset version path in the format of `assets/{assetId}/versions/{versionNumber}`. */
+            assetVersion: string;
+        };
         /** @description RPN operand: attribute reference or literal value. */
         RpnOperandDto: {
             attributeReference?: string | null;
@@ -65878,8 +73731,9 @@ export interface components {
         /** @description Request model for searching Creator Store assets. */
         SearchCreatorStoreAssetsRequest: {
             /**
-             * @description The asset type to search within. Optional when Toolbox.Service.SearchCreatorStoreAssetsRequest.CategoryPath
-             *     resolves to an asset type; otherwise required.
+             * @description The asset type to search within. Optional when CategoryPath
+             *     resolves to an asset type; otherwise required. SearchCategoryType.Place is only
+             *     valid with the `gameplay_templates` Swimlane.
              */
             searchCategoryType?: components['schemas']['SearchCategoryType'] | null;
             /** @description The search terms used to filter the results. Only one of 'query' and 'image' can be present in a query. */
@@ -66093,6 +73947,7 @@ export interface components {
             | 'out_of_memory'
             | 'moderated'
             | 'pending'
+            | 'developer_restarted'
             | 'unspecified';
         /**
          * Format: int32
@@ -66172,16 +74027,6 @@ export interface components {
         };
         /** @description Response for setting the start place override for a universe. */
         SetStartPlaceOverrideResponse: Record<string, never>;
-        /** @description Shutdown All Game Instances response. */
-        ShutdownAllGameInstancesResponse: {
-            /**
-             * Format: int64
-             * @description The place ID to shut down.
-             */
-            placeId?: number;
-            /** @description Whether to replace instances or not. */
-            replaceInstances?: boolean;
-        };
         /** @description Shutdown Game Instance request. */
         ShutdownGameInstancesRequest: {
             /**
@@ -66252,12 +74097,12 @@ export interface components {
              */
             latestSnapshotTime?: string;
         };
-        /** @description A social media link for the asset. Maximum of three per asset. Object name can be any of: <ul><li>`facebookSocialLink`</li><li>`twitterSocialLink`</li><li>`youtubeSocialLink`</li><li>`twitchSocialLink`</li><li>`discordSocialLink`</li><li>`githubSocialLink`</li><li>`robloxSocialLink`</li><li>`guildedSocialLink`</li><li>`devForumSocialLink`</li><li>`tryAssetSocialLink`</li></ul>For syntax, see the sample request under [Update Asset](#Assets_UpdateAsset). */
+        /** @description A social media link for the asset. Maximum of three per asset. Object name can be any of: <ul><li>`facebookSocialLink`</li><li>`twitterSocialLink`</li><li>`youtubeSocialLink`</li><li>`twitchSocialLink`</li><li>`discordSocialLink`</li><li>`githubSocialLink`</li><li>`robloxSocialLink`</li><li>`guildedSocialLink`</li><li>`devForumSocialLink`</li></ul>For syntax, see the sample request under [Update Asset](#Assets_UpdateAsset). */
         SocialLink: {
             /** @description An optional title for the social media link. Not used on the Creator Hub. */
-            title?: string;
-            /** @description The URI for the social media link. Must match the expected format for the type of link. For example, the title for a `twitchSocialLink` object must be of the format `https://twitch.tv/your-channel`. */
-            uri?: string;
+            title?: string | null;
+            /** @description The URI for the social media link. Must match the expected format for the type of link. For example, the URI for a `twitchSocialLink` object must be of the format `https://twitch.tv/your-channel`. */
+            uri?: string | null;
         };
         /** @description Model for a Social Link. */
         SocialLinkModel: {
@@ -66540,6 +74385,67 @@ export interface components {
             /** @description Whether or not the request was successfully executed. */
             success: boolean;
         };
+        /** @description SummaryCardTile is a top-of-dashboard summary card. */
+        SummaryCardTile: {
+            /** @default  */
+            tileId: string | null;
+            /** @default  */
+            title: string | null;
+            /**
+             * @description DashboardMetricReference identifies either a catalog metric or an inline
+             *     computed metric. A future saved custom metric key can be added to this oneof
+             *     without changing tile/document layout.
+             */
+            metric?: components['schemas']['DashboardMetricReference'] | (never | null);
+            /**
+             * @description DashboardAggregation is the aggregation applied to a tile or series.
+             *     Enum names follow proto conventions; synthesis adapters map to Creator Hub
+             *     aggregation literal strings (`RAQIV2AggregationType`, summary-card literals,
+             *     and `RAQIV2PercentileType`). Arbitrary `Percentile{N}` literals are not
+             *     represented here and require a future contract extension.
+             * @default DASHBOARD_AGGREGATION_INVALID
+             */
+            aggregation:
+                | (
+                      | (
+                            | 'DASHBOARD_AGGREGATION_INVALID'
+                            | 'DASHBOARD_AGGREGATION_SUM'
+                            | 'DASHBOARD_AGGREGATION_COUNT'
+                            | 'DASHBOARD_AGGREGATION_AVERAGE'
+                            | 'DASHBOARD_AGGREGATION_MIN'
+                            | 'DASHBOARD_AGGREGATION_MAX'
+                            | 'DASHBOARD_AGGREGATION_DISTINCT_COUNT'
+                            | 'DASHBOARD_AGGREGATION_UNIQUE_COUNT'
+                            | 'DASHBOARD_AGGREGATION_PERCENTILE_AVG'
+                            | 'DASHBOARD_AGGREGATION_PERCENTILE_P10'
+                            | 'DASHBOARD_AGGREGATION_PERCENTILE_P50'
+                            | 'DASHBOARD_AGGREGATION_PERCENTILE_P90'
+                            | 'DASHBOARD_AGGREGATION_TOTAL'
+                            | 'DASHBOARD_AGGREGATION_AVERAGE_OVER_TIME_PERIOD'
+                            | 'DASHBOARD_AGGREGATION_MOST_RECENT_DATA_POINT'
+                            | 'DASHBOARD_AGGREGATION_MEDIAN'
+                            | 'DASHBOARD_AGGREGATION_CUMULATIVE'
+                            | 'DASHBOARD_AGGREGATION_AVERAGE_PER_UNIQUE_USER'
+                        )
+                      | number
+                  )
+                | (never | null);
+            filters?: components['schemas']['TileFilter'][] | null;
+            /**
+             * @description DashboardTitleSource describes how a dashboard tile title is derived.
+             * @default DASHBOARD_TITLE_SOURCE_INVALID
+             */
+            titleSource:
+                | (
+                      | (
+                            | 'DASHBOARD_TITLE_SOURCE_INVALID'
+                            | 'DASHBOARD_TITLE_SOURCE_AUTO'
+                            | 'DASHBOARD_TITLE_SOURCE_CUSTOM'
+                        )
+                      | number
+                  )
+                | (never | null);
+        };
         Targeting: {
             /**
              * @description The age brackets to deliver to. Empty means all ages. Values can be `AGE_13_17`,
@@ -66550,7 +74456,7 @@ export interface components {
              * @description Omitted or `ALL_PLAYERS` delivers to all players. Other values restrict delivery
              *     to a retargeting audience of the target experience. For `ENGAGEMENT`, only
              *     omission or `ALL_PLAYERS` is accepted; other targeting fields are rejected.
-             *     Available in v1.1; responses always include the resolved value in v1.1.
+             *     Responses always include the resolved value.
              * @default ALL_PLAYERS
              * @enum {string}
              */
@@ -66606,7 +74512,7 @@ export interface components {
             countries?: string[];
             /** @description The selectable device types. Values can be `PHONE`, `TABLET`, `DESKTOP`, or `CONSOLE`. */
             devices?: ('PHONE' | 'TABLET' | 'DESKTOP' | 'CONSOLE')[];
-            /** @description The selectable geographic regions under v1.1, including country-level and aggregate region codes. */
+            /** @description The selectable geographic regions, including country-level and aggregate region codes. */
             regions?: (
                 | 'ALL'
                 | 'US'
@@ -66744,47 +74650,22 @@ export interface components {
             /** Format: int32 */
             rank?: number;
         };
-        /** @description Representation of an asset. */
-        'ToolboxService.Asset': {
-            /**
-             * Format: int64
-             * @description The unique identifier of the asset.
-             */
-            id?: number;
-            /** @description The name of the asset. */
-            name?: string | null;
-            /** @description The description of the asset. */
-            description?: string | null;
-            /**
-             * Format: int32
-             * @description The type that the asset belongs to.
-             */
-            assetTypeId?: number | null;
-            /** @description The social links associated with the asset. */
-            socialLinks?: components['schemas']['SocialLinkModel'][] | null;
-            /** @description The asset's preview asset ids grouped by asset type. */
-            previewAssets?: components['schemas']['PreviewAssetsModel'] | null;
-            /**
-             * Format: date-time
-             * @description The time the asset was created.
-             */
-            createTime?: string | null;
-            /**
-             * Format: date-time
-             * @description The time the asset was last updated.
-             */
-            updateTime?: string | null;
-            /**
-             * Format: int64
-             * @description Universe ID if the asset was created within a specific universe.
-             */
-            creatingUniverseId?: number | null;
-            /**
-             * @description Category Path of the asset, if it exists.
-             *     e.g. "3d__characters"
-             */
-            categoryPath?: string | null;
-        } | null;
+        /**
+         * @description TileFilter is an authoring-time filter persisted as dashboard-owned dimension
+         *     keys and string values. Synthesis maps this shape to
+         *     `roblox.universeanalyticsquery.universeanalyticsquery.v1beta1.QueryFilter` and
+         *     `Dimension` in `universe_analytics_query.proto` (numeric dimension IDs are
+         *     resolved by the adapter, not stored on the dashboard document).
+         *     Keep this message wire-compatible with ComputedMetricFilter for schema-v1
+         *     computed sources.
+         */
+        TileFilter: {
+            /** @default  */
+            dimensionKey: string | null;
+            values?: string[] | null;
+        };
+        /** Format: date-time */
+        Timestamp: string;
         TransactionDetailsResponse: Record<string, never>;
         TransactionRecordResponse: {
             /** Format: int64 */
@@ -67284,6 +75165,16 @@ export interface components {
             order?: number;
         };
         /**
+         * @description Supported age ratings for the universe. This field is read only.
+         * @enum {string}
+         */
+        Universe_AgeRating:
+            | 'AGE_RATING_UNSPECIFIED'
+            | 'AGE_RATING_ALL'
+            | 'AGE_RATING_9_PLUS'
+            | 'AGE_RATING_13_PLUS'
+            | 'AGE_RATING_17_PLUS';
+        /**
          * @description A social link that may be associated with the universe.
          *
          *     Can only be removed when using a field mask.
@@ -67294,6 +75185,11 @@ export interface components {
             /** @description The uri of the social link. */
             uri?: string;
         };
+        /**
+         * @description Represents whether or not the Universe is publicly accessible.
+         * @enum {string}
+         */
+        Universe_Visibility: 'VISIBILITY_UNSPECIFIED' | 'PUBLIC' | 'PRIVATE';
         /** @description Request structure for UpdateAccount endpoints. */
         UpdateAccountRequest: {
             /** @description Gets or sets the account settings to update. */
@@ -67309,6 +75205,9 @@ export interface components {
              * @description The new budget amount in micro-USD, as a decimal string (for example,
              *     `5000000` = $5.00). Money is sent as a string so large values keep full
              *     precision in every client. Must be a numeric string of micro-USD.
+             *     Uses the same payment-specific limits as Budget.amountMicros: ADS_CREDIT budgets
+             *     are checked against the available ad credit balance after unbilled spend.
+             *     maximumDailyBudgetMicros does not limit ADS_CREDIT or INVOICE campaigns.
              */
             amountMicros: string;
         };
@@ -67352,6 +75251,13 @@ export interface components {
         /** @description Response to update a custom matchmaking signal. */
         UpdateCustomMatchmakingSignalResponse: {
             scoringConfiguration: components['schemas']['MatchmakingScoringConfiguration'];
+        };
+        UpdateDashboardMetadataResponse: {
+            /**
+             * @description DashboardMetadata is the metadata-only shape returned by list calls.
+             *     It intentionally omits the document body so list views do not load dashboard payloads.
+             */
+            metadata?: components['schemas']['DashboardMetadata'] | (never | null);
         };
         /** @description Request model for draft updates: PATCH uses a partial merge; PUT `draft:overwrite` treats the body as the full intended configuration after publish. */
         UpdateDraftRequest: {
@@ -67607,7 +75513,10 @@ export interface components {
             name?: string | null;
             /** @description Display name for the user. */
             displayName?: string | null;
-            /** @description User-defined information about themselves. */
+            /**
+             * @description User-defined information about themselves. Omitted when empty or when the
+             *     owner's About visibility does not permit this caller to view it.
+             */
             about?: string | null;
             /** @description Current locale selected by the user. Returns IETF language code. */
             locale?: string | null;
@@ -67968,6 +75877,11 @@ export interface components {
                 | 'FRIENDS_AND_FOLLOWING'
                 | 'FRIENDS_FOLLOWING_AND_FOLLOWERS'
                 | 'EVERYONE';
+        };
+        ValidateDashboardDocumentResponse: {
+            /** @default false */
+            isValid: boolean | null;
+            validationIssues?: components['schemas']['CustomDashboardValidationIssue'][] | null;
         };
         /** @description Metadata shared by every experiment variant. */
         VariantMeta: {
@@ -68536,11 +76450,13 @@ export interface operations {
             query?: {
                 /** @description Use the group's billing account instead of the caller's personal one. Can't be combined with targetUniverseIds. groupId selects the group ads account; absent groupId selects the personal ads account */
                 groupId?: string;
-                /** @description List these experiences' campaigns across billing accounts (up to 50); requires permission to advertise each */
+                /** @description List these experiences' campaigns across billing accounts (up to 10 universe IDs, including duplicates); more than 10 returns 400. Requires permission to advertise each. Repeat the parameter for each ID, for example targetUniverseIds=1&targetUniverseIds=2; a comma-separated list returns 400 */
                 targetUniverseIds?: string[];
+                /** @description Include campaigns with no end time or an end time at or after this RFC 3339 timestamp. Must not be in the future or more than 730 days ago. Omitted: no account time filter; a 730-day lookback for targetUniverseIds. */
+                endedAfter?: string;
                 /** @description Maximum results per page (1-100, default 50) */
                 maxPageSize?: number;
-                /** @description Opaque cursor from a prior nextPageToken */
+                /** @description Opaque cursor from a prior nextPageToken. Keep endedAfter and the ordered targetUniverseIds selector the same on subsequent pages. */
                 pageToken?: string;
             };
             header?: never;
@@ -68558,7 +76474,7 @@ export interface operations {
                     'application/json': components['schemas']['ListCampaignsResponse'];
                 };
             };
-            /** @description Invalid maxPageSize or pageToken */
+            /** @description Invalid maxPageSize, pageToken, endedAfter, or targetUniverseIds */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -68944,6 +76860,967 @@ export interface operations {
             };
         };
     };
+    CustomDashboards_ValidateDashboardDocument: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json': {
+                    /**
+                     * @description CustomDashboardDocument is the dashboard authoring document persisted as the
+                     *     latest published content. Draft edits remain local client state until the
+                     *     caller sends this document to create or publish a dashboard.
+                     */
+                    document?: components['schemas']['CustomDashboardDocument'] | (never | null);
+                };
+                'text/json': {
+                    /**
+                     * @description CustomDashboardDocument is the dashboard authoring document persisted as the
+                     *     latest published content. Draft edits remain local client state until the
+                     *     caller sends this document to create or publish a dashboard.
+                     */
+                    document?: components['schemas']['CustomDashboardDocument'] | (never | null);
+                };
+                'application/*+json': {
+                    /**
+                     * @description CustomDashboardDocument is the dashboard authoring document persisted as the
+                     *     latest published content. Draft edits remain local client state until the
+                     *     caller sends this document to create or publish a dashboard.
+                     */
+                    document?: components['schemas']['CustomDashboardDocument'] | (never | null);
+                };
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ValidateDashboardDocumentResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+        };
+    };
+    CustomDashboards_ListDashboards: {
+        parameters: {
+            query?: {
+                pageSize?: number;
+                pageToken?: string;
+            };
+            header?: never;
+            path: {
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ListDashboardsResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+        };
+    };
+    CustomDashboards_CreateDashboard: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json': {
+                    /** @default  */
+                    name?: string | null;
+                    /** @default  */
+                    description?: string | null;
+                    /**
+                     * @description CustomDashboardDocument is the dashboard authoring document persisted as the
+                     *     latest published content. Draft edits remain local client state until the
+                     *     caller sends this document to create or publish a dashboard.
+                     */
+                    document?: components['schemas']['CustomDashboardDocument'] | (never | null);
+                    /**
+                     * @description Optional caller-supplied token that makes this create idempotent. Repeating a create with
+                     *     the same key, universe, and actor within the server's retention window returns the
+                     *     originally created dashboard instead of creating a second one. The key identifies the
+                     *     request, not the document: two creates with identical content but different keys still
+                     *     produce two dashboards. Omitting it preserves the non-idempotent behaviour exactly.
+                     *
+                     *     A key stays bound while its server-side reservation exists, including after its dashboard
+                     *     is deleted. Reusing a key bound to a deleted dashboard, or one reserved at least seven days
+                     *     ago whose dashboard is missing, fails with FAILED_PRECONDITION and reason
+                     *     IDEMPOTENCY_KEY_CONSUMED. Missing dashboards can only be recovered during the first seven
+                     *     days after reservation; creating another dashboard requires a new key.
+                     *
+                     *     An empty string is treated as omitted; a non-empty whitespace-only key is invalid. Length is
+                     *     capped by `DashboardLimits.max_idempotency_key_length`, which applies to new keys only.
+                     * @default
+                     */
+                    idempotencyKey?: string | null;
+                };
+                'text/json': {
+                    /** @default  */
+                    name?: string | null;
+                    /** @default  */
+                    description?: string | null;
+                    /**
+                     * @description CustomDashboardDocument is the dashboard authoring document persisted as the
+                     *     latest published content. Draft edits remain local client state until the
+                     *     caller sends this document to create or publish a dashboard.
+                     */
+                    document?: components['schemas']['CustomDashboardDocument'] | (never | null);
+                    /**
+                     * @description Optional caller-supplied token that makes this create idempotent. Repeating a create with
+                     *     the same key, universe, and actor within the server's retention window returns the
+                     *     originally created dashboard instead of creating a second one. The key identifies the
+                     *     request, not the document: two creates with identical content but different keys still
+                     *     produce two dashboards. Omitting it preserves the non-idempotent behaviour exactly.
+                     *
+                     *     A key stays bound while its server-side reservation exists, including after its dashboard
+                     *     is deleted. Reusing a key bound to a deleted dashboard, or one reserved at least seven days
+                     *     ago whose dashboard is missing, fails with FAILED_PRECONDITION and reason
+                     *     IDEMPOTENCY_KEY_CONSUMED. Missing dashboards can only be recovered during the first seven
+                     *     days after reservation; creating another dashboard requires a new key.
+                     *
+                     *     An empty string is treated as omitted; a non-empty whitespace-only key is invalid. Length is
+                     *     capped by `DashboardLimits.max_idempotency_key_length`, which applies to new keys only.
+                     * @default
+                     */
+                    idempotencyKey?: string | null;
+                };
+                'application/*+json': {
+                    /** @default  */
+                    name?: string | null;
+                    /** @default  */
+                    description?: string | null;
+                    /**
+                     * @description CustomDashboardDocument is the dashboard authoring document persisted as the
+                     *     latest published content. Draft edits remain local client state until the
+                     *     caller sends this document to create or publish a dashboard.
+                     */
+                    document?: components['schemas']['CustomDashboardDocument'] | (never | null);
+                    /**
+                     * @description Optional caller-supplied token that makes this create idempotent. Repeating a create with
+                     *     the same key, universe, and actor within the server's retention window returns the
+                     *     originally created dashboard instead of creating a second one. The key identifies the
+                     *     request, not the document: two creates with identical content but different keys still
+                     *     produce two dashboards. Omitting it preserves the non-idempotent behaviour exactly.
+                     *
+                     *     A key stays bound while its server-side reservation exists, including after its dashboard
+                     *     is deleted. Reusing a key bound to a deleted dashboard, or one reserved at least seven days
+                     *     ago whose dashboard is missing, fails with FAILED_PRECONDITION and reason
+                     *     IDEMPOTENCY_KEY_CONSUMED. Missing dashboards can only be recovered during the first seven
+                     *     days after reservation; creating another dashboard requires a new key.
+                     *
+                     *     An empty string is treated as omitted; a non-empty whitespace-only key is invalid. Length is
+                     *     capped by `DashboardLimits.max_idempotency_key_length`, which applies to new keys only.
+                     * @default
+                     */
+                    idempotencyKey?: string | null;
+                };
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['CreateDashboardResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+        };
+    };
+    'AnalyticsCustomDashboardsApi.CustomDashboards_GetDashboard': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['GetDashboardResponse'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+        };
+    };
+    CustomDashboards_GetDashboard: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['GetDashboardResponse'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+        };
+    };
+    CustomDashboards_GetDashboard1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+                dashboardId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['GetDashboardResponse'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+        };
+    };
+    CustomDashboards_DeleteDashboard: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+                dashboardId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json': {
+                    /** @default  */
+                    expectedHeadEtag?: string | null;
+                };
+                'text/json': {
+                    /** @default  */
+                    expectedHeadEtag?: string | null;
+                };
+                'application/*+json': {
+                    /** @default  */
+                    expectedHeadEtag?: string | null;
+                };
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['DeleteDashboardResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+        };
+    };
+    CustomDashboards_UpdateDashboardMetadata: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+                dashboardId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json': {
+                    /**
+                     * @description Required. Enforced for name/description CAS. Ignored for pin-only patches;
+                     *     those rebase is_pinned onto the current head and do not rewrite other fields.
+                     * @default
+                     */
+                    expectedHeadEtag?: string | null;
+                    /** @description DashboardMetadataPatch updates dashboard metadata without exposing storage rows. */
+                    patch?: components['schemas']['DashboardMetadataPatch'] | (never | null);
+                };
+                'text/json': {
+                    /**
+                     * @description Required. Enforced for name/description CAS. Ignored for pin-only patches;
+                     *     those rebase is_pinned onto the current head and do not rewrite other fields.
+                     * @default
+                     */
+                    expectedHeadEtag?: string | null;
+                    /** @description DashboardMetadataPatch updates dashboard metadata without exposing storage rows. */
+                    patch?: components['schemas']['DashboardMetadataPatch'] | (never | null);
+                };
+                'application/*+json': {
+                    /**
+                     * @description Required. Enforced for name/description CAS. Ignored for pin-only patches;
+                     *     those rebase is_pinned onto the current head and do not rewrite other fields.
+                     * @default
+                     */
+                    expectedHeadEtag?: string | null;
+                    /** @description DashboardMetadataPatch updates dashboard metadata without exposing storage rows. */
+                    patch?: components['schemas']['DashboardMetadataPatch'] | (never | null);
+                };
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['UpdateDashboardMetadataResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+        };
+    };
+    CustomDashboards_PublishDashboard: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                universeId: number;
+                dashboardId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json': {
+                    /** @default  */
+                    expectedHeadEtag?: string | null;
+                    /**
+                     * @description CustomDashboardDocument is the dashboard authoring document persisted as the
+                     *     latest published content. Draft edits remain local client state until the
+                     *     caller sends this document to create or publish a dashboard.
+                     */
+                    document?: components['schemas']['CustomDashboardDocument'] | (never | null);
+                    /** @description DashboardMetadataPatch updates dashboard metadata without exposing storage rows. */
+                    metadataPatch?: components['schemas']['DashboardMetadataPatch'] | (never | null);
+                };
+                'text/json': {
+                    /** @default  */
+                    expectedHeadEtag?: string | null;
+                    /**
+                     * @description CustomDashboardDocument is the dashboard authoring document persisted as the
+                     *     latest published content. Draft edits remain local client state until the
+                     *     caller sends this document to create or publish a dashboard.
+                     */
+                    document?: components['schemas']['CustomDashboardDocument'] | (never | null);
+                    /** @description DashboardMetadataPatch updates dashboard metadata without exposing storage rows. */
+                    metadataPatch?: components['schemas']['DashboardMetadataPatch'] | (never | null);
+                };
+                'application/*+json': {
+                    /** @default  */
+                    expectedHeadEtag?: string | null;
+                    /**
+                     * @description CustomDashboardDocument is the dashboard authoring document persisted as the
+                     *     latest published content. Draft edits remain local client state until the
+                     *     caller sends this document to create or publish a dashboard.
+                     */
+                    document?: components['schemas']['CustomDashboardDocument'] | (never | null);
+                    /** @description DashboardMetadataPatch updates dashboard metadata without exposing storage rows. */
+                    metadataPatch?: components['schemas']['DashboardMetadataPatch'] | (never | null);
+                };
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['PublishDashboardResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OpenCloudErrorResponseOfCustomDashboardError'];
+                };
+            };
+        };
+    };
     Assets_CreateAsset: {
         parameters: {
             query?: never;
@@ -68954,13 +77831,17 @@ export interface operations {
         requestBody?: {
             content: {
                 'multipart/form-data': {
-                    /** @description Asset attributes to create. */
-                    request: components['schemas']['Asset'];
                     /**
                      * Format: binary
                      * @description The binary asset file path and the content type. See [Asset types and limits](/cloud/guides/usage-assets.md#supported-asset-types-and-limits).
                      */
                     fileContent: string;
+                    /** @description Optional: Additional parameters to be sent with the request can be included here. */
+                    additionalParameters?: {
+                        [key: string]: string;
+                    } | null;
+                    /** @description Asset attributes to create. */
+                    request: components['schemas']['AssetsUploadApi.Asset'];
                 };
             };
         };
@@ -68971,7 +77852,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['OCV1.Assets.Operation'];
+                    'application/json': components['schemas']['AssetsUploadApi.Operation'];
                 };
             };
             /** @description Invalid argument. Failed to parse the request or the file. */
@@ -68980,7 +77861,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['OCV1.Assets.Status'];
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
                 };
             };
             /** @description The API key is not valid for this operation / You don't have the authorization. */
@@ -68988,14 +77869,27 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+            /** @description Doesn't have the required permission. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
             /** @description Server internal error / Unknown error. */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
         };
     };
@@ -69003,12 +77897,12 @@ export interface operations {
         parameters: {
             query?: {
                 /** @description Asset metadata fields to retrieve, including the description, display name, icon, social links, and previews. Examples: `description%2CdisplayName`, `previews%2CtwitchSocialLink`. */
-                readMask?: string;
+                readMask?: string[];
             };
             header?: never;
             path: {
                 /** @description The unique identifier of the asset. */
-                assetId: string;
+                assetId: number;
             };
             cookie?: never;
         };
@@ -69020,7 +77914,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['Asset'];
+                    'application/json': components['schemas']['AssetsUploadApi.Asset'];
                 };
             };
             /** @description Malformed request, likely due to an invalid read mask. */
@@ -69028,35 +77922,45 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
             /** @description The API key is not valid for this operation / You don't have the authorization. */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
             /** @description Doesn't have the required permission. */
             403: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
             /** @description Asset doesn't exist. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
             /** @description Server internal error / Unknown error. */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
         };
     };
@@ -69064,25 +77968,29 @@ export interface operations {
         parameters: {
             query?: {
                 /** @description Asset metadata fields to update, including the description, display name, icon, and previews. Examples: `description%2CdisplayName`, `previews%2CtwitchSocialLink`. */
-                updateMask?: string;
+                updateMask?: string[];
             };
             header?: never;
             path: {
                 /** @description The unique identifier of the asset. */
-                assetId: string;
+                assetId: number;
             };
             cookie?: never;
         };
         requestBody?: {
             content: {
                 'multipart/form-data': {
-                    /** @description Asset attributes to update. */
-                    request: components['schemas']['Asset'];
                     /**
                      * Format: binary
                      * @description The binary asset file path and the content type. See [Asset types and limits](/cloud/guides/usage-assets.md#supported-asset-types-and-limits).
                      */
-                    fileContent: string;
+                    fileContent?: string | null;
+                    /** @description Optional: Additional parameters to be sent with the request can be included here. */
+                    additionalParameters?: {
+                        [key: string]: string;
+                    } | null;
+                    /** @description Asset attributes to update. */
+                    request: components['schemas']['AssetsUploadApi.Asset'];
                 };
             };
         };
@@ -69093,7 +78001,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['OCV1.Assets.Operation'];
+                    'application/json': components['schemas']['AssetsUploadApi.Operation'];
                 };
             };
             /** @description Invalid argument. Failed to parse the request or the file. */
@@ -69102,7 +78010,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['OCV1.Assets.Status'];
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
                 };
             };
             /** @description The API key is not valid for this operation / You don't have the authorization. */
@@ -69110,29 +78018,43 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+            /** @description Doesn't have the required permission. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
             /** @description Server internal error / Unknown error. */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
         };
     };
-    listAssetVersions: {
+    Assets_ListAssetVersions: {
         parameters: {
             query?: {
                 /** @description Specifies the number of asset versions to include in the response. Valid values range from 1 to 50 (inclusive). Defaults to 8 when not provided. */
                 maxPageSize?: number;
                 /** @description A token for pagination. The value is obtained from a previous request and allows for retrieving the next page of asset versions. */
                 pageToken?: string;
+                filter?: string;
             };
             header?: never;
             path: {
                 /** @description The unique identifier of the asset. */
-                assetId: string;
+                assetId: number;
             };
             cookie?: never;
         };
@@ -69144,7 +78066,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['AssetVersion'][];
+                    'application/json': components['schemas']['ListAssetVersionsResponse'];
                 };
             };
             /** @description Bad request - invalid parameters. */
@@ -69152,21 +78074,27 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
             /** @description Forbidden - API key without Read scope or user doesn't have access. */
             403: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
             /** @description Asset not found. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
         };
     };
@@ -69176,9 +78104,9 @@ export interface operations {
             header?: never;
             path: {
                 /** @description The unique identifier of the asset. */
-                assetId: string;
+                assetId: number;
                 /** @description The version number. */
-                versionNumber: string;
+                versionNumber: number;
             };
             cookie?: never;
         };
@@ -69198,14 +78126,18 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
             /** @description Asset or Asset Version not found. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
         };
     };
@@ -69215,16 +78147,13 @@ export interface operations {
             header?: never;
             path: {
                 /** @description The unique identifier of the asset. */
-                assetId: string;
+                assetId: number;
             };
             cookie?: never;
         };
-        requestBody?: {
+        requestBody: {
             content: {
-                'multipart/form-data': {
-                    /** @description The asset version path in the format of `assets/{assetId}/versions/{versionNumber}`. */
-                    assetVersion: string;
-                };
+                'application/json': components['schemas']['RollbackAssetVersionRequest'];
             };
         };
         responses: {
@@ -69242,21 +78171,27 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
             /** @description Forbidden - API key without Write scope or user doesn't have access. */
             403: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
             /** @description Asset or Asset Version not found. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
         };
     };
@@ -69266,19 +78201,19 @@ export interface operations {
             header?: never;
             path: {
                 /** @description The unique identifier of the asset. */
-                assetId: string;
+                assetId: number;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Asset archived succesfully successfully. */
+            /** @description Asset archived successfully. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['Asset'];
+                    'application/json': components['schemas']['AssetsUploadApi.Asset'];
                 };
             };
             /** @description Bad request - invalid request. */
@@ -69286,21 +78221,89 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+            /** @description The API key is not valid for this operation / You don't have the authorization. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
             /** @description Forbidden - API key without Write scope or user doesn't have access. */
             403: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
             /** @description Asset not found. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+        };
+    };
+    Assets_UpdateAssetWithMultipartUpload: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                assetId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json': components['schemas']['MultipartUploadStartRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['MultipartUploadStartResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
         };
     };
@@ -69310,7 +78313,7 @@ export interface operations {
             header?: never;
             path: {
                 /** @description The unique identifier of the asset. */
-                assetId: string;
+                assetId: number;
             };
             cookie?: never;
         };
@@ -69322,7 +78325,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['Asset'];
+                    'application/json': components['schemas']['AssetsUploadApi.Asset'];
                 };
             };
             /** @description Bad request - invalid request. */
@@ -69330,21 +78333,87 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+            /** @description The API key is not valid for this operation / You don't have the authorization. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
             /** @description Forbidden - API key without Write scope or user doesn't have access. */
             403: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
             /** @description Asset not found. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+        };
+    };
+    Assets_CreateAssetWithMultipartUpload: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json': components['schemas']['MultipartUploadStartRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['MultipartUploadStartResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
         };
     };
@@ -69366,7 +78435,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['OCV1.Assets.Operation'];
+                    'application/json': components['schemas']['AssetsUploadApi.Operation'];
                 };
             };
             /** @description Invalid argument. Failed to parse the request or the file. */
@@ -69375,7 +78444,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['OCV1.Assets.Status'];
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
                 };
             };
             /** @description The API key is not valid for this operation / You don't have the authorization. */
@@ -69383,14 +78452,194 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+            /** @description Doesn't have the required permission. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
             /** @description Server internal error / Unknown error. */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+        };
+    };
+    Assets_MultipartUploadAbort: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                operationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'text/plain': components['schemas']['AssetsUploadApi.Status'];
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                    'text/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'text/plain': components['schemas']['AssetsUploadApi.Status'];
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                    'text/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'text/plain': components['schemas']['AssetsUploadApi.Status'];
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                    'text/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+        };
+    };
+    Assets_MultipartUploadChunkComplete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                operationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json': components['schemas']['MultipartUploadChunkCompleteRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'text/plain': components['schemas']['AssetsUploadApi.Status'];
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                    'text/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'text/plain': components['schemas']['AssetsUploadApi.Status'];
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                    'text/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'text/plain': components['schemas']['AssetsUploadApi.Status'];
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                    'text/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+        };
+    };
+    Assets_MultipartUploadComplete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                operationId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'text/plain': components['schemas']['AssetsUploadApi.Operation'];
+                    'application/json': components['schemas']['AssetsUploadApi.Operation'];
+                    'text/json': components['schemas']['AssetsUploadApi.Operation'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'text/plain': components['schemas']['AssetsUploadApi.Status'];
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                    'text/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'text/plain': components['schemas']['AssetsUploadApi.Status'];
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                    'text/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'text/plain': components['schemas']['AssetsUploadApi.Status'];
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                    'text/json': components['schemas']['AssetsUploadApi.Status'];
+                };
             };
         };
     };
@@ -69989,7 +79238,7 @@ export interface operations {
             header?: never;
             path: {
                 /** @description The universe ID. */
-                universe_id: string;
+                universeId: string;
             };
             cookie?: never;
         };
@@ -70004,15 +79253,6 @@ export interface operations {
                     'application/json': components['schemas']['OpenCloudUniversesService.Universe'];
                 };
             };
-            /** @description Error */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['OpenCloudUniversesService.Status'];
-                };
-            };
         };
     };
     Cloud_UpdateUniverse: {
@@ -70024,23 +79264,17 @@ export interface operations {
             header?: never;
             path: {
                 /** @description The universe ID. */
-                universe_id: string;
+                universeId: string;
             };
             cookie?: never;
         };
-        /**
-         * @description The universe to update.
-         *
-         *     The universe's `path` field is used to identify the universe to update.
-         *
-         *     Format: `universes/{universe_id}`
-         *
-         *     (-- api-linter: core::0140::prepositions=disabled
-         *         go/aip/not-precedent: The preposition comes from the resource name. --)
-         */
+        /** @description The universe fields to update. */
         requestBody?: {
             content: {
+                'application/json-patch+json': components['schemas']['OpenCloudUniversesService.Universe'];
                 'application/json': components['schemas']['OpenCloudUniversesService.Universe'];
+                'text/json': components['schemas']['OpenCloudUniversesService.Universe'];
+                'application/*+json': components['schemas']['OpenCloudUniversesService.Universe'];
             };
         };
         responses: {
@@ -70053,13 +79287,96 @@ export interface operations {
                     'application/json': components['schemas']['OpenCloudUniversesService.Universe'];
                 };
             };
-            /** @description Error */
-            default: {
+        };
+    };
+    Cloud_GetPlace: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The universe ID. */
+                universeId: string;
+                /** @description The place ID. */
+                placeId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['OpenCloudUniversesService.Status'];
+                    'application/json': components['schemas']['Place'];
+                };
+            };
+        };
+    };
+    Cloud_UpdatePlace: {
+        parameters: {
+            query?: {
+                /** @description The list of fields to update. */
+                updateMask?: string;
+            };
+            header?: never;
+            path: {
+                /** @description The universe ID. */
+                universeId: string;
+                /** @description The place ID. */
+                placeId: string;
+            };
+            cookie?: never;
+        };
+        /** @description The place fields to update. */
+        requestBody?: {
+            content: {
+                'application/json-patch+json': components['schemas']['Place'];
+                'application/json': components['schemas']['Place'];
+                'text/json': components['schemas']['Place'];
+                'application/*+json': components['schemas']['Place'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Place'];
+                };
+            };
+        };
+    };
+    Cloud_RestartUniverseServers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The universe ID. */
+                universeId: string;
+            };
+            cookie?: never;
+        };
+        /** @description The restart options. */
+        requestBody?: {
+            content: {
+                'application/json-patch+json': components['schemas']['RestartUniverseServersRequest'];
+                'application/json': components['schemas']['RestartUniverseServersRequest'];
+                'text/json': components['schemas']['RestartUniverseServersRequest'];
+                'application/*+json': components['schemas']['RestartUniverseServersRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['RestartUniverseServersResponse'];
                 };
             };
         };
@@ -71388,91 +80705,6 @@ export interface operations {
             };
         };
     };
-    Cloud_GetPlace: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The universe ID. */
-                universe_id: string;
-                /** @description The place ID. */
-                place_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['Place'];
-                };
-            };
-            /** @description Error */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['OpenCloudUniversesService.Status'];
-                };
-            };
-        };
-    };
-    Cloud_UpdatePlace: {
-        parameters: {
-            query?: {
-                /** @description The list of fields to update. */
-                updateMask?: string;
-            };
-            header?: never;
-            path: {
-                /** @description The universe ID. */
-                universe_id: string;
-                /** @description The place ID. */
-                place_id: string;
-            };
-            cookie?: never;
-        };
-        /**
-         * @description The place to update.
-         *
-         *     The place's `path` field is used to identify the place to update.
-         *
-         *     Format: `universes/{universe_id}/places/{place_id}`
-         *
-         *     (-- api-linter: core::0140::prepositions=disabled
-         *         go/aip/not-precedent: The preposition comes from the resource name. --)
-         */
-        requestBody?: {
-            content: {
-                'application/json': components['schemas']['Place'];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['Place'];
-                };
-            };
-            /** @description Error */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['OpenCloudUniversesService.Status'];
-                };
-            };
-        };
-    };
     Cloud_GetInstance: {
         parameters: {
             query?: never;
@@ -72150,42 +81382,6 @@ export interface operations {
             };
         };
     };
-    Cloud_RestartUniverseServers: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The universe ID. */
-                universe_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                'application/json': components['schemas']['RestartUniverseServersRequest'];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['RestartUniverseServersResponse'];
-                };
-            };
-            /** @description Error */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['OpenCloudUniversesService.Status'];
-                };
-            };
-        };
-    };
     Cloud_TranslateText: {
         parameters: {
             query?: never;
@@ -72267,7 +81463,7 @@ export interface operations {
             header?: never;
             path: {
                 /** @description The user ID. */
-                user_id: string;
+                user_id: number;
             };
             cookie?: never;
         };
@@ -72280,6 +81476,33 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['ListAssetQuotasResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['AssetsUploadApi.Status'];
                 };
             };
         };
@@ -75427,6 +84650,90 @@ export interface operations {
             };
         };
     };
+    GameServers_ListClientLogs: {
+        parameters: {
+            query?: {
+                /**
+                 * @description The maximum number of log entries to return. Defaults to 25 and values above 100 are
+                 *     capped at 100.
+                 */
+                MaxPageSize?: number;
+                /**
+                 * @description An opaque token from a previous response. Preserve the other query parameters when
+                 *     requesting the next page.
+                 */
+                PageToken?: string;
+                /**
+                 * @description Sorts by `message_timestamp` or `log_severity`. Append ` desc` for descending order.
+                 *     Each endpoint defines its own default when this value is omitted.
+                 */
+                OrderBy?: string;
+                /**
+                 * @description Filters log entries with CEL. Use `severity` with equality or `in`, `message_timestamp`
+                 *     with comparisons, or `search` with equality or inequality for case-insensitive full-text matching.
+                 */
+                Filter?: string;
+            };
+            header?: never;
+            path: {
+                /** @description The universe that owns the play session. */
+                universeId: number;
+                /** @description The place that hosted the play session. */
+                placeId: number;
+                /** @description The game-server job id that hosted the play session. */
+                jobId: string;
+                /** @description The non-zero UUID that identifies the client play session. */
+                sessionId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ListClientLogsResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ServerManagementService.ProblemDetails'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ServerManagementService.ProblemDetails'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ServerManagementService.ProblemDetails'];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     GameServers_GetFilterOptions: {
         parameters: {
             query?: {
@@ -77327,7 +86634,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Success */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -77363,7 +86670,7 @@ export interface operations {
                     'application/json': string;
                 };
             };
-            /** @description Internal Server Error */
+            /** @description Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -77392,7 +86699,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Success */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -77428,7 +86735,7 @@ export interface operations {
                     'application/json': string;
                 };
             };
-            /** @description Internal Server Error */
+            /** @description Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -77457,7 +86764,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Success */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -77500,7 +86807,7 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Internal Server Error */
+            /** @description Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -77526,7 +86833,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Success */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -77562,7 +86869,7 @@ export interface operations {
                     'application/json': string;
                 };
             };
-            /** @description Internal Server Error */
+            /** @description Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -77586,7 +86893,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Success */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -77624,7 +86931,7 @@ export interface operations {
                     'application/json': string;
                 };
             };
-            /** @description Internal Server Error */
+            /** @description Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -77646,13 +86953,12 @@ export interface operations {
         requestBody: {
             content: {
                 'multipart/form-data': {
-                    /** @description The image files to upload. */
                     files: string[];
                 };
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Success */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -77688,7 +86994,7 @@ export interface operations {
                     'application/json': string;
                 };
             };
-            /** @description Internal Server Error */
+            /** @description Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -77712,7 +87018,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Success */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -77748,7 +87054,7 @@ export interface operations {
                     'application/json': string;
                 };
             };
-            /** @description Internal Server Error */
+            /** @description Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -78469,7 +87775,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -78704,7 +88010,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -78898,7 +88204,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -79032,7 +88338,7 @@ export interface operations {
             header?: never;
             path: {
                 /** @description Game event ID (from path). */
-                eventId: number;
+                eventId: string;
             };
             cookie?: never;
         };
@@ -79073,7 +88379,7 @@ export interface operations {
             header?: never;
             path: {
                 /** @description Game event ID to delete (from path). */
-                eventId: number;
+                eventId: string;
             };
             cookie?: never;
         };
@@ -79085,6 +88391,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description The event ID is not a positive integer. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['VirtualEventsApi.ProblemDetails'];
+                };
             };
             /** @description Caller is not authenticated. */
             401: {
@@ -79130,7 +88445,7 @@ export interface operations {
             header?: never;
             path: {
                 /** @description Game event ID from the route. */
-                eventId: number;
+                eventId: string;
             };
             cookie?: never;
         };

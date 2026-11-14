@@ -94,7 +94,7 @@ export interface paths {
         put?: never;
         /**
          * Create a campaign
-         * @description Creates an ad campaign in the billing account. Before creating, call GetCampaignOptions with universeId to confirm the experience is eligible and to choose values it accepts. The creatives you reference must already exist as Open Cloud image assets that you have permission to use; they are validated and saved to your account's reusable creatives when the campaign is created. On success the campaign is returned with deliveryStatus IN_REVIEW, meaning it is queued for ad-policy review and not yet serving — poll the campaign (or campaigns:batchGetStatus) until this changes. budget.amountMicros is the budget in micro-USD as a decimal string (e.g. "5000000" = $5.00). It must be at least the minimum campaign budget; an amount below the minimum returns 400 with the required minimum stated in the error message. schedule.durationInDays must not exceed 3650 (~10 years). The x-idempotency-key header is required and must be a UUID: retrying the same key within 24 hours returns the original campaign (200) without creating another one, even if the body differs, so use a new key for a different campaign. A retry while the first request is still in progress returns 429. A body field that the request does not define returns 400 with reason UNKNOWN_FIELD and the field path in field.
+         * @description Creates an ad campaign in the billing account. Before creating, call GetCampaignOptions with universeId to confirm the experience is eligible and to choose values it accepts. The creatives you reference must already exist as Open Cloud image assets that you have permission to use; they are validated and saved to your account's reusable creatives when the campaign is created. On success the campaign is returned with deliveryStatus IN_REVIEW, meaning it is queued for ad-policy review and not yet serving, or NOT_SERVING with reason SCHEDULED when startTime is in the future — poll the campaign (or campaigns:batchGetStatus) until this changes. budget.amountMicros is the budget in micro-USD as a decimal string (e.g. "5000000" = $5.00). It must be at least the minimum campaign budget; an amount below the minimum returns 400 with the required minimum stated in the error message. schedule.durationInDays must not exceed 3650 (~10 years). The x-idempotency-key header is required and must be a UUID. Generate a new key for each new campaign and whenever you change the request body, including the name. Reuse a key only to retry the same body. Within 24 hours, a completed request's key returns the original campaign (200). If the body differs, the API ignores the changes; 200 does not mean they were applied, and this case does not return 409. A retry while the first request is still in progress returns 429. Use PATCH /campaigns/{id} to edit an existing campaign. A body field that the request does not define returns 400 with reason UNKNOWN_FIELD and the field path in field.
          */
         post: operations['CreateCampaign'];
         delete?: never;
@@ -122,7 +122,7 @@ export interface paths {
         head?: never;
         /**
          * Update a campaign
-         * @description Updates the mutable fields of a campaign. You can change: name, budget.amountMicros, schedule.startTime and schedule.durationInDays (schedule changes are only allowed before the campaign starts), status, and creativeAssetIds. New creative asset IDs are appended; IDs already attached to the campaign are ignored, and an empty list is a successful no-op. Set status to ACTIVE to run or resume the campaign, PAUSED to pause it, or CANCELLED to cancel it permanently. Setting CANCELLED on a campaign that is already cancelled returns the campaign unchanged, so a retried cancel succeeds; any other edit to a cancelled or ended campaign returns 400 FAILED_PRECONDITION. budget.type cannot be changed — only the amount. A budget increase takes effect immediately, but a budget decrease on a running campaign is scheduled for the next midnight in the account's time zone; while a decrease is pending, the response reports it in budget.scheduledAmountMicros and budget.scheduledEffectiveTime. The fields objective, paymentType, targeting, and bid are fixed after creation and return 400 if included. The updated campaign is returned with its recomputed deliveryStatus. You can also change video (every ad is updated before the response returns) and autoReloadAdCreditEnabled. Video availability follows the campaign's billing account, as on create, and a request with video returns 400 when the account doesn't allow it; billingAccountId and targetUniverseId are fixed after creation, and immutable-field errors carry field and reason IMMUTABLE_FIELD. A body field that the request does not define returns 400 with reason UNKNOWN_FIELD. A campaign owned by a group can be updated by any member with advertising permission on the campaign's experience, without groupId; raising the spend of another user's campaign is limited to its owner.
+         * @description Updates the mutable fields of a campaign. You can change: name, budget.amountMicros, schedule.startTime and schedule.durationInDays (schedule changes are only allowed before the campaign starts), status, and creativeAssetIds. New creative asset IDs are appended; IDs already attached to the campaign are ignored, and an empty list is a successful no-op. Set status to ACTIVE to run or resume the campaign, PAUSED to pause it, or CANCELLED to cancel it permanently. Setting CANCELLED on a campaign that is already cancelled returns the campaign unchanged, so a retried cancel succeeds; any other edit to a cancelled or ended campaign returns 400 FAILED_PRECONDITION. budget.type cannot be changed — only the amount. A budget increase takes effect immediately, but a budget decrease on a running campaign is scheduled for the next midnight in the account's time zone; while a decrease is pending, the response reports it in budget.scheduledAmountMicros and budget.scheduledEffectiveTime. The fields objective, paymentType, targeting, and bid are fixed after creation and return 400 if included. The updated campaign is returned with its recomputed deliveryStatus. You can also change video (every ad is updated before the response returns) and autoReloadAdCreditEnabled. Video availability follows the campaign's billing account, as on create, and a request with video returns 400 when the account doesn't allow it; billingAccountId and targetUniverseId are fixed after creation, and immutable-field errors carry field and reason IMMUTABLE_FIELD. A body field that the request does not define returns 400 with reason UNKNOWN_FIELD. A campaign owned by a group can be updated by any member with advertising permission on the campaign's experience, without groupId; raising the spend of another user's campaign, including setting status to ACTIVE, is limited to its owner.
          */
         patch: operations['UpdateCampaign'];
         trace?: never;
@@ -11429,6 +11429,134 @@ export interface paths {
          * @description Publish a message to a pre-defined topic of an experience, with the size of the message up to 1,024 characters (1 KB). Requires the **Publish** permission for API keys and the **universe-messaging-service:publish** scope for OAuth 2.0 apps. See [Cross-server messaging](/cloud-services/cross-server-messaging.md#subscribe-users-to-receive-messages) for defining and subscribing users to a topic.
          */
         post: operations['CrossServerMessaging_Publish'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/notifications/v1/developer-analytics/get-notifs-analytics': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations['NotificationsAggregatedAnalytics_ExperienceNotification'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/notifications/v1/developer-configuration/archive-notification': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations['NotificationsDeveloperConfiguration_ArchiveNotificationString'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/notifications/v1/developer-configuration/create-notification': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations['NotificationsDeveloperConfiguration_CreateNotificationString'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/notifications/v1/developer-configuration/experience-notification': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations['NotificationsDeveloperConfiguration_ExperienceNotification'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/notifications/v1/developer-configuration/experience-notifications-list': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations['NotificationsDeveloperConfiguration_ExperienceNotificationsList'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/notifications/v1/developer-configuration/update-notification': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations['NotificationsDeveloperConfiguration_UpdateNotificationString'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/notifications/v1/experience-notifications/unfollow': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations['NotificationsApi_UnfollowExperienceNotification'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/notifications/v1/report-notification': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations['NotificationsApi_ReportNotification'];
         delete?: never;
         options?: never;
         head?: never;
@@ -30036,6 +30164,76 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/v1/my/trusted-friends/candidates': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a page of friends that the authenticated user can add as trusted friends. Friends with a pending trusted
+         *     friend request from the user come after the other friends. A page can be short or empty and still have a
+         *     cursor, so request pages until nextPageCursor is null.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description The maximum number of candidates in the page, from 1 to 50. */
+                    limit?: number;
+                    /** @description The cursor from the previous page. Null for the first page. */
+                    cursor?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Paging.CursoredPagedResult_Roblox.Friends.Api.Models.Response.TrustedFriendCandidateResponse_'];
+                        'text/json': components['schemas']['Roblox.Paging.CursoredPagedResult_Roblox.Friends.Api.Models.Response.TrustedFriendCandidateResponse_'];
+                    };
+                };
+                /**
+                 * @description 34: Invalid pagination cursor.
+                 *     44: Invalid count, Allowed values: 10, 18, 25, 50, 100
+                 */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 39: There was an internal error processing Trusted Friends. */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/v1/my/trusted-friends/requests': {
         parameters: {
             query?: never;
@@ -39914,7 +40112,8 @@ export interface paths {
                         | 93
                         | 94
                         | 95
-                        | 96;
+                        | 96
+                        | 97;
                     /** @description The number of results per request. */
                     limit?: 10 | 25 | 50 | 100;
                     /** @description The paging cursor for the previous or next page. */
@@ -51200,6 +51399,7 @@ export interface paths {
                         | 94
                         | 95
                         | 96
+                        | 97
                     )[];
                     /** @description Filters moderated assets when enabled. */
                     filterDisapprovedAssets?: boolean;
@@ -52509,7 +52709,7 @@ export interface components {
         AccountTaxType: 'Invalid' | 'Individual' | 'Business';
         ActionResult: Record<string, never>;
         AdFormat: {
-            /** @description The ad format name. */
+            /** @description The creative asset type, for example `IMAGE`. */
             format?: string;
             /** @description The format height in pixels. */
             height?: number;
@@ -52985,6 +53185,9 @@ export interface components {
             [key: string]: unknown;
         };
         ApiEmptyResponseModel: Record<string, never>;
+        ArchiveNotificationStringRequest: {
+            id?: string | null;
+        };
         /** @description Representation of an asset. */
         Asset: {
             /**
@@ -54017,7 +54220,10 @@ export interface components {
             reason?: 'NOT_FOUND';
         };
         CampaignOptionsResponse: {
-            /** @description The supported creative formats and their pixel dimensions. */
+            /**
+             * @description The accepted creative image sizes, in pixels. Upload creatives in one of these
+             *     sizes.
+             */
             adFormats?: components['schemas']['AdFormat'][];
             /**
              * @description The billing accounts you can create a campaign for this experience in: your
@@ -54048,7 +54254,11 @@ export interface components {
              *     query parameter when supplied.
              */
             objectiveOptions?: components['schemas']['ObjectiveOption'][];
-            /** @description The campaign objectives you can create. Values can be `PLAYS` or `ENGAGEMENT`. */
+            /**
+             * @description The campaign objectives you can create. Values can be `PLAYS`, `ENGAGEMENT`, or
+             *     `ROBUX_SPEND`. objectiveOptions tells you whether each one is available for the
+             *     experience.
+             */
             objectives?: ('PLAYS' | 'ENGAGEMENT' | 'ROBUX_SPEND')[];
             /**
              * @description The payment types a campaign may choose. Values can be `CREDIT_CARD`,
@@ -54484,6 +54694,16 @@ export interface components {
          * @enum {string}
          */
         ConfigVariantType: 'conditional';
+        ConfigureExperienceNotificationResponse: {
+            id?: string | null;
+            name?: string | null;
+            content?: string | null;
+        };
+        ConfigureExperienceNotificationsListResponse: {
+            notificationStringConfigs?: components['schemas']['ConfigureExperienceNotificationResponse'][] | null;
+            previousPageCursor?: string | null;
+            nextPageCursor?: string | null;
+        };
         /** @description Request for updating consumer configuration. */
         ConsumerConfigurationRequest: {
             /** @description Gets or sets the service configuration lists. */
@@ -54795,6 +55015,15 @@ export interface components {
              * @description The priority of the queue item.
              */
             priority?: number;
+        };
+        CreateNotificationStringRequest: {
+            name: string | null;
+            content: string | null;
+            /** Format: int64 */
+            universeId: number;
+        };
+        CreateNotificationStringResponse: {
+            id?: string | null;
         };
         /** @description Response object for Roblox.CloudPricing.ServiceEfficiencyApi.Operations.CreatePaymentProfileOperation */
         CreatePaymentProfileResponse: {
@@ -56367,7 +56596,7 @@ export interface components {
         /** @description error log detail */
         ErrorLogDetail: {
             /** @description The message hash id for this log detail. */
-            id?: string | null;
+            id: string | null;
             /** @description The logSeverity of the log */
             logSeverity?: string | null;
             /** @description The source of the log */
@@ -56375,7 +56604,7 @@ export interface components {
             os?: string | null;
             platform?: string | null;
             /** @description The message of the error log */
-            message?: string | null;
+            message: string | null;
             /** @description The stack trace of the error log. This might be not available */
             stacktrace?: string | null;
             /**
@@ -57379,6 +57608,16 @@ export interface components {
                 /** Format: double */
                 TextChat?: number;
             } | null;
+        };
+        GetNotificationsAnalyticsResponse: {
+            overview: {
+                [key: string]: unknown;
+            } | null;
+            campaigns:
+                | {
+                      [key: string]: unknown;
+                  }[]
+                | null;
         };
         GetPlaceContributorsResponse: {
             nextCursor?: string | null;
@@ -61065,7 +61304,9 @@ export interface components {
             eligible?: boolean;
             /**
              * @description The reasons the experience is not eligible. Omitted when eligible. Values can be
-             *     `NO_PERMISSION` or `BLOCKED`.
+             *     `NO_PERMISSION`, `BLOCKED`, or `OBJECTIVE_NOT_SUPPORTED`. `OBJECTIVE_NOT_SUPPORTED`
+             *     appears only with the objective query parameter, when the experience can't use
+             *     that objective.
              */
             reasons?: ('NO_PERMISSION' | 'BLOCKED' | 'OBJECTIVE_NOT_SUPPORTED')[];
             /** @description The identifier of the experience that was checked. */
@@ -61253,6 +61494,9 @@ export interface components {
             /** Format: int32 */
             order?: number;
         };
+        ReportNotificationRequest: {
+            notificationId?: string | null;
+        };
         /**
          * @description Public API repository identifier. Only values exposed by the public API are included;
          *     internal repository types are not exposed to allow development and testing before enabling.
@@ -61272,6 +61516,8 @@ export interface components {
          *     JourneysConfig
          *
          *     AntiCheatConfig
+         *
+         *     DataCaptureConfig
          * @enum {string}
          */
         Repository:
@@ -61282,7 +61528,8 @@ export interface components {
             | 'LeaderboardsConfig'
             | 'ExperienceUserConfig'
             | 'JourneysConfig'
-            | 'AntiCheatConfig';
+            | 'AntiCheatConfig'
+            | 'DataCaptureConfig';
         /** @description Configuration for a resource, like Memory Stores request unit. */
         ResourceConfiguration: {
             /** @description Gets or sets the resource ID. */
@@ -67202,6 +67449,19 @@ export interface components {
         'Roblox.Friends.Api.Models.Response.RefreshQrSessionResponse': {
             Success?: boolean;
         };
+        /** @description A friend that the authenticated user can add as a trusted friend. */
+        'Roblox.Friends.Api.Models.Response.TrustedFriendCandidateResponse': {
+            /**
+             * Format: int64
+             * @description The friend's user Id.
+             */
+            userId?: number;
+            /**
+             * @description The trusted friend request state between the authenticated user and this friend: None, RequestSent, or
+             *     RequestReceived.
+             */
+            state?: string;
+        };
         /** @description A response model representing a friend request. */
         'Roblox.Friends.Api.Models.Response.TrustedFriendRequestResponse': {
             /**
@@ -68942,7 +69202,7 @@ export interface components {
             name?: string;
             /**
              * Format: int32
-             * @description The asset type id of asset with id Roblox.Inventory.Api.V2.UserAssetItemModelV2.AssetId. ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95, 'ComputeFunction' = 96]
+             * @description The asset type id of asset with id Roblox.Inventory.Api.V2.UserAssetItemModelV2.AssetId. ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95, 'ComputeFunction' = 96, 'AvatarSpawnEffect' = 97]
              * @enum {integer}
              */
             assetType?:
@@ -69034,7 +69294,8 @@ export interface components {
                 | 93
                 | 94
                 | 95
-                | 96;
+                | 96
+                | 97;
             /**
              * Format: date-time
              * @description The created date time of the user asset.
@@ -71732,6 +71993,12 @@ export interface components {
             NextCursor?: string;
             HasMore?: boolean;
         };
+        'Roblox.Paging.CursoredPagedResult_Roblox.Friends.Api.Models.Response.TrustedFriendCandidateResponse_': {
+            PreviousCursor?: string;
+            PageItems?: components['schemas']['Roblox.Friends.Api.Models.Response.TrustedFriendCandidateResponse'][];
+            NextCursor?: string;
+            HasMore?: boolean;
+        };
         'Roblox.Platform.Avatar.BodyColorsModelV2': {
             headColor3?: string;
             torsoColor3?: string;
@@ -73680,7 +73947,9 @@ export interface components {
         Schedule: {
             /**
              * @description How long the campaign runs from startTime, in days. Must not exceed 3650 (about
-             *     10 years).
+             *     10 years). Zero means the campaign has no end date and runs until you pause or
+             *     cancel it; endTime is then omitted. A LIFETIME budget needs an end date, so it
+             *     needs a positive value.
              */
             durationInDays: number;
             /**
@@ -74463,7 +74732,8 @@ export interface components {
             audienceType: 'ALL_PLAYERS' | 'NEW_USERS' | 'RETENTION' | 'REACTIVATION';
             /**
              * @description The ISO 3166-1 alpha-2 country codes to deliver to (for example, `US`). Empty
-             *     means all countries.
+             *     means all countries. Use this field to target single countries. Can't be
+             *     combined with the region `ALL`, or with the region that contains the country.
              */
             countries?: string[];
             /**
@@ -74472,19 +74742,12 @@ export interface components {
              */
             devices?: ('PHONE' | 'TABLET' | 'DESKTOP' | 'CONSOLE')[];
             /**
-             * @description The geographic regions to deliver to. Empty means all regions. Values include
-             *     country-level and aggregate region codes, plus `ALL`.
+             * @description The aggregate geographic regions to deliver to, or `ALL`. Empty means all
+             *     regions. Use only the values in campaign-options `targetingDimensions.regions`.
+             *     `ALL` can't be combined with other regions or with countries.
              */
             regions?: (
                 | 'ALL'
-                | 'US'
-                | 'CA'
-                | 'GB'
-                | 'DE'
-                | 'FR'
-                | 'KR'
-                | 'JP'
-                | 'BR'
                 | 'WESTERN_EUROPE'
                 | 'EASTERN_EUROPE'
                 | 'EAST_ASIA'
@@ -74512,17 +74775,12 @@ export interface components {
             countries?: string[];
             /** @description The selectable device types. Values can be `PHONE`, `TABLET`, `DESKTOP`, or `CONSOLE`. */
             devices?: ('PHONE' | 'TABLET' | 'DESKTOP' | 'CONSOLE')[];
-            /** @description The selectable geographic regions, including country-level and aggregate region codes. */
+            /**
+             * @description The selectable geographic regions: `ALL` and the aggregate region codes. To
+             *     target a single country, use countries.
+             */
             regions?: (
                 | 'ALL'
-                | 'US'
-                | 'CA'
-                | 'GB'
-                | 'DE'
-                | 'FR'
-                | 'KR'
-                | 'JP'
-                | 'BR'
                 | 'WESTERN_EUROPE'
                 | 'EASTERN_EUROPE'
                 | 'EAST_ASIA'
@@ -74942,6 +75200,10 @@ export interface components {
         };
         /** @description Restore the data store */
         UndeleteDataStoreRequest: Record<string, never>;
+        UnfollowExperienceNotificationRequest: {
+            /** Format: int64 */
+            universeId?: number;
+        };
         /** @description Represents a Roblox experience. */
         Universe: {
             /**
@@ -75426,6 +75688,11 @@ export interface components {
         /** @description The response for updating a matchmaking server attribute definition. */
         UpdateMatchmakingServerAttributeDefinitionResponse: {
             playerAttributeDefinition: components['schemas']['MatchmakingServerAttributeDefinition'];
+        };
+        UpdateNotificationStringRequest: {
+            id: string | null;
+            name?: string | null;
+            content?: string | null;
         };
         UpdatePlaceVersionNotesRequest: {
             title?: string | null;
@@ -76516,7 +76783,7 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                /** @description Idempotency key (UUID); 24h dedupe window. A replay returns the original campaign (200), even with a different body; a replay while the first request is in progress returns 429. */
+                /** @description Idempotency key (UUID); 24h dedupe window. Generate a new key for each new campaign or changed request body. Reuse a key only to retry the same body. A completed replay returns the original campaign (200) and ignores body changes, without returning 409; an in-progress replay returns 429. */
                 'x-idempotency-key': string;
             };
             path?: never;
@@ -81683,6 +81950,8 @@ export interface operations {
                  *     JourneysConfig
                  *
                  *     AntiCheatConfig
+                 *
+                 *     DataCaptureConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -81750,6 +82019,8 @@ export interface operations {
                  *     JourneysConfig
                  *
                  *     AntiCheatConfig
+                 *
+                 *     DataCaptureConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -81817,6 +82088,8 @@ export interface operations {
                  *     JourneysConfig
                  *
                  *     AntiCheatConfig
+                 *
+                 *     DataCaptureConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -81891,6 +82164,8 @@ export interface operations {
                  *     JourneysConfig
                  *
                  *     AntiCheatConfig
+                 *
+                 *     DataCaptureConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -81965,6 +82240,8 @@ export interface operations {
                  *     JourneysConfig
                  *
                  *     AntiCheatConfig
+                 *
+                 *     DataCaptureConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -82039,6 +82316,8 @@ export interface operations {
                  *     JourneysConfig
                  *
                  *     AntiCheatConfig
+                 *
+                 *     DataCaptureConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -82106,6 +82385,8 @@ export interface operations {
                  *     JourneysConfig
                  *
                  *     AntiCheatConfig
+                 *
+                 *     DataCaptureConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -82195,6 +82476,8 @@ export interface operations {
                  *     JourneysConfig
                  *
                  *     AntiCheatConfig
+                 *
+                 *     DataCaptureConfig
                  */
                 repository: components['schemas']['Repository'];
             };
@@ -82262,6 +82545,8 @@ export interface operations {
                  *     JourneysConfig
                  *
                  *     AntiCheatConfig
+                 *
+                 *     DataCaptureConfig
                  */
                 repository: components['schemas']['Repository'];
                 revisionId: string;
@@ -84085,6 +84370,206 @@ export interface operations {
             };
             /** @description Server internal error / Unknown error. */
             500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    NotificationsAggregatedAnalytics_ExperienceNotification: {
+        parameters: {
+            query?: {
+                UniverseId?: number;
+                UserId?: number;
+                AggregationStartDateTime?: string;
+                AggregationEndDateTime?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['GetNotificationsAnalyticsResponse'];
+                };
+            };
+        };
+    };
+    NotificationsDeveloperConfiguration_ArchiveNotificationString: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json-patch+json': components['schemas']['ArchiveNotificationStringRequest'];
+                'application/json': components['schemas']['ArchiveNotificationStringRequest'];
+                'text/json': components['schemas']['ArchiveNotificationStringRequest'];
+                'application/*+json': components['schemas']['ArchiveNotificationStringRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    NotificationsDeveloperConfiguration_CreateNotificationString: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json-patch+json': components['schemas']['CreateNotificationStringRequest'];
+                'application/json': components['schemas']['CreateNotificationStringRequest'];
+                'text/json': components['schemas']['CreateNotificationStringRequest'];
+                'application/*+json': components['schemas']['CreateNotificationStringRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['CreateNotificationStringResponse'];
+                };
+            };
+        };
+    };
+    NotificationsDeveloperConfiguration_ExperienceNotification: {
+        parameters: {
+            query?: {
+                Id?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ConfigureExperienceNotificationResponse'];
+                };
+            };
+        };
+    };
+    NotificationsDeveloperConfiguration_ExperienceNotificationsList: {
+        parameters: {
+            query?: {
+                UniverseId?: number;
+                Count?: number;
+                Cursor?: string;
+                Previous?: boolean;
+                ReverseOrder?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ConfigureExperienceNotificationsListResponse'];
+                };
+            };
+        };
+    };
+    NotificationsDeveloperConfiguration_UpdateNotificationString: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json-patch+json': components['schemas']['UpdateNotificationStringRequest'];
+                'application/json': components['schemas']['UpdateNotificationStringRequest'];
+                'text/json': components['schemas']['UpdateNotificationStringRequest'];
+                'application/*+json': components['schemas']['UpdateNotificationStringRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    NotificationsApi_UnfollowExperienceNotification: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json-patch+json': components['schemas']['UnfollowExperienceNotificationRequest'];
+                'application/json': components['schemas']['UnfollowExperienceNotificationRequest'];
+                'text/json': components['schemas']['UnfollowExperienceNotificationRequest'];
+                'application/*+json': components['schemas']['UnfollowExperienceNotificationRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    NotificationsApi_ReportNotification: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json-patch+json': components['schemas']['ReportNotificationRequest'];
+                'application/json': components['schemas']['ReportNotificationRequest'];
+                'text/json': components['schemas']['ReportNotificationRequest'];
+                'application/*+json': components['schemas']['ReportNotificationRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -87552,7 +88037,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -87596,7 +88081,7 @@ export interface operations {
                     'text/json': components['schemas']['ActionResult'];
                 };
             };
-            /** @description Server Error */
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;

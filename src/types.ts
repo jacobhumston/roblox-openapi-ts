@@ -19,6 +19,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/ads-management/v1/audience-estimates': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Estimate the addressable audience
+         * @description Returns a non-binding range of users reachable with the proposed targeting. campaignContext has the same shape as performance estimates, but accepts every creatable objective (PLAYS, ENGAGEMENT, ROBUX_SPEND). targeting accepts the same values and combinations as CreateCampaign, including regions.
+         */
+        post: operations['CreateAudienceEstimate'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/ads-management/v1/billing-accounts': {
         parameters: {
             query?: never;
@@ -59,6 +79,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/ads-management/v1/billing-accounts/{id}/ad-credit-conversions:preview': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Preview a Robux-to-ad-credit conversion
+         * @description Calculates the other side of a conversion from either a Robux amount or an ad credit amount, using the account's current Robux balances and rates. An amount the account cannot afford or outside the allowed range returns 200 with valid=false and a reason.
+         */
+        post: operations['PreviewAdCreditConversion'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/ads-management/v1/billing-accounts/{id}/payment-activities': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List scoped payment activity
+         * @description Lists one ledger, newest first. AD_CREDIT includes the source transaction type and initiator when available. CARD charge rows include the latest associated card settlement time when available. CARD requires type=CHARGE or type=REFUND. CHARGE and AD_CREDIT use cursor pagination; filtered pages can be short or empty and still have a nextPageToken. REFUND requires startTime (inclusive) and endTime (exclusive), returns complete results without pagination, and rejects ranges containing more than 100 refund requests, including non-card requests. Requests without payment details are retained; known non-card payments are excluded.
+         */
+        get: operations['ListPaymentActivities'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/ads-management/v1/campaign-options': {
         parameters: {
             query?: never;
@@ -68,11 +128,31 @@ export interface paths {
         };
         /**
          * Get campaign options
-         * @description Returns the values accepted when creating a campaign: supported objectives, payment types, ad formats, and targeting dimensions. Call this before CreateCampaign. When universeId is supplied, the response also includes an eligibility block indicating whether that experience can currently be advertised, along with the reasons when it cannot. universeId is optional; without it, account-level options are returned without eligibility or billing-account resolution. A caller without permission to advertise the supplied experience gets 403 with reason UNIVERSE_NOT_ADVERTISABLE. It works without a billing account and lists in billingAccounts the accounts you can create a campaign for the experience in, each with the payment types it can use: CREDIT_CARD only for your own account with a card set up, and only ADS_CREDIT for a group's account. paymentTypes is then the payment types at least one of those accounts can use, and is empty when there are none. paymentTypes says which payment types a campaign may choose, not whether an account is funded; read paymentStatus from GET /billing-accounts for that. Sponsored video tiles follow the billing account's owner: video is present when the request's account or at least one listed billing account allows video, and mutableFields lists video only when a campaign's video can be changed.
+         * @description Returns the values accepted when creating a campaign: supported objectives, payment types, ad formats, and targeting dimensions. Call this before CreateCampaign. When universeId is supplied, the response also includes an eligibility block indicating whether that experience can currently be advertised, along with the reasons when it cannot. universeId is optional; without it, account-level options are returned without eligibility or billing-account resolution, and paymentTypes is a static menu that does not check payment setup. A caller without permission to advertise the supplied experience gets 403 with reason UNIVERSE_NOT_ADVERTISABLE. It works without a billing account and lists in billingAccounts the accounts you can create a campaign for the experience in, each with the payment types it can use now: CREDIT_CARD only for your own account with a verified card, ADS_CREDIT only with activated ad credit of at least the minimum daily budget, and only ADS_CREDIT for a group's account. paymentTypes is then the payment types at least one of those accounts can use, and is empty when there are none. Each account also has paymentStatus, paymentStatusReason, and paymentSetupUrl. Create also checks that the ad credit balance covers the daily budget. Sponsored video tiles follow the billing account's owner: video is present when the request's account or at least one listed billing account allows video, and mutableFields lists video only when a campaign's video can be changed.
          */
         get: operations['GetCampaignOptions'];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/ads-management/v1/campaign-recommendations': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Recommend budget and duration
+         * @description Returns non-binding daily budget and duration suggestions for the proposed campaign. campaignContext accepts every creatable objective (PLAYS, ENGAGEMENT, ROBUX_SPEND). targetUniverseId and targeting.audienceType influence the result; RETENTION and REACTIVATION get budget recommendations for that audience. targeting accepts only audienceType: ageGroups, countries, regions, and devices return 400 with reason UNSUPPORTED_VALUE.
+         */
+        post: operations['CreateCampaignRecommendation'];
         delete?: never;
         options?: never;
         head?: never;
@@ -101,6 +181,50 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    '/ads-management/v1/campaigns/{campaignId}/ads': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List a campaign's ads
+         * @description Lists every ad the campaign has had, one per creative, including PAUSED and REMOVED ads, in creation order (oldest first). id matches the ad ID reported by analytics-query-api.
+         */
+        get: operations['ListCampaignAds'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/ads-management/v1/campaigns/{campaignId}/ads/{adId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get one ad
+         * @description Returns one ad in a campaign. Returns 404 if the campaign or ad does not exist, the caller cannot manage the campaign, or adId does not belong to campaignId.
+         */
+        get: operations['GetCampaignAd'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Toggle one ad on or off
+         * @description Sets one ad's status to ACTIVE or PAUSED while leaving the campaign's creative set, targeting, and other ads unchanged. Returns 400 FAILED_PRECONDITION for REMOVED ads and for campaigns that have ended or been cancelled.
+         */
+        patch: operations['UpdateCampaignAd'];
         trace?: never;
     };
     '/ads-management/v1/campaigns/{id}': {
@@ -147,6 +271,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/ads-management/v1/campaigns:validate': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Validate a campaign without creating it
+         * @description Runs the same validation, permission, eligibility, and billing-account resolution as CreateCampaign, without creating anything. HTTP 200 means validation ran; read valid and errors, which match the errors CreateCampaign would return for the same body. resolvedBillingAccountId is the account the campaign would be created in. Malformed JSON, account-resolution failures, and dependency failures return the usual error envelope. Takes no x-idempotency-key.
+         */
+        post: operations['ValidateCampaign'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/ads-management/v1/creatives': {
         parameters: {
             query?: never;
@@ -156,11 +300,59 @@ export interface paths {
         };
         /**
          * List creatives
-         * @description Lists the reusable creatives saved to the caller's billing account. Each creative includes its assetId, name, moderation status, dimensions, and source. Use isArchived to filter by archive state. Results are paginated with a cursor (pageToken). A filtered page can be short or empty while more results remain; continue until nextPageToken is absent.
+         * @description Lists the reusable creatives saved to the caller's billing account. Each creative includes its assetId, name, moderation status, dimensions, and source. Use each creative's assetId (a decimal string) in GET /creatives/{id} and PATCH /creatives/{id}. The separate id field is a library registration UUID and cannot be used in those paths; it returns 404. Use isArchived to filter by archive state. Results are paginated with a cursor (pageToken). A filtered page can be short or empty while more results remain; continue until nextPageToken is absent.
          */
         get: operations['ListCreatives'];
         put?: never;
+        /**
+         * Add an asset to the creative library
+         * @description Saves an existing Open Cloud image asset to the creative library ahead of campaign creation. Dimensions and moderation state are derived by the service. Registering an asset that is already active in the selected billing account's library returns 409 ALREADY_EXISTS, regardless of the supplied universeId. You cannot change an active entry's universeId by re-registering the asset. Archived entries are unarchived and updated with the supplied fields.
+         */
+        post: operations['CreateCreative'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/ads-management/v1/creatives/{id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a creative
+         * @description Returns the Roblox asset registered in the selected ads account. The path id is Creative.assetId, a decimal Roblox asset ID, not Creative.id (the library registration UUID). For example, assetId "1234567890" uses /creatives/1234567890. A registration UUID returns 404. groupId selects the group ads account; absent groupId selects the personal ads account. The caller needs group advertising permission. Unknown and inaccessible creatives return the same 404.
+         */
+        get: operations['GetCreative'];
+        put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update a creative
+         * @description Archives or unarchives a creative, or changes its associated experience. isArchived=true must be the only field in the request; combining it with another field returns 400 without writing. Archiving returns 409 if an enabled ad uses the asset; pause or archive that ad first. Set universeId to null to clear the association; omitted fields remain unchanged. An empty object returns the current creative without writing. The asset is resolved only in the group ads account selected by groupId, or the caller's personal account when omitted. Unknown assets and inaccessible accounts return the same 404. The caller must have advertising permission for a new experience association.
+         */
+        patch: operations['UpdateCreative'];
+        trace?: never;
+    };
+    '/ads-management/v1/performance-estimates': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create a performance estimate
+         * @description Estimates an objective from a budget, or the budget required for a target outcome, for an experience the caller can advertise. Results are not cached.
+         */
+        post: operations['CreatePerformanceEstimate'];
         delete?: never;
         options?: never;
         head?: never;
@@ -19651,182 +19843,6 @@ export interface paths {
                 };
             };
         };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/content-metadata/appeal': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Creates a content metadata appeal for an asset. */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.CreateContentMetadataAppealRequest'];
-                    'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Request.CreateContentMetadataAppealRequest'];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.CreateContentMetadataAppealResponse'];
-                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.CreateContentMetadataAppealResponse'];
-                    };
-                };
-                /** @description 4: Invalid request parameters */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 0: Token Validation Failed
-                 *     3: Invalid user - user does not have permission
-                 */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 5: Target not found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 2: Failed to create content metadata appeal */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 6: Service unavailable */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/v1/content-metadata/appeal-status': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Checks the appeal status for an asset. */
-        get: {
-            parameters: {
-                query: {
-                    /** @description The type of the target item. */
-                    TargetType: 0 | 1 | 2 | 3;
-                    /** @description The id of the target item. */
-                    TargetId: string;
-                    /** @description The type of the appeal. */
-                    AppealType: 0 | 1;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        'application/json': components['schemas']['Roblox.ItemConfiguration.Api.GetAppealStatusResponse'];
-                        'text/json': components['schemas']['Roblox.ItemConfiguration.Api.GetAppealStatusResponse'];
-                    };
-                };
-                /** @description 4: Invalid request parameters */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 0: Authorization has been denied for this request. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 3: Invalid user - user does not have permission */
-                403: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /**
-                 * @description 5: Target not found
-                 *     6: Service unavailable
-                 */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 1: Failed to get appeal status */
-                500: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description 6: Service unavailable */
-                503: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -52708,6 +52724,38 @@ export interface components {
          */
         AccountTaxType: 'Invalid' | 'Individual' | 'Business';
         ActionResult: Record<string, never>;
+        AdCreditConversionPreview: {
+            /** @description Ad credit that would be granted, in micro-USD. */
+            adCreditAmountMicros: string;
+            /** @description Portion of robuxAmount drawn from 18+ eligible Robux, which converts at the higher rate first. */
+            effectiveO18Robux?: string;
+            /** @description Portion of robuxAmount drawn from standard Robux. */
+            effectiveStandardRobux?: string;
+            /** @description Why valid is false. Omitted when valid. */
+            reason?: components['schemas']['Reason'];
+            /** @description Robux that would be charged. */
+            robuxAmount: string;
+            /** @description One entry per rate tier used, in the order Robux are drawn. */
+            tierBreakdown?: components['schemas']['AdCreditConversionTierBreakdown'][];
+            /** @description False when the account can't afford the amount or it's outside the allowed range. */
+            valid: boolean;
+        };
+        AdCreditConversionTierBreakdown: {
+            /** @description Ad credit granted from this tier, in micro-USD. */
+            adCreditAmountMicros: string;
+            /**
+             * Format: double
+             * @description USD of ad credit per Robux in this tier.
+             */
+            adCreditPerRobux: number;
+            /** @description Robux converted in this tier. */
+            robuxAmount: string;
+            /**
+             * @description Rate tier (`O18_ELIGIBLE_ROBUX` or `STANDARD_ROBUX`).
+             * @enum {string}
+             */
+            tier: 'O18_ELIGIBLE_ROBUX' | 'STANDARD_ROBUX';
+        };
         AdFormat: {
             /** @description The creative asset type, for example `IMAGE`. */
             format?: string;
@@ -53662,6 +53710,22 @@ export interface components {
          * @enum {string}
          */
         AttributeAggregationFunction: 'Invalid' | 'Average' | 'Median' | 'Sum';
+        AudienceEstimateRequest: {
+            /** @description The proposed campaign to estimate the reachable audience for. */
+            campaignContext: components['schemas']['PlanningCampaignContext'];
+        };
+        AudienceEstimateResponse: {
+            /**
+             * Format: int32
+             * @description Estimated lower bound of reachable users.
+             */
+            lowerBound: number;
+            /**
+             * Format: int32
+             * @description Estimated upper bound of reachable users.
+             */
+            upperBound: number;
+        };
         /** @description Representation of an audio asset. */
         Audio:
             | ({
@@ -53891,21 +53955,44 @@ export interface components {
             /** @description Masked payment methods on file. Read-only; cards are added and updated in Ads Manager. */
             paymentMethods?: components['schemas']['PaymentMethod'][];
             /**
-             * @description The payment readiness of the account. Can be `READY`, `ACTION_REQUIRED`, `PAST_DUE`, or `DISABLED`.
+             * Format: uri
+             * @description Ads Manager page to add a payment method, buy ad credit, or resolve a failed payment. On a READY account
+             *     it is informational: offer it, but do not stop for it. When paymentStatus is ACTION_REQUIRED or PAST_DUE,
+             *     show it to the user and check again after they say they are done. Omitted when no setup applies and for
+             *     disabled accounts. Never collect payment details through the API or in chat.
+             */
+            paymentSetupUrl?: string;
+            /**
+             * @description Whether the account can fund a new campaign. Can be `READY`, `ACTION_REQUIRED`, `PAST_DUE`, or `DISABLED`.
+             *     READY means at least one payment type in supportedPaymentTypes can fund a campaign. ACTION_REQUIRED
+             *     means no payment type can. PAST_DUE means a card payment failed or a failed charge is unpaid; create
+             *     succeeds only with a payment type listed in supportedPaymentTypes, which can be empty. DISABLED accounts
+             *     list no payment types.
              * @enum {string}
              */
             paymentStatus?: 'READY' | 'ACTION_REQUIRED' | 'PAST_DUE' | 'DISABLED';
             /**
-             * @description Machine-readable reason for a paymentStatus other than READY.
+             * @description Machine-readable reason for a paymentStatus other than READY. NO_PAYMENT_METHOD means that no payment type
+             *     can fund a campaign: no usable card and no usable ad credit. PROFILE_NOT_VERIFIED means the same, but a
+             *     card exists and needs verification.
              * @enum {string}
              */
-            paymentStatusReason?: 'PROFILE_NOT_VERIFIED' | 'TRANSACTION_FAILURE' | 'ACCOUNT_DISABLED';
+            paymentStatusReason?:
+                | 'NO_PAYMENT_METHOD'
+                | 'PROFILE_NOT_VERIFIED'
+                | 'TRANSACTION_FAILURE'
+                | 'ACCOUNT_DISABLED';
             /**
              * @description The current state of the account. Can be `ACTIVE`, `DISABLED`, or `ARCHIVED`.
              * @enum {string}
              */
             status?: 'ACTIVE' | 'DISABLED' | 'ARCHIVED';
-            /** @description Campaign payment types usable right now. Group accounts support only ADS_CREDIT. */
+            /**
+             * @description Campaign payment types that can fund a new campaign now. CREDIT_CARD needs a verified card and a daily
+             *     spend limit (limits.maximumDailyBudgetMicros) of at least the minimum daily budget. ADS_CREDIT
+             *     needs activated ad credit with a balance of at least the minimum daily budget. Create also checks that
+             *     the ad credit balance covers the campaign's daily budget. Group accounts can use only ADS_CREDIT.
+             */
             supportedPaymentTypes?: ('CREDIT_CARD' | 'ADS_CREDIT' | 'INVOICE')[];
             /**
              * @description The IANA time zone the account's reporting dates and budget schedules are
@@ -53935,8 +54022,8 @@ export interface components {
              * @description The maximum daily budget for CREDIT_CARD campaigns in this account, in micro-USD.
              *     A non-positive value means no positive CREDIT_CARD budget is allowed.
              *     For LIFETIME, multiply by the schedule's number of days.
-             *     Omitted when the account does not offer CREDIT_CARD; does not limit ADS_CREDIT
-             *     or INVOICE campaigns.
+             *     Omitted when no verified card bills the account. Returned even when it is too low
+             *     for CREDIT_CARD to be usable. Does not limit ADS_CREDIT or INVOICE campaigns.
              */
             maximumDailyBudgetMicros?: string;
         };
@@ -53951,14 +54038,35 @@ export interface components {
              * @description The maximum daily budget for CREDIT_CARD campaigns in this account, in micro-USD.
              *     A non-positive value means no positive CREDIT_CARD budget is allowed.
              *     For LIFETIME, multiply by the schedule's number of days.
-             *     Omitted when the account does not offer CREDIT_CARD; does not limit ADS_CREDIT
-             *     or INVOICE campaigns.
+             *     Omitted when no verified card bills the account. Returned even when it is too low
+             *     for CREDIT_CARD to be usable. Does not limit ADS_CREDIT or INVOICE campaigns.
              */
             maximumDailyBudgetMicros?: string;
             /**
-             * @description The payment types a campaign in this account can use: only `ADS_CREDIT` for a
-             *     group's account; otherwise `INVOICE` for a managed account, or `ADS_CREDIT`
-             *     plus `CREDIT_CARD` once a card is set up for a self-serve account.
+             * Format: uri
+             * @description Ads Manager page to add a payment method, buy ad credit, or resolve a failed payment. Informational on a READY account.
+             *     Same as on GET /billing-accounts/{id}. Never collect payment details in chat.
+             */
+            paymentSetupUrl?: string;
+            /**
+             * @description Whether the account can fund a new campaign: READY, ACTION_REQUIRED, PAST_DUE, or DISABLED. Same as on GET /billing-accounts/{id}.
+             * @enum {string}
+             */
+            paymentStatus?: 'READY' | 'ACTION_REQUIRED' | 'PAST_DUE' | 'DISABLED';
+            /**
+             * @description Reason for a paymentStatus other than READY. Same as on GET /billing-accounts/{id}.
+             * @enum {string}
+             */
+            paymentStatusReason?:
+                | 'NO_PAYMENT_METHOD'
+                | 'PROFILE_NOT_VERIFIED'
+                | 'TRANSACTION_FAILURE'
+                | 'ACCOUNT_DISABLED';
+            /**
+             * @description The payment types that can fund a new campaign in this account now. This
+             *     matches supportedPaymentTypes on GET /billing-accounts/{id}: CREDIT_CARD needs a
+             *     verified card and a daily spend limit of at least the minimum daily budget, ADS_CREDIT needs activated ad credit with at least the minimum daily
+             *     budget, and a group's account can use only ADS_CREDIT. `INVOICE` is for a managed account.
              */
             paymentTypes: ('CREDIT_CARD' | 'ADS_CREDIT' | 'INVOICE')[];
             /**
@@ -54209,6 +54317,37 @@ export interface components {
              */
             video?: components['schemas']['CampaignVideo'];
         };
+        CampaignAd: {
+            /**
+             * @description The Roblox image asset ID this ad serves, as a decimal string.
+             *     This is the same value as Creative.assetId.
+             */
+            readonly creativeAssetId: string;
+            /**
+             * @description Per-ad serving state (`SERVING`, `IN_REVIEW`, `NOT_SERVING`, or `REJECTED`).
+             * @enum {string}
+             */
+            deliveryStatus: 'SERVING' | 'IN_REVIEW' | 'NOT_SERVING' | 'REJECTED';
+            /** @description Stable ad ID; matches the ad ID in analytics-query-api. */
+            readonly id: string;
+            /**
+             * Format: date-time
+             * @description Set when status is `REMOVED`, as an RFC 3339 UTC timestamp.
+             */
+            readonly removeTime?: string;
+            /** @description Structured review issues, when applicable. */
+            reviewIssues?: components['schemas']['Reason'][];
+            /**
+             * @description Combined result of the creative's review and the experience's review (`IN_REVIEW`, `APPROVED`, or `REJECTED`).
+             * @enum {string}
+             */
+            reviewStatus: 'IN_REVIEW' | 'APPROVED' | 'REJECTED';
+            /**
+             * @description Lifecycle intent for this ad (`ACTIVE`, `PAUSED`, or `REMOVED`).
+             * @enum {string}
+             */
+            status: 'ACTIVE' | 'PAUSED' | 'REMOVED';
+        };
         CampaignIDFailure: {
             /** @description The campaign ID that could not be resolved. */
             id?: string;
@@ -54263,9 +54402,9 @@ export interface components {
             /**
              * @description The payment types a campaign may choose. Values can be `CREDIT_CARD`,
              *     `ADS_CREDIT`, or `INVOICE`. With universeId, the payment types at least one of
-             *     billingAccounts can use; empty when there are none. Without it, the payment
-             *     types of the caller's personal billing account. This is not whether an
-             *     account is funded; read paymentStatus from GET /billing-accounts for that.
+             *     billingAccounts can use now; empty when there are none. Without universeId, this
+             *     is a static menu based on the caller's account type. It does not check card
+             *     setup, ad credit activation, or balance; supply universeId for that.
              */
             paymentTypes?: ('CREDIT_CARD' | 'ADS_CREDIT' | 'INVOICE')[];
             targetingDimensions?: components['schemas']['TargetingDimensions'];
@@ -54275,6 +54414,32 @@ export interface components {
              *     of billingAccounts allows video.
              */
             video?: components['schemas']['VideoOptions'];
+        };
+        CampaignRecommendationRequest: {
+            /**
+             * @description The experience and targeting.audienceType influence the result. Other targeting
+             *     fields are not accepted.
+             */
+            campaignContext: components['schemas']['PlanningCampaignContext'];
+        };
+        CampaignRecommendationResponse: {
+            /**
+             * @description A lower, the recommended, and a higher daily budget in micro-USD, as decimal
+             *     strings in ascending order.
+             */
+            budgetOptionsMicros: string[];
+            /**
+             * @description Recommendations are always daily budgets.
+             * @enum {string}
+             */
+            budgetType: 'DAILY';
+            /** @description Suggested campaign lengths for a duration picker, in ascending order. */
+            durationOptionsInDays: number[];
+            /**
+             * @description The suggested daily budget in micro-USD, as a decimal string. Always one of
+             *     budgetOptionsMicros.
+             */
+            recommendedBudgetMicros: string;
         };
         CampaignStatus: {
             /**
@@ -54801,6 +54966,15 @@ export interface components {
              */
             video?: components['schemas']['CampaignVideo'];
         };
+        CreateCreativeRequest: {
+            /**
+             * @description The Roblox image asset ID to save to the selected ads account, as a decimal string.
+             *     groupId selects the group ads account; absent groupId selects the personal ads account.
+             */
+            assetId: string;
+            /** @description Optional experience to associate the creative with, as a decimal string. */
+            universeId?: string;
+        };
         /** @description Request to create a custom matchmaking signal. */
         CreateCustomMatchmakingSignalRequest: {
             /** @description The ID of the scoring configuration that has the signal to be created. */
@@ -55079,7 +55253,7 @@ export interface components {
         };
         Creative: {
             /**
-             * @description The Roblox asset ID identifying this creative, as a decimal string.
+             * @description The Roblox asset ID identifying this creative, as a decimal string. Use this assetId in GET and PATCH /creatives/{id}, not the registration UUID in id.
              *     groupId selects the group ads account; absent groupId selects the personal ads account.
              */
             assetId?: string;
@@ -58674,6 +58848,15 @@ export interface components {
              */
             nextPageToken?: string;
         };
+        ListCampaignAdsResponse: {
+            /** @description The page of campaign ads. */
+            ads: components['schemas']['CampaignAd'][];
+            /**
+             * @description The cursor for the next page. Pass it as pageToken to fetch the next page.
+             *     Absent on the last page.
+             */
+            nextPageToken?: string;
+        };
         ListCampaignsResponse: {
             /** @description The page of campaigns. */
             campaigns?: components['schemas']['Campaign'][];
@@ -58965,6 +59148,12 @@ export interface components {
              * @description A token that you can send as a `pageToken` parameter to retrieve the next
              *     page. If this field is omitted, there are no subsequent pages.
              */
+            nextPageToken?: string;
+        };
+        ListPaymentActivitiesResponse: {
+            /** @description Payment activities for the selected scope; REFUND returns the complete time range. */
+            activities: components['schemas']['PaymentActivity'][];
+            /** @description Opaque cursor for the next page of CHARGE or AD_CREDIT. Absent on the last page and for REFUND. */
             nextPageToken?: string;
         };
         /** @description Response object for Roblox.CloudPricing.ServiceEfficiencyApi.Operations.ListPaymentProfilesOperation. */
@@ -60543,6 +60732,55 @@ export interface components {
             /** @description Gets or sets the status of the payment. */
             status: components['schemas']['TransactionStatus'];
         };
+        PaymentActivity: {
+            /** @description Roblox user who initiated the AD_CREDIT transaction, when available, for user and group accounts. */
+            actorUserId?: string;
+            /**
+             * @description Source transaction type for AD_CREDIT rows. The broader type remains available.
+             * @enum {string}
+             */
+            adCreditTransactionType?: 'DEPOSIT' | 'AUTO_DEPOSIT' | 'DEBIT' | 'REFUND' | 'ADJUSTMENT' | 'PROMOTION';
+            /** @description Amount actually charged, refunded, granted, or spent, in micro-USD. */
+            amountMicros: string;
+            /** @description Associated campaign ID, when applicable. */
+            campaignId?: string;
+            /** @description Associated campaign name, present when campaignId is set. */
+            campaignName?: string;
+            /** @description Last four digits of the card used (`CHARGE` and `REFUND` only). */
+            cardLastFourDigits?: string;
+            /**
+             * Format: date-time
+             * @description Latest associated card charge settlement timestamp as an RFC 3339 UTC string, when available (`CHARGE` only).
+             */
+            chargeTime?: string;
+            /**
+             * Format: date-time
+             * @description Creation timestamp as an RFC 3339 UTC string.
+             */
+            createTime: string;
+            /** @description ISO 4217 currency of the card charge (`CHARGE` and `REFUND` only). */
+            currencyCode?: string;
+            /** @description Optional human-readable description. */
+            description?: string;
+            /** @description Stable payment identifier, when available. Absent for requests without a payment identifier. */
+            id?: string;
+            /** @description Portion of robuxAmount debited from 18+ eligible Robux (`ROBUX_CONVERSION` only). */
+            o18RobuxAmount?: string;
+            /** @description Amount originally requested, in micro-USD (`CHARGE` and `REFUND` only). */
+            requestAmountMicros?: string;
+            /** @description Total Robux debited (`ROBUX_CONVERSION` only). */
+            robuxAmount?: string;
+            /**
+             * @description The settlement state (`PENDING`, `SUCCEEDED`, `FAILED`, or `REVERSED`).
+             * @enum {string}
+             */
+            state: 'PENDING' | 'SUCCEEDED' | 'FAILED' | 'REVERSED';
+            /**
+             * @description The activity type (`CHARGE`, `REFUND`, `AD_CREDIT_GRANT`, `AD_CREDIT_SPEND`, or `ROBUX_CONVERSION`).
+             * @enum {string}
+             */
+            type: 'CHARGE' | 'REFUND' | 'AD_CREDIT_GRANT' | 'AD_CREDIT_SPEND' | 'ROBUX_CONVERSION';
+        };
         PaymentMethod: {
             /**
              * @description Normalized card brand; unrecognized networks use OTHER.
@@ -60597,6 +60835,101 @@ export interface components {
              * @description Gets or sets the expiry year of the card.
              */
             expYear?: number | null;
+        };
+        PerformanceEstimateBudget: {
+            /** @description Daily budget in micro-USD, as a decimal string. */
+            dailyAmountMicroUsd?: string;
+            /** @description Optional range around the daily budget. */
+            dailyAmountMicroUsdRange?: components['schemas']['PerformanceEstimateMoneyRange'];
+            /** @description Lifetime budget in micro-USD, as a decimal string. Omitted for a daily budget. */
+            lifetimeAmountMicroUsd?: string;
+            /** @description Optional range around the lifetime budget. Omitted for a daily budget. */
+            lifetimeAmountMicroUsdRange?: components['schemas']['PerformanceEstimateMoneyRange'];
+        };
+        PerformanceEstimateBudgetInput: {
+            /** @description Daily or lifetime total, matching forecastScope.budgetType, in micro-USD as a decimal string. */
+            amountMicroUsd?: string;
+        };
+        PerformanceEstimateCampaignContext: {
+            /**
+             * @description The advertising goal. Only PLAYS is supported.
+             * @enum {string}
+             */
+            objective: 'PLAYS';
+            /** @description The experience to estimate, as a decimal string. */
+            targetUniverseId: string;
+        };
+        PerformanceEstimateDerivedMetrics: {
+            /** @description Cost per outcome in micro-USD, as a decimal string. */
+            costPerOutcomeMicroUsd?: string;
+            /** @description Optional range around the cost per outcome. */
+            costPerOutcomeMicroUsdRange?: components['schemas']['PerformanceEstimateMoneyRange'];
+        };
+        PerformanceEstimateForecastInput: {
+            /** @description Set to estimate the outcome this budget delivers. */
+            budget?: components['schemas']['PerformanceEstimateBudgetInput'];
+            /** @description Set to estimate the budget needed to reach this outcome. */
+            targetOutcome?: components['schemas']['PerformanceEstimateTargetOutcome'];
+        };
+        PerformanceEstimateMoneyRange: {
+            /** @description Inclusive lower bound in micro-USD, as a decimal string. */
+            lowerBound?: string;
+            /** @description Inclusive upper bound in micro-USD, as a decimal string. */
+            upperBound?: string;
+        };
+        PerformanceEstimateOutcome: {
+            /** @description Daily outcome. */
+            dailyValue?: number;
+            /** @description Optional range around the daily outcome. */
+            dailyValueRange?: components['schemas']['PerformanceEstimateValueRange'];
+            /** @description Lifetime outcome. Omitted for a daily budget. */
+            lifetimeValue?: number;
+            /** @description Optional range around the lifetime outcome. Omitted for a daily budget. */
+            lifetimeValueRange?: components['schemas']['PerformanceEstimateValueRange'];
+            /**
+             * @description The outcome measured. Always PLAYS.
+             * @enum {string}
+             */
+            outcomeType?: 'PLAYS';
+        };
+        PerformanceEstimateRequest: {
+            campaignContext: components['schemas']['PerformanceEstimateCampaignContext'];
+            forecastInput: components['schemas']['PerformanceEstimateForecastInput'];
+            forecastScope: components['schemas']['PerformanceEstimateScope'];
+        };
+        PerformanceEstimateResponse: {
+            budget?: components['schemas']['PerformanceEstimateBudget'];
+            derivedMetrics?: components['schemas']['PerformanceEstimateDerivedMetrics'];
+            outcome?: components['schemas']['PerformanceEstimateOutcome'];
+            /**
+             * @description Which side was calculated: OUTCOME from a budget, or BUDGET from a target outcome.
+             * @enum {string}
+             */
+            predicted?: 'OUTCOME' | 'BUDGET';
+        };
+        PerformanceEstimateScope: {
+            /**
+             * @description DAILY or LIFETIME.
+             * @enum {string}
+             */
+            budgetType: 'DAILY' | 'LIFETIME';
+            /** @description Required and positive for LIFETIME. Must be 0 for DAILY. */
+            durationInDays?: number;
+        };
+        PerformanceEstimateTargetOutcome: {
+            /**
+             * @description The outcome to reach. Only PLAYS is supported.
+             * @enum {string}
+             */
+            outcomeType?: 'PLAYS';
+            /** @description Daily or lifetime total, matching forecastScope.budgetType. */
+            value?: number;
+        };
+        PerformanceEstimateValueRange: {
+            /** @description Inclusive lower bound. */
+            lowerBound?: number;
+            /** @description Inclusive upper bound. */
+            upperBound?: number;
         };
         /**
          * @description Period of time the quota is for.
@@ -60906,6 +61239,20 @@ export interface components {
             /** Format: int64 */
             createdBy?: number | null;
         };
+        PlanningCampaignContext: {
+            /**
+             * @description The advertising goal. Can be `PLAYS`, `ENGAGEMENT`, or `ROBUX_SPEND`.
+             * @enum {string}
+             */
+            objective: 'PLAYS' | 'ENGAGEMENT' | 'ROBUX_SPEND';
+            /** @description The experience to plan for, as a decimal string. */
+            targetUniverseId: string;
+            /**
+             * @description Optional proposed targeting. audience-estimates accepts the same targeting as
+             *     campaign creation. campaign-recommendations accepts only audienceType.
+             */
+            targeting?: components['schemas']['Targeting'];
+        };
         /** @description The player categorical signal configuration. */
         PlayerCategoricalSignalConfiguration: {
             playerAttribute?: components['schemas']['MatchmakingAttributeReference'];
@@ -60985,6 +61332,12 @@ export interface components {
             asset?: string | null;
             /** @description Alt text for the preview asset. */
             altText?: string | null;
+        };
+        PreviewAdCreditConversionRequest: {
+            /** @description Ad credit wanted, at most cent precision; the preview returns the Robux it costs. */
+            adCreditAmountMicros?: string;
+            /** @description Robux to spend; the preview returns the ad credit it buys. */
+            robuxAmount?: string;
         };
         /** @description Grouped preview asset ids for an item, separated by media type. */
         PreviewAssetsModel: {
@@ -61219,6 +61572,12 @@ export interface components {
             payouts?: components['schemas']['PublicOneTimePayoutResponseModel'][] | null;
         };
         PublicError: {
+            /**
+             * Format: uri
+             * @description Ads Manager page that a human opens to fix this error. Show this URL to the user and check again after they say they are done.
+             *     Never collect payment details through the API or in chat.
+             */
+            actionUrl?: string;
             /**
              * @description A stable, machine-readable error code (for example, `INVALID_ARGUMENT`,
              *     `NOT_FOUND`, `PERMISSION_DENIED`, or `RATE_LIMITED`).
@@ -70016,7 +70375,7 @@ export interface components {
             isRevenueSplitEnabled?: boolean;
             /** @description List of revenue split tiers for purchase. */
             revenueSplitTiersForPurchase?: components['schemas']['Roblox.ItemConfiguration.Api.RevenueSplitTier'][];
-            /** @description Whether content metadata appeal endpoint is enabled. */
+            /** @description Whether content metadata appeals are enabled. Always false; the appeal endpoints have been removed. */
             isContentMetadataAppealEnabled?: boolean;
             /** @description List of asset types that are bodysuit eligible. */
             bodysuitEligibleAssetTypes?: number[];
@@ -70038,17 +70397,6 @@ export interface components {
             isAvatarItemLicensingEnabled?: boolean;
             /** @description Whether the marketplace affiliate link UI is enabled for the authenticated user. */
             isMarketplaceAffiliateLinkUiEnabled?: boolean;
-        };
-        /** @description Defines the response model for the GET v1/content-metadata/appeal-status. */
-        'Roblox.ItemConfiguration.Api.GetAppealStatusResponse': {
-            /**
-             * Format: int32
-             * @description The current status of the appeal
-             *     Can return the following states
-             *     Not submitted, Under review, Reviewed. ['Unknown' = 0, 'NotAppealed' = 1, 'InReview' = 2, 'Reviewed' = 3, 'AlreadyOverwritten' = 4]
-             * @enum {integer}
-             */
-            appealStatus?: 0 | 1 | 2 | 3 | 4;
         };
         /** @description Defines the response model for the v1/collectibles/commission-rates. */
         'Roblox.ItemConfiguration.Api.GetCommissionRatesResponse': {
@@ -70665,23 +71013,6 @@ export interface components {
              */
             places?: number[];
         };
-        /** @description Request model to create content metadata appeal for an asset. */
-        'Roblox.ItemConfiguration.Api.Models.Request.CreateContentMetadataAppealRequest': {
-            /**
-             * Format: int32
-             * @description The type of the target item. ['Asset' = 0, 'Bundle' = 1, 'IecToken' = 2, 'Look' = 3]
-             * @enum {integer}
-             */
-            targetType?: 0 | 1 | 2 | 3;
-            /** @description The id of the target item. */
-            targetId?: string;
-            /**
-             * Format: int32
-             * @description The type of the appeal. ['Unknown' = 0, 'BodysuitAppeal' = 1]
-             * @enum {integer}
-             */
-            appealType?: 0 | 1;
-        };
         /** @description Request model for adding one or more items to a folder. */
         'Roblox.ItemConfiguration.Api.Models.Request.Folder.AddItemsRequest': {
             /** @description The items to add to the folder. */
@@ -71112,11 +71443,6 @@ export interface components {
              * @description The per-unit restocking fee in Robux.
              */
             unitRestockingFeeInRobux?: number;
-        };
-        /** @description Defines the response model for creating content metadata appeal. */
-        'Roblox.ItemConfiguration.Api.Models.Response.CreateContentMetadataAppealResponse': {
-            /** @description Indicates whether the appeal was created successfully. */
-            success?: boolean;
         };
         /** @description Response model for creating a folder. */
         'Roblox.ItemConfiguration.Api.Models.Response.Folder.CreateFolderResponse': {
@@ -73962,8 +74288,8 @@ export interface components {
             readonly endTime?: string;
             /**
              * Format: date-time
-             * @description The time the campaign starts serving, as an RFC 3339 UTC timestamp. On a create
-             *     request it must not be in the past.
+             * @description The time the campaign starts serving, as an RFC 3339 timestamp. UTC (`Z`) is
+             *     recommended. On a create request it must not be in the past.
              */
             startTime: string;
         };
@@ -75473,6 +75799,13 @@ export interface components {
              */
             amountMicros: string;
         };
+        UpdateCampaignAdRequest: {
+            /**
+             * @description Target lifecycle status (`ACTIVE` or `PAUSED`).
+             * @enum {string}
+             */
+            status: 'ACTIVE' | 'PAUSED';
+        };
         UpdateCampaignRequest: {
             /** @description Turns automatic ad credit reload on or off. */
             autoReloadAdCreditEnabled?: boolean;
@@ -75503,6 +75836,12 @@ export interface components {
              *     `video.sources`. Every ad is updated before the response returns.
              */
             video?: components['schemas']['CampaignVideo'];
+        };
+        UpdateCreativeRequest: {
+            /** @description Archive or unarchive the creative. Archiving must be the only field and requires no enabled ad to use the asset. */
+            isArchived?: boolean;
+            /** @description Set the associated experience, or use null to clear it. Omit to keep it unchanged. */
+            universeId?: string | null;
         };
         /** @description Request to update a custom matchmaking signal. */
         UpdateCustomMatchmakingSignalRequest: {
@@ -75711,7 +76050,7 @@ export interface components {
             readonly endTime?: string;
             /**
              * Format: date-time
-             * @description The new campaign start time, as an RFC 3339 UTC timestamp.
+             * @description The new campaign start time, as an RFC 3339 timestamp. UTC (`Z`) is recommended.
              */
             startTime?: string;
         };
@@ -76145,6 +76484,19 @@ export interface components {
                 | 'FRIENDS_FOLLOWING_AND_FOLLOWERS'
                 | 'EVERYONE';
         };
+        ValidateCampaignResponse: {
+            /**
+             * @description The errors CreateCampaign would return for this request, in the same order.
+             *     Empty when valid.
+             */
+            errors: components['schemas']['PublicError'][];
+            /** @description The billing account the campaign would be created in. */
+            resolvedBillingAccountId?: string;
+            /** @description Whether CreateCampaign would accept this request. */
+            valid: boolean;
+            /** @description Non-blocking notes about the request. */
+            warnings: components['schemas']['Reason'][];
+        };
         ValidateDashboardDocumentResponse: {
             /** @default false */
             isValid: boolean | null;
@@ -76529,6 +76881,67 @@ export interface operations {
             };
         };
     };
+    CreateAudienceEstimate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Audience estimate request */
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['AudienceEstimateRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['AudienceEstimateResponse'];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Permission denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
     ListBillingAccounts: {
         parameters: {
             query?: {
@@ -76651,6 +77064,160 @@ export interface operations {
             };
         };
     };
+    PreviewAdCreditConversion: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Billing account ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        /** @description Conversion preview request */
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['PreviewAdCreditConversionRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['AdCreditConversionPreview'];
+                };
+            };
+            /** @description Validation error */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Permission denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Billing account not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
+    ListPaymentActivities: {
+        parameters: {
+            query: {
+                /** @description Payment activity ledger (CARD or AD_CREDIT) */
+                ledger: 'CARD' | 'AD_CREDIT';
+                /** @description Required for CARD: CHARGE or REFUND. Unsupported for AD_CREDIT. */
+                type?: 'CHARGE' | 'REFUND';
+                /** @description Required for REFUND: inclusive RFC 3339 request time. Unsupported for other scopes. */
+                startTime?: string;
+                /** @description Required for REFUND: exclusive RFC 3339 request time, after startTime. Unsupported for other scopes. */
+                endTime?: string;
+                /** @description CHARGE and AD_CREDIT only: maximum records per page (1-100, default 50) */
+                maxPageSize?: number;
+                /** @description CHARGE and AD_CREDIT only: opaque cursor from a prior nextPageToken */
+                pageToken?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Billing account ID */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ListPaymentActivitiesResponse'];
+                };
+            };
+            /** @description Invalid scope, pagination, or time range; REFUND_WINDOW_TOO_LARGE requires a narrower range */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Permission denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Billing account not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
     GetCampaignOptions: {
         parameters: {
             query?: {
@@ -76684,6 +77251,67 @@ export interface operations {
                 };
             };
             /** @description Permission denied, or the caller can't advertise the experience */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
+    CreateCampaignRecommendation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Campaign recommendation request */
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['CampaignRecommendationRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['CampaignRecommendationResponse'];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Permission denied */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -76828,6 +77456,233 @@ export interface operations {
                 };
             };
             /** @description Rate limit exceeded, or a replay of a request still in progress */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
+    ListCampaignAds: {
+        parameters: {
+            query?: {
+                /** @description Maximum results per page (1-100, default 50) */
+                maxPageSize?: number;
+                /** @description Opaque cursor from a prior nextPageToken */
+                pageToken?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Campaign ID */
+                campaignId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ListCampaignAdsResponse'];
+                };
+            };
+            /** @description Invalid maxPageSize or pageToken */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Permission denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Campaign not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
+    GetCampaignAd: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Campaign ID */
+                campaignId: string;
+                /** @description Ad ID */
+                adId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['CampaignAd'];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Permission denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Campaign or ad not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
+    UpdateCampaignAd: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Campaign ID */
+                campaignId: string;
+                /** @description Ad ID */
+                adId: string;
+            };
+            cookie?: never;
+        };
+        /** @description Update campaign ad request */
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['UpdateCampaignAdRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['CampaignAd'];
+                };
+            };
+            /** @description Validation error or failed precondition */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Permission denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Campaign or ad not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Concurrent modification conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Rate limit exceeded */
             429: {
                 headers: {
                     [name: string]: unknown;
@@ -77058,6 +77913,62 @@ export interface operations {
             };
         };
     };
+    ValidateCampaign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: components['requestBodies']['CreateCampaignRequest'];
+        responses: {
+            /** @description Validation ran */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ValidateCampaignResponse'];
+                };
+            };
+            /** @description Malformed request body */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Cannot resolve a billing account for this context */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
     ListCreatives: {
         parameters: {
             query?: {
@@ -77118,6 +78029,287 @@ export interface operations {
             };
             /** @description Internal server error */
             500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
+    CreateCreative: {
+        parameters: {
+            query?: {
+                /** @description Select the group ads account; absent groupId selects the personal ads account. Requires group advertising permission */
+                groupId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Create creative request */
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['CreateCreativeRequest'];
+            };
+        };
+        responses: {
+            /** @description Creative created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Creative'];
+                };
+            };
+            /** @description Invalid request or asset not usable */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Permission denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Asset already registered in the selected billing account's library */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
+    GetCreative: {
+        parameters: {
+            query?: {
+                /** @description Select the group ads account; absent groupId selects the personal ads account. Requires group advertising permission */
+                groupId?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Roblox asset ID (Creative.assetId) in the group ads account selected by groupId, or the personal ads account when absent */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Creative'];
+                };
+            };
+            /** @description Creative not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
+    UpdateCreative: {
+        parameters: {
+            query?: {
+                /** @description Roblox group ID as a decimal string. Selects that group's ads account; requires group advertising permission. Omit for the caller's personal account. */
+                groupId?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Roblox asset ID in the group ads account selected by groupId, or the caller's personal account when omitted */
+                id: string;
+            };
+            cookie?: never;
+        };
+        /** @description Fields to update */
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['UpdateCreativeRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Creative'];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Permission denied for the new experience */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Creative not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Creative is used by an enabled ad, or conflicting concurrent change */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Rate limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+        };
+    };
+    CreatePerformanceEstimate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Performance estimate request */
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['PerformanceEstimateRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['PerformanceEstimateResponse'];
+                };
+            };
+            /** @description Invalid request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Permission denied */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Not available */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ErrorEnvelope'];
+                };
+            };
+            /** @description Timed out */
+            504: {
                 headers: {
                     [name: string]: unknown;
                 };

@@ -174,7 +174,7 @@ export interface paths {
         put?: never;
         /**
          * Create a campaign
-         * @description Creates an ad campaign in the billing account. Before creating, call GetCampaignOptions with universeId to confirm the experience is eligible and to choose values it accepts. The creatives you reference must already exist as Open Cloud image assets that you have permission to use; they are validated and saved to your account's reusable creatives when the campaign is created. On success the campaign is returned with deliveryStatus IN_REVIEW, meaning it is queued for ad-policy review and not yet serving, or NOT_SERVING with reason SCHEDULED when startTime is in the future — poll the campaign (or campaigns:batchGetStatus) until this changes. budget.amountMicros is the budget in micro-USD as a decimal string (e.g. "5000000" = $5.00). It must be at least the minimum campaign budget; an amount below the minimum returns 400 with the required minimum stated in the error message. schedule.durationInDays must not exceed 3650 (~10 years). The x-idempotency-key header is required and must be a UUID. Generate a new key for each new campaign and whenever you change the request body, including the name. Reuse a key only to retry the same body. Within 24 hours, a completed request's key returns the original campaign (200). If the body differs, the API ignores the changes; 200 does not mean they were applied, and this case does not return 409. A retry while the first request is still in progress returns 429. Use PATCH /campaigns/{id} to edit an existing campaign. A body field that the request does not define returns 400 with reason UNKNOWN_FIELD and the field path in field.
+         * @description Creates an ad campaign in the billing account. Before creating, call GetCampaignOptions with universeId to confirm the experience is eligible and to choose values it accepts. The creatives you reference must already exist as Open Cloud image assets that you have permission to use; they are validated and saved to your account's reusable creatives when the campaign is created. On success the campaign is returned with deliveryStatus IN_REVIEW, meaning it is queued for ad-policy review and not yet serving, or NOT_SERVING with reason SCHEDULED when startTime is in the future — poll the campaign (or campaigns:batchGetStatus) until this changes. budget.amountMicros is the budget in micro-USD as a decimal string (e.g. "5000000" = $5.00). It must be at least the minimum campaign budget; an amount below the minimum returns 400 with the required minimum stated in the error message. schedule.durationInDays must not exceed 3650 (~10 years). The optional idempotencyKey body field must be a UUID when non-empty. If it is omitted or empty, creation runs without deduplication; retries can create duplicate campaigns. Generate a new key for each new campaign and whenever you change the request body, including the name. Reuse a key only to retry the same body. Within 24 hours, a completed request's key returns the original campaign (200). If the body differs, the API ignores the changes; 200 does not mean they were applied, and this case does not return 409. A retry while the first request is still in progress returns 429. Use PATCH /campaigns/{id} to edit an existing campaign. A body field that the request does not define returns 400 with reason UNKNOWN_FIELD and the field path in field.
          */
         post: operations['CreateCampaign'];
         delete?: never;
@@ -282,7 +282,7 @@ export interface paths {
         put?: never;
         /**
          * Validate a campaign without creating it
-         * @description Runs the same validation, permission, eligibility, and billing-account resolution as CreateCampaign, without creating anything. HTTP 200 means validation ran; read valid and errors, which match the errors CreateCampaign would return for the same body. resolvedBillingAccountId is the account the campaign would be created in. Malformed JSON, account-resolution failures, and dependency failures return the usual error envelope. Takes no x-idempotency-key.
+         * @description Runs the same validation, permission, eligibility, and billing-account resolution as CreateCampaign, without creating anything. HTTP 200 means validation ran; read valid and errors, which match the errors CreateCampaign would return for the same body. resolvedBillingAccountId is the account the campaign would be created in. Malformed JSON, account-resolution failures, and dependency failures return the usual error envelope. The optional idempotencyKey body field is validated but does not reserve a key.
          */
         post: operations['ValidateCampaign'];
         delete?: never;
@@ -6002,6 +6002,7 @@ export interface paths {
                  *     46: File not present in request
                  *     53: Language is not supported for the game.
                  *     62: Invalid game badge id
+                 *     91: FileTooLarge
                  */
                 400: {
                     headers: {
@@ -6651,6 +6652,7 @@ export interface paths {
                  *     46: File not present in request
                  *     53: Language is not supported for the game.
                  *     70: Invalid developer product id
+                 *     91: FileTooLarge
                  */
                 400: {
                     headers: {
@@ -7201,6 +7203,7 @@ export interface paths {
                  *     45: File uploaded does not match known image format
                  *     46: File not present in request
                  *     53: Language is not supported for the game.
+                 *     91: FileTooLarge
                  */
                 400: {
                     headers: {
@@ -7527,6 +7530,7 @@ export interface paths {
                  *     46: File not present in request
                  *     53: Language is not supported for the game.
                  *     61: Invalid game pass id
+                 *     91: FileTooLarge
                  */
                 400: {
                     headers: {
@@ -8088,7 +8092,9 @@ export interface paths {
                  * @description 14: Invalid game id
                  *     22: Invalid language code
                  *     26: You can't update translations for source language
+                 *     45: File uploaded does not match known image format
                  *     53: Language is not supported for the game.
+                 *     91: FileTooLarge
                  */
                 400: {
                     headers: {
@@ -8442,6 +8448,7 @@ export interface paths {
                  *     22: Invalid language code
                  *     23: You can't delete translations for source language
                  *     26: You can't update translations for source language
+                 *     49: Duplicate language codes are not allowed.
                  *     53: Language is not supported for the game.
                  */
                 400: {
@@ -8462,6 +8469,13 @@ export interface paths {
                  *     18: You do not have permission to manage this game
                  */
                 403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 24: Too many attempts.Please try again later. */
+                429: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -12236,6 +12250,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/service-efficiency-api/v1/usages/universes/{universeId}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Returns the live monthly free-tier usage for a universe, used by the Service Unlock page.
+         *     Wraps the cloud-pricing-billing `GetConsumerFreeTierUsage` RPC.
+         */
+        get: operations['ServiceEfficiencyApi_GetConsumerUsages'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/thumbnail-personalization-api/v1/universes/{universeId}/personalization': {
         parameters: {
             query?: never;
@@ -12454,7 +12488,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** @description Publish a new place or update an existing place with a new version. Provide a RBXL or RBXLX file in the data-binary. */
+        /** Invokes Roblox.UniversesApi.CreatePlaceVersionApiKeyOperation operation. */
         post: operations['Places_CreatePlaceVersionApiKey'];
         delete?: never;
         options?: never;
@@ -16299,6 +16333,7 @@ export interface paths {
                  *     46: File not present in request
                  *     53: Language is not supported for the game.
                  *     62: Invalid game badge id
+                 *     91: FileTooLarge
                  */
                 400: {
                     headers: {
@@ -20658,6 +20693,7 @@ export interface paths {
                  *     46: File not present in request
                  *     53: Language is not supported for the game.
                  *     70: Invalid developer product id
+                 *     91: FileTooLarge
                  */
                 400: {
                     headers: {
@@ -23331,6 +23367,7 @@ export interface paths {
                  *     45: File uploaded does not match known image format
                  *     46: File not present in request
                  *     53: Language is not supported for the game.
+                 *     91: FileTooLarge
                  */
                 400: {
                     headers: {
@@ -23807,6 +23844,13 @@ export interface paths {
                     };
                     content?: never;
                 };
+                /** @description 24: Too many attempts.Please try again later. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
             };
         };
         put?: never;
@@ -24141,6 +24185,7 @@ export interface paths {
                  *     46: File not present in request
                  *     53: Language is not supported for the game.
                  *     61: Invalid game pass id
+                 *     91: FileTooLarge
                  */
                 400: {
                     headers: {
@@ -24816,7 +24861,9 @@ export interface paths {
                  * @description 14: Invalid game id
                  *     22: Invalid language code
                  *     26: You can't update translations for source language
+                 *     45: File uploaded does not match known image format
                  *     53: Language is not supported for the game.
+                 *     91: FileTooLarge
                  */
                 400: {
                     headers: {
@@ -30502,6 +30549,7 @@ export interface paths {
                  *     22: Invalid language code
                  *     23: You can't delete translations for source language
                  *     26: You can't update translations for source language
+                 *     49: Duplicate language codes are not allowed.
                  *     53: Language is not supported for the game.
                  */
                 400: {
@@ -30522,6 +30570,13 @@ export interface paths {
                  *     18: You do not have permission to manage this game
                  */
                 403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 24: Too many attempts.Please try again later. */
+                429: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -35948,6 +36003,13 @@ export interface paths {
                  *     57: You do not have permission to request translation analytics report.
                  */
                 403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 24: Too many attempts.Please try again later. */
+                429: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -53946,7 +54008,7 @@ export interface components {
             failedPaymentBalanceMicros?: string;
             /** @description The unique identifier of the billing account. Use it as the {id} path parameter. */
             id?: string;
-            /** @description Account-level budget and billing limits. */
+            /** @description Credit card limits for the account. They don't apply to ADS_CREDIT or INVOICE campaigns. */
             limits?: components['schemas']['BillingAccountLimits'];
             /** @description The identifier of the organization that owns the account. */
             organizationId?: string;
@@ -53973,8 +54035,9 @@ export interface components {
             paymentStatus?: 'READY' | 'ACTION_REQUIRED' | 'PAST_DUE' | 'DISABLED';
             /**
              * @description Machine-readable reason for a paymentStatus other than READY. NO_PAYMENT_METHOD means that no payment type
-             *     can fund a campaign: no usable card and no usable ad credit. PROFILE_NOT_VERIFIED means the same, but a
-             *     card exists and needs verification.
+             *     can fund a campaign: no usable card and no usable ad credit. A group's account can pay only with ad credit,
+             *     so for a group it means the ad credit balance is below the minimum daily budget; buy ad credit with
+             *     paymentSetupUrl. PROFILE_NOT_VERIFIED means the same, but a card exists and needs verification.
              * @enum {string}
              */
             paymentStatusReason?:
@@ -54014,8 +54077,9 @@ export interface components {
         BillingAccountLimits: {
             /**
              * @description Card billing threshold in micro-USD: when outstandingBalanceMicros reaches this
-             *     amount, accrued charges are billed to the card on file. Omitted when the account
-             *     has no threshold.
+             *     amount, accrued charges are billed to the card on file. Applies only to CREDIT_CARD
+             *     spend: ADS_CREDIT spends from the balance, and INVOICE accounts are billed monthly.
+             *     Can be present before a card is on file. Omitted when the account has no threshold.
              */
             billingThresholdMicros?: string;
             /**
@@ -54054,7 +54118,8 @@ export interface components {
              */
             paymentStatus?: 'READY' | 'ACTION_REQUIRED' | 'PAST_DUE' | 'DISABLED';
             /**
-             * @description Reason for a paymentStatus other than READY. Same as on GET /billing-accounts/{id}.
+             * @description Reason for a paymentStatus other than READY. Same as on GET /billing-accounts/{id}. For a group's account,
+             *     NO_PAYMENT_METHOD means that its ad credit balance is too low, not that a payment method is missing.
              * @enum {string}
              */
             paymentStatusReason?:
@@ -54360,8 +54425,8 @@ export interface components {
         };
         CampaignOptionsResponse: {
             /**
-             * @description The accepted creative image sizes, in pixels. Upload creatives in one of these
-             *     sizes.
+             * @description The recommended creative image sizes, in pixels. Images in other sizes are
+             *     accepted, but these sizes fit the tile best.
              */
             adFormats?: components['schemas']['AdFormat'][];
             /**
@@ -54939,6 +55004,15 @@ export interface components {
              *     These are Roblox asset IDs, the same values as Creative.assetId.
              */
             creativeAssetIds: string[];
+            /**
+             * Format: uuid
+             * @description Optional UUID for retry deduplication within 24 hours. Omit it or send an
+             *     empty string to create without deduplication; retries can create duplicates.
+             *     Use a new key for each new campaign or changed request body. Reuse a key only
+             *     to retry the same body. A completed replay returns the original campaign
+             *     (200) and ignores body changes; an in-progress replay returns 429.
+             */
+            idempotencyKey?: string;
             /** @description The display name of the campaign. Required. */
             name: string;
             /**
@@ -55203,6 +55277,11 @@ export interface components {
         CreatePaymentProfileResponse: {
             /** @description Gets or sets the client secret to complete payment profile creation. */
             clientSecret?: string | null;
+        };
+        /** @description response for !:CreatePlaceVersionOperation */
+        CreatePlaceVersionOperationResponse: {
+            /** Format: int32 */
+            versionNumber?: number;
         };
         CreatePrivateServerRequest: {
             name?: string | null;
@@ -56770,7 +56849,7 @@ export interface components {
         /** @description error log detail */
         ErrorLogDetail: {
             /** @description The message hash id for this log detail. */
-            id: string | null;
+            id?: string | null;
             /** @description The logSeverity of the log */
             logSeverity?: string | null;
             /** @description The source of the log */
@@ -56778,7 +56857,7 @@ export interface components {
             os?: string | null;
             platform?: string | null;
             /** @description The message of the error log */
-            message: string | null;
+            message?: string | null;
             /** @description The stack trace of the error log. This might be not available */
             stacktrace?: string | null;
             /**
@@ -57332,6 +57411,46 @@ export interface components {
         /** @description ForecastUpdateResponse is used to return information about the forecasted update of a place. */
         ForecastUpdateResponse: {
             placeSummaries: components['schemas']['PlaceSummaryForGameUpdate'][] | null;
+        };
+        /** @description Per-resource free-tier usage snapshot. */
+        FreeTierUsageItem: {
+            /** @description Gets or sets the service identifier (e.g. "rcc"). */
+            serviceId?: string | null;
+            /** @description Gets or sets the resource identifier (e.g. "ccu-cores"). */
+            resourceId?: string | null;
+            /**
+             * Format: int64
+             * @description Gets or sets the current monthly free-tier cap from pricing config.
+             */
+            monthlyFreeUnits?: number;
+            /**
+             * Format: double
+             * @description Gets or sets the live month-to-date consumed units.
+             */
+            consumed?: number;
+            /**
+             * Format: double
+             * @description Gets or sets the live month-to-date remaining units.
+             */
+            remaining?: number;
+            /**
+             * Format: date-time
+             * @description Gets or sets the time at which this snapshot was projected.
+             */
+            lastUpdatedUtc?: string;
+        };
+        /**
+         * @description Response object for free-tier usage on the Service Unlock page.
+         *     One entry per resource that opts in to a monthly free tier (i.e. monthly_free_units > 0).
+         */
+        FreeTierUsagesResponse: {
+            /**
+             * Format: date-time
+             * @description Gets or sets UTC midnight of the first day of the month covered by this response.
+             */
+            monthStartUtc?: string;
+            /** @description Gets or sets per-resource free-tier usage snapshots. */
+            usages?: components['schemas']['FreeTierUsageItem'][] | null;
         };
         /** @description v3 game event response. All fields except VirtualEventsApi.Models.V3.Response.GameEventResponse.Id are gated by the `?fields=` mask. */
         GameEventResponse: {
@@ -58407,6 +58526,108 @@ export interface components {
              * @example true
              */
             bypassSlowMode?: boolean;
+        };
+        'GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_': {
+            /** Format: int64 */
+            id?: number;
+            /**
+             * Format: int32
+             * @description ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95, 'ComputeFunction' = 96, 'AvatarSpawnEffect' = 97, 'Voice' = 98]
+             * @enum {integer}
+             */
+            type?:
+                | 1
+                | 2
+                | 3
+                | 4
+                | 5
+                | 6
+                | 7
+                | 8
+                | 9
+                | 10
+                | 11
+                | 12
+                | 13
+                | 16
+                | 17
+                | 18
+                | 19
+                | 21
+                | 22
+                | 24
+                | 25
+                | 26
+                | 27
+                | 28
+                | 29
+                | 30
+                | 31
+                | 32
+                | 33
+                | 34
+                | 35
+                | 37
+                | 38
+                | 39
+                | 40
+                | 41
+                | 42
+                | 43
+                | 44
+                | 45
+                | 46
+                | 47
+                | 48
+                | 49
+                | 50
+                | 51
+                | 52
+                | 53
+                | 54
+                | 55
+                | 56
+                | 59
+                | 60
+                | 61
+                | 62
+                | 63
+                | 64
+                | 65
+                | 66
+                | 67
+                | 68
+                | 69
+                | 70
+                | 71
+                | 72
+                | 73
+                | 74
+                | 75
+                | 76
+                | 77
+                | 78
+                | 79
+                | 80
+                | 81
+                | 82
+                | 83
+                | 84
+                | 85
+                | 86
+                | 87
+                | 88
+                | 89
+                | 90
+                | 91
+                | 92
+                | 93
+                | 94
+                | 95
+                | 96
+                | 97
+                | 98;
+            name?: string;
         };
         /** @description A homepage thumbnail associated with a universe. */
         HomepageThumbnail: {
@@ -69222,7 +69443,7 @@ export interface components {
             /** @description The game description. */
             description?: string;
             creator?: components['schemas']['Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Core.CreatorType_'];
-            rootPlace?: components['schemas']['Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_'];
+            rootPlace?: components['schemas']['GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_'];
             /**
              * Format: date-time
              * @description When the game was created.
@@ -77410,10 +77631,7 @@ export interface operations {
     CreateCampaign: {
         parameters: {
             query?: never;
-            header: {
-                /** @description Idempotency key (UUID); 24h dedupe window. Generate a new key for each new campaign or changed request body. Reuse a key only to retry the same body. A completed replay returns the original campaign (200) and ignores body changes, without returning 409; an in-progress replay returns 429. */
-                'x-idempotency-key': string;
-            };
+            header?: never;
             path?: never;
             cookie?: never;
         };
@@ -88292,6 +88510,71 @@ export interface operations {
             };
         };
     };
+    ServiceEfficiencyApi_GetConsumerUsages: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Universe id. */
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['FreeTierUsagesResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     HomepageThumbnail_FindThumbnailPersonalizations: {
         parameters: {
             query: {
@@ -89229,7 +89512,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Success */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -89273,7 +89556,7 @@ export interface operations {
                     'text/json': components['schemas']['ActionResult'];
                 };
             };
-            /** @description Internal Server Error */
+            /** @description Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -89289,74 +89572,27 @@ export interface operations {
     Places_CreatePlaceVersionApiKey: {
         parameters: {
             query?: {
-                /**
-                 * @description Can only be either:
-                 *     - `Saved`: the place file should be saved, but not published.
-                 *      - `Published`: the place file should be saved and published.
-                 */
-                versionType?: string | null;
+                versionType?: string;
+                isOldVersionAllowed?: boolean;
+                shouldForceRestart?: boolean;
             };
             header?: never;
             path: {
-                /** @description The identifier of the experience in which you want to publish your place to. You can [copy your experience's Universe ID](/cloud/guides/usage-place-publishing.md#publishing-a-place) on **Creator Dashboard**. */
                 universeId: number;
-                /** @description The identifier of your place. See [Publishing places with API keys](/cloud/guides/usage-place-publishing.md) on obtaining a Place ID. */
                 placeId: number;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Returns the published place's version number. */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    'text/plain': string;
+                    'application/json': components['schemas']['CreatePlaceVersionOperationResponse'];
                 };
-            };
-            /** @description Invalid request / Invalid file content. */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description API key not valid for operation, user does not have authorization. */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Publish not allowed on place. */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Place or universe does not exist. */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Place not part of the universe. */
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Server internal error / Unknown error. */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
         };
     };

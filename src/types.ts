@@ -12462,23 +12462,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/universe-performance-raqi/v1/events/logging/universe/{universeId}/log-details': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get logs based on message hash ids, keywords, placeVersions, start/end time. */
-        get: operations['ErrorLoggingDetail_GetLogs'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/universes/v1/{universeId}/places/{placeId}/versions': {
         parameters: {
             query?: never;
@@ -18738,7 +18721,8 @@ export interface paths {
                         | 94
                         | 95
                         | 96
-                        | 97;
+                        | 97
+                        | 98;
                     /** @description Bundle type of the item being uploaded. Mutually exclusive with AssetType; exactly one is required. */
                     BundleType: 0 | 1 | 2 | 3 | 4;
                     /** @description Quantity. Must be 0 for non-limited publishing. */
@@ -27179,7 +27163,8 @@ export interface paths {
                         | 94
                         | 95
                         | 96
-                        | 97;
+                        | 97
+                        | 98;
                     /** @description Taxonomy category web_stable_id to filter by (mutually exclusive with bundleType/assetType). Passed through to AMPG, which resolves it server-side. */
                     taxonomy?: string;
                     /** @description The pagination cursor. */
@@ -27535,7 +27520,8 @@ export interface paths {
                         | 94
                         | 95
                         | 96
-                        | 97;
+                        | 97
+                        | 98;
                     bundleType?: 0 | 1 | 2 | 3 | 4;
                     categoryId?: string;
                 };
@@ -27577,6 +27563,7 @@ export interface paths {
                 /**
                  * @description 1: Service Unavailable
                  *     14: Failed to get the price floor
+                 *     21: Failed to get the publishing fees
                  */
                 404: {
                     headers: {
@@ -27704,7 +27691,8 @@ export interface paths {
                         | 94
                         | 95
                         | 96
-                        | 97;
+                        | 97
+                        | 98;
                     IsEmissive?: boolean;
                 };
                 header?: never;
@@ -31790,7 +31778,8 @@ export interface paths {
                         | 94
                         | 95
                         | 96
-                        | 97;
+                        | 97
+                        | 98;
                     bundleType?: 0 | 1 | 2 | 3 | 4;
                     lookType?: 0 | 1 | 2 | 3 | 4;
                     trustedCreatorCheck?: boolean;
@@ -45673,14 +45662,14 @@ export interface paths {
         };
         /**
          * Get the channel and current version guid of a beta program the currently logged in user may use, whether or not they are opted in to it.
-         *     Only Studio binary types (MacStudio, WindowsStudio64) are supported for now.
+         *     Only desktop Studio and Player binary types (MacStudio, WindowsStudio64, MacPlayer, WindowsPlayer) are supported for now.
          */
         get: {
             parameters: {
                 query: {
                     /** @description The beta program id */
                     programId: string;
-                    /** @description e.g. MacStudio or WindowsStudio64 */
+                    /** @description e.g. MacStudio, WindowsStudio64, MacPlayer or WindowsPlayer */
                     binaryType: string;
                 };
                 header?: never;
@@ -53537,16 +53526,10 @@ export interface components {
              *       | ADS_VIDEO | Ads Video |
              */
             assetType?: components['schemas']['Roblox.OpenCloud.Cloud.V2.AssetType'];
-            /**
-             * Format: int64
-             * @description The current usage of the quota.
-             */
-            usage?: number;
-            /**
-             * Format: int64
-             * @description The capacity of the quota.
-             */
-            capacity?: number;
+            /** @description The current usage of the quota. */
+            usage?: string;
+            /** @description The capacity of the quota. */
+            capacity?: string;
             /**
              * @description The period of time the quota is for.
              *
@@ -53693,11 +53676,8 @@ export interface components {
              * @description The creation timestamp of the current revision.
              */
             readonly revisionCreateTime?: string | null;
-            /**
-             * Format: int64
-             * @description The unique identifier of the asset. Required for [Update Asset](#Assets_UpdateAsset).
-             */
-            assetId?: number;
+            /** @description The unique identifier of the asset. Required for [Update Asset](#Assets_UpdateAsset). */
+            assetId?: string;
             /** @description Display name of the asset. Required for [Create Asset](#Assets_CreateAsset). */
             displayName?: string | null;
             /** @description The description of the asset. Limit to 1000 characters. Required for [Create Asset](#Assets_CreateAsset). */
@@ -53708,10 +53688,9 @@ export interface components {
             readonly moderationResult?: components['schemas']['ModerationResult'];
             /** @description Whether to publish the asset version created by the request. To check whether the current revision is published, see `isPublished`. */
             published?: boolean;
-            readonly hasPublished?: boolean;
-            /** @description The resource path for the icon. */
+            /** @description The resource path for the icon. The icon must be an image set to [Open Use](https://create.roblox.com/docs/projects/assets/privacy). To create an Open Use image, set `creationContext.assetPrivacy` to `OpenUse` in [Create Asset](#Assets_CreateAsset). */
             icon?: string | null;
-            /** @description A list of previews, each with an asset path and alt text. Previews must be **Image** assets. */
+            /** @description A list of previews, each with an asset path and alt text. Previews must be **Image** assets, except for Place assets, which can have one **GamePreviewVideo**, and for Model, MeshPart, and Plugin assets, which can have one **StorePreviewVideo**. Image previews must be set to [Open Use](https://create.roblox.com/docs/projects/assets/privacy). To create an Open Use image, set `creationContext.assetPrivacy` to `OpenUse` in [Create Asset](#Assets_CreateAsset). */
             previews?: components['schemas']['Preview'][] | null;
             state?: components['schemas']['State'];
             facebookSocialLink?: components['schemas']['SocialLink'];
@@ -53733,8 +53712,7 @@ export interface components {
             userId?: string | null;
             /** @description The group ID as a decimal string. Set when the asset is owned by a group. */
             groupId?: string | null;
-            /** Format: int64 */
-            experienceId?: number | null;
+            experienceId?: string | null;
         };
         /** @description This resource represents a long-running operation that is the result of a network API call. */
         'AssetsUploadApi.Operation': {
@@ -56846,38 +56824,6 @@ export interface components {
                 [key: string]: string | null;
             } | null;
         };
-        /** @description error log detail */
-        ErrorLogDetail: {
-            /** @description The message hash id for this log detail. */
-            id?: string | null;
-            /** @description The logSeverity of the log */
-            logSeverity?: string | null;
-            /** @description The source of the log */
-            logSource?: string | null;
-            os?: string | null;
-            platform?: string | null;
-            /** @description The message of the error log */
-            message?: string | null;
-            /** @description The stack trace of the error log. This might be not available */
-            stacktrace?: string | null;
-            /**
-             * Format: date-time
-             * @description UTC timestamp when this error was first observed.
-             *     Null when the source document predates this field being populated.
-             */
-            firstSeenUtc?: string | null;
-            /**
-             * Format: int64
-             * @description First seen place version for the error.
-             *     NOTE: This value will only be returned when place id is filtered
-             */
-            firstSeenPlaceVersion?: number | null;
-        };
-        /** @description Response for top error logs */
-        ErrorLogDetailResponse: {
-            /** @description The analytics data for display. */
-            values?: components['schemas']['ErrorLogDetail'][] | null;
-        };
         /** @description This is the base class for all custom Exceptions that are thrown in this API. */
         ErrorResponse: {
             /** @description The ErrorCode for the exception. */
@@ -57525,6 +57471,8 @@ export interface components {
             priceInformation: components['schemas']['GamePasses.PriceInformationStruct'] | null;
             /** @description Whether managed pricing is enabled for the game pass. */
             isManagedPricingEnabled: boolean;
+            /** @description Whether trials are enabled for the game pass. */
+            isTrialEnabled?: boolean;
         };
         /**
          * @description Code representing various error conditions.
@@ -57946,6 +57894,11 @@ export interface components {
         /** @description Response for getting the start place override for a universe. */
         GetStartPlaceOverrideResponse: {
             dataStoreLocation?: components['schemas']['DataStoreLocation'];
+            /**
+             * @description Whether game join routes players with the universe's start place override.
+             *     Null when no start place override is configured for the universe.
+             */
+            enabled?: boolean | null;
         };
         /** @description Get Update Status response. */
         GetUpdateStatusResponse: {
@@ -61518,26 +61471,14 @@ export interface components {
             httpVerb?: string | null;
             /** @description Pre signed url used to upload. */
             url?: string | null;
-            /**
-             * Format: int64
-             * @description Expiration of pre signed url.
-             */
-            expirationTimeMs?: number;
-            /**
-             * Format: int32
-             * @description Num of file chunk to upload corresponding to the ChunkPlan in the start request.
-             */
-            chunkNum?: number;
-            /**
-             * Format: int64
-             * @description Start position of this chunk.
-             */
-            contentStart?: number;
-            /**
-             * Format: int64
-             * @description Length of this chunk.
-             */
-            contentLength?: number;
+            /** @description Expiration of pre signed url. */
+            expirationTimeMs?: string;
+            /** @description Num of file chunk to upload corresponding to the ChunkPlan in the start request. */
+            chunkNum?: string;
+            /** @description Start position of this chunk. */
+            contentStart?: string;
+            /** @description Length of this chunk. */
+            contentLength?: string;
         };
         'PresenceApi.ErrorResponse': {
             errors?: components['schemas']['Error'][] | null;
@@ -65629,6 +65570,7 @@ export interface components {
              * @enum {integer}
              */
             gender?: 1 | 2 | 3;
+            agreementIds?: string[];
         };
         'Roblox.Authentication.Api.Models.AccountUpgradeResponse': {
             /** Format: int64 */
@@ -66661,7 +66603,8 @@ export interface components {
                 | 94
                 | 95
                 | 96
-                | 97;
+                | 97
+                | 98;
             /**
              * Format: int32
              * @description The Roblox.Platform.Bundles.Core.BundleType serialized if item is a bundle.
@@ -66873,7 +66816,8 @@ export interface components {
                 | 94
                 | 95
                 | 96
-                | 97;
+                | 97
+                | 98;
             /**
              * Format: int32
              * @description The Roblox.Platform.Bundles.Core.BundleType serialized if item is a bundle.
@@ -67093,7 +67037,8 @@ export interface components {
                 | 94
                 | 95
                 | 96
-                | 97;
+                | 97
+                | 98;
             /**
              * Format: int32
              * @description The Roblox.Platform.Bundles.Core.BundleType serialized if item is a bundle.
@@ -69963,7 +69908,7 @@ export interface components {
         'Roblox.ItemConfiguration.Api.AssetDetails': {
             /**
              * Format: int32
-             * @description The asset type. ['Invalid' = 0, 'Image' = 1, 'Tshirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'Html' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YoutubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TshirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95, 'ComputeFunction' = 96, 'AvatarSpawnEffect' = 97]
+             * @description The asset type. ['Invalid' = 0, 'Image' = 1, 'Tshirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'Html' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YoutubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TshirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95, 'ComputeFunction' = 96, 'AvatarSpawnEffect' = 97, 'Voice' = 98]
              * @enum {integer}
              */
             assetType?:
@@ -70057,7 +70002,8 @@ export interface components {
                 | 94
                 | 95
                 | 96
-                | 97;
+                | 97
+                | 98;
         };
         /** @description The bundle details. */
         'Roblox.ItemConfiguration.Api.BundleDetails': {
@@ -70932,7 +70878,7 @@ export interface components {
             /**
              * Format: int32
              * @description The asset type of the item being updated. Must match the original item's asset type: an
-             *     update swaps content on the same item, it cannot change the item's type. ['Invalid' = 0, 'Image' = 1, 'Tshirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'Html' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YoutubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TshirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95, 'ComputeFunction' = 96, 'AvatarSpawnEffect' = 97]
+             *     update swaps content on the same item, it cannot change the item's type. ['Invalid' = 0, 'Image' = 1, 'Tshirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'Html' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YoutubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TshirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95, 'ComputeFunction' = 96, 'AvatarSpawnEffect' = 97, 'Voice' = 98]
              * @enum {integer}
              */
             assetType?:
@@ -71026,7 +70972,8 @@ export interface components {
                 | 94
                 | 95
                 | 96
-                | 97;
+                | 97
+                | 98;
         };
         /**
          * @description DTO of incoming request from the client to create bundle context
@@ -71198,6 +71145,7 @@ export interface components {
                 | 95
                 | 96
                 | 97
+                | 98
             )[];
             /** @description A specific target to update. */
             target?: components['schemas']['Roblox.ItemConfiguration.Api.TargetModel'][];
@@ -71705,6 +71653,8 @@ export interface components {
              * @description The price floor.
              */
             priceFloor?: number;
+            paidItemPublishingFee?: components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.PublishingFeeInfo'];
+            freeItemPublishingFee?: components['schemas']['Roblox.ItemConfiguration.Api.Models.Response.PublishingFeeInfo'];
         };
         /** @description Defines the response model for the POST v1/collectibles/rental-pricing/preview. */
         'Roblox.ItemConfiguration.Api.Models.Response.GetRentalPricingPreviewResponse': {
@@ -71734,6 +71684,22 @@ export interface components {
             metadataPermissions?: {
                 [key: string]: boolean;
             };
+        };
+        /** @description A publishing fee returned with the price floor. */
+        'Roblox.ItemConfiguration.Api.Models.Response.PublishingFeeInfo': {
+            /**
+             * Format: int64
+             * @description The publishing fee in Robux. For Roblox.ItemConfiguration.Api.PublishingFeeType.PayPerInstance, this is the fee for each unit.
+             */
+            publishingFeeInRobux?: number;
+            /**
+             * Format: int32
+             * @description Whether the fee is charged once or for each unit. ['Invalid' = 0, 'PayPerInstance' = 1, 'PayInTotal' = 2]
+             * @enum {integer}
+             */
+            publishingFeeType?: 0 | 1 | 2;
+            /** @description The user-facing name of the publishing fee. */
+            displayName?: string;
         };
         'Roblox.ItemConfiguration.Api.Models.Response.PublishingPreferences.PublishingPreferencesResponse': {
             id?: string;
@@ -72797,6 +72763,157 @@ export interface components {
             balance?: number;
             /** @description Boolean, true if the user can afford to purchase the publishing of the audio file. */
             canAfford?: boolean;
+        };
+        /**
+         * @description Represents a user's subscription to a subscription product. The
+         *     subscription ID is the same as the user ID of the user who subscribed.
+         */
+        'Roblox.Subscriptions.OpenCloud.V2.Subscription': {
+            /**
+             * @description The resource path of the subscription.
+             *
+             *     Format:
+             *     `universes/{universe_id}/subscription-products/{subscription_product_id}/subscriptions/{subscription_id}`
+             */
+            path?: string;
+            /**
+             * Format: date-time
+             * @description The timestamp when the subscription was created.
+             * @example 2023-07-05T12:34:56Z
+             */
+            readonly createTime?: string;
+            /**
+             * Format: date-time
+             * @description The timestamp when the subscription was last updated.
+             * @example 2023-07-05T12:34:56Z
+             */
+            readonly updateTime?: string;
+            /**
+             * @description Whether the subscription is active.
+             *
+             *     This is equivalent  to whether `state` is equal to SUBSCRIBED_WILL_RENEW,
+             *     SUBSCRIBED_WILL_NOT_RENEW, or SUBSCRIBED_RENEWAL_PAYMENT_PENDING.
+             * @example true
+             */
+            readonly active?: boolean;
+            /**
+             * @description Whether the subscription will renew.
+             *
+             *     This is equivalent to whether `state` is equal to SUBSCRIBED_WILL_RENEW or
+             *     SUBSCRIBED_RENEWAL_PAYMENT_PENDING.
+             * @example true
+             */
+            readonly willRenew?: boolean;
+            /**
+             * Format: date-time
+             * @description The timestamp when the subscription was last billed.
+             * @example 2023-07-05T12:34:56Z
+             */
+            readonly lastBillingTime?: string;
+            /**
+             * Format: date-time
+             * @description The timestamp when the subscription will next be automatically renewed.
+             * @example 2023-07-05T12:34:56Z
+             */
+            readonly nextRenewTime?: string;
+            /**
+             * Format: date-time
+             * @description The timestamp when the subscription will, or did, expire.
+             * @example 2023-07-05T12:34:56Z
+             */
+            readonly expireTime?: string;
+            /**
+             * Format: enum
+             * @description The state of the subscription.
+             *
+             *     Possible values:
+             *
+             *       | Value | Description |
+             *       | --- | --- |
+             *       | STATE_UNSPECIFIED | The subscription state is unspecified. |
+             *       | SUBSCRIBED_WILL_RENEW | The subscription is active and will be automatically renewed at `next_renew_time`. |
+             *       | SUBSCRIBED_WILL_NOT_RENEW | The subscription is active but will not be automatically renewed. |
+             *       | SUBSCRIBED_RENEWAL_PAYMENT_PENDING | The subscription is active and within the renewal grace period pending payment confirmation. |
+             *       | EXPIRED | The subscription has expired.  See `expiration_details` for more information. |
+             * @example STATE_UNSPECIFIED
+             * @enum {string}
+             */
+            readonly state?:
+                | 'STATE_UNSPECIFIED'
+                | 'SUBSCRIBED_WILL_RENEW'
+                | 'SUBSCRIBED_WILL_NOT_RENEW'
+                | 'SUBSCRIBED_RENEWAL_PAYMENT_PENDING'
+                | 'EXPIRED';
+            /** @description Information about the expiration of the subscription. */
+            expirationDetails?: components['schemas']['Roblox.Subscriptions.OpenCloud.V2.Subscription_ExpirationDetails'];
+            /**
+             * Format: enum
+             * @description The platform on which the subscription was purchased.
+             *
+             *     Possible values:
+             *
+             *       | Value | Description |
+             *       | --- | --- |
+             *       | PURCHASE_PLATFORM_UNSPECIFIED | The purchase platform is unspecified. |
+             *       | DESKTOP | The subscription was purchased on the Roblox website. |
+             *       | MOBILE | The subscription was purchased on the Roblox mobile app. |
+             * @example PURCHASE_PLATFORM_UNSPECIFIED
+             * @enum {string}
+             */
+            readonly purchasePlatform?: 'PURCHASE_PLATFORM_UNSPECIFIED' | 'DESKTOP' | 'MOBILE';
+            /**
+             * Format: enum
+             * @description The payment provider used to purchase the subscription.
+             *
+             *     Possible values:
+             *
+             *       | Value | Description |
+             *       | --- | --- |
+             *       | PAYMENT_PROVIDER_UNSPECIFIED | The payment provider is unspecified. |
+             *       | STRIPE | The subscription was purchased using Stripe. |
+             *       | APPLE | The subscription was purchased using Apple. |
+             *       | GOOGLE | The subscription was purchased using Google. |
+             *       | ROBLOX_CREDIT | The subscription was purchased using Roblox Credit. |
+             *       | ROBUX | The subscription was purchased using Robux. |
+             * @example PAYMENT_PROVIDER_UNSPECIFIED
+             * @enum {string}
+             */
+            readonly paymentProvider?:
+                | 'PAYMENT_PROVIDER_UNSPECIFIED'
+                | 'STRIPE'
+                | 'APPLE'
+                | 'GOOGLE'
+                | 'ROBLOX_CREDIT'
+                | 'ROBUX';
+            /** @description The user who subscribed to the subscription. */
+            user?: string;
+        };
+        /** @description Information about the expiration of a subscription. */
+        'Roblox.Subscriptions.OpenCloud.V2.Subscription_ExpirationDetails': {
+            /**
+             * Format: enum
+             * @description The reason the subscription expired.
+             *
+             *     Possible values:
+             *
+             *       | Value | Description |
+             *       | --- | --- |
+             *       | EXPIRATION_REASON_UNSPECIFIED | The expiration reason is unspecified. |
+             *       | PRODUCT_INACTIVE | The subscription product is inactive. |
+             *       | PRODUCT_DELETED | The subscription product is deleted. |
+             *       | SUBSCRIBER_CANCELLED | The subscriber cancelled the subscription. |
+             *       | SUBSCRIBER_REFUNDED | The subscriber requested a refund. |
+             *       | LAPSED | The subscriber’s payment was not received. |
+             * @example EXPIRATION_REASON_UNSPECIFIED
+             * @enum {string}
+             */
+            reason?:
+                | 'EXPIRATION_REASON_UNSPECIFIED'
+                | 'PRODUCT_INACTIVE'
+                | 'PRODUCT_DELETED'
+                | 'SUBSCRIBER_CANCELLED'
+                | 'SUBSCRIBER_REFUNDED'
+                | 'LAPSED';
         };
         'Roblox.Thumbnails.Apis.Models.ThumbnailBatchRequest': {
             /** @description The request id. (Generated client side, used to represent the items in the request) */
@@ -74975,7 +75092,8 @@ export interface components {
             | 'FieldMissing'
             | 'ValueParseFailure'
             | 'PlaceNotInExperience'
-            | 'PlaceNotPublished';
+            | 'PlaceNotPublished'
+            | 'UserNotFound';
         /**
          * @description Whether the asset is active or archived. Unspecified isn't used.
          * @enum {string}
@@ -75031,7 +75149,15 @@ export interface components {
             isDynamic?: boolean | null;
         };
         /** @enum {string} */
-        SubjectType: 'Invalid' | 'User' | 'Group' | 'GroupRoleset' | 'All' | 'Universe';
+        SubjectType:
+            | 'Invalid'
+            | 'User'
+            | 'Group'
+            | 'GroupRoleset'
+            | 'All'
+            | 'Universe'
+            | 'CommunicationPlatformMessage'
+            | 'IpPlatform';
         /** @description Request object to be set as the body of submit manual payment endpoint requests. */
         SubmitManualPaymentRequest: {
             /** @description Gets or sets the amount of money to charge in the manual payment. */
@@ -75041,161 +75167,6 @@ export interface components {
         };
         /** @description Response object for Roblox.CloudPricing.ServiceEfficiencyApi.Operations.SubmitManualPaymentOperation */
         SubmitManualPaymentResponse: Record<string, never>;
-        /**
-         * @description Represents a user's subscription to a subscription product. The
-         *     subscription ID is the same as the user ID of the user who subscribed.
-         */
-        Subscription: {
-            /**
-             * @description The resource path of the subscription.
-             *
-             *     Format:
-             *     `universes/{universe_id}/subscription-products/{subscription_product_id}/subscriptions/{subscription_id}`
-             * @example universes/123/subscription-products/some-subscription-product-id/subscriptions/some-subscription-id
-             */
-            path?: string;
-            /**
-             * Format: date-time
-             * @description The timestamp when the subscription was created.
-             * @example 2023-07-05T12:34:56Z
-             */
-            readonly createTime?: string;
-            /**
-             * Format: date-time
-             * @description The timestamp when the subscription was last updated.
-             * @example 2023-07-05T12:34:56Z
-             */
-            readonly updateTime?: string;
-            /**
-             * @description Whether the subscription is active.
-             *
-             *     This is equivalent  to whether `state` is equal to SUBSCRIBED_WILL_RENEW,
-             *     SUBSCRIBED_WILL_NOT_RENEW, or SUBSCRIBED_RENEWAL_PAYMENT_PENDING.
-             * @example true
-             */
-            readonly active?: boolean;
-            /**
-             * @description Whether the subscription will renew.
-             *
-             *     This is equivalent to whether `state` is equal to SUBSCRIBED_WILL_RENEW or
-             *     SUBSCRIBED_RENEWAL_PAYMENT_PENDING.
-             * @example true
-             */
-            readonly willRenew?: boolean;
-            /**
-             * Format: date-time
-             * @description The timestamp when the subscription was last billed.
-             * @example 2023-07-05T12:34:56Z
-             */
-            readonly lastBillingTime?: string;
-            /**
-             * Format: date-time
-             * @description The timestamp when the subscription will next be automatically renewed.
-             * @example 2023-07-05T12:34:56Z
-             */
-            readonly nextRenewTime?: string;
-            /**
-             * Format: date-time
-             * @description The timestamp when the subscription will, or did, expire.
-             * @example 2023-07-05T12:34:56Z
-             */
-            readonly expireTime?: string;
-            /**
-             * Format: enum
-             * @description The state of the subscription.
-             *
-             *     Possible values:
-             *
-             *       | Value | Description |
-             *       | --- | --- |
-             *       | STATE_UNSPECIFIED | The subscription state is unspecified. |
-             *       | SUBSCRIBED_WILL_RENEW | The subscription is active and will be automatically renewed at `next_renew_time`. |
-             *       | SUBSCRIBED_WILL_NOT_RENEW | The subscription is active but will not be automatically renewed. |
-             *       | SUBSCRIBED_RENEWAL_PAYMENT_PENDING | The subscription is active and within the renewal grace period pending payment confirmation. |
-             *       | EXPIRED | The subscription has expired.  See `expiration_details` for more information. |
-             * @example STATE_UNSPECIFIED
-             * @enum {string}
-             */
-            readonly state?:
-                | 'STATE_UNSPECIFIED'
-                | 'SUBSCRIBED_WILL_RENEW'
-                | 'SUBSCRIBED_WILL_NOT_RENEW'
-                | 'SUBSCRIBED_RENEWAL_PAYMENT_PENDING'
-                | 'EXPIRED';
-            /** @description Information about the expiration of the subscription. */
-            expirationDetails?: components['schemas']['Subscription_ExpirationDetails'];
-            /**
-             * Format: enum
-             * @description The platform on which the subscription was purchased.
-             *
-             *     Possible values:
-             *
-             *       | Value | Description |
-             *       | --- | --- |
-             *       | PURCHASE_PLATFORM_UNSPECIFIED | The purchase platform is unspecified. |
-             *       | DESKTOP | The subscription was purchased on the Roblox website. |
-             *       | MOBILE | The subscription was purchased on the Roblox mobile app. |
-             * @example PURCHASE_PLATFORM_UNSPECIFIED
-             * @enum {string}
-             */
-            readonly purchasePlatform?: 'PURCHASE_PLATFORM_UNSPECIFIED' | 'DESKTOP' | 'MOBILE';
-            /**
-             * Format: enum
-             * @description The payment provider used to purchase the subscription.
-             *
-             *     Possible values:
-             *
-             *       | Value | Description |
-             *       | --- | --- |
-             *       | PAYMENT_PROVIDER_UNSPECIFIED | The payment provider is unspecified. |
-             *       | STRIPE | The subscription was purchased using Stripe. |
-             *       | APPLE | The subscription was purchased using Apple. |
-             *       | GOOGLE | The subscription was purchased using Google. |
-             *       | ROBLOX_CREDIT | The subscription was purchased using Roblox Credit. |
-             *       | ROBUX | The subscription was purchased using Robux. |
-             * @example PAYMENT_PROVIDER_UNSPECIFIED
-             * @enum {string}
-             */
-            readonly paymentProvider?:
-                | 'PAYMENT_PROVIDER_UNSPECIFIED'
-                | 'STRIPE'
-                | 'APPLE'
-                | 'GOOGLE'
-                | 'ROBLOX_CREDIT'
-                | 'ROBUX';
-            /**
-             * @description The user who subscribed to the subscription.
-             * @example users/123
-             */
-            user?: string;
-        };
-        /** @description Information about the expiration of a subscription. */
-        Subscription_ExpirationDetails: {
-            /**
-             * Format: enum
-             * @description The reason the subscription expired.
-             *
-             *     Possible values:
-             *
-             *       | Value | Description |
-             *       | --- | --- |
-             *       | EXPIRATION_REASON_UNSPECIFIED | The expiration reason is unspecified. |
-             *       | PRODUCT_INACTIVE | The subscription product is inactive. |
-             *       | PRODUCT_DELETED | The subscription product is deleted. |
-             *       | SUBSCRIBER_CANCELLED | The subscriber cancelled the subscription. |
-             *       | SUBSCRIBER_REFUNDED | The subscriber requested a refund. |
-             *       | LAPSED | The subscriber’s payment was not received. |
-             * @example EXPIRATION_REASON_UNSPECIFIED
-             * @enum {string}
-             */
-            reason?:
-                | 'EXPIRATION_REASON_UNSPECIFIED'
-                | 'PRODUCT_INACTIVE'
-                | 'PRODUCT_DELETED'
-                | 'SUBSCRIBER_CANCELLED'
-                | 'SUBSCRIBER_REFUNDED'
-                | 'LAPSED';
-        };
         /** @description Standard success response model. */
         SuccessResponse: {
             /** @description Whether or not the request was successfully executed. */
@@ -75363,6 +75334,12 @@ export interface components {
              *     Null when no place id could be read.
              */
             placeId?: number | null;
+            /**
+             * @description The value read at the configured value path of the user's data store entry, as JSON text,
+             *     so a place id saved as text keeps its quotes. Cut to at most 100 characters.
+             *     Null when no value could be read.
+             */
+            savedValue?: string | null;
         };
         /**
          * @description This resource represents a long-running operation that is the result of a
@@ -82841,7 +82818,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['Subscription'];
+                    'application/json': components['schemas']['Roblox.Subscriptions.OpenCloud.V2.Subscription'];
                 };
             };
         };
@@ -85316,6 +85293,8 @@ export interface operations {
                     isRegionalPricingEnabled?: boolean | null;
                     /** @description Whether managed pricing should be enabled for the game pass. */
                     isManagedPricingEnabled?: boolean | null;
+                    /** @description Whether trials should be enabled for the game pass. Note for trials to be available, the game pass must also be on sale. */
+                    isTrialEnabled?: boolean | null;
                 };
             };
         };
@@ -85474,6 +85453,8 @@ export interface operations {
                     isRegionalPricingEnabled?: boolean | null;
                     /** @description Whether managed pricing should be enabled for the game pass. */
                     isManagedPricingEnabled?: boolean | null;
+                    /** @description Whether trials should be enabled for the game pass. Note for trials to be available, the game pass must also be on sale. */
+                    isTrialEnabled?: boolean | null;
                 };
             };
         };
@@ -89484,88 +89465,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
-            };
-        };
-    };
-    ErrorLoggingDetail_GetLogs: {
-        parameters: {
-            query?: {
-                messageHashIds?: string[];
-                /** @description Optional keyword to help highlight matching keyword in the error message */
-                keyword?: string;
-                /** @description Optional query window start; omitted values are defaulted server-side. */
-                startTime?: string;
-                /** @description Optional query window end; omitted values are defaulted server-side. */
-                endTime?: string;
-                /** @description Optional place id filter. */
-                placeId?: number;
-                /** @description Optional place version filters. */
-                placeVersions?: number[];
-                /** @description Optional minimum first seen place version filter (inclusive). */
-                firstSeenPlaceVersion?: number;
-            };
-            header?: never;
-            path: {
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'text/plain': components['schemas']['ErrorLogDetailResponse'];
-                    'application/json': components['schemas']['ErrorLogDetailResponse'];
-                    'text/json': components['schemas']['ErrorLogDetailResponse'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'text/plain': components['schemas']['ActionResult'];
-                    'application/json': components['schemas']['ActionResult'];
-                    'text/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'text/plain': components['schemas']['ActionResult'];
-                    'application/json': components['schemas']['ActionResult'];
-                    'text/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'text/plain': components['schemas']['ActionResult'];
-                    'application/json': components['schemas']['ActionResult'];
-                    'text/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'text/plain': components['schemas']['ActionResult'];
-                    'application/json': components['schemas']['ActionResult'];
-                    'text/json': components['schemas']['ActionResult'];
-                };
             };
         };
     };

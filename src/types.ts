@@ -10183,7 +10183,7 @@ export interface paths {
                  *     35: The entries provided are invalid
                  *     37: Invalid locale code.
                  *     38: Invalid entry identifier.
-                 *     39: Count should be at least 1.
+                 *     39: Count should be between 1 and the maximum allowed.
                  *     45: Invalid exclusive start id.
                  */
                 400: {
@@ -11578,7 +11578,36 @@ export interface paths {
         };
         options?: never;
         head?: never;
-        patch?: never;
+        /** Turns the start place override for a universe on or off. A new override starts turned off. */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    universeId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    'application/json-patch+json': components['schemas']['SetStartPlaceOverrideEnabledRequestBody'];
+                    'application/json': components['schemas']['SetStartPlaceOverrideEnabledRequestBody'];
+                    'text/json': components['schemas']['SetStartPlaceOverrideEnabledRequestBody'];
+                    'application/*+json': components['schemas']['SetStartPlaceOverrideEnabledRequestBody'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['SetStartPlaceOverrideEnabledResponse'];
+                    };
+                };
+            };
+        };
         trace?: never;
     };
     '/matchmaking-api/v1/matchmaking/universe/{universeId}/start-place/test': {
@@ -12270,115 +12299,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/thumbnail-personalization-api/v1/universes/{universeId}/personalization': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets a page of thumbnail personalization configurations for a universe. */
-        get: operations['HomepageThumbnail_FindThumbnailPersonalizations'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/thumbnail-personalization-api/v1/universes/{universeId}/personalization/create': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Creates a new active thumbnail personalization configuration for a universe.
-         *     This deactivates the current active configuration, and the new configuration starts its own statistics.
-         */
-        post: operations['HomepageThumbnail_CreateThumbnailPersonalization'];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/thumbnail-personalization-api/v1/universes/{universeId}/personalization/update': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Replaces the homepage thumbnails in an active personalization configuration without changing its identifier
-         *     or existing statistics.
-         */
-        post: operations['HomepageThumbnail_UpdateThumbnailPersonalization'];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/thumbnail-personalization-api/v1/universes/{universeId}/thumbnails': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets a page of homepage thumbnails for a universe. */
-        get: operations['HomepageThumbnail_GetHomepageThumbnails'];
-        put?: never;
-        post?: never;
-        /** Deletes homepage thumbnails from a universe. */
-        delete: operations['HomepageThumbnail_DeleteHomepageThumbnails'];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/thumbnail-personalization-api/v1/universes/{universeId}/thumbnails/uploads': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Uploads one or more images to create homepage thumbnails for a universe. */
-        post: operations['HomepageThumbnail_UploadHomepageThumbnails'];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/thumbnail-personalization-api/v1/universes/{universeId}/thumbnails/uploads/status': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Gets the processing status of homepage thumbnail upload operations. */
-        get: operations['HomepageThumbnail_GetHomepageThumbnailsStatus'];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/toolbox-service/v1/saves': {
         parameters: {
             query?: never;
@@ -12456,6 +12376,23 @@ export interface paths {
          * @description Search Creator Store for assets.
          */
         post: operations['Toolbox_SearchCreatorStoreAssets'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/universe-performance-raqi/v1/events/logging/universe/{universeId}/log-details': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get logs based on message hash ids, keywords, placeVersions, start/end time. */
+        get: operations['ErrorLoggingDetail_GetLogs'];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -14541,6 +14478,13 @@ export interface paths {
                 };
                 /** @description 0: Token Validation Failed */
                 403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 24: Too many attempts.Please try again later. */
+                429: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -23521,6 +23465,9 @@ export interface paths {
                  *     4: Invalid assignee id
                  *     6: Request body can't be null
                  *     7: The role you are assigning has reached max limit
+                 *     14: Invalid role
+                 *     15: Invalid assignee type
+                 *     16: Invalid revoke value
                  */
                 400: {
                     headers: {
@@ -27880,6 +27827,13 @@ export interface paths {
                     };
                     content?: never;
                 };
+                /** @description Flooding detected */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
                 /** @description Internal server error */
                 500: {
                     headers: {
@@ -28821,7 +28775,7 @@ export interface paths {
                  *     35: The entries provided are invalid
                  *     37: Invalid locale code.
                  *     38: Invalid entry identifier.
-                 *     39: Count should be at least 1.
+                 *     39: Count should be between 1 and the maximum allowed.
                  *     45: Invalid exclusive start id.
                  */
                 400: {
@@ -54322,7 +54276,10 @@ export interface components {
             /** @description The display name of the campaign. */
             name?: string;
             /**
-             * @description The advertising goal of the campaign. `PLAYS` or `ENGAGEMENT` for campaigns created via this API; campaigns from other surfaces may report `AWARENESS`, `REACH`, `VIDEO_VIEWS`, `ROBUX_SPEND`, or `HIGH_VALUE_ACTION`.
+             * @description The advertising goal of the campaign. For campaigns created via this API, the
+             *     value is `PLAYS` or `ENGAGEMENT`. `ENGAGEMENT` is the API value for the Qualify for
+             *     Kids and Select objective in Ads Manager. Campaigns from other surfaces may report
+             *     `AWARENESS`, `REACH`, `VIDEO_VIEWS`, `ROBUX_SPEND`, or `HIGH_VALUE_ACTION`.
              * @enum {string}
              */
             objective?:
@@ -54438,8 +54395,8 @@ export interface components {
             objectiveOptions?: components['schemas']['ObjectiveOption'][];
             /**
              * @description The campaign objectives you can create. Values can be `PLAYS`, `ENGAGEMENT`, or
-             *     `ROBUX_SPEND`. objectiveOptions tells you whether each one is available for the
-             *     experience.
+             *     `ROBUX_SPEND`. `ENGAGEMENT` is the API value for the Qualify for Kids and Select
+             *     objective in Ads Manager. objectiveOptions tells you whether each one is available.
              */
             objectives?: ('PLAYS' | 'ENGAGEMENT' | 'ROBUX_SPEND')[];
             /**
@@ -54995,7 +54952,8 @@ export interface components {
             name: string;
             /**
              * @description The advertising goal. Required. Can be `PLAYS`, `ENGAGEMENT`, or
-             *     `ROBUX_SPEND`. `ENGAGEMENT` does not support targeting; `ENGAGEMENT` and
+             *     `ROBUX_SPEND`. `ENGAGEMENT` is the API value for the Qualify for Kids and Select
+             *     objective in Ads Manager. `ENGAGEMENT` does not support targeting; `ENGAGEMENT` and
              *     `ROBUX_SPEND` are not available for every experience.
              * @enum {string}
              */
@@ -55283,11 +55241,6 @@ export interface components {
              */
             collectionName?: string | null;
         } | null;
-        /** @description The request to create a thumbnail personalization configuration. */
-        CreateThumbnailPersonalizationRequest: {
-            /** @description The homepage thumbnail identifiers to include in the configuration. Up to five are supported. */
-            homepageThumbnailIds: string[];
-        };
         CreateUniverseRegexHttpRequest: {
             /** Format: int64 */
             universeId?: number;
@@ -56824,6 +56777,38 @@ export interface components {
                 [key: string]: string | null;
             } | null;
         };
+        /** @description error log detail */
+        ErrorLogDetail: {
+            /** @description The message hash id for this log detail. */
+            id: string | null;
+            /** @description The logSeverity of the log */
+            logSeverity?: string | null;
+            /** @description The source of the log */
+            logSource?: string | null;
+            os?: string | null;
+            platform?: string | null;
+            /** @description The message of the error log */
+            message: string | null;
+            /** @description The stack trace of the error log. This might be not available */
+            stacktrace?: string | null;
+            /**
+             * Format: date-time
+             * @description UTC timestamp when this error was first observed.
+             *     Null when the source document predates this field being populated.
+             */
+            firstSeenUtc?: string | null;
+            /**
+             * Format: int64
+             * @description First seen place version for the error.
+             *     NOTE: This value will only be returned when place id is filtered
+             */
+            firstSeenPlaceVersion?: number | null;
+        };
+        /** @description Response for top error logs */
+        ErrorLogDetailResponse: {
+            /** @description The analytics data for display. */
+            values?: components['schemas']['ErrorLogDetail'][] | null;
+        };
         /** @description This is the base class for all custom Exceptions that are thrown in this API. */
         ErrorResponse: {
             /** @description The ErrorCode for the exception. */
@@ -57319,20 +57304,6 @@ export interface components {
          * @enum {string}
          */
         FilterType: 'String' | 'Number';
-        /** @description A page of thumbnail personalization configurations. */
-        FindPersonalizedConfigsResponse: {
-            /** @description The personalization configurations matching the requested universe and status. */
-            personalizedConfigs: components['schemas']['ThumbnailPersonalizedConfig'][];
-            /** @description The cursor to use for the next page of results. */
-            nextCursor?: string | null;
-        };
-        /** @description A page of homepage thumbnails for a universe. */
-        FindThumbnailsResponse: {
-            /** @description The homepage thumbnails in this page. */
-            homepageThumbnails: components['schemas']['HomepageThumbnail'][];
-            /** @description The cursor to use for the next page of results. */
-            nextCursor?: string | null;
-        };
         FindUniverseRegexesHttpResponse: {
             universeRegexes?: components['schemas']['UniverseRegexHttpResponse'][] | null;
         };
@@ -58582,27 +58553,6 @@ export interface components {
                 | 98;
             name?: string;
         };
-        /** @description A homepage thumbnail associated with a universe. */
-        HomepageThumbnail: {
-            /** @description The unique identifier of the homepage thumbnail. */
-            homepageThumbnailId: string;
-            /**
-             * Format: int64
-             * @description The identifier of the image asset used by the thumbnail.
-             */
-            assetId: number;
-            /** @description The moderation status of the thumbnail's image asset. */
-            moderationStatus: components['schemas']['ModerationStatus'];
-            /** @description Indicates whether the thumbnail belongs to an active personalization configuration. */
-            personalizedConfigStatus: components['schemas']['PersonalizedConfigStatus'];
-            /** @description The availability status of the homepage thumbnail. */
-            homepageThumbnailStatus: components['schemas']['HomepageThumbnailStatus'];
-        };
-        /**
-         * @description The availability status of a homepage thumbnail.
-         * @enum {string}
-         */
-        HomepageThumbnailStatus: 'Active' | 'Spammy';
         /** @description Host block. VirtualEventsApi.Models.V3.Response.HostResponse.HostName and VirtualEventsApi.Models.V3.Response.HostResponse.HasVerifiedBadge are omitted when host-details resolution failed. */
         HostResponse: {
             /** @description The type of host of a virtual event. */
@@ -60374,11 +60324,6 @@ export interface components {
          * @enum {string}
          */
         ModerationState: 'Unspecified' | 'Reviewing' | 'Rejected' | 'Approved';
-        /**
-         * @description The moderation status of a homepage thumbnail's image asset.
-         * @enum {string}
-         */
-        ModerationStatus: 'Reviewing' | 'Rejected' | 'Approved' | 'Unspecified';
         Money: {
             currencyCode?: string | null;
             quantity?: components['schemas']['Decimal'] | null;
@@ -60524,6 +60469,7 @@ export interface components {
             available: boolean;
             /**
              * @description The objective. Values can be `PLAYS`, `ENGAGEMENT`, or `ROBUX_SPEND`.
+             *     `ENGAGEMENT` is the API value for the Qualify for Kids and Select objective in Ads Manager.
              * @enum {string}
              */
             objective: 'PLAYS' | 'ENGAGEMENT' | 'ROBUX_SPEND';
@@ -61110,30 +61056,6 @@ export interface components {
          * @enum {string}
          */
         Period: 'UNSPECIFIED' | 'MONTH' | 'DAY';
-        /**
-         * @description The lifecycle status of a thumbnail personalization configuration.
-         * @enum {string}
-         */
-        PersonalizedConfigStatus: 'Active' | 'Inactive';
-        /** @description A homepage thumbnail and its status within a personalization configuration. */
-        PersonalizedThumbnail: {
-            /** @description The unique identifier of the homepage thumbnail. */
-            homepageThumbnailId: string;
-            /**
-             * Format: int64
-             * @description The identifier of the image asset used by the thumbnail.
-             */
-            assetId: number;
-            /** @description The thumbnail's status within the personalization configuration. */
-            personalizedThumbnailStatus: components['schemas']['PersonalizedThumbnailStatus'];
-            /** @description The availability status of the homepage thumbnail. */
-            homepageThumbnailStatus: components['schemas']['HomepageThumbnailStatus'];
-        };
-        /**
-         * @description The status of a thumbnail within a personalization configuration.
-         * @enum {string}
-         */
-        PersonalizedThumbnailStatus: 'Active' | 'Inactive';
         /** @enum {string} */
         PingSignalLevel: 'Low' | 'Medium' | 'High';
         /** @description Represents a Roblox place. */
@@ -61416,6 +61338,7 @@ export interface components {
         PlanningCampaignContext: {
             /**
              * @description The advertising goal. Can be `PLAYS`, `ENGAGEMENT`, or `ROBUX_SPEND`.
+             *     `ENGAGEMENT` is the API value for the Qualify for Kids and Select objective in Ads Manager.
              * @enum {string}
              */
             objective: 'PLAYS' | 'ENGAGEMENT' | 'ROBUX_SPEND';
@@ -74952,6 +74875,16 @@ export interface components {
         /** @description Response object for Roblox.CloudPricing.ServiceEfficiencyApi.Operations.SetServiceEfficiencyPaymentMethodOperation */
         SetServiceEfficiencyPaymentMethodResponse: Record<string, never>;
         /**
+         * @description Request body for turning a universe's start place override on or off. The universe is
+         *     identified by the route, so it is not part of the body.
+         */
+        SetStartPlaceOverrideEnabledRequestBody: {
+            /** @description Whether game join routes players with the universe's start place override. */
+            enabled?: boolean | null;
+        };
+        /** @description Response for turning a universe's start place override on or off. */
+        SetStartPlaceOverrideEnabledResponse: Record<string, never>;
+        /**
          * @description Request body for setting the start place override for a universe. The universe is
          *     identified by the route, so it is not part of the body.
          */
@@ -75406,25 +75339,6 @@ export interface components {
              *     message types for APIs to use.
              */
             details?: Record<string, never>[];
-        };
-        /** @description A thumbnail personalization configuration. */
-        ThumbnailPersonalizedConfig: {
-            /** @description The unique identifier of the personalization configuration. */
-            id: string;
-            /** @description The lifecycle status of the personalization configuration. */
-            personalizedConfigStatus: components['schemas']['PersonalizedConfigStatus'];
-            /**
-             * Format: date-time
-             * @description The UTC date and time when the configuration was created.
-             */
-            createdUtc: string;
-            /** @description The homepage thumbnails included in the configuration. */
-            thumbnails: components['schemas']['PersonalizedThumbnail'][];
-            /**
-             * Format: date-time
-             * @description The UTC date and time when the configuration last served a thumbnail, when available.
-             */
-            lastServedUtc?: string | null;
         };
         ThumbnailResponse: {
             /** Format: int64 */
@@ -76252,51 +76166,10 @@ export interface components {
              */
             startTime?: string;
         };
-        /** @description The request to update a thumbnail personalization configuration. */
-        UpdateThumbnailPersonalizationRequest: {
-            /** @description The homepage thumbnail identifiers to include in the configuration. Up to five are supported. */
-            homepageThumbnailIds: string[];
-            /** @description The identifier of the active personalization configuration to update. */
-            id: string;
-        };
         UpdateUniverseRegexHttpRequest: {
             pattern?: string | null;
             output?: string | null;
             regexOperation?: components['schemas']['RegexOperation'];
-        };
-        /**
-         * Format: int32
-         * @description The aggregate processing status of a set of homepage thumbnail uploads.
-         * @enum {integer}
-         */
-        UploadStatus: 1 | 2;
-        /** @description The result of a completed homepage thumbnail upload operation. */
-        UploadThumbnailStatus: {
-            /** @description The unique identifier of the created homepage thumbnail. */
-            homepageThumbnailId?: string | null;
-            /**
-             * Format: int64
-             * @description The identifier of the uploaded image asset.
-             */
-            assetId?: number;
-            /** @description The moderation status of the uploaded image asset. */
-            moderationStatus?: components['schemas']['ModerationStatus'];
-        };
-        /** @description The operations created for uploaded homepage thumbnail files. */
-        UploadThumbnailsResponse: {
-            /** @description A mapping from each uploaded file name to the operation ID used to track its processing. */
-            fileToOperationIdDict: {
-                [key: string]: string | null;
-            };
-        };
-        /** @description The processing status of homepage thumbnail upload operations. */
-        UploadThumbnailsStatusResponse: {
-            /** @description The aggregate status of the requested upload operations. */
-            uploadStatus: components['schemas']['UploadStatus'];
-            /** @description A mapping from each completed operation ID to its uploaded thumbnail details. */
-            uploadThumbnailStatusDict: {
-                [key: string]: components['schemas']['UploadThumbnailStatus'];
-            };
         };
         /** @description Represents any registered user of Roblox. */
         User: {
@@ -77421,7 +77294,7 @@ export interface operations {
             query?: {
                 /** @description Universe ID to check eligibility for */
                 universeId?: string;
-                /** @description Objective filter (PLAYS, ENGAGEMENT, or ROBUX_SPEND) */
+                /** @description Objective filter (PLAYS, ENGAGEMENT, or ROBUX_SPEND). ENGAGEMENT is the API value for the Qualify for Kids and Select objective in Ads Manager. */
                 objective?: 'PLAYS' | 'ENGAGEMENT' | 'ROBUX_SPEND';
             };
             header?: never;
@@ -88556,454 +88429,6 @@ export interface operations {
             };
         };
     };
-    HomepageThumbnail_FindThumbnailPersonalizations: {
-        parameters: {
-            query: {
-                /** @description The configuration status to return. */
-                status: components['schemas']['PersonalizedConfigStatus'];
-                /** @description The maximum number of configurations to return. */
-                limit?: number;
-                /** @description The cursor from a previous response, if any. */
-                cursor?: string;
-            };
-            header?: never;
-            path: {
-                /** @description The identifier of the universe whose configurations are returned. */
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['FindPersonalizedConfigsResponse'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    HomepageThumbnail_CreateThumbnailPersonalization: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The identifier of the universe that owns the configuration. */
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        /** @description The homepage thumbnails to include in the configuration. */
-        requestBody: {
-            content: {
-                'application/json-patch+json': components['schemas']['CreateThumbnailPersonalizationRequest'];
-                'application/json': components['schemas']['CreateThumbnailPersonalizationRequest'];
-                'text/json': components['schemas']['CreateThumbnailPersonalizationRequest'];
-                'application/*+json': components['schemas']['CreateThumbnailPersonalizationRequest'];
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    HomepageThumbnail_UpdateThumbnailPersonalization: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The identifier of the universe that owns the configuration. */
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        /** @description The configuration and homepage thumbnails to update. */
-        requestBody: {
-            content: {
-                'application/json-patch+json': components['schemas']['UpdateThumbnailPersonalizationRequest'];
-                'application/json': components['schemas']['UpdateThumbnailPersonalizationRequest'];
-                'text/json': components['schemas']['UpdateThumbnailPersonalizationRequest'];
-                'application/*+json': components['schemas']['UpdateThumbnailPersonalizationRequest'];
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Not Found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    HomepageThumbnail_GetHomepageThumbnails: {
-        parameters: {
-            query?: {
-                /** @description The maximum number of thumbnails to return. */
-                limit?: number;
-                /** @description The cursor from a previous response, if any. */
-                nextCursor?: string;
-            };
-            header?: never;
-            path: {
-                /** @description The identifier of the universe whose thumbnails are returned. */
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['FindThumbnailsResponse'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    HomepageThumbnail_DeleteHomepageThumbnails: {
-        parameters: {
-            query: {
-                /** @description The identifiers of the homepage thumbnails to delete. */
-                homepageThumbnailIds: string[];
-            };
-            header?: never;
-            path: {
-                /** @description The identifier of the universe that owns the thumbnails. */
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': {
-                        [key: string]: boolean;
-                    };
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    HomepageThumbnail_UploadHomepageThumbnails: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The identifier of the universe that owns the thumbnails. */
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                'multipart/form-data': {
-                    files: string[];
-                };
-            };
-        };
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['UploadThumbnailsResponse'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    HomepageThumbnail_GetHomepageThumbnailsStatus: {
-        parameters: {
-            query: {
-                /** @description The upload operation IDs to query. */
-                operationIds: string[];
-            };
-            header?: never;
-            path: {
-                /** @description The identifier of the universe that owns the uploads. */
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': components['schemas']['UploadThumbnailsStatusResponse'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'application/json': string;
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
     Saves_GetSaves: {
         parameters: {
             query?: {
@@ -89465,6 +88890,88 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    ErrorLoggingDetail_GetLogs: {
+        parameters: {
+            query?: {
+                messageHashIds?: string[];
+                /** @description Optional keyword to help highlight matching keyword in the error message */
+                keyword?: string;
+                /** @description Optional query window start; omitted values are defaulted server-side. */
+                startTime?: string;
+                /** @description Optional query window end; omitted values are defaulted server-side. */
+                endTime?: string;
+                /** @description Optional place id filter. */
+                placeId?: number;
+                /** @description Optional place version filters. */
+                placeVersions?: number[];
+                /** @description Optional minimum first seen place version filter (inclusive). */
+                firstSeenPlaceVersion?: number;
+            };
+            header?: never;
+            path: {
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'text/plain': components['schemas']['ErrorLogDetailResponse'];
+                    'application/json': components['schemas']['ErrorLogDetailResponse'];
+                    'text/json': components['schemas']['ErrorLogDetailResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'text/plain': components['schemas']['ActionResult'];
+                    'application/json': components['schemas']['ActionResult'];
+                    'text/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'text/plain': components['schemas']['ActionResult'];
+                    'application/json': components['schemas']['ActionResult'];
+                    'text/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'text/plain': components['schemas']['ActionResult'];
+                    'application/json': components['schemas']['ActionResult'];
+                    'text/json': components['schemas']['ActionResult'];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'text/plain': components['schemas']['ActionResult'];
+                    'application/json': components['schemas']['ActionResult'];
+                    'text/json': components['schemas']['ActionResult'];
+                };
             };
         };
     };

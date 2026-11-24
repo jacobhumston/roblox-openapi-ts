@@ -350,7 +350,7 @@ export interface paths {
         put?: never;
         /**
          * Create a performance estimate
-         * @description Estimates an objective from a budget, or the budget required for a target outcome, for an experience the caller can advertise. Results are not cached.
+         * @description Estimates an objective from a budget, or the budget required for a target outcome, for an experience the caller can advertise.
          */
         post: operations['CreatePerformanceEstimate'];
         delete?: never;
@@ -1501,8 +1501,6 @@ export interface paths {
          * @description Returns an object containing a `location` property which is a temporary CDN URL for the asset content. All asset types are supported.
          *     You should request that URL with the `Accept-Encoding: gzip` header and decompress the result if the response is gzipped. If you are using cURL, the `--compressed` flag will automate these steps for you.
          *     This endpoint is expected to be called with API key authentication through `apis.roblox.com/asset-delivery-api/v1/assetId/{assetId}`.
-         *     While you are able to make requests to this endpoint with Cookie authentication via `assetdelivery.roblox.com/v1/openCloud/assetId/{assetId}`, we highly discourage use this way.
-         *     Expect unannounced removal of this second route in the future.
          */
         get: {
             parameters: {
@@ -1581,8 +1579,6 @@ export interface paths {
          * Retrieves an asset by its ID and version number with OpenCloud auth.
          * @description Refer to the assetId endpoint for details on usage.
          *     This endpoint is expected to be called with API key authentication through `apis.roblox.com/asset-delivery-api/v1/assetId/{assetId}/version/{versionNumber}`.
-         *     While you are able to make requests to this endpoint with Cookie authentication via `assetdelivery.roblox.com/v1/openCloud/assetId/{assetId}/version/{versionNumber}`, we highly discourage use this way.
-         *     Expect unannounced removal of this second route in the future.
          */
         get: {
             parameters: {
@@ -2706,6 +2702,29 @@ export interface paths {
         };
         trace?: never;
     };
+    '/cloud/v2/universes/{universeId}:publishMessage': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Publish Universe Message
+         * @description Publishes a message to the universe's live servers.
+         *
+         *     Servers can consume messages via
+         *     [MessagingService](https://create.roblox.com/docs/reference/engine/classes/MessagingService).
+         */
+        post: operations['Cloud_PublishUniverseMessage'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/cloud/v2/universes/{universeId}:restartServers': {
         parameters: {
             query?: never;
@@ -3788,29 +3807,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    '/cloud/v2/universes/{universe_id}:publishMessage': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Publish Universe Message
-         * @description Publishes a message to the universe's live servers.
-         *
-         *     Servers can consume messages via
-         *     [MessagingService](https://create.roblox.com/docs/reference/engine/classes/MessagingService).
-         */
-        post: operations['Cloud_PublishUniverseMessage'];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     '/cloud/v2/universes/{universe_id}:translateText': {
         parameters: {
             query?: never;
@@ -3825,6 +3821,252 @@ export interface paths {
          * @description Translates the provided text from one language to another.
          */
         post: operations['Cloud_TranslateText'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/cloud/v2/universes/{universe}/memory-store/hash-maps/{hash-map}/items': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Keys
+         * @description Lists the keys in the map with pagination. Values are not returned; use the batch get endpoint to fetch values for the returned keys.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Approximate maximum number of items to return per page (up to 200). A page may contain somewhat more; use pageToken to continue. */
+                    maxPageSize?: number;
+                    /** @description Token to retrieve next page of results. */
+                    pageToken?: string;
+                };
+                header?: never;
+                path: {
+                    /** @description The universe ID. */
+                    universe: number;
+                    /** @description The hash-map ID. */
+                    'hash-map': string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Ums.UmsService.Models.OpenCloud.OpenCloudListKeysHashMapItemsResponse'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        /**
+         * Create Memory Store Hash Map Item
+         * @description Creates the specified map item if it doesn't exist.
+         */
+        post: {
+            parameters: {
+                query: {
+                    /** @description The ID to use for the memory store hash map item, which will become the final component of the item's resource path. This value should be a 1-128 character string that supports alphanumeric and special characters. This ID is case sensitive. The ID must be url encoded if it contains any url breaking special characters. */
+                    id: string;
+                };
+                header?: never;
+                path: {
+                    /** @description The universe ID. */
+                    universe: number;
+                    /** @description The hash-map ID. */
+                    'hash-map': string;
+                };
+                cookie?: never;
+            };
+            /** @description Hash map request item. */
+            requestBody?: {
+                content: {
+                    'application/json': components['schemas']['Ums.UmsService.Models.OpenCloud.OpenCloudHashMapItem'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Ums.UmsService.Models.OpenCloud.OpenCloudHashMapItem'];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/cloud/v2/universes/{universe}/memory-store/hash-maps/{hash-map}/items/{item}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Memory Store Hash Map Item
+         * @description Gets and returns the value of the given key in the map.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The universe ID. */
+                    universe: number;
+                    /** @description The hash-map ID. */
+                    'hash-map': string;
+                    /** @description The item ID. */
+                    item: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Ums.UmsService.Models.OpenCloud.OpenCloudHashMapItem'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        /**
+         * Delete Memory Store Hash Map Item
+         * @description Deletes the specified item from the map.
+         */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The universe ID. */
+                    universe: number;
+                    /** @description The hash-map ID. */
+                    'hash-map': string;
+                    /** @description The item ID. */
+                    item: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        /**
+         * Update Memory Store Hash Map Item
+         * @description Updates the specified map item.
+         */
+        patch: {
+            parameters: {
+                query?: {
+                    /** @description If set to true, and the memory store hash map item is not found, a memory store hash map item is created. */
+                    allowMissing?: boolean;
+                };
+                header?: never;
+                path: {
+                    /** @description The universe ID. */
+                    universe: number;
+                    /** @description The hash-map ID. */
+                    'hash-map': string;
+                    /** @description The item ID. */
+                    item: string;
+                };
+                cookie?: never;
+            };
+            /** @description The item to update. */
+            requestBody?: {
+                content: {
+                    'application/json': components['schemas']['Ums.UmsService.Models.OpenCloud.OpenCloudHashMapItem'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Ums.UmsService.Models.OpenCloud.OpenCloudHashMapItem'];
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    '/cloud/v2/universes/{universe}/memory-store/hash-maps/{hash-map}/items:batchGet': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Batch Get Memory Store Hash Map Items
+         * @description Retrieves the items for the provided keys. Keys that are not found are omitted from the response.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The universe ID. */
+                    universe: number;
+                    /** @description The hash-map ID. */
+                    'hash-map': string;
+                };
+                cookie?: never;
+            };
+            /** @description The keys to retrieve. */
+            requestBody?: {
+                content: {
+                    'application/json': components['schemas']['Ums.UmsService.Models.OpenCloud.OpenCloudBatchGetHashMapItemsRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Ums.UmsService.Models.OpenCloud.OpenCloudBatchGetHashMapItemsResponse'];
+                    };
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
@@ -11856,6 +12098,70 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/place-annotations-service/v1/channel-preference': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations['Annotations_CreateOrUpdateChannelPreference'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/place-annotations-service/v1/get-channel-preference': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations['Annotations_GetChannelPreference'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/place-annotations-service/v1/get-place-preference': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations['Annotations_GetPlacePreference'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/place-annotations-service/v1/place-preference': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations['Annotations_CreateOrUpdatePlacePreference'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/place-version-history-api/v1/{placeId}/contributors': {
         parameters: {
             query?: never;
@@ -12299,6 +12605,115 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/thumbnail-personalization-api/v1/universes/{universeId}/personalization': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets a page of thumbnail personalization configurations for a universe. */
+        get: operations['HomepageThumbnail_FindThumbnailPersonalizations'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/thumbnail-personalization-api/v1/universes/{universeId}/personalization/create': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Creates a new active thumbnail personalization configuration for a universe.
+         *     This deactivates the current active configuration, and the new configuration starts its own statistics.
+         */
+        post: operations['HomepageThumbnail_CreateThumbnailPersonalization'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/thumbnail-personalization-api/v1/universes/{universeId}/personalization/update': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Replaces the homepage thumbnails in an active personalization configuration without changing its identifier
+         *     or existing statistics.
+         */
+        post: operations['HomepageThumbnail_UpdateThumbnailPersonalization'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/thumbnail-personalization-api/v1/universes/{universeId}/thumbnails': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets a page of homepage thumbnails for a universe. */
+        get: operations['HomepageThumbnail_GetHomepageThumbnails'];
+        put?: never;
+        post?: never;
+        /** Deletes homepage thumbnails from a universe. */
+        delete: operations['HomepageThumbnail_DeleteHomepageThumbnails'];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/thumbnail-personalization-api/v1/universes/{universeId}/thumbnails/uploads': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Uploads one or more images to create homepage thumbnails for a universe. */
+        post: operations['HomepageThumbnail_UploadHomepageThumbnails'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/thumbnail-personalization-api/v1/universes/{universeId}/thumbnails/uploads/status': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the processing status of homepage thumbnail upload operations. */
+        get: operations['HomepageThumbnail_GetHomepageThumbnailsStatus'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/toolbox-service/v1/saves': {
         parameters: {
             query?: never;
@@ -12408,7 +12823,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Invokes Roblox.UniversesApi.CreatePlaceVersionApiKeyOperation operation. */
+        /**
+         * Publish a Place
+         * @description Publish a new place or update an existing place with a new version. Provide a RBXL or RBXLX file in the data-binary.
+         */
         post: operations['Places_CreatePlaceVersionApiKey'];
         delete?: never;
         options?: never;
@@ -21533,6 +21951,140 @@ export interface paths {
                         'application/json': components['schemas']['Roblox.Authentication.Api.Models.Response.ExternalIdentityGateway.ExternalIdentityAccessResponse'];
                     };
                 };
+                /** @description 48: This account must sign in with a passkey. */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 42: The platform identity provider is temporarily unavailable. Please try again. */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/external/link-candidate': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * The user ids a provider sign-in matched, and the Google or Apple email on the token. Flow 1 holds the
+         *     token id in a cookie. Flows 2 and 3 send it as `linkCandidateTokenId`. Reading does not consume
+         *     the token, so the picker can be opened again.
+         */
+        get: {
+            parameters: {
+                query: {
+                    linkCandidateTokenId: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Authentication.Api.Models.Response.ExternalIdentityGateway.LinkCandidateResponse'];
+                    };
+                };
+                /** @description 1: The request to link an account is invalid or has expired. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/external/link-candidate/confirm': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Links the sign-in to the account the user picked, then signs them in to it. With `createNew` it
+         *     instead creates a new account, as sign-up does, and signs them in to that. The session comes back the
+         *     way the sign-in's intent asks: a cookie for the web redirect, `RBX-Authentication-Ticket` for the
+         *     app intents.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['Roblox.Authentication.Api.Models.Request.ConfirmLinkCandidateRequest'];
+                    'text/json': components['schemas']['Roblox.Authentication.Api.Models.Request.ConfirmLinkCandidateRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Authentication.Api.Models.Response.ExternalIdentityGateway.ExternalIdentityAccessResponse'];
+                    };
+                };
+                /** @description 1: The request to link an account is invalid or has expired. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Token Validation Failed */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 5: This identity is already linked to a Roblox account.
+                 *     6: This Roblox account already has this provider linked.
+                 *     7: This Roblox account is already linked to a different provider.
+                 */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
             };
         };
         delete?: never;
@@ -21784,7 +22336,7 @@ export interface paths {
         put?: never;
         /**
          * Reserves a nonce for a native SSO sign-in attempt.
-         * @description The web flow gets its nonce from M:Roblox.Authentication.Api.Controllers.V1.ExternalIdentitiesGatewayController.OAuthInit(System.Int64,System.String,System.Threading.CancellationToken), which native clients never call
+         * @description The web flow gets its nonce from M:Roblox.Authentication.Api.Controllers.V1.ExternalIdentitiesGatewayController.OAuthInit(System.Int64,System.String,System.Threading.CancellationToken,System.Boolean), which native clients never call
          *     because they have no authorization redirect. They call this instead, pass the nonce to the
          *     provider SDK, and post the resulting id_token to /access.
          *
@@ -21905,6 +22457,7 @@ export interface paths {
                      *     selects the provider's web redirect.
                      */
                     postAuthenticationIntentId: string;
+                    supportsLinkCandidate?: boolean;
                 };
                 header?: never;
                 path: {
@@ -43874,6 +44427,13 @@ export interface paths {
                         'text/json': components['schemas']['Roblox.AccountInformation.Api.RobloxBadgeResponse'][];
                     };
                 };
+                /** @description 3: This feature is currently disabled. Please try again later. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
             };
         };
         put?: never;
@@ -54502,6 +55062,68 @@ export interface components {
             /** Format: int32 */
             rank?: number;
         };
+        /**
+         * Format: int32
+         * @description Type of preference. Used to determine what types of notifications a user is sent for a given channel.
+         *
+         *     0 = None
+         *
+         *     1 = All
+         *
+         *     2 = Unknown
+         * @enum {integer}
+         */
+        ChannelContentPreference: 0 | 1 | 2;
+        /** @description Request format for POST /v1/channel-preference */
+        ChannelPreferenceRequest: {
+            /**
+             * Format: int64
+             * @description The User ID of the requesting user.
+             */
+            userId: number;
+            /**
+             * Format: int64
+             * @description The place the channel is associated with.
+             */
+            placeId: number;
+            /** @description The channel the preference is being added to. */
+            channelId: string;
+            /**
+             * @description Type of channel content preference.
+             *
+             *     0 = None
+             *
+             *     1 = All
+             *
+             *     2 = Unknown
+             */
+            channelContentPreference: components['schemas']['ChannelContentPreference'];
+        };
+        /** @description Response for POST /v1/channel-preference and GET /v1/channel-preference */
+        ChannelPreferenceResponse: {
+            /**
+             * Format: int64
+             * @description The User ID of the user.
+             */
+            userId: number;
+            /**
+             * Format: int64
+             * @description The place the channel is associated with.
+             */
+            placeId: number;
+            /** @description The channel the preference is associated with. */
+            channelId: string;
+            /**
+             * @description Type of channel content preference.
+             *
+             *     0 = None
+             *
+             *     1 = All
+             *
+             *     2 = Unknown
+             */
+            channelContentPreference: components['schemas']['ChannelContentPreference'];
+        };
         /** @description ChartOverlays toggles optional chart adornments (display only, not query inputs). */
         ChartOverlays: {
             /** @default false */
@@ -55214,9 +55836,13 @@ export interface components {
             /** @description Gets or sets the client secret to complete payment profile creation. */
             clientSecret?: string | null;
         };
-        /** @description response for !:CreatePlaceVersionOperation */
+        /** @description The result of saving or publishing a place version. */
         CreatePlaceVersionOperationResponse: {
-            /** Format: int32 */
+            /**
+             * Format: int32
+             * @description The version number of the saved or published place.
+             * @example 7
+             */
             versionNumber?: number;
         };
         CreatePrivateServerRequest: {
@@ -55241,6 +55867,11 @@ export interface components {
              */
             collectionName?: string | null;
         } | null;
+        /** @description The request to create a thumbnail personalization configuration. */
+        CreateThumbnailPersonalizationRequest: {
+            /** @description The homepage thumbnail identifiers to include in the configuration. Up to five are supported. */
+            homepageThumbnailIds: string[];
+        };
         CreateUniverseRegexHttpRequest: {
             /** Format: int64 */
             universeId?: number;
@@ -55403,6 +56034,11 @@ export interface components {
             /** @description Whether or not the asset can be purchased in the Creator Store. */
             purchasable: boolean;
         } | null;
+        /** @description The request body object with the message string that you want to publish to the live server. */
+        CrossServerMessaging_Models_Requests_PublishRequest: {
+            /** @description The message content that you want to publish to the live server. */
+            message?: string | null;
+        };
         /** @enum {string} */
         CurrencyType: 'Robux' | 'Tickets';
         /** @enum {string} */
@@ -56567,11 +57203,6 @@ export interface components {
             universeId: number;
             /** @description Whether the developer product is currently on sale. */
             isForSale: boolean;
-            /**
-             * @deprecated
-             * @description Whether the developer product is currently available for purchase on the external store page.
-             */
-            storePageEnabled?: boolean | null;
             /** @description The pricing configuration associated with the product. */
             priceInformation: components['schemas']['PriceInformationStruct'] | null;
             /** @description Whether the developer product cannot be modified, such as when created as a commerce product. */
@@ -56728,6 +57359,7 @@ export interface components {
          */
         ErrorCode:
             | 'InvalidImageFile'
+            | 'ImageFileTooLarge'
             | 'UnauthorizedAccess'
             | 'NotAuthenticated'
             | 'NotFound'
@@ -56780,7 +57412,7 @@ export interface components {
         /** @description error log detail */
         ErrorLogDetail: {
             /** @description The message hash id for this log detail. */
-            id: string | null;
+            id?: string | null;
             /** @description The logSeverity of the log */
             logSeverity?: string | null;
             /** @description The source of the log */
@@ -56788,7 +57420,7 @@ export interface components {
             os?: string | null;
             platform?: string | null;
             /** @description The message of the error log */
-            message: string | null;
+            message?: string | null;
             /** @description The stack trace of the error log. This might be not available */
             stacktrace?: string | null;
             /**
@@ -56814,7 +57446,7 @@ export interface components {
             /** @description The ErrorCode for the exception. */
             errorCode?: components['schemas']['ErrorCode'];
             /** @description The human readable error message. */
-            errorMessage?: string | null;
+            errorMessage?: string;
             /** @description The relevant field that caused the error. */
             field?: string | null;
             /** @description A hint as to what caused the error, if applicable. */
@@ -57304,6 +57936,20 @@ export interface components {
          * @enum {string}
          */
         FilterType: 'String' | 'Number';
+        /** @description A page of thumbnail personalization configurations. */
+        FindPersonalizedConfigsResponse: {
+            /** @description The personalization configurations matching the requested universe and status. */
+            personalizedConfigs: components['schemas']['ThumbnailPersonalizedConfig'][];
+            /** @description The cursor to use for the next page of results. */
+            nextCursor?: string | null;
+        };
+        /** @description A page of homepage thumbnails for a universe. */
+        FindThumbnailsResponse: {
+            /** @description The homepage thumbnails in this page. */
+            homepageThumbnails: components['schemas']['HomepageThumbnail'][];
+            /** @description The cursor to use for the next page of results. */
+            nextCursor?: string | null;
+        };
         FindUniverseRegexesHttpResponse: {
             universeRegexes?: components['schemas']['UniverseRegexHttpResponse'][] | null;
         };
@@ -57443,7 +58089,7 @@ export interface components {
             /** @description Whether managed pricing is enabled for the game pass. */
             isManagedPricingEnabled: boolean;
             /** @description Whether trials are enabled for the game pass. */
-            isTrialEnabled?: boolean;
+            isTrialEnabled: boolean;
         };
         /**
          * @description Code representing various error conditions.
@@ -57474,13 +58120,14 @@ export interface components {
             | 'Blocked'
             | 'InvalidPageSize'
             | 'InvalidRegionalPricing'
-            | 'InvalidManagedPricing';
+            | 'InvalidManagedPricing'
+            | 'UnsupportedGamePassUpdate';
         /** @description This is the base class for all custom Exceptions that are thrown in this API. */
         'GamePasses.ErrorResponse': {
             /** @description The ErrorCode for the exception. */
-            errorCode?: components['schemas']['GamePasses.ErrorCode'];
+            errorCode: components['schemas']['GamePasses.ErrorCode'];
             /** @description The human readable error message. */
-            errorMessage?: string | null;
+            errorMessage: string;
             /** @description The relevant field that caused the error. */
             field?: string | null;
             /** @description A hint as to what caused the error, if applicable. */
@@ -57901,6 +58548,7 @@ export interface components {
         };
         /** @description Represents a dynamically typed value which can be either null, a number, a string, a boolean, a recursive struct value, or a list of values. */
         GoogleProtobufValue: unknown;
+        Google_Protobuf_WellKnownTypes_Empty: Record<string, never>;
         /** @description Single error for BatchGrantPermissionsResponse. */
         GrantPermissionError: {
             /**
@@ -58553,6 +59201,27 @@ export interface components {
                 | 98;
             name?: string;
         };
+        /** @description A homepage thumbnail associated with a universe. */
+        HomepageThumbnail: {
+            /** @description The unique identifier of the homepage thumbnail. */
+            homepageThumbnailId: string;
+            /**
+             * Format: int64
+             * @description The identifier of the image asset used by the thumbnail.
+             */
+            assetId: number;
+            /** @description The moderation status of the thumbnail's image asset. */
+            moderationStatus: components['schemas']['ModerationStatus'];
+            /** @description Indicates whether the thumbnail belongs to an active personalization configuration. */
+            personalizedConfigStatus: components['schemas']['PersonalizedConfigStatus'];
+            /** @description The availability status of the homepage thumbnail. */
+            homepageThumbnailStatus: components['schemas']['HomepageThumbnailStatus'];
+        };
+        /**
+         * @description The availability status of a homepage thumbnail.
+         * @enum {string}
+         */
+        HomepageThumbnailStatus: 'Active' | 'Spammy';
         /** @description Host block. VirtualEventsApi.Models.V3.Response.HostResponse.HostName and VirtualEventsApi.Models.V3.Response.HostResponse.HasVerifiedBadge are omitted when host-details resolution failed. */
         HostResponse: {
             /** @description The type of host of a virtual event. */
@@ -58907,8 +59576,9 @@ export interface components {
             bleedOffDurationMinutes?: number;
             /**
              * @description Optional. A mapping of PlaceId to the specific versions to restart/bleed off for that place.
-             *     When set for a place, only servers running those exact versions will be affected.
-             *     If a place is not in this dictionary or has an empty set, behavior falls back to CloseOldVersionsOnly logic.
+             *     Only servers running those exact versions will be affected.
+             *     When set, it must list exactly the places in PlaceIds, each with at least one version, and CloseOldVersionsOnly
+             *     must be false.
              */
             placeIdToVersions?: {
                 [key: string]: number[];
@@ -60324,6 +60994,11 @@ export interface components {
          * @enum {string}
          */
         ModerationState: 'Unspecified' | 'Reviewing' | 'Rejected' | 'Approved';
+        /**
+         * @description The moderation status of a homepage thumbnail's image asset.
+         * @enum {string}
+         */
+        ModerationStatus: 'Reviewing' | 'Rejected' | 'Approved' | 'Unspecified';
         Money: {
             currencyCode?: string | null;
             quantity?: components['schemas']['Decimal'] | null;
@@ -60516,111 +61191,6 @@ export interface components {
         };
         OpenCloudErrorResponseOfCustomDashboardError: {
             errors: components['schemas']['OpenCloudErrorOfCustomDashboardError'][] | null;
-        };
-        /** @description Represents a Roblox experience. */
-        'OpenCloudUniversesService.Universe': {
-            /**
-             * @description The resource path of the universe.
-             *
-             *     Format: `universes/{universe_id}`
-             */
-            path?: string;
-            /**
-             * Format: date-time
-             * @description The timestamp when the universe was created.
-             */
-            readonly createTime?: string;
-            /**
-             * Format: date-time
-             * @description The timestamp when the universe was last updated.
-             */
-            readonly updateTime?: string;
-            /**
-             * @description The name of the universe.
-             *
-             *     This field can be updated by updating the root place's name.
-             */
-            readonly displayName?: string;
-            /**
-             * @description The description of the universe.
-             *
-             *     This field can be updated by updating the root place's description.
-             */
-            readonly description?: string;
-            /** @description The universe is user-owned. */
-            readonly user?: string;
-            /** @description The universe is group-owned. */
-            group?: string;
-            /** @description Whether or not the universe is publicly accessible. */
-            visibility?: components['schemas']['Universe_Visibility'];
-            /** @description The Facebook social link. */
-            facebookSocialLink?: components['schemas']['OpenCloudUniversesService.Universe_SocialLink'];
-            /** @description The Twitter social link. */
-            twitterSocialLink?: components['schemas']['OpenCloudUniversesService.Universe_SocialLink'];
-            /** @description The Youtube social link. */
-            youtubeSocialLink?: components['schemas']['OpenCloudUniversesService.Universe_SocialLink'];
-            /** @description The Twitch social link. */
-            twitchSocialLink?: components['schemas']['OpenCloudUniversesService.Universe_SocialLink'];
-            /** @description The Discord social link. */
-            discordSocialLink?: components['schemas']['OpenCloudUniversesService.Universe_SocialLink'];
-            /** @description The Roblox group social link. */
-            robloxGroupSocialLink?: components['schemas']['OpenCloudUniversesService.Universe_SocialLink'];
-            /** @description The Guilded social link. */
-            guildedSocialLink?: components['schemas']['OpenCloudUniversesService.Universe_SocialLink'];
-            /**
-             * @description Whether or not voice chat is enabled for users in the Experience.
-             *
-             *     Updating this value will not affect active servers.
-             */
-            voiceChatEnabled?: boolean;
-            /** @description The age rating of this universe. */
-            ageRating?: components['schemas']['Universe_AgeRating'];
-            /**
-             * Format: int32
-             * @description Represents the price in Robux of private servers.
-             *
-             *     If unset, private servers are not supported for this universe.
-             *
-             *     Can only be disabled when using a field mask.
-             *
-             *     Setting to null will disable all active private servers.
-             *
-             *     Changing the price will cancel all private server subscriptions.
-             */
-            privateServerPriceRobux?: number;
-            /** @description Whether or not players can join the Experience via Desktop. */
-            desktopEnabled?: boolean;
-            /** @description Whether or not players can join the Experience via Mobile. */
-            mobileEnabled?: boolean;
-            /** @description Whether or not players can join the Experience via Tablet. */
-            tabletEnabled?: boolean;
-            /** @description Whether or not players can join the Experience via Console. */
-            consoleEnabled?: boolean;
-            /** @description Whether or not players can join the Experience via VR. */
-            vrEnabled?: boolean;
-            /**
-             * @description The resource path of the root place of this universe
-             *     Format: universes/{universe_id}/places/{place_id}
-             */
-            readonly rootPlace?: string;
-            /**
-             * @description The resource path of the template place, used for CreateUniverse.
-             *     The root place of the newly-created universe will be a clone of this
-             *     template. A list of the valid template places can be obtained from
-             *     ListTemplatePlaces. Format: universes/{universe_id}/places/{place_id}
-             */
-            templateRootPlace: string;
-        };
-        /**
-         * @description A social link that may be associated with the universe.
-         *
-         *     Can only be removed when using a field mask.
-         */
-        'OpenCloudUniversesService.Universe_SocialLink': {
-            /** @description The title of the social link. */
-            title?: string;
-            /** @description The uri of the social link. */
-            uri?: string;
         };
         /**
          * @description This resource represents a long-running operation that is the result of a
@@ -60957,11 +61527,11 @@ export interface components {
             expYear?: number | null;
         };
         PerformanceEstimateBudget: {
-            /** @description Daily budget in micro-USD, as a decimal string. */
+            /** @description Supplied daily budget in micro-USD, as a decimal string. Omitted when predicting a budget. */
             dailyAmountMicroUsd?: string;
             /** @description Optional range around the daily budget. */
             dailyAmountMicroUsdRange?: components['schemas']['PerformanceEstimateMoneyRange'];
-            /** @description Lifetime budget in micro-USD, as a decimal string. Omitted for a daily budget. */
+            /** @description Supplied lifetime budget in micro-USD, as a decimal string. Omitted for a daily budget or when predicting a budget. */
             lifetimeAmountMicroUsd?: string;
             /** @description Optional range around the lifetime budget. Omitted for a daily budget. */
             lifetimeAmountMicroUsdRange?: components['schemas']['PerformanceEstimateMoneyRange'];
@@ -60980,8 +61550,6 @@ export interface components {
             targetUniverseId: string;
         };
         PerformanceEstimateDerivedMetrics: {
-            /** @description Cost per outcome in micro-USD, as a decimal string. */
-            costPerOutcomeMicroUsd?: string;
             /** @description Optional range around the cost per outcome. */
             costPerOutcomeMicroUsdRange?: components['schemas']['PerformanceEstimateMoneyRange'];
         };
@@ -60998,11 +61566,11 @@ export interface components {
             upperBound?: string;
         };
         PerformanceEstimateOutcome: {
-            /** @description Daily outcome. */
+            /** @description Supplied daily outcome. Omitted when predicting an outcome. */
             dailyValue?: number;
             /** @description Optional range around the daily outcome. */
             dailyValueRange?: components['schemas']['PerformanceEstimateValueRange'];
-            /** @description Lifetime outcome. Omitted for a daily budget. */
+            /** @description Supplied lifetime outcome. Omitted for a daily budget or when predicting an outcome. */
             lifetimeValue?: number;
             /** @description Optional range around the lifetime outcome. Omitted for a daily budget. */
             lifetimeValueRange?: components['schemas']['PerformanceEstimateValueRange'];
@@ -61056,6 +61624,30 @@ export interface components {
          * @enum {string}
          */
         Period: 'UNSPECIFIED' | 'MONTH' | 'DAY';
+        /**
+         * @description The lifecycle status of a thumbnail personalization configuration.
+         * @enum {string}
+         */
+        PersonalizedConfigStatus: 'Active' | 'Inactive';
+        /** @description A homepage thumbnail and its status within a personalization configuration. */
+        PersonalizedThumbnail: {
+            /** @description The unique identifier of the homepage thumbnail. */
+            homepageThumbnailId: string;
+            /**
+             * Format: int64
+             * @description The identifier of the image asset used by the thumbnail.
+             */
+            assetId: number;
+            /** @description The thumbnail's status within the personalization configuration. */
+            personalizedThumbnailStatus: components['schemas']['PersonalizedThumbnailStatus'];
+            /** @description The availability status of the homepage thumbnail. */
+            homepageThumbnailStatus: components['schemas']['HomepageThumbnailStatus'];
+        };
+        /**
+         * @description The status of a thumbnail within a personalization configuration.
+         * @enum {string}
+         */
+        PersonalizedThumbnailStatus: 'Active' | 'Inactive';
         /** @enum {string} */
         PingSignalLevel: 'Low' | 'Medium' | 'High';
         /** @description Represents a Roblox place. */
@@ -61105,6 +61697,20 @@ export interface components {
              */
             templatePlace: string;
         };
+        /**
+         * Format: int32
+         * @description Type of preference. Used to determine what types of notifications a user is sent for a given place.
+         *
+         *     0 = None
+         *
+         *     1 = All
+         *
+         *     2 = MentionsAndReplies
+         *
+         *     3 = Unknown
+         * @enum {integer}
+         */
+        PlaceContentPreference: 0 | 1 | 2 | 3;
         /** @description Filter for which versions of a place to restart. */
         PlaceFilter: {
             /** @description List of placeVersions to restart. Mutually exclusive with ServerManagementService.V2.Models.PlaceFilter.ExcludeCurrentVersion. */
@@ -61114,6 +61720,56 @@ export interface components {
              *     Mutually exclusive with ServerManagementService.V2.Models.PlaceFilter.Versions.
              */
             excludeCurrentVersion?: boolean | null;
+        };
+        /** @description Request format for POST /v1/place-preference */
+        PlacePreferenceRequest: {
+            /**
+             * Format: int64
+             * @description The User ID of the requesting user.
+             */
+            userId: number;
+            /**
+             * Format: int64
+             * @description The place the preference is being added to.
+             */
+            placeId: number;
+            /**
+             * @description Type of place content preference.
+             *
+             *     0 = None
+             *
+             *     1 = All
+             *
+             *     2 = MentionsAndReplies
+             *
+             *     3 = Unknown
+             */
+            placeContentPreference: components['schemas']['PlaceContentPreference'];
+        };
+        /** @description Response for POST /v1/place-preference and GET /v1/place-preference */
+        PlacePreferenceResponse: {
+            /**
+             * Format: int64
+             * @description The User ID of the user.
+             */
+            userId: number;
+            /**
+             * Format: int64
+             * @description The place the preference is associated with.
+             */
+            placeId: number;
+            /**
+             * @description Type of place content preference.
+             *
+             *     0 = None
+             *
+             *     1 = All
+             *
+             *     2 = MentionsAndReplies
+             *
+             *     3 = Unknown
+             */
+            placeContentPreference: components['schemas']['PlaceContentPreference'];
         };
         PlaceResponse: {
             /** Format: int64 */
@@ -61792,29 +62448,11 @@ export interface components {
              */
             configVersion?: number;
         };
-        /** @description The request body object with the message string that you want to publish to the live server. */
-        PublishRequest: {
-            /** @description The message content that you want to publish to the live server. */
-            message?: string | null;
-        };
         /**
          * Format: int32
          * @enum {integer}
          */
         PublishStatus: 0 | 1 | 2;
-        /** @description Publish a message on the specified topic. */
-        PublishUniverseMessageRequest: {
-            /**
-             * @description The topic on which to publish the message.
-             * @example my-topic
-             */
-            topic: string;
-            /**
-             * @description The message to publish.
-             * @example Hello, world!
-             */
-            message: string;
-        };
         /** @description QueryBenchmarkResult is the response object for the benchmark query. */
         QueryBenchmarkResult: {
             /** @description The benchmark series, one per percentile. */
@@ -65702,6 +66340,12 @@ export interface components {
                 [key: string]: string;
             };
         };
+        'Roblox.Authentication.Api.Models.Request.ConfirmLinkCandidateRequest': {
+            linkCandidateTokenId?: string;
+            /** Format: int64 */
+            userId?: number;
+            createNew?: boolean;
+        };
         'Roblox.Authentication.Api.Models.Request.DeletePasskeysRequest': {
             credentialIDs?: string[];
             credentialNicknames?: string[];
@@ -65715,6 +66359,7 @@ export interface components {
              */
             identityProviderPlatformType?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
             postAuthenticationIntentId?: string;
+            supportsLinkCandidate?: boolean;
             additionalInfoPayload?: {
                 [key: string]: unknown;
             };
@@ -65864,12 +66509,18 @@ export interface components {
             placeId?: number;
             isolationContext?: string;
             launchData?: string;
+            outcome?: string;
+            linkCandidateTokenId?: string;
         };
         'Roblox.Authentication.Api.Models.Response.ExternalIdentityGateway.ExternalIdentityNonceResponse': {
             nonce?: string;
         };
         'Roblox.Authentication.Api.Models.Response.ExternalIdentityGateway.ExternalLoginResponse': {
             success?: boolean;
+        };
+        'Roblox.Authentication.Api.Models.Response.ExternalIdentityGateway.LinkCandidateResponse': {
+            userIds?: number[];
+            email?: string;
         };
         'Roblox.Authentication.Api.Models.Response.GetClientAssertionResponse': {
             clientAssertion?: string;
@@ -74462,6 +75113,19 @@ export interface components {
             pinned?: components['schemas']['Roblox2.Assetdelivery.V3.PinnedVersion'];
             latest?: components['schemas']['Roblox2.Assetdelivery.V3.LatestVersion'];
         };
+        /** @description Publish a message on the specified topic. */
+        Roblox_OpenCloud_Cloud_V2_PublishUniverseMessageRequest: {
+            /**
+             * @description The topic on which to publish the message.
+             * @example my-topic
+             */
+            topic: string;
+            /**
+             * @description The message to publish.
+             * @example Hello, world!
+             */
+            message: string;
+        };
         RobuxRateBreakdown: {
             /** Format: double */
             o18?: number | null;
@@ -75340,6 +76004,25 @@ export interface components {
              */
             details?: Record<string, never>[];
         };
+        /** @description A thumbnail personalization configuration. */
+        ThumbnailPersonalizedConfig: {
+            /** @description The unique identifier of the personalization configuration. */
+            id: string;
+            /** @description The lifecycle status of the personalization configuration. */
+            personalizedConfigStatus: components['schemas']['PersonalizedConfigStatus'];
+            /**
+             * Format: date-time
+             * @description The UTC date and time when the configuration was created.
+             */
+            createdUtc: string;
+            /** @description The homepage thumbnails included in the configuration. */
+            thumbnails: components['schemas']['PersonalizedThumbnail'][];
+            /**
+             * Format: date-time
+             * @description The UTC date and time when the configuration last served a thumbnail, when available.
+             */
+            lastServedUtc?: string | null;
+        };
         ThumbnailResponse: {
             /** Format: int64 */
             mediaId?: number;
@@ -75626,6 +76309,53 @@ export interface components {
                 [key: string]: string;
             };
         };
+        /** @description Request to retrieve multiple hash map items by key. */
+        'Ums.UmsService.Models.OpenCloud.OpenCloudBatchGetHashMapItemsRequest': {
+            /** @description The keys of the items to retrieve. */
+            keys?: string[] | null;
+        };
+        /**
+         * @description The hash map items retrieved for the requested keys. Keys that are not
+         *     found are omitted from the response.
+         */
+        'Ums.UmsService.Models.OpenCloud.OpenCloudBatchGetHashMapItemsResponse': {
+            /** @description The retrieved hash map items. */
+            items?: components['schemas']['Ums.UmsService.Models.OpenCloud.OpenCloudHashMapItem'][] | null;
+        };
+        /** @description Represents a sorted map item name. */
+        'Ums.UmsService.Models.OpenCloud.OpenCloudHashMapItem': {
+            /**
+             * @description The resource path of the memory store hash map item.  Format:
+             *     universes/{universe}/memory-store/hash-maps/{hash-map}/items/{hash-map-item}
+             */
+            path?: string | null;
+            /**
+             * @description Represents a dynamically typed value which can be either null, a number, a string, a boolean,
+             *     a recursive struct value, or a list of values.
+             */
+            value?: unknown;
+            /** @description The server generated tag of an item. */
+            etag?: string | null;
+            /**
+             * Format: date-time
+             * @description The expiration time of an item.
+             */
+            expireTime?: string | null;
+            /** @description Gets or Sets Ttl */
+            ttl?: string | null;
+            /** @description The name of the item. */
+            id?: string | null;
+        };
+        /** @description A list of MemoryStoreHashMapItems in the parent collection. */
+        'Ums.UmsService.Models.OpenCloud.OpenCloudListKeysHashMapItemsResponse': {
+            /** @description The MemoryStoreHashMapItems from the specified MemoryStoreHashMap. */
+            items?: components['schemas']['Ums.UmsService.Models.OpenCloud.OpenCloudHashMapItem'][] | null;
+            /**
+             * @description A token that you can send as a pageToken parameter to retrieve the next page.
+             *     If this field is omitted, there are no subsequent pages.
+             */
+            nextPageToken?: string | null;
+        };
         /** @description Unassigns a role from the specified group membership. */
         UnassignRoleGroupMembershipRequest: {
             /**
@@ -75648,55 +76378,36 @@ export interface components {
              * @description The resource path of the universe.
              *
              *     Format: `universes/{universe_id}`
-             * @example universes/123
              */
             path?: string;
             /**
              * Format: date-time
              * @description The timestamp when the universe was created.
-             * @example 2023-07-05T12:34:56Z
              */
             readonly createTime?: string;
             /**
              * Format: date-time
              * @description The timestamp when the universe was last updated.
-             * @example 2023-07-05T12:34:56Z
              */
             readonly updateTime?: string;
             /**
              * @description The name of the universe.
              *
              *     This field can be updated by updating the root place's name.
-             * @example ROBLOX Battle [OPEN]
              */
             readonly displayName?: string;
             /**
              * @description The description of the universe.
              *
              *     This field can be updated by updating the root place's description.
-             * @example OPEN SOURCE!
-             *      Feel free to check out how we made this game and ask us about it!
              */
             readonly description?: string;
             /** @description The universe is user-owned. */
             readonly user?: string;
             /** @description The universe is group-owned. */
             group?: string;
-            /**
-             * Format: enum
-             * @description Whether or not the universe is publicly accessible.
-             *
-             *     Possible values:
-             *
-             *       | Value | Description |
-             *       | --- | --- |
-             *       | VISIBILITY_UNSPECIFIED | Updates using this value will throw an error on the backend. |
-             *       | PUBLIC | The universe is public. |
-             *       | PRIVATE | The universe is private.  If a universe's visibility is set to PRIVATE, all active players will immediately be removed from all running servers. |
-             * @example VISIBILITY_UNSPECIFIED
-             * @enum {string}
-             */
-            readonly visibility?: 'VISIBILITY_UNSPECIFIED' | 'PUBLIC' | 'PRIVATE';
+            /** @description Whether or not the universe is publicly accessible. */
+            visibility?: components['schemas']['Universe_Visibility'];
             /** @description The Facebook social link. */
             facebookSocialLink?: components['schemas']['Universe_SocialLink'];
             /** @description The Twitter social link. */
@@ -75715,31 +76426,10 @@ export interface components {
              * @description Whether or not voice chat is enabled for users in the Experience.
              *
              *     Updating this value will not affect active servers.
-             * @example true
              */
             voiceChatEnabled?: boolean;
-            /**
-             * Format: enum
-             * @description The age rating of this universe.
-             *
-             *     Possible values:
-             *
-             *       | Value | Description |
-             *       | --- | --- |
-             *       | AGE_RATING_UNSPECIFIED | The age rating is not set. |
-             *       | AGE_RATING_ALL | Supported for all users. |
-             *       | AGE_RATING_9_PLUS | Supported for users aged 9 and up. |
-             *       | AGE_RATING_13_PLUS | Supported for users aged 13 and up. |
-             *       | AGE_RATING_17_PLUS | Supported for users aged 17 and up. |
-             * @example AGE_RATING_UNSPECIFIED
-             * @enum {string}
-             */
-            readonly ageRating?:
-                | 'AGE_RATING_UNSPECIFIED'
-                | 'AGE_RATING_ALL'
-                | 'AGE_RATING_9_PLUS'
-                | 'AGE_RATING_13_PLUS'
-                | 'AGE_RATING_17_PLUS';
+            /** @description The age rating of this universe. */
+            ageRating?: components['schemas']['Universe_AgeRating'];
             /**
              * Format: int32
              * @description Represents the price in Robux of private servers.
@@ -75753,30 +76443,15 @@ export interface components {
              *     Changing the price will cancel all private server subscriptions.
              */
             privateServerPriceRobux?: number;
-            /**
-             * @description Whether or not players can join the Experience via Desktop.
-             * @example true
-             */
+            /** @description Whether or not players can join the Experience via Desktop. */
             desktopEnabled?: boolean;
-            /**
-             * @description Whether or not players can join the Experience via Mobile.
-             * @example true
-             */
+            /** @description Whether or not players can join the Experience via Mobile. */
             mobileEnabled?: boolean;
-            /**
-             * @description Whether or not players can join the Experience via Tablet.
-             * @example true
-             */
+            /** @description Whether or not players can join the Experience via Tablet. */
             tabletEnabled?: boolean;
-            /**
-             * @description Whether or not players can join the Experience via Console.
-             * @example true
-             */
+            /** @description Whether or not players can join the Experience via Console. */
             consoleEnabled?: boolean;
-            /**
-             * @description Whether or not players can join the Experience via VR.
-             * @example true
-             */
+            /** @description Whether or not players can join the Experience via VR. */
             vrEnabled?: boolean;
             /**
              * @description The resource path of the root place of this universe
@@ -75788,7 +76463,6 @@ export interface components {
              *     The root place of the newly-created universe will be a clone of this
              *     template. A list of the valid template places can be obtained from
              *     ListTemplatePlaces. Format: universes/{universe_id}/places/{place_id}
-             * @example universes/{universe_id}/places/{place_id}
              */
             templateRootPlace: string;
         };
@@ -76166,10 +76840,51 @@ export interface components {
              */
             startTime?: string;
         };
+        /** @description The request to update a thumbnail personalization configuration. */
+        UpdateThumbnailPersonalizationRequest: {
+            /** @description The homepage thumbnail identifiers to include in the configuration. Up to five are supported. */
+            homepageThumbnailIds: string[];
+            /** @description The identifier of the active personalization configuration to update. */
+            id: string;
+        };
         UpdateUniverseRegexHttpRequest: {
             pattern?: string | null;
             output?: string | null;
             regexOperation?: components['schemas']['RegexOperation'];
+        };
+        /**
+         * Format: int32
+         * @description The aggregate processing status of a set of homepage thumbnail uploads.
+         * @enum {integer}
+         */
+        UploadStatus: 1 | 2;
+        /** @description The result of a completed homepage thumbnail upload operation. */
+        UploadThumbnailStatus: {
+            /** @description The unique identifier of the created homepage thumbnail. */
+            homepageThumbnailId?: string | null;
+            /**
+             * Format: int64
+             * @description The identifier of the uploaded image asset.
+             */
+            assetId?: number;
+            /** @description The moderation status of the uploaded image asset. */
+            moderationStatus?: components['schemas']['ModerationStatus'];
+        };
+        /** @description The operations created for uploaded homepage thumbnail files. */
+        UploadThumbnailsResponse: {
+            /** @description A mapping from each uploaded file name to the operation ID used to track its processing. */
+            fileToOperationIdDict: {
+                [key: string]: string | null;
+            };
+        };
+        /** @description The processing status of homepage thumbnail upload operations. */
+        UploadThumbnailsStatusResponse: {
+            /** @description The aggregate status of the requested upload operations. */
+            uploadStatus: components['schemas']['UploadStatus'];
+            /** @description A mapping from each completed operation ID to its uploaded thumbnail details. */
+            uploadThumbnailStatusDict: {
+                [key: string]: components['schemas']['UploadThumbnailStatus'];
+            };
         };
         /** @description Represents any registered user of Roblox. */
         User: {
@@ -80777,7 +81492,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['OpenCloudUniversesService.Universe'];
+                    'application/json': components['schemas']['Universe'];
                 };
             };
         };
@@ -80798,10 +81513,10 @@ export interface operations {
         /** @description The universe fields to update. */
         requestBody?: {
             content: {
-                'application/json-patch+json': components['schemas']['OpenCloudUniversesService.Universe'];
-                'application/json': components['schemas']['OpenCloudUniversesService.Universe'];
-                'text/json': components['schemas']['OpenCloudUniversesService.Universe'];
-                'application/*+json': components['schemas']['OpenCloudUniversesService.Universe'];
+                'application/json-patch+json': components['schemas']['Universe'];
+                'application/json': components['schemas']['Universe'];
+                'text/json': components['schemas']['Universe'];
+                'application/*+json': components['schemas']['Universe'];
             };
         };
         responses: {
@@ -80811,7 +81526,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    'application/json': components['schemas']['OpenCloudUniversesService.Universe'];
+                    'application/json': components['schemas']['Universe'];
                 };
             };
         };
@@ -80873,6 +81588,35 @@ export interface operations {
                 };
                 content: {
                     'application/json': components['schemas']['Place'];
+                };
+            };
+        };
+    };
+    Cloud_PublishUniverseMessage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The universe ID. */
+                universeId: string;
+            };
+            cookie?: never;
+        };
+        /** @description The topic and message to publish. */
+        requestBody: {
+            content: {
+                'application/json': components['schemas']['Roblox_OpenCloud_Cloud_V2_PublishUniverseMessageRequest'];
+                'application/*+json': components['schemas']['Roblox_OpenCloud_Cloud_V2_PublishUniverseMessageRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Google_Protobuf_WellKnownTypes_Empty'];
                 };
             };
         };
@@ -82884,31 +83628,6 @@ export interface operations {
             };
         };
     };
-    Cloud_PublishUniverseMessage: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The universe ID. */
-                universe_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                'application/json': components['schemas']['PublishUniverseMessageRequest'];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
     Cloud_TranslateText: {
         parameters: {
             query?: never;
@@ -84850,22 +85569,16 @@ export interface operations {
                     price?: number | null;
                     /**
                      * Format: binary
-                     * @description The thumbnail image file to be uploaded.
+                     * @description The thumbnail image file to be uploaded. Maximum file size is 5 MB.
                      */
                     imageFile?: string | null;
-                    /**
-                     * @deprecated
-                     * @description Whether regional pricing should be enabled for the developer product.
-                     *     Should not be used when setting isManagedPricingEnabled.
-                     */
-                    isRegionalPricingEnabled?: boolean | null;
                     /** @description Whether managed pricing should be enabled for the developer product. */
                     isManagedPricingEnabled?: boolean | null;
                 };
             };
         };
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -84919,6 +85632,8 @@ export interface operations {
                 pageSize?: number;
                 /** @description The cursor token for pagination. */
                 pageToken?: string;
+                /** @description Filters results by on-sale status. */
+                isForSale?: boolean;
             };
             header?: never;
             path: {
@@ -84929,7 +85644,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -85004,20 +85719,9 @@ export interface operations {
                     price?: number | null;
                     /**
                      * Format: binary
-                     * @description The thumbnail image file to be uploaded.
+                     * @description The thumbnail image file to be uploaded. Maximum file size is 5 MB.
                      */
                     imageFile?: string | null;
-                    /**
-                     * @deprecated
-                     * @description Whether regional pricing should be enabled for the developer product.
-                     *     Should not be used when setting isManagedPricingEnabled.
-                     */
-                    isRegionalPricingEnabled?: boolean | null;
-                    /**
-                     * @deprecated
-                     * @description Whether the developer product should be available for purchase on the external store page.
-                     */
-                    storePageEnabled?: boolean | null;
                     /** @description Whether managed pricing should be enabled for the developer product. */
                     isManagedPricingEnabled?: boolean | null;
                 };
@@ -85092,7 +85796,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -85149,7 +85853,7 @@ export interface operations {
                     description?: string | null;
                     /**
                      * Format: binary
-                     * @description The thumbnail image file to be uploaded.
+                     * @description The thumbnail image file to be uploaded. Maximum file size is 5 MB.
                      */
                     imageFile?: string | null;
                     /** @description Whether the game pass should be on sale. */
@@ -85159,11 +85863,6 @@ export interface operations {
                      * @description The default price of the game pass.
                      */
                     price?: number | null;
-                    /**
-                     * @deprecated
-                     * @description Whether regional pricing should be enabled for the game pass.
-                     */
-                    isRegionalPricingEnabled?: boolean | null;
                     /** @description Whether managed pricing should be enabled for the game pass. */
                     isManagedPricingEnabled?: boolean | null;
                     /** @description Whether trials should be enabled for the game pass. Note for trials to be available, the game pass must also be on sale. */
@@ -85172,7 +85871,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -85226,6 +85925,8 @@ export interface operations {
                 pageSize?: number;
                 /** @description The cursor token for pagination. */
                 pageToken?: string;
+                /** @description Filters results by on-sale status. */
+                isForSale?: boolean;
             };
             header?: never;
             path: {
@@ -85236,7 +85937,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -85304,12 +86005,12 @@ export interface operations {
                     description?: string | null;
                     /**
                      * Format: binary
-                     * @description The thumbnail image file to be uploaded. Alias for imageFile - if both are provided, imageFile will be used.
+                     * @description The thumbnail image file to be uploaded. Maximum file size is 5 MB. Alias for imageFile - if both are provided, imageFile will be used.
                      */
                     file?: string | null;
                     /**
                      * Format: binary
-                     * @description The thumbnail image file to be uploaded.
+                     * @description The thumbnail image file to be uploaded. Maximum file size is 5 MB.
                      */
                     imageFile?: string | null;
                     /** @description Whether the game pass should be on sale. */
@@ -85319,11 +86020,6 @@ export interface operations {
                      * @description The default price of the game pass.
                      */
                     price?: number | null;
-                    /**
-                     * @deprecated
-                     * @description Whether regional pricing should be enabled for the game pass.
-                     */
-                    isRegionalPricingEnabled?: boolean | null;
                     /** @description Whether managed pricing should be enabled for the game pass. */
                     isManagedPricingEnabled?: boolean | null;
                     /** @description Whether trials should be enabled for the game pass. Note for trials to be available, the game pass must also be on sale. */
@@ -85400,7 +86096,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -85591,16 +86287,15 @@ export interface operations {
                 /** @description The identifier of the experience in which you want to send your messages to. You can [copy your experience's Universe ID](/cloud/guides/usage-messaging.md#publishing-messages-to-live-servers) on **Creator Dashboard**. */
                 universeId: number;
                 /** @description The topic that you want to publish your message to, with up to 80 characters. */
-                topic: string | null;
+                topic: string;
             };
             cookie?: never;
         };
         requestBody?: {
             content: {
-                'application/json-patch+json': components['schemas']['PublishRequest'];
-                'application/json': components['schemas']['PublishRequest'];
-                'text/json': components['schemas']['PublishRequest'];
-                'application/*+json': components['schemas']['PublishRequest'];
+                'application/json': components['schemas']['CrossServerMessaging_Models_Requests_PublishRequest'];
+                'text/json': components['schemas']['CrossServerMessaging_Models_Requests_PublishRequest'];
+                'application/*+json': components['schemas']['CrossServerMessaging_Models_Requests_PublishRequest'];
             };
         };
         responses: {
@@ -86201,6 +86896,179 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    Annotations_CreateOrUpdateChannelPreference: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json-patch+json': components['schemas']['ChannelPreferenceRequest'];
+                'application/json': components['schemas']['ChannelPreferenceRequest'];
+                'text/json': components['schemas']['ChannelPreferenceRequest'];
+                'application/*+json': components['schemas']['ChannelPreferenceRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChannelPreferenceResponse'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OperationErrorResponse'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OperationErrorResponse'];
+                };
+            };
+        };
+    };
+    Annotations_GetChannelPreference: {
+        parameters: {
+            query?: {
+                channelId?: string;
+                placeId?: number;
+                userId?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ChannelPreferenceResponse'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OperationErrorResponse'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OperationErrorResponse'];
+                };
+            };
+        };
+    };
+    Annotations_GetPlacePreference: {
+        parameters: {
+            query?: {
+                placeId?: number;
+                userId?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['PlacePreferenceResponse'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OperationErrorResponse'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OperationErrorResponse'];
+                };
+            };
+        };
+    };
+    Annotations_CreateOrUpdatePlacePreference: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json-patch+json': components['schemas']['PlacePreferenceRequest'];
+                'application/json': components['schemas']['PlacePreferenceRequest'];
+                'text/json': components['schemas']['PlacePreferenceRequest'];
+                'application/*+json': components['schemas']['PlacePreferenceRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['PlacePreferenceResponse'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OperationErrorResponse'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OperationErrorResponse'];
+                };
             };
         };
     };
@@ -88429,6 +89297,454 @@ export interface operations {
             };
         };
     };
+    HomepageThumbnail_FindThumbnailPersonalizations: {
+        parameters: {
+            query: {
+                /** @description The configuration status to return. */
+                status: components['schemas']['PersonalizedConfigStatus'];
+                /** @description The maximum number of configurations to return. */
+                limit?: number;
+                /** @description The cursor from a previous response, if any. */
+                cursor?: string;
+            };
+            header?: never;
+            path: {
+                /** @description The identifier of the universe whose configurations are returned. */
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['FindPersonalizedConfigsResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HomepageThumbnail_CreateThumbnailPersonalization: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The identifier of the universe that owns the configuration. */
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        /** @description The homepage thumbnails to include in the configuration. */
+        requestBody: {
+            content: {
+                'application/json-patch+json': components['schemas']['CreateThumbnailPersonalizationRequest'];
+                'application/json': components['schemas']['CreateThumbnailPersonalizationRequest'];
+                'text/json': components['schemas']['CreateThumbnailPersonalizationRequest'];
+                'application/*+json': components['schemas']['CreateThumbnailPersonalizationRequest'];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HomepageThumbnail_UpdateThumbnailPersonalization: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The identifier of the universe that owns the configuration. */
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        /** @description The configuration and homepage thumbnails to update. */
+        requestBody: {
+            content: {
+                'application/json-patch+json': components['schemas']['UpdateThumbnailPersonalizationRequest'];
+                'application/json': components['schemas']['UpdateThumbnailPersonalizationRequest'];
+                'text/json': components['schemas']['UpdateThumbnailPersonalizationRequest'];
+                'application/*+json': components['schemas']['UpdateThumbnailPersonalizationRequest'];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HomepageThumbnail_GetHomepageThumbnails: {
+        parameters: {
+            query?: {
+                /** @description The maximum number of thumbnails to return. */
+                limit?: number;
+                /** @description The cursor from a previous response, if any. */
+                nextCursor?: string;
+            };
+            header?: never;
+            path: {
+                /** @description The identifier of the universe whose thumbnails are returned. */
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['FindThumbnailsResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HomepageThumbnail_DeleteHomepageThumbnails: {
+        parameters: {
+            query: {
+                /** @description The identifiers of the homepage thumbnails to delete. */
+                homepageThumbnailIds: string[];
+            };
+            header?: never;
+            path: {
+                /** @description The identifier of the universe that owns the thumbnails. */
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': {
+                        [key: string]: boolean;
+                    };
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HomepageThumbnail_UploadHomepageThumbnails: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The identifier of the universe that owns the thumbnails. */
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                'multipart/form-data': {
+                    files: string[];
+                };
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['UploadThumbnailsResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    HomepageThumbnail_GetHomepageThumbnailsStatus: {
+        parameters: {
+            query: {
+                /** @description The upload operation IDs to query. */
+                operationIds: string[];
+            };
+            header?: never;
+            path: {
+                /** @description The identifier of the universe that owns the uploads. */
+                universeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['UploadThumbnailsStatusResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': string;
+                };
+            };
+            /** @description Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     Saves_GetSaves: {
         parameters: {
             query?: {
@@ -88918,7 +90234,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Success */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -88962,7 +90278,7 @@ export interface operations {
                     'text/json': components['schemas']['ActionResult'];
                 };
             };
-            /** @description Internal Server Error */
+            /** @description Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
@@ -88978,20 +90294,31 @@ export interface operations {
     Places_CreatePlaceVersionApiKey: {
         parameters: {
             query?: {
+                /**
+                 * @description Can only be either:
+                 *     - `Saved`: the place file should be saved, but not published.
+                 *     - `Published`: the place file should be saved and published.
+                 */
                 versionType?: string;
-                isOldVersionAllowed?: boolean;
-                shouldForceRestart?: boolean;
             };
             header?: never;
             path: {
+                /** @description The identifier of the experience in which you want to publish your place to. You can [copy your experience's Universe ID](/cloud/guides/usage-place-publishing.md#publishing-a-place) on **Creator Dashboard**. */
                 universeId: number;
+                /** @description The identifier of your place. See [Publishing places with API keys](/cloud/guides/usage-place-publishing.md) on obtaining a Place ID. */
                 placeId: number;
             };
             cookie?: never;
         };
-        requestBody?: never;
+        /** @description The place file to publish: an RBXLX file as `application/xml` or an RBXL file as `application/octet-stream`. */
+        requestBody: {
+            content: {
+                'application/xml': string;
+                'application/octet-stream': string;
+            };
+        };
         responses: {
-            /** @description OK */
+            /** @description Returns the published place's version number. */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -88999,6 +90326,48 @@ export interface operations {
                 content: {
                     'application/json': components['schemas']['CreatePlaceVersionOperationResponse'];
                 };
+            };
+            /** @description Invalid request / Invalid file content. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description API key not valid for operation, user does not have authorization. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Publish not allowed on place. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Place or universe does not exist. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Place not part of the universe. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server internal error / Unknown error. */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

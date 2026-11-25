@@ -1966,6 +1966,103 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/cloud-authentication/v1/canUseApiKeys': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Checks whether the current user can create and use API keys under the group. */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    'application/json': components['schemas']['CanUseApiKeysRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['CanUseApiKeysResponse'];
+                    };
+                };
+                /** @description Error */
+                default: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['CloudAuthenticationService.Status'];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/cloud-authentication/v1/scopes': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the current scope-centric (v2) configuration, mainly for the UI. */
+        get: {
+            parameters: {
+                query?: {
+                    'groupId.value'?: number;
+                    locale?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['GetScopesResponse'];
+                    };
+                };
+                /** @description Error */
+                default: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['CloudAuthenticationService.Status'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/cloud/v2/creator-store-products': {
         parameters: {
             query?: never;
@@ -12040,6 +12137,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/oauth/v1/scopes': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations['Scope_GetScopes'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     '/ordered-data-stores/v1/universes/{universeId}/orderedDataStores/{orderedDataStore}/scopes/{scope}/entries': {
         parameters: {
             query?: never;
@@ -12092,6 +12205,107 @@ export interface paths {
          *     Known issue: Entry values can increment past the valid range and this may persist in the backend. Returned values will clamp to the valid range.
          */
         post: operations['OrderedDataStores_IncrementEntry'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/ownership-transfer/v1/transfers/cancel': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations['Transfer_CancelTransfer'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/ownership-transfer/v1/transfers/invalidTargets': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Returns a list of creators that should be excluded as possible targets for a transfer for the given resource
+         *     due to having been denied too recently
+         */
+        post: operations['Transfer_ListInvalidTargetsForResource'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/ownership-transfer/v1/transfers/reject': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations['Transfer_RejectTransfer'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/ownership-transfer/v1/transfers/resource': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations['Transfer_GetLatestTransferForResource'];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/ownership-transfer/v1/transfers/resource/group/{groupId}/eligibility': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations['Transfer_GetGroupEligibility'];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/ownership-transfer/v1/users/permissibleGroups': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List of group ids that this user has granular publish for */
+        get: operations['User_ListPermissibleGroupsForExperienceTransfer'];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -12791,23 +13005,6 @@ export interface paths {
          * @description Search Creator Store for assets.
          */
         post: operations['Toolbox_SearchCreatorStoreAssets'];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    '/universe-performance-raqi/v1/events/logging/universe/{universeId}/log-details': {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get logs based on message hash ids, keywords, placeVersions, start/end time. */
-        get: operations['ErrorLoggingDetail_GetLogs'];
-        put?: never;
-        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -27206,6 +27403,77 @@ export interface paths {
                 };
                 /** @description 3: Insufficient permissions. */
                 403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/v1/groups/{groupId}/social-links': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Gets the social links of a group. Callers under 13 years old get an error. Callers get an error where local policy does not allow external links. */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description The ID of the group. */
+                    groupId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['Roblox.Groups.Api.GetSocialLinkResponse'];
+                        'text/json': components['schemas']['Roblox.Groups.Api.GetSocialLinkResponse'];
+                    };
+                };
+                /** @description 1: Group is invalid or does not exist. */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 0: Authorization has been denied for this request. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /**
+                 * @description 11: Social links cannot be processed as this time.
+                 *     13: Only users who are over thirteen years of age may edit social links.
+                 */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description 11: Social links cannot be processed as this time. */
+                404: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -53266,6 +53534,380 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    '/vlop-api/v1/research/query': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Submit a researcher query
+         * @description Submits a structured researcher query for asynchronous execution. The caller is authenticated by the API Gateway (API key or OAuth2) and must hold an active qualified researcher (QR) role grant; that entitlement governs the datasets, fields, and filters they may query. Vetted researcher (VR) data access is served through the data clean room, not this API. Returns a job id used to poll the query's status and fetch its result once it has completed.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            /** @description Query to submit */
+            requestBody: {
+                content: {
+                    'application/json': components['schemas']['internal_controller_http_controller.SubmitQueryRequest'];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.SubmitQueryResponse'];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+                /** @description Too Many Requests */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+                /** @description Internal Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+                /** @description Bad Gateway */
+                502: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/vlop-api/v1/research/query/{job_id}': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a researcher query's status
+         * @description Returns the current lifecycle state of a query job. The caller must hold an active qualified researcher (QR) role grant, and only the researcher who submitted the job may read it.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Query job id */
+                    job_id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.QueryStatusResponse'];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+                /** @description Internal Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+                /** @description Bad Gateway */
+                502: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/vlop-api/v1/research/query/{job_id}/result': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a researcher query's result
+         * @description Returns presigned download links for a completed query job. The output is split across several files, so all of them must be fetched to have the complete extract; the links expire (see url_expires_at) and can be re-requested from this endpoint until the result stops being downloadable (see expires_at). While the job is still SUBMITTED or RUNNING (or ended without a result) it returns the current state and no links, so the client can poll. The caller must hold an active qualified researcher (QR) role grant, and only the researcher who submitted the job may read it.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Query job id */
+                    job_id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.QueryResultResponse'];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+                /** @description Internal Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+                /** @description Bad Gateway */
+                502: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+                /** @description Service Unavailable */
+                503: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    '/vlop-api/v1/researcher/roles': {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get the caller's researcher-role grants
+         * @description Returns every DSA researcher-role grant held by the authenticated caller, newest first: the tier (QR qualified / VR vetted), its state (APPROVED or REVOKED), when it was granted, and when access ends. Holding no grants is not an error; the list is simply empty. Grants are written by Safety Platform decisions, so this is a read-only view of them. expires_at is the expiry recorded from the approval decision and is returned only for an APPROVED grant; it is absent for a REVOKED grant, whose access has already ended, and for a grant recorded with no expiry. An APPROVED grant whose expires_at has passed no longer authorizes the query API.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ResearcherRolesResponse'];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+                /** @description Internal Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+                /** @description Bad Gateway */
+                502: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        'application/json': components['schemas']['internal_controller_http_controller.ErrorBody'];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -53349,6 +53991,12 @@ export interface components {
             addressLine2?: string | null;
             /** @description The name associated with this address. */
             name?: string | null;
+        };
+        'AdsManagementApi.Creator': {
+            /** @description The creator group's ID. */
+            groupId?: string;
+            /** @description The creator user's ID. */
+            userId?: string;
         };
         AdvertisableUniverse: {
             /**
@@ -53798,6 +54446,102 @@ export interface components {
             [key: string]: unknown;
         };
         ApiEmptyResponseModel: Record<string, never>;
+        /** @enum {string} */
+        'ApplicationAuthorizationsApi.Models.Enum.ErrorCode':
+            | 'InternalError'
+            | 'NotAuthenticated'
+            | 'MissingArgument'
+            | 'DuplicateValuesArgument'
+            | 'InvalidArgument'
+            | 'InvalidRequest'
+            | 'ArgumentExceedsLimit'
+            | 'AuthorizationUnauthorizedAccess'
+            | 'AuthorizationNotFound'
+            | 'ApplicationUnauthorizedAccess'
+            | 'ApplicationNotFound'
+            | 'TargetUnauthorizedAccess'
+            | 'TargetNotFound'
+            | 'ApplicationNameTaken'
+            | 'TextInappropriate'
+            | 'InvalidScope'
+            | 'MalformedRedirectUri'
+            | 'IllegalSchemeRedirectUri'
+            | 'RedirectUriMismatch'
+            | 'ScopeMismatch'
+            | 'AccessDenied'
+            | 'SettingsChangeRequired'
+            | 'LuobuCreatorMobileBindingMissing'
+            | 'AgeCheckRequired'
+            | 'EmailVerificationRequired'
+            | 'InvalidPromptValue'
+            | 'InvalidResponseTypeValue'
+            | 'IllegalPrompt'
+            | 'InteractionRequired'
+            | 'LoginRequired'
+            | 'AccountSelectionRequired'
+            | 'ConsentRequired'
+            | 'GroupNotFound'
+            | 'Conflict'
+            | 'UnauthorizedAccess'
+            | 'ActiveApplicationLimitExceeded'
+            | 'AuthorizationLimitExceeded'
+            | 'InvalidImageFile'
+            | 'ApplicationStatusConflict'
+            | 'InvalidOrigin'
+            | 'InvalidVerificationToken'
+            | 'PublishLimitExceeded'
+            | 'ApplicationModerated'
+            | 'ReviewSubmissionRequired';
+        'ApplicationAuthorizationsApi.Models.Response.ErrorResponse': {
+            code: components['schemas']['ApplicationAuthorizationsApi.Models.Enum.ErrorCode'];
+            message?: string | null;
+            field?: string | null;
+        };
+        'ApplicationAuthorizationsApi.Models.Response.OperationConfigurationEntry': {
+            name: string;
+            translationKey?: string | null;
+        };
+        'ApplicationAuthorizationsApi.Models.Response.ProductConfigurationEntry': {
+            name: string;
+            translationKey?: string | null;
+        };
+        'ApplicationAuthorizationsApi.Models.Response.ScopeConfigurationEntry': {
+            scopeType: string;
+            operation: string;
+            targetType?: string | null;
+            translationKey?: string | null;
+            description?: string | null;
+            riskLevel?: string | null;
+            groupAllowed?: boolean;
+            firstPartyOAuthOnly?: boolean;
+            categories?: string[] | null;
+        };
+        'ApplicationAuthorizationsApi.Models.Response.ScopeTypeConfigurationEntry': {
+            name: string;
+            translationKey?: string | null;
+            product?: string | null;
+        };
+        'ApplicationAuthorizationsApi.Models.Response.ScopesConfigurationResponse': {
+            scopes: components['schemas']['ApplicationAuthorizationsApi.Models.Response.ScopeConfigurationEntry'][];
+            scopeTypes: components['schemas']['ApplicationAuthorizationsApi.Models.Response.ScopeTypeConfigurationEntry'][];
+            targetTypes: components['schemas']['ApplicationAuthorizationsApi.Models.Response.TargetTypeConfigurationEntry'][];
+            targetParts: components['schemas']['ApplicationAuthorizationsApi.Models.Response.TargetPartConfigurationEntry'][];
+            products: components['schemas']['ApplicationAuthorizationsApi.Models.Response.ProductConfigurationEntry'][];
+            operations: components['schemas']['ApplicationAuthorizationsApi.Models.Response.OperationConfigurationEntry'][];
+            oidcScopes: string[];
+        };
+        'ApplicationAuthorizationsApi.Models.Response.TargetPartConfigurationEntry': {
+            name: string;
+            type?: string | null;
+            constraints?: string[] | null;
+            translationKey?: string | null;
+        };
+        'ApplicationAuthorizationsApi.Models.Response.TargetTypeConfigurationEntry': {
+            name: string;
+            requiredParts?: string[] | null;
+            optionalParts?: string[] | null;
+            translationKey?: string | null;
+        };
         ArchiveNotificationStringRequest: {
             id?: string | null;
         };
@@ -54493,7 +55237,7 @@ export interface components {
              */
             createTime?: string;
             /** @description The user or group that created the account. */
-            creator?: components['schemas']['Creator'];
+            creator?: components['schemas']['AdsManagementApi.Creator'];
             /** @description The human-readable name of the account. */
             displayName?: string;
             /** @description Total of failed credit card charges in micro-USD, as a decimal string. */
@@ -54585,7 +55329,7 @@ export interface components {
         };
         BillingAccountOption: {
             /** @description The user or group that created the account. */
-            creator: components['schemas']['Creator'];
+            creator: components['schemas']['AdsManagementApi.Creator'];
             /** @description The human-readable name of the account. */
             displayName: string;
             /** @description The billing account ID. Pass it as billingAccountId when creating a campaign. */
@@ -54803,7 +55547,7 @@ export interface components {
              */
             creativeAssetIds?: string[];
             /** @description The user who created the campaign (read-only). */
-            readonly creator?: components['schemas']['Creator'];
+            readonly creator?: components['schemas']['AdsManagementApi.Creator'];
             /**
              * @description The current serving state, derived by the system (read-only). Can be `SERVING`,
              *     `IN_REVIEW`, `NOT_SERVING`, or `REJECTED`.
@@ -55051,6 +55795,20 @@ export interface components {
             doesOwnerPrivacyRestrictJoins?: boolean;
             inviteResponseType?: components['schemas']['PrivateServerInviteResponseType'];
         };
+        CanUseApiKeysRequest: {
+            /**
+             * Format: int64
+             * @description Owner group of the potential API keys.
+             */
+            groupId?: number;
+        };
+        CanUseApiKeysResponse: {
+            /** @description Whether the current user can create and use API keys under the group. */
+            canUseApiKeys?: boolean;
+        };
+        CancelTransferRequest: {
+            resource: components['schemas']['Resource'];
+        };
         CategoryResponse: {
             /**
              * @description The event category type of an event.
@@ -55284,6 +56042,12 @@ export interface components {
              * @description The client's browser tracker id.
              */
             browserTrackerId?: number | null;
+        };
+        'CloudAuthenticationService.Status': {
+            /** Format: int32 */
+            code?: number;
+            message?: string;
+            details?: components['schemas']['Any'][];
         };
         /**
          * @description Request body for
@@ -55953,10 +56717,9 @@ export interface components {
             minimumCount?: number;
         };
         Creator: {
-            /** @description The creator group's ID. */
-            groupId?: string;
-            /** @description The creator user's ID. */
-            userId?: string;
+            creatorType: components['schemas']['CreatorType'];
+            /** Format: int64 */
+            creatorId: number;
         };
         /**
          * @description Sort direction for list queries.
@@ -56034,6 +56797,8 @@ export interface components {
             /** @description Whether or not the asset can be purchased in the Creator Store. */
             purchasable: boolean;
         } | null;
+        /** @enum {string} */
+        CreatorType: 'Invalid' | 'User' | 'Group';
         /** @description The request body object with the message string that you want to publish to the live server. */
         CrossServerMessaging_Models_Requests_PublishRequest: {
             /** @description The message content that you want to publish to the live server. */
@@ -57409,38 +58174,6 @@ export interface components {
                 [key: string]: string | null;
             } | null;
         };
-        /** @description error log detail */
-        ErrorLogDetail: {
-            /** @description The message hash id for this log detail. */
-            id?: string | null;
-            /** @description The logSeverity of the log */
-            logSeverity?: string | null;
-            /** @description The source of the log */
-            logSource?: string | null;
-            os?: string | null;
-            platform?: string | null;
-            /** @description The message of the error log */
-            message?: string | null;
-            /** @description The stack trace of the error log. This might be not available */
-            stacktrace?: string | null;
-            /**
-             * Format: date-time
-             * @description UTC timestamp when this error was first observed.
-             *     Null when the source document predates this field being populated.
-             */
-            firstSeenUtc?: string | null;
-            /**
-             * Format: int64
-             * @description First seen place version for the error.
-             *     NOTE: This value will only be returned when place id is filtered
-             */
-            firstSeenPlaceVersion?: number | null;
-        };
-        /** @description Response for top error logs */
-        ErrorLogDetailResponse: {
-            /** @description The analytics data for display. */
-            values?: components['schemas']['ErrorLogDetail'][] | null;
-        };
         /** @description This is the base class for all custom Exceptions that are thrown in this API. */
         ErrorResponse: {
             /** @description The ErrorCode for the exception. */
@@ -58434,6 +59167,9 @@ export interface components {
          *     `GetOperation` requests for GetInstance operations.
          */
         GetInstanceMetadata: Record<string, never>;
+        GetLatestTransferRequest: {
+            resource: components['schemas']['Resource'];
+        };
         /** @description Response to get matchmaking customization feature flags. */
         GetMatchmakingCustomizationFeatureFlagsResponse: {
             featureFlags: components['schemas']['MatchmakingCustomizationFeatureFlags'];
@@ -58504,6 +59240,14 @@ export interface components {
             /** @description Gets or sets the saves. */
             saves: components['schemas']['HydratedSave'][] | null;
         } | null;
+        GetScopesResponse: {
+            scopes?: components['schemas']['Roblox_Opencloud_Scopeconfiguration_V2_Scope'][];
+            scopeTypes?: components['schemas']['Roblox_Opencloud_Scopeconfiguration_V2_ScopeType'][];
+            targetTypes?: components['schemas']['Roblox_Opencloud_Scopeconfiguration_V2_TargetType'][];
+            targetParts?: components['schemas']['Roblox_Opencloud_Scopeconfiguration_V2_TargetPart'][];
+            operations?: components['schemas']['Roblox_Opencloud_Scopeconfiguration_V2_Operation'][];
+            products?: components['schemas']['Roblox_Opencloud_Scopeconfiguration_V2_Product'][];
+        };
         /** @description Response object for Roblox.CloudPricing.ServiceEfficiencyApi.Operations.GetServiceEfficiencyPaymentMethodOperation */
         GetServiceEfficiencyPaymentMethodResponse: {
             /** @description Gets or sets the payment profile set for Service Efficiency use for the provided creator. */
@@ -59103,104 +59847,128 @@ export interface components {
             /** Format: int64 */
             id?: number;
             /**
-             * Format: int32
              * @description ['Image' = 1, 'TShirt' = 2, 'Audio' = 3, 'Mesh' = 4, 'Lua' = 5, 'HTML' = 6, 'Text' = 7, 'Hat' = 8, 'Place' = 9, 'Model' = 10, 'Shirt' = 11, 'Pants' = 12, 'Decal' = 13, 'Avatar' = 16, 'Head' = 17, 'Face' = 18, 'Gear' = 19, 'Badge' = 21, 'GroupEmblem' = 22, 'Animation' = 24, 'Arms' = 25, 'Legs' = 26, 'Torso' = 27, 'RightArm' = 28, 'LeftArm' = 29, 'LeftLeg' = 30, 'RightLeg' = 31, 'Package' = 32, 'YouTubeVideo' = 33, 'GamePass' = 34, 'App' = 35, 'Code' = 37, 'Plugin' = 38, 'SolidModel' = 39, 'MeshPart' = 40, 'HairAccessory' = 41, 'FaceAccessory' = 42, 'NeckAccessory' = 43, 'ShoulderAccessory' = 44, 'FrontAccessory' = 45, 'BackAccessory' = 46, 'WaistAccessory' = 47, 'ClimbAnimation' = 48, 'DeathAnimation' = 49, 'FallAnimation' = 50, 'IdleAnimation' = 51, 'JumpAnimation' = 52, 'RunAnimation' = 53, 'SwimAnimation' = 54, 'WalkAnimation' = 55, 'PoseAnimation' = 56, 'LocalizationTableManifest' = 59, 'LocalizationTableTranslation' = 60, 'EmoteAnimation' = 61, 'Video' = 62, 'TexturePack' = 63, 'TShirtAccessory' = 64, 'ShirtAccessory' = 65, 'PantsAccessory' = 66, 'JacketAccessory' = 67, 'SweaterAccessory' = 68, 'ShortsAccessory' = 69, 'LeftShoeAccessory' = 70, 'RightShoeAccessory' = 71, 'DressSkirtAccessory' = 72, 'FontFamily' = 73, 'FontFace' = 74, 'MeshHiddenSurfaceRemoval' = 75, 'EyebrowAccessory' = 76, 'EyelashAccessory' = 77, 'MoodAnimation' = 78, 'DynamicHead' = 79, 'CodeSnippet' = 80, 'AdsVideo' = 81, 'OtaUpdate' = 82, 'Screenshot' = 83, 'RuntimePropertySet' = 84, 'StorePreviewVideo' = 85, 'GamePreviewVideo' = 86, 'CreatorExperienceConfig' = 87, 'FaceMakeup' = 88, 'LipMakeup' = 89, 'EyeMakeup' = 90, 'VoxelFragment' = 91, 'AvatarBackground' = 92, 'TextDocument' = 93, 'Post' = 94, 'AnimatedImage' = 95, 'ComputeFunction' = 96, 'AvatarSpawnEffect' = 97, 'Voice' = 98]
-             * @enum {integer}
+             * @enum {string}
              */
             type?:
-                | 1
-                | 2
-                | 3
-                | 4
-                | 5
-                | 6
-                | 7
-                | 8
-                | 9
-                | 10
-                | 11
-                | 12
-                | 13
-                | 16
-                | 17
-                | 18
-                | 19
-                | 21
-                | 22
-                | 24
-                | 25
-                | 26
-                | 27
-                | 28
-                | 29
-                | 30
-                | 31
-                | 32
-                | 33
-                | 34
-                | 35
-                | 37
-                | 38
-                | 39
-                | 40
-                | 41
-                | 42
-                | 43
-                | 44
-                | 45
-                | 46
-                | 47
-                | 48
-                | 49
-                | 50
-                | 51
-                | 52
-                | 53
-                | 54
-                | 55
-                | 56
-                | 59
-                | 60
-                | 61
-                | 62
-                | 63
-                | 64
-                | 65
-                | 66
-                | 67
-                | 68
-                | 69
-                | 70
-                | 71
-                | 72
-                | 73
-                | 74
-                | 75
-                | 76
-                | 77
-                | 78
-                | 79
-                | 80
-                | 81
-                | 82
-                | 83
-                | 84
-                | 85
-                | 86
-                | 87
-                | 88
-                | 89
-                | 90
-                | 91
-                | 92
-                | 93
-                | 94
-                | 95
-                | 96
-                | 97
-                | 98;
+                | 'Image'
+                | 'TShirt'
+                | 'Audio'
+                | 'Mesh'
+                | 'Lua'
+                | 'HTML'
+                | 'Text'
+                | 'Hat'
+                | 'Place'
+                | 'Model'
+                | 'Shirt'
+                | 'Pants'
+                | 'Decal'
+                | 'Avatar'
+                | 'Head'
+                | 'Face'
+                | 'Gear'
+                | 'Badge'
+                | 'GroupEmblem'
+                | 'Animation'
+                | 'Arms'
+                | 'Legs'
+                | 'Torso'
+                | 'RightArm'
+                | 'LeftArm'
+                | 'LeftLeg'
+                | 'RightLeg'
+                | 'Package'
+                | 'YouTubeVideo'
+                | 'GamePass'
+                | 'App'
+                | 'Code'
+                | 'Plugin'
+                | 'SolidModel'
+                | 'MeshPart'
+                | 'HairAccessory'
+                | 'FaceAccessory'
+                | 'NeckAccessory'
+                | 'ShoulderAccessory'
+                | 'FrontAccessory'
+                | 'BackAccessory'
+                | 'WaistAccessory'
+                | 'ClimbAnimation'
+                | 'DeathAnimation'
+                | 'FallAnimation'
+                | 'IdleAnimation'
+                | 'JumpAnimation'
+                | 'RunAnimation'
+                | 'SwimAnimation'
+                | 'WalkAnimation'
+                | 'PoseAnimation'
+                | 'LocalizationTableManifest'
+                | 'LocalizationTableTranslation'
+                | 'EmoteAnimation'
+                | 'Video'
+                | 'TexturePack'
+                | 'TShirtAccessory'
+                | 'ShirtAccessory'
+                | 'PantsAccessory'
+                | 'JacketAccessory'
+                | 'SweaterAccessory'
+                | 'ShortsAccessory'
+                | 'LeftShoeAccessory'
+                | 'RightShoeAccessory'
+                | 'DressSkirtAccessory'
+                | 'FontFamily'
+                | 'FontFace'
+                | 'MeshHiddenSurfaceRemoval'
+                | 'EyebrowAccessory'
+                | 'EyelashAccessory'
+                | 'MoodAnimation'
+                | 'DynamicHead'
+                | 'CodeSnippet'
+                | 'AdsVideo'
+                | 'OtaUpdate'
+                | 'Screenshot'
+                | 'RuntimePropertySet'
+                | 'StorePreviewVideo'
+                | 'GamePreviewVideo'
+                | 'CreatorExperienceConfig'
+                | 'FaceMakeup'
+                | 'LipMakeup'
+                | 'EyeMakeup'
+                | 'VoxelFragment'
+                | 'AvatarBackground'
+                | 'TextDocument'
+                | 'Post'
+                | 'AnimatedImage'
+                | 'ComputeFunction'
+                | 'AvatarSpawnEffect'
+                | 'Voice';
             name?: string;
         };
+        'GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Core.CreatorType_': {
+            /** Format: int64 */
+            id?: number;
+            /**
+             * @description ['User' = 0, 'Group' = 1, 'Experience' = 2]
+             * @enum {string}
+             */
+            type?: 'User' | 'Group' | 'Experience';
+            name?: string;
+        };
+        Hold: {
+            /** Format: int64 */
+            holdId: number;
+            currentCreator: components['schemas']['Creator'];
+            targetCreator: components['schemas']['Creator'];
+            resource: components['schemas']['Resource'];
+            holdState: components['schemas']['HoldState'];
+            expirationAcknowledged: boolean;
+            /** Format: date-time */
+            createdUtcTime: string;
+            /** Format: date-time */
+            updatedUtcTime: string;
+        };
+        /** @enum {string} */
+        HoldState: 'Invalid' | 'Pending' | 'Canceled' | 'Accepted' | 'Completed' | 'Rejected' | 'Timedout' | 'Failed';
         /** @description A homepage thumbnail associated with a universe. */
         HomepageThumbnail: {
             /** @description The unique identifier of the homepage thumbnail. */
@@ -59522,6 +60290,7 @@ export interface components {
             /**
              * @description Optional mapping of place ID to specific PlaceFilter objects.
              *     If empty for a place, restart all versions of that place.
+             *     If any place specifies versions, every place must.
              *     If null/omitted entirely, restart all places in the universe.
              */
             places?: {
@@ -59885,6 +60654,12 @@ export interface components {
              *     If this field is omitted, there are no subsequent pages.
              */
             nextPageToken?: string;
+        };
+        ListInvalidTargetsRequest: {
+            resource: components['schemas']['Resource'];
+        };
+        ListInvalidTargetsResponse: {
+            invalidTargets: components['schemas']['Creator'][];
         };
         /** @description A list of InventoryItems in the parent collection. */
         ListInventoryItemsResponse: {
@@ -61404,6 +62179,27 @@ export interface components {
             /** @description Field on which model validation failed. */
             field?: string | null;
         };
+        /** @enum {string} */
+        'OwnershipTransferApi.ErrorCode':
+            | 'InternalError'
+            | 'InvalidGroupId'
+            | 'InvalidUniverseId'
+            | 'InsufficientPermission'
+            | 'NoGroupOwner'
+            | 'UnsupportedTransfer'
+            | 'EmailNotVerified'
+            | 'InvalidTargetRelationship'
+            | 'InvalidHoldId'
+            | 'InvalidTransferAction';
+        /** @description Standard error response model. */
+        'OwnershipTransferApi.ErrorResponse': {
+            /** @description The error code. */
+            code: components['schemas']['OwnershipTransferApi.ErrorCode'];
+            /** @description The error message. */
+            message?: string | null;
+            /** @description Field on which model validation failed. */
+            field?: string | null;
+        };
         /** @description Paginated response for v3 LIST. Page tokens are null at the collection boundaries. */
         PaginatedGameEventsResponse: {
             gameEvents?: components['schemas']['GameEventResponse'][] | null;
@@ -61713,7 +62509,10 @@ export interface components {
         PlaceContentPreference: 0 | 1 | 2 | 3;
         /** @description Filter for which versions of a place to restart. */
         PlaceFilter: {
-            /** @description List of placeVersions to restart. Mutually exclusive with ServerManagementService.V2.Models.PlaceFilter.ExcludeCurrentVersion. */
+            /**
+             * @description List of placeVersions to restart. Mutually exclusive with ServerManagementService.V2.Models.PlaceFilter.ExcludeCurrentVersion.
+             *     If any place in a restart request specifies versions, every place must.
+             */
             versions?: number[] | null;
             /**
              * @description If true, all versions except the most recently published will be restarted.
@@ -62570,6 +63369,9 @@ export interface components {
         RegexOperation: 'Invalid' | 'Ignore' | 'Group';
         /** @enum {string} */
         RegexStatus: 'Invalid' | 'CreatorCreated' | 'AutoGenerated' | 'CreatorIgnored';
+        RejectTransferRequest: {
+            resource: components['schemas']['Resource'];
+        };
         /** @description Response to remove scoring configuration for a place. */
         RemovePlaceMatchmakingScoringConfigurationResponse: Record<string, never>;
         ReorderUniverseRegexHttpRequest: {
@@ -62612,6 +63414,11 @@ export interface components {
             | 'JourneysConfig'
             | 'AntiCheatConfig'
             | 'DataCaptureConfig';
+        Resource: {
+            resourceType: components['schemas']['ResourceType'];
+            /** Format: int64 */
+            resourceId: number;
+        };
         /** @description Configuration for a resource, like Memory Stores request unit. */
         ResourceConfiguration: {
             /** @description Gets or sets the resource ID. */
@@ -62625,6 +63432,8 @@ export interface components {
             /** @description Gets or sets the price of this resource. */
             price: components['schemas']['Price'];
         };
+        /** @enum {string} */
+        ResourceType: 'Invalid' | 'Group' | 'Universe';
         /** @description Usage of a resource e.g. Memory Stores Requests. */
         ResourceUsage: {
             /** @description Gets or sets resource ID. */
@@ -69800,6 +70609,19 @@ export interface components {
             /** @description Localized body text for the upsell. */
             bodyText?: string;
         };
+        /** @description The social links of a group. */
+        'Roblox.Groups.Api.GetSocialLinkResponse': {
+            /** @description The social links of the group. */
+            data?: components['schemas']['Roblox.Groups.Api.SocialLinkResponse'][];
+            /**
+             * @description The age-verification status of the group for social links, sent as a string: "0" (None), "1" (VerifiedForCommunity), "2" (VerifiedForExperiences), or "3" (VerifiedForAll).
+             *     It applies to the whole group, not to each link. It comes from the age verification of the group's owner and of members who manage the group or its experiences.
+             *     Returned only when the caller can configure the group's social links. Otherwise the field is absent.
+             *     When the caller is an age-verified member who manages the group, this call can raise the status.
+             * @enum {string}
+             */
+            socialLinksVerificationStatus?: '0' | '1' | '2' | '3';
+        };
         /** @description ApiPageResponse for group audit log */
         'Roblox.Groups.Api.GroupAuditLogPageResponse_Roblox.Groups.Api.Models.Response.GroupAuditLogResponseItem_': {
             previousPageCursor?: string;
@@ -69906,17 +70728,15 @@ export interface components {
             /** @description If the group name change feature is enabled for this group. */
             isGroupNameChangeEnabled?: boolean;
             /**
-             * Format: int32
              * @description The verification level for the group. Null if the verification level could not be determined due to an error.
-             * @enum {integer}
+             * @enum {string}
              */
-            verificationLevel?: 0 | 1 | 2 | 3;
+            verificationLevel?: 'None' | 'Low' | 'Medium' | 'High';
             /**
-             * Format: int32
              * @description The account tenure requirement for the group. Null if the account tenure requirement could not be determined due to an error.
-             * @enum {integer}
+             * @enum {string}
              */
-            accountTenureRequirement?: 0 | 1 | 2 | 3 | 4 | 5;
+            accountTenureRequirement?: 'None' | 'OneDay' | 'ThreeDays' | 'OneWeek' | 'OneMonth' | 'ThreeMonths';
             /**
              * Format: int32
              * @description The slowmode level for the group (0-4).
@@ -69961,7 +70781,7 @@ export interface components {
             name?: string;
             /** @description The game description. */
             description?: string;
-            creator?: components['schemas']['Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Core.CreatorType_'];
+            creator?: components['schemas']['GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Core.CreatorType_'];
             rootPlace?: components['schemas']['GroupsApi.Roblox.Web.Responses.RelatedEntityTypeResponse_Roblox.Platform.Assets.AssetType_'];
             /**
              * Format: date-time
@@ -69982,11 +70802,10 @@ export interface components {
         /** @description A model representing data about an Roblox.Platform.Membership.IUser */
         'Roblox.Groups.Api.Models.Response.UserModel': {
             /**
-             * Format: int32
              * @description The user's builders club membership type
-             * @enum {integer}
+             * @enum {string}
              */
-            buildersClubMembershipType?: 0 | 1 | 2 | 3 | 4;
+            buildersClubMembershipType?: 'None' | 'BC' | 'TBC' | 'OBC' | 'RobloxPremium';
             /** @description The user's verified badge status. */
             hasVerifiedBadge?: boolean;
             /** Format: int64 */
@@ -70013,6 +70832,32 @@ export interface components {
              * @description The shout's last updated time
              */
             updated?: string;
+        };
+        /** @description A social link on a group. */
+        'Roblox.Groups.Api.SocialLinkResponse': {
+            /**
+             * Format: int64
+             * @description The ID of the social link.
+             */
+            id?: number;
+            /**
+             * @description The site that the link points to, such as Discord, YouTube, or a Roblox group. ['Facebook' = 0, 'Twitter' = 1, 'YouTube' = 2, 'Twitch' = 3, 'GooglePlus' = 4, 'Discord' = 5, 'RobloxGroup' = 6, 'Amazon' = 7, 'Guilded' = 8]
+             * @enum {string}
+             */
+            type?:
+                | 'Facebook'
+                | 'Twitter'
+                | 'YouTube'
+                | 'Twitch'
+                | 'GooglePlus'
+                | 'Discord'
+                | 'RobloxGroup'
+                | 'Amazon'
+                | 'Guilded';
+            /** @description The URL of the link. */
+            url?: string;
+            /** @description The title of the link. */
+            title?: string;
         };
         /** @description A request model for setting a description for the group */
         'Roblox.Groups.Api.UpdateGroupDescriptionRequest': {
@@ -75126,6 +75971,75 @@ export interface components {
              */
             message: string;
         };
+        /** @description The configuration of a global operation. The generic display label only; per-scope description/risk live on Scope. */
+        Roblox_Opencloud_Scopeconfiguration_V2_Operation: {
+            name?: string;
+            translationKey?: string;
+        };
+        /** @description Information about a product. */
+        Roblox_Opencloud_Scopeconfiguration_V2_Product: {
+            name?: string;
+            translationKey?: string;
+        };
+        /**
+         * @description Risk level associated with a scope. Consumed by the front end.
+         * @enum {string}
+         */
+        Roblox_Opencloud_Scopeconfiguration_V2_RiskLevel:
+            | 'RISK_LEVEL_INVALID'
+            | 'RISK_LEVEL_LOW'
+            | 'RISK_LEVEL_MODERATE'
+            | 'RISK_LEVEL_HIGH';
+        /** @description The primary unit of the v2 configuration, identified by (scope_type, operation). */
+        Roblox_Opencloud_Scopeconfiguration_V2_Scope: {
+            scopeType?: string;
+            operation?: string;
+            targetType?: string;
+            /** @description Scope-specific description translation key (replaces the legacy operation override description key). */
+            translationKey?: string;
+            /** @description Risk level associated with a scope. Consumed by the front end. */
+            riskLevel?: components['schemas']['Roblox_Opencloud_Scopeconfiguration_V2_RiskLevel'];
+            /** @description Whether this scope is allowed on group-owned API keys. */
+            groupAllowed?: boolean;
+            /**
+             * @description Whether this scope may only be granted via first-party OAuth access. When true and the scope supports OAuth2,
+             *     OAuth consumers must reject the scope unless the requesting client is a first-party client.
+             */
+            firstPartyOauthOnly?: boolean;
+            /** @description Localized scope description for the requested locale, falling back to English. Unset when unavailable. */
+            description?: string;
+            /** @description UI section this scope is listed under in permission dialogs. Unset when the scope has none. */
+            displaySection?: string;
+        };
+        /** @description The configuration of a scope type. In v2 this carries only display + grouping data. */
+        Roblox_Opencloud_Scopeconfiguration_V2_ScopeType: {
+            name?: string;
+            translationKey?: string;
+            product?: string;
+        };
+        /** @description The configuration of a target part. Referenced by TargetTypes. */
+        Roblox_Opencloud_Scopeconfiguration_V2_TargetPart: {
+            name?: string;
+            /** @description Data type of a target part value. */
+            type?: components['schemas']['Roblox_Opencloud_Scopeconfiguration_V2_TargetPart_Types_ValueType'];
+            constraints?: string[];
+            translationKey?: string;
+        };
+        /**
+         * @description Data type of a target part value.
+         * @enum {string}
+         */
+        Roblox_Opencloud_Scopeconfiguration_V2_TargetPart_Types_ValueType:
+            | 'VALUE_TYPE_INVALID'
+            | 'VALUE_TYPE_INT64'
+            | 'VALUE_TYPE_STRING';
+        /** @description The configuration of a target type. Referenced by Scopes' target_type. */
+        Roblox_Opencloud_Scopeconfiguration_V2_TargetType: {
+            name?: string;
+            requiredParts?: string[];
+            optionalParts?: string[];
+            translationKey?: string;
+        };
         RobuxRateBreakdown: {
             /** Format: double */
             o18?: number | null;
@@ -77020,13 +77934,13 @@ export interface components {
         /** @description A parameter value that a template uses to render a notification message. */
         UserNotification_Payload_ParameterValue: {
             /**
-             * @description A string value.
+             * @description A string value. Set either `stringValue` or `int64Value`, not both.
              * @example bronze egg
              */
             stringValue?: string;
             /**
              * Format: int64
-             * @description An int64 value.
+             * @description An int64 value. Set either `stringValue` or `int64Value`, not both.
              * @example 10101010
              */
             int64Value?: number;
@@ -77364,6 +78278,132 @@ export interface components {
              */
             upVotePercent?: number;
         } | null;
+        'internal_controller_http_controller.ErrorBody': {
+            /** @example The request is unauthorized. */
+            error?: string;
+        };
+        'internal_controller_http_controller.QueryResultData': {
+            /**
+             * @description ExpiresAt is when the result stops being downloadable at all, RFC 3339.
+             * @example 2026-02-01T00:00:00Z
+             */
+            expires_at?: string;
+            /**
+             * @description Files are the result objects, one presigned URL each. All must be fetched to
+             *     have the complete extract. Empty when the query matched no rows.
+             */
+            files?: components['schemas']['internal_controller_http_controller.ResultFile'][];
+            /**
+             * @description Format is the encoding of every file.
+             * @example csv.gz
+             */
+            format?: string;
+            /**
+             * @description JobID is the public id of the query job.
+             * @example 3f6b1c2e-9d4a-4c1b-9f2e-2a1b3c4d5e6f
+             */
+            job_id?: string;
+            /**
+             * @description RowCount is the total across all files, so a client can verify it reassembled
+             *     the complete extract.
+             * @example 4200
+             */
+            row_count?: number;
+            /**
+             * @description State is the job's current lifecycle state.
+             * @example SUCCEEDED
+             */
+            state?: string;
+            /**
+             * @description URLExpiresAt is when these links stop working, RFC 3339; never later than
+             *     ExpiresAt. Re-request this endpoint for fresh links until then.
+             * @example 2026-01-31T01:00:00Z
+             */
+            url_expires_at?: string;
+        };
+        'internal_controller_http_controller.QueryResultResponse': {
+            data?: components['schemas']['internal_controller_http_controller.QueryResultData'];
+        };
+        'internal_controller_http_controller.QueryStatusData': {
+            /**
+             * @description JobID is the public id of the query job.
+             * @example 3f6b1c2e-9d4a-4c1b-9f2e-2a1b3c4d5e6f
+             */
+            job_id?: string;
+            /**
+             * @description State is the job's current lifecycle state.
+             * @example RUNNING
+             */
+            state?: string;
+        };
+        'internal_controller_http_controller.QueryStatusResponse': {
+            data?: components['schemas']['internal_controller_http_controller.QueryStatusData'];
+        };
+        'internal_controller_http_controller.ResearcherRoleData': {
+            /**
+             * @description ExpiresAt is when an APPROVED grant's access ends, RFC 3339; absent when the
+             *     grant has no expiry.
+             * @example 2028-09-18T23:59:59Z
+             */
+            expires_at?: string;
+            /**
+             * @description GrantedAt is when the grant was first recorded, RFC 3339.
+             * @example 2026-06-27T09:05:00Z
+             */
+            granted_at?: string;
+            /**
+             * @description Role is the granted tier: QR (qualified) or VR (vetted).
+             * @example QR
+             */
+            role?: string;
+            /**
+             * @description State is the grant's lifecycle state.
+             * @example APPROVED
+             */
+            state?: string;
+        };
+        'internal_controller_http_controller.ResearcherRolesData': {
+            /** @description Roles is every grant held by the caller; empty when they hold none. */
+            roles?: components['schemas']['internal_controller_http_controller.ResearcherRoleData'][];
+        };
+        'internal_controller_http_controller.ResearcherRolesResponse': {
+            data?: components['schemas']['internal_controller_http_controller.ResearcherRolesData'];
+        };
+        'internal_controller_http_controller.ResultFile': {
+            /**
+             * @description DownloadURL is the time-limited presigned link to this file.
+             * @example https://rbx-vlop-dsa-research-results-test.s3.amazonaws.com/research/query/3f6b1c2e/part-0.csv.gz?X-Amz-Signature=...
+             */
+            download_url?: string;
+            /**
+             * @description Name is the object's file name under the job's result prefix.
+             * @example part-0.csv.gz
+             */
+            name?: string;
+        };
+        'internal_controller_http_controller.SubmitQueryData': {
+            /**
+             * @description ID is the public job id used to poll status and fetch results.
+             * @example 3f6b1c2e-9d4a-4c1b-9f2e-2a1b3c4d5e6f
+             */
+            id?: string;
+            /**
+             * @description State is the job's lifecycle state; a freshly submitted job is SUBMITTED.
+             * @example SUBMITTED
+             */
+            state?: string;
+        };
+        'internal_controller_http_controller.SubmitQueryRequest': {
+            /** @example communities */
+            dataset: string;
+            /** @description Fields is the projection; omitted means the dataset's default fields. */
+            fields?: string[];
+            /** @description Query is the filter DSL ({and|or|not:[{operation,field_name,field_values}]}). */
+            query?: Record<string, never>;
+        };
+        'internal_controller_http_controller.SubmitQueryResponse': {
+            data?: components['schemas']['internal_controller_http_controller.SubmitQueryData'];
+        };
         /** @description A simple container used to hold and organize Roblox instances. */
         'roblox.engine.Folder': Record<string, never>;
         /** @description Instance is the base class for all classes in the Roblox class hierarchy. */
@@ -86536,6 +87576,37 @@ export interface operations {
             };
         };
     };
+    Scope_GetScopes: {
+        parameters: {
+            query?: {
+                locale?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ApplicationAuthorizationsApi.Models.Response.ScopesConfigurationResponse'];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ApplicationAuthorizationsApi.Models.Response.ErrorResponse'];
+                };
+            };
+        };
+    };
     OrderedDataStores_ListEntries: {
         parameters: {
             query?: {
@@ -86896,6 +87967,374 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    Transfer_CancelTransfer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json-patch+json': components['schemas']['CancelTransferRequest'];
+                'application/json': components['schemas']['CancelTransferRequest'];
+                'text/json': components['schemas']['CancelTransferRequest'];
+                'application/*+json': components['schemas']['CancelTransferRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': boolean;
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+        };
+    };
+    Transfer_ListInvalidTargetsForResource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json-patch+json': components['schemas']['ListInvalidTargetsRequest'];
+                'application/json': components['schemas']['ListInvalidTargetsRequest'];
+                'text/json': components['schemas']['ListInvalidTargetsRequest'];
+                'application/*+json': components['schemas']['ListInvalidTargetsRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['ListInvalidTargetsResponse'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+        };
+    };
+    Transfer_RejectTransfer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json-patch+json': components['schemas']['RejectTransferRequest'];
+                'application/json': components['schemas']['RejectTransferRequest'];
+                'text/json': components['schemas']['RejectTransferRequest'];
+                'application/*+json': components['schemas']['RejectTransferRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': boolean;
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+        };
+    };
+    Transfer_GetLatestTransferForResource: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                'application/json-patch+json': components['schemas']['GetLatestTransferRequest'];
+                'application/json': components['schemas']['GetLatestTransferRequest'];
+                'text/json': components['schemas']['GetLatestTransferRequest'];
+                'application/*+json': components['schemas']['GetLatestTransferRequest'];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Hold'];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+        };
+    };
+    Transfer_GetGroupEligibility: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                groupId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': {
+                        [key: string]: boolean;
+                    };
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+        };
+    };
+    User_ListPermissibleGroupsForExperienceTransfer: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': number[];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['OwnershipTransferApi.ErrorResponse'];
+                };
             };
         };
     };
@@ -90206,88 +91645,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
-            };
-        };
-    };
-    ErrorLoggingDetail_GetLogs: {
-        parameters: {
-            query?: {
-                messageHashIds?: string[];
-                /** @description Optional keyword to help highlight matching keyword in the error message */
-                keyword?: string;
-                /** @description Optional query window start; omitted values are defaulted server-side. */
-                startTime?: string;
-                /** @description Optional query window end; omitted values are defaulted server-side. */
-                endTime?: string;
-                /** @description Optional place id filter. */
-                placeId?: number;
-                /** @description Optional place version filters. */
-                placeVersions?: number[];
-                /** @description Optional minimum first seen place version filter (inclusive). */
-                firstSeenPlaceVersion?: number;
-            };
-            header?: never;
-            path: {
-                universeId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'text/plain': components['schemas']['ErrorLogDetailResponse'];
-                    'application/json': components['schemas']['ErrorLogDetailResponse'];
-                    'text/json': components['schemas']['ErrorLogDetailResponse'];
-                };
-            };
-            /** @description Bad Request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'text/plain': components['schemas']['ActionResult'];
-                    'application/json': components['schemas']['ActionResult'];
-                    'text/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'text/plain': components['schemas']['ActionResult'];
-                    'application/json': components['schemas']['ActionResult'];
-                    'text/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'text/plain': components['schemas']['ActionResult'];
-                    'application/json': components['schemas']['ActionResult'];
-                    'text/json': components['schemas']['ActionResult'];
-                };
-            };
-            /** @description Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    'text/plain': components['schemas']['ActionResult'];
-                    'application/json': components['schemas']['ActionResult'];
-                    'text/json': components['schemas']['ActionResult'];
-                };
             };
         };
     };
